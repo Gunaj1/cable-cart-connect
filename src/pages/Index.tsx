@@ -73,74 +73,83 @@ const Index = () => {
     if (!product || !product.detailedDescription) return null;
 
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-          <div className="sticky top-0 bg-white z-10 border-b px-6 py-4 flex justify-between items-center">
-            <h2 className="text-2xl font-bold text-gray-900">{product.name}</h2>
-            <button onClick={onClose} className="text-gray-500 hover:text-gray-700 transition-colors">
-              <X className="w-6 h-6" />
+      <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div className="bg-white rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto shadow-2xl">
+          <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-purple-600 z-10 px-8 py-6 flex justify-between items-center rounded-t-2xl">
+            <h2 className="text-3xl font-bold text-white">{product.name}</h2>
+            <button onClick={onClose} className="text-white hover:text-gray-200 transition-colors p-2 rounded-full hover:bg-white/20">
+              <X className="w-7 h-7" />
             </button>
           </div>
           
-          <div className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="p-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
               {/* Product Image Section */}
-              <div className="space-y-4">
-                <div className="bg-white rounded-lg overflow-hidden shadow-lg">
+              <div className="space-y-6">
+                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl overflow-hidden shadow-lg border">
                   <img 
                     src={product.id === 'pc1' ? '/image-copy.png' : product.image}
                     alt={product.name}
                     className="w-full h-auto object-cover"
                   />
                 </div>
-                <div className="bg-blue-50 rounded-lg p-4">
-                  <p className="text-lg font-semibold text-blue-900 mb-2">Price: ${product.price}</p>
+                <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 border border-blue-200">
+                  <p className="text-2xl font-bold text-blue-900 mb-4">Price: ${product.price}</p>
                   <button 
                     onClick={() => {
                       addToCart(product);
                       onClose();
                     }}
-                    className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2"
+                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 flex items-center justify-center space-x-3 font-semibold shadow-lg transform hover:scale-105"
                   >
-                    <ShoppingCart className="w-5 h-5" />
+                    <ShoppingCart className="w-6 h-6" />
                     <span>Add to Cart</span>
                   </button>
                 </div>
               </div>
 
               {/* Product Details Section */}
-              <div className="space-y-6">
+              <div className="space-y-8">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">Applications</h3>
-                  <ul className="bg-gray-50 rounded-lg p-4 space-y-2">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                    <span className="w-1 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full mr-3"></span>
+                    Applications
+                  </h3>
+                  <ul className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-6 space-y-3 border border-gray-200">
                     {product.detailedDescription.applications.map((app, index) => (
                       <li key={index} className="flex items-start">
-                        <Cable className="w-5 h-5 text-blue-600 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-gray-700">{app}</span>
+                        <Cable className="w-6 h-6 text-blue-600 mt-0.5 mr-3 flex-shrink-0" />
+                        <span className="text-gray-700 font-medium">{app}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">Specifications</h3>
-                  <ul className="bg-gray-50 rounded-lg p-4 space-y-2">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                    <span className="w-1 h-8 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full mr-3"></span>
+                    Specifications
+                  </h3>
+                  <ul className="bg-gradient-to-br from-gray-50 to-purple-50 rounded-xl p-6 space-y-3 border border-gray-200">
                     {product.detailedDescription.specifications.map((spec, index) => (
                       <li key={index} className="flex items-start">
-                        <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 mr-2 flex-shrink-0" />
-                        <span className="text-gray-700">{spec}</span>
+                        <span className="w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mt-2 mr-3 flex-shrink-0" />
+                        <span className="text-gray-700 font-medium">{spec}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">Features</h3>
-                  <ul className="bg-gray-50 rounded-lg p-4 space-y-2">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                    <span className="w-1 h-8 bg-gradient-to-b from-green-500 to-blue-500 rounded-full mr-3"></span>
+                    Features
+                  </h3>
+                  <ul className="bg-gradient-to-br from-gray-50 to-green-50 rounded-xl p-6 space-y-3 border border-gray-200">
                     {product.detailedDescription.features.map((feature, index) => (
                       <li key={index} className="flex items-start">
-                        <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 mr-2 flex-shrink-0" />
-                        <span className="text-gray-700">{feature}</span>
+                        <span className="w-3 h-3 bg-gradient-to-r from-green-500 to-blue-500 rounded-full mt-2 mr-3 flex-shrink-0" />
+                        <span className="text-gray-700 font-medium">{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -154,7 +163,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
       <Navbar 
         cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)} 
         onCartClick={() => setIsCartOpen(true)}
@@ -163,65 +172,78 @@ const Index = () => {
       />
       
       {/* Hero Section */}
-      <div id="home" className="relative h-[500px] bg-cover bg-center" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1601597111158-2fceff292cdc?auto=format&fit=crop&q=80")' }}>
-        <div className="absolute inset-0 bg-black bg-opacity-50" />
+      <div id="home" className="relative h-[600px] bg-cover bg-center overflow-hidden" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1601597111158-2fceff292cdc?auto=format&fit=crop&q=80")' }}>
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/70 via-purple-900/60 to-black/50" />
         <div className="relative container mx-auto px-4 h-full flex items-center justify-center">
-          <div className="text-white max-w-3xl text-center">
-            <div className="mb-8 animate-fade-in flex justify-center">
-              <Logo className="h-24" />
+          <div className="text-white max-w-4xl text-center">
+            <div className="mb-10 animate-fade-in flex justify-center">
+              <Logo className="h-28" />
             </div>
-            <p className="text-xl leading-relaxed animate-slide-up mx-auto">
-              With over two decades of excellence, Chhajer Cable Industries stands as a premier manufacturer of high-quality cables and networking solutions. Based in Delhi, we specialize in producing a comprehensive range of cables including LAN, CCTV, telephone, and specialized industrial cables. Our commitment to quality, innovation, and customer satisfaction has made us a trusted name in the industry.
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent leading-tight">
+              Chhajer Cable Industries
+            </h1>
+            <p className="text-xl md:text-2xl leading-relaxed animate-slide-up mx-auto font-light">
+              With over two decades of excellence, we stand as a premier manufacturer of high-quality cables and networking solutions. Based in Delhi, we specialize in producing a comprehensive range of cables including LAN, CCTV, telephone, and specialized industrial cables. Our commitment to quality, innovation, and customer satisfaction has made us a trusted name in the industry.
             </p>
           </div>
         </div>
       </div>
 
       {/* Products Section */}
-      <div id="products" className="container mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold text-center mb-12">Our Products</h2>
+      <div id="products" className="container mx-auto px-4 py-20">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+            Our Products
+          </h2>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Discover our comprehensive range of high-quality cables and networking solutions
+          </p>
+        </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {categories.map((category) => (
-            <div key={category.id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <img src={category.image} alt={category.name} className="w-full h-48 object-cover" />
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-4">{category.name}</h3>
-                <div className="space-y-4">
+            <div key={category.id} className="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100">
+              <div className="relative overflow-hidden">
+                <img src={category.image} alt={category.name} className="w-full h-56 object-cover transition-transform duration-500 hover:scale-110" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+              </div>
+              <div className="p-8">
+                <h3 className="text-2xl font-bold mb-6 text-gray-900">{category.name}</h3>
+                <div className="space-y-5">
                   {category.products.map((product) => (
                     <div 
                       key={product.id} 
-                      className="border-b pb-4 relative"
+                      className="border-b border-gray-100 pb-5 relative"
                       onMouseEnter={() => setHoveredProduct(product.id)}
                       onMouseLeave={() => setHoveredProduct(null)}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center">
-                          <Cable className="w-4 h-4 mr-2 text-blue-600" />
-                          <span>{product.name}</span>
+                          <Cable className="w-5 h-5 mr-3 text-blue-600" />
+                          <span className="font-semibold text-gray-800">{product.name}</span>
                         </div>
-                        <div className="flex items-center space-x-2">
-                          <span className="text-gray-600">${product.price}</span>
+                        <div className="flex items-center space-x-3">
+                          <span className="text-lg font-bold text-blue-600">${product.price}</span>
                           {product.detailedDescription && (
                             <button
                               onClick={() => setSelectedProduct(product)}
-                              className="bg-gray-100 text-gray-700 py-1 px-3 rounded hover:bg-gray-200 transition-colors duration-300 flex items-center"
+                              className="bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:from-blue-100 hover:to-purple-100 hover:text-blue-700 transition-all duration-300 flex items-center font-medium"
                             >
-                              <Eye className="w-4 h-4 mr-1" />
-                              About
+                              <Eye className="w-4 h-4 mr-2" />
+                              Details
                             </button>
                           )}
                           <button
                             onClick={() => addToCart(product)}
-                            className="bg-blue-600 text-white py-1 px-3 rounded hover:bg-blue-700 transition-colors duration-300"
+                            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 px-4 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium shadow-lg transform hover:scale-105"
                           >
                             Add
                           </button>
                         </div>
                       </div>
                       {hoveredProduct === product.id && (
-                        <div className="absolute z-10 bg-white border border-gray-200 shadow-lg rounded-md p-3 mt-2 w-full">
-                          <p className="text-sm text-gray-600">{product.description}</p>
+                        <div className="absolute z-20 bg-white border border-gray-200 shadow-xl rounded-xl p-4 mt-3 w-full left-0 backdrop-blur-sm">
+                          <p className="text-sm text-gray-600 leading-relaxed">{product.description}</p>
                         </div>
                       )}
                     </div>
@@ -233,92 +255,89 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Other Products Section */}
-      <div className="bg-gray-50 py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Other Products We Manufacture</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {otherProducts.map((product, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                <img src={product.image} alt={product.name} className="w-full h-48 object-cover" />
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-3 text-gray-900">{product.name}</h3>
-                  <p className="text-gray-600 text-sm mb-4">{product.description}</p>
-                  <div className="space-y-2">
-                    {product.applications.map((app, appIndex) => (
-                      <div key={appIndex} className="flex items-center text-sm text-gray-700">
-                        <Cable className="w-4 h-4 mr-2 text-blue-600 flex-shrink-0" />
-                        <span>{app}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
       {/* About Section */}
-      <div id="about" className="bg-white py-16">
+      <div id="about" className="bg-gradient-to-br from-white to-blue-50 py-20">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-8">About Us</h2>
-          <div className="max-w-3xl mx-auto text-lg leading-relaxed text-gray-700">
-            <p className="mb-4">
-              Founded in 2000, Chhajer Cable Industries has grown to become one of India's leading manufacturers of high-quality cables and networking solutions. Our state-of-the-art manufacturing facility in Delhi is equipped with the latest technology and staffed by skilled professionals who ensure that every product meets the highest standards of quality and reliability.
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+              About Us
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Two decades of excellence in cable manufacturing
             </p>
-            <p className="mb-4">
-              We take pride in our comprehensive range of products that cater to various sectors including IT, telecommunications, security systems, and industrial applications. Our commitment to innovation and quality has earned us the trust of countless customers across the country.
-            </p>
-            <p>
-              At Chhajer Cable Industries, we believe in building lasting relationships with our customers through excellent service, competitive pricing, and unwavering support. Our team of experts is always ready to assist you in finding the perfect solution for your specific needs.
-            </p>
+          </div>
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-gray-100">
+              <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed space-y-6">
+                <p className="text-xl">
+                  Founded in 2000, Chhajer Cable Industries has grown to become one of India's leading manufacturers of high-quality cables and networking solutions. Our state-of-the-art manufacturing facility in Delhi is equipped with the latest technology and staffed by skilled professionals who ensure that every product meets the highest standards of quality and reliability.
+                </p>
+                <p className="text-xl">
+                  We take pride in our comprehensive range of products that cater to various sectors including IT, telecommunications, security systems, and industrial applications. Our commitment to innovation and quality has earned us the trust of countless customers across the country.
+                </p>
+                <p className="text-xl">
+                  At Chhajer Cable Industries, we believe in building lasting relationships with our customers through excellent service, competitive pricing, and unwavering support. Our team of experts is always ready to assist you in finding the perfect solution for your specific needs.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Contact Section */}
-      <div id="contact" className="bg-gray-900 text-white py-16">
+      <div id="contact" className="bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white py-20">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-              <h3 className="text-xl font-bold mb-4">Contact Us</h3>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Get In Touch
+            </h2>
+            <p className="text-xl text-gray-300">
+              We're here to help with all your cable needs
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+              <h3 className="text-2xl font-bold mb-6">Contact Us</h3>
               <div className="space-y-4">
-                <p className="flex items-center">
-                  <Phone className="w-5 h-5 mr-2" />
+                <p className="flex items-center text-lg">
+                  <Phone className="w-6 h-6 mr-3 text-blue-400" />
                   +91 98765 43210
                 </p>
-                <p className="flex items-center">
-                  <Mail className="w-5 h-5 mr-2" />
+                <p className="flex items-center text-lg">
+                  <Mail className="w-6 h-6 mr-3 text-blue-400" />
                   info@chhajercables.com
                 </p>
-                <p className="flex items-center">
-                  <MapPin className="w-5 h-5 mr-2" />
+                <p className="flex items-center text-lg">
+                  <MapPin className="w-6 h-6 mr-3 text-blue-400" />
                   Industrial Area, Delhi, India
                 </p>
               </div>
             </div>
-            <div>
-              <h3 className="text-xl font-bold mb-4">Follow Us</h3>
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+              <h3 className="text-2xl font-bold mb-6">Follow Us</h3>
               <div className="flex space-x-4">
-                <a href="#" className="hover:text-blue-400 transition-colors">
+                <a href="#" className="p-3 bg-white/20 rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-110">
                   <Facebook className="w-6 h-6" />
                 </a>
-                <a href="#" className="hover:text-blue-400 transition-colors">
+                <a href="#" className="p-3 bg-white/20 rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-110">
                   <Twitter className="w-6 h-6" />
                 </a>
-                <a href="#" className="hover:text-blue-400 transition-colors">
+                <a href="#" className="p-3 bg-white/20 rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-110">
                   <Linkedin className="w-6 h-6" />
                 </a>
-                <a href="#" className="hover:text-blue-400 transition-colors">
+                <a href="#" className="p-3 bg-white/20 rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-110">
                   <Instagram className="w-6 h-6" />
                 </a>
               </div>
             </div>
-            <div>
-              <h3 className="text-xl font-bold mb-4">Business Hours</h3>
-              <p>Monday - Saturday: 9:00 AM - 6:00 PM</p>
-              <p>Sunday: Closed</p>
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+              <h3 className="text-2xl font-bold mb-6">Business Hours</h3>
+              <div className="space-y-2 text-lg">
+                <p>Monday - Saturday</p>
+                <p className="text-blue-400 font-semibold">9:00 AM - 6:00 PM</p>
+                <p>Sunday</p>
+                <p className="text-gray-400">Closed</p>
+              </div>
             </div>
           </div>
         </div>
@@ -416,7 +435,30 @@ const categories = [
         price: 25.99, 
         image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
         category: 'Patchcords',
-        description: 'Unshielded Twisted Pair Cat6 patchcord for standard networking needs. Cost-effective solution for office environments.'
+        description: 'Unshielded Twisted Pair Cat6 patchcord for standard networking needs. Cost-effective solution for office environments.',
+        detailedDescription: {
+          applications: [
+            'OFFICE ENVIRONMENTS',
+            'COMMERCIAL BUILDINGS',
+            'EDUCATIONAL INSTITUTIONS',
+            'SMALL TO MEDIUM BUSINESSES'
+          ],
+          specifications: [
+            'FREQUENCY: UPTO 600MHZ',
+            'IMPEDANCE: 100, ±15Ω',
+            'SPECIFICATION: 23/24/25/26 AWG, STRANDED',
+            'CONDUCTOR: CCA OR PURE COPPER',
+            'INSULATION: LLDPE',
+            'JACKET: PVC AND LSZH',
+            'CONNECTORS: RJ45 8P8CS PLUG, NICKEL- OR GOLD-PLATED'
+          ],
+          features: [
+            'OEM SUPPLIERS',
+            'CUSTOMIZED LENGTHS AND COLORS ARE ACCEPTED',
+            'PASSED FLUKE TEST',
+            'PACKING: PE BAG OR CUSTOMIZED'
+          ]
+        }
       },
       { 
         id: 'pc4', 
@@ -424,7 +466,28 @@ const categories = [
         price: 24.99, 
         image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
         category: 'Patchcords',
-        description: 'Shielded Cat5e patchcord with reliable performance and EMI protection. Supports speeds up to 1Gbps.'
+        description: 'Shielded Cat5e patchcord with reliable performance and EMI protection. Supports speeds up to 1Gbps.',
+        detailedDescription: {
+          applications: [
+            'ENTERPRISE NETWORKS',
+            'DATA CENTERS',
+            'INDUSTRIAL ENVIRONMENTS',
+            'HIGH-INTERFERENCE AREAS'
+          ],
+          specifications: [
+            'FREQUENCY: UPTO 600MHZ',
+            'LENGTH: 0.1 MTR TO 100 MTR',
+            'RJ45, 8P8C, 2 FORK 50µ" GOLD PLATED CONTACTS',
+            'SHIELDED PLUG BOOT CABLE ASSEMBLIES'
+          ],
+          features: [
+            'AVAILABLE IN LSZH JACKET- REDUCED TOXIC GASSES EMITTED DURING COMBUSTION',
+            '100% FACTORY TESTED',
+            'PROVIDES BETTER MECHANICAL PROPERTIES',
+            'AVAILABLE IN 5 DIFFERENT JACKET COLORS',
+            'CUSTOMIZATION AVAILABLE'
+          ]
+        }
       },
       { 
         id: 'pc5', 
@@ -432,7 +495,30 @@ const categories = [
         price: 22.99, 
         image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
         category: 'Patchcords',
-        description: 'Foiled Cat5e patchcord with overall shield for noise reduction. Ideal for small business networks.'
+        description: 'Foiled Cat5e patchcord with overall shield for noise reduction. Ideal for small business networks.',
+        detailedDescription: {
+          applications: [
+            'SMALL BUSINESS NETWORKS',
+            'EDUCATIONAL INSTITUTIONS',
+            'OFFICE ENVIRONMENTS',
+            'MEDIUM-INTERFERENCE AREAS'
+          ],
+          specifications: [
+            'FREQUENCY: UPTO 600MHZ',
+            'IMPEDANCE: 100 ±15Ω',
+            'SHIELD: ALUMINUM FOIL SUPPORTED',
+            'SPECIFICATION: 23/24/25/26 AWG STRANDED',
+            'CONDUCTOR: CCA OR PURE COPPER',
+            'INSULATION: LLDPE',
+            'JACKET: PVC AND LSZH',
+            'CONNECTORS: RJ45 8P8CS PLUG, NICKEL- OR GOLD-PLATED'
+          ],
+          features: [
+            'CUSTOMIZED LENGTHS AND COLORS ARE ACCEPTED',
+            'PASSED FLUKE TEST',
+            'PACKING: PE BAG OR CUSTOMIZED'
+          ]
+        }
       },
       { 
         id: 'pc6', 
@@ -440,7 +526,28 @@ const categories = [
         price: 20.99, 
         image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
         category: 'Patchcords',
-        description: 'Standard Cat5e patchcord for basic networking needs. Perfect for home and small office use.'
+        description: 'Standard Cat5e patchcord for basic networking needs. Perfect for home and small office use.',
+        detailedDescription: {
+          applications: [
+            'HOME NETWORKS',
+            'SMALL OFFICE NETWORKS',
+            'BASIC DATA TRANSMISSION',
+            'GENERAL NETWORKING'
+          ],
+          specifications: [
+            'FREQUENCY: UPTO 600MHZ',
+            'LENGTH: 0.1 MTR TO 100 MTR',
+            'RJ45, 8P8C, 2 FORK 50µ" GOLD PLATED CONTACTS',
+            'SHIELDED PLUG BOOT CABLE ASSEMBLIES'
+          ],
+          features: [
+            'AVAILABLE IN LSZH JACKET- REDUCED TOXIC GASSES EMITTED DURING COMBUSTION',
+            '100% FACTORY TESTED',
+            'PROVIDES BETTER MECHANICAL PROPERTIES',
+            'AVAILABLE IN 5 DIFFERENT JACKET COLORS',
+            'CUSTOMIZATION AVAILABLE'
+          ]
+        }
       }
     ]
   },
@@ -540,7 +647,7 @@ const categories = [
         id: 'cat4', 
         name: 'Cat 6 FTP', 
         price: 46.99, 
-        image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
+        image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
         category: 'Cat 6 LAN Cable',
         description: 'Foiled Cat6 cable with overall shield. Ideal for commercial and industrial applications.'
       },
@@ -660,89 +767,6 @@ const categories = [
         category: 'Lift Cables',
         description: 'High-performance control cable for elevator control systems. Features EMI shielding and fire-resistant properties.'
       }
-    ]
-  }
-];
-
-const otherProducts = [
-  {
-    name: 'Fire Alarm Cables',
-    image: 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&q=80',
-    description: 'Fire-resistant cables designed for fire alarm and emergency communication systems.',
-    applications: [
-      'Fire detection systems',
-      'Emergency communication',
-      'Safety installations'
-    ]
-  },
-  {
-    name: 'Solar DC Cables',
-    image: 'https://images.unsplash.com/photo-1582562124811-c09040d0a901?auto=format&fit=crop&q=80',
-    description: 'UV-resistant DC cables specifically designed for solar panel installations and renewable energy systems.',
-    applications: [
-      'Solar panel connections',
-      'Renewable energy systems',
-      'Outdoor installations'
-    ]
-  },
-  {
-    name: 'Coaxial Cables',
-    image: 'https://images.unsplash.com/photo-1721322800607-8c38375eef04?auto=format&fit=crop&q=80',
-    description: 'High-frequency coaxial cables for cable TV, satellite, and broadband applications.',
-    applications: [
-      'Cable TV systems',
-      'Satellite connections',
-      'Broadband networks'
-    ]
-  },
-  {
-    name: 'Audio/Video Cables',
-    image: 'https://images.unsplash.com/photo-1493962853295-0fd70327578a?auto=format&fit=crop&q=80',
-    description: 'Professional-grade audio and video cables for broadcasting and entertainment systems.',
-    applications: [
-      'Broadcasting equipment',
-      'Audio systems',
-      'Video transmission'
-    ]
-  },
-  {
-    name: 'Fiber Optic Cables',
-    image: 'https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?auto=format&fit=crop&q=80',
-    description: 'High-speed fiber optic cables for long-distance data transmission and telecommunications.',
-    applications: [
-      'Telecommunications',
-      'High-speed internet',
-      'Data centers'
-    ]
-  },
-  {
-    name: 'Control Cables',
-    image: 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&q=80',
-    description: 'Multi-core control cables for industrial automation and process control systems.',
-    applications: [
-      'Industrial automation',
-      'Process control',
-      'Manufacturing systems'
-    ]
-  },
-  {
-    name: 'Armored Cables',
-    image: 'https://images.unsplash.com/photo-1582562124811-c09040d0a901?auto=format&fit=crop&q=80',
-    description: 'Heavy-duty armored cables for underground installations and harsh environments.',
-    applications: [
-      'Underground installations',
-      'Industrial environments',
-      'Marine applications'
-    ]
-  },
-  {
-    name: 'Speaker Cables',
-    image: 'https://images.unsplash.com/photo-1721322800607-8c38375eef04?auto=format&fit=crop&q=80',
-    description: 'High-fidelity speaker cables for professional audio and home theater systems.',
-    applications: [
-      'Professional audio',
-      'Home theaters',
-      'Sound systems'
     ]
   }
 ];
