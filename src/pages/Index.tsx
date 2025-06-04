@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Cable, ShoppingCart, Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram, Eye, X } from 'lucide-react';
 import Navbar from '../components/Navbar';
@@ -231,6 +230,32 @@ const Index = () => {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Other Products Section */}
+      <div className="bg-gray-50 py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-12">Other Products We Manufacture</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {otherProducts.map((product, index) => (
+              <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                <img src={product.image} alt={product.name} className="w-full h-48 object-cover" />
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold mb-3 text-gray-900">{product.name}</h3>
+                  <p className="text-gray-600 text-sm mb-4">{product.description}</p>
+                  <div className="space-y-2">
+                    {product.applications.map((app, appIndex) => (
+                      <div key={appIndex} className="flex items-center text-sm text-gray-700">
+                        <Cable className="w-4 h-4 mr-2 text-blue-600 flex-shrink-0" />
+                        <span>{app}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -515,7 +540,7 @@ const categories = [
         id: 'cat4', 
         name: 'Cat 6 FTP', 
         price: 46.99, 
-        image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
+        image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
         category: 'Cat 6 LAN Cable',
         description: 'Foiled Cat6 cable with overall shield. Ideal for commercial and industrial applications.'
       },
@@ -635,6 +660,89 @@ const categories = [
         category: 'Lift Cables',
         description: 'High-performance control cable for elevator control systems. Features EMI shielding and fire-resistant properties.'
       }
+    ]
+  }
+];
+
+const otherProducts = [
+  {
+    name: 'Fire Alarm Cables',
+    image: 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&q=80',
+    description: 'Fire-resistant cables designed for fire alarm and emergency communication systems.',
+    applications: [
+      'Fire detection systems',
+      'Emergency communication',
+      'Safety installations'
+    ]
+  },
+  {
+    name: 'Solar DC Cables',
+    image: 'https://images.unsplash.com/photo-1582562124811-c09040d0a901?auto=format&fit=crop&q=80',
+    description: 'UV-resistant DC cables specifically designed for solar panel installations and renewable energy systems.',
+    applications: [
+      'Solar panel connections',
+      'Renewable energy systems',
+      'Outdoor installations'
+    ]
+  },
+  {
+    name: 'Coaxial Cables',
+    image: 'https://images.unsplash.com/photo-1721322800607-8c38375eef04?auto=format&fit=crop&q=80',
+    description: 'High-frequency coaxial cables for cable TV, satellite, and broadband applications.',
+    applications: [
+      'Cable TV systems',
+      'Satellite connections',
+      'Broadband networks'
+    ]
+  },
+  {
+    name: 'Audio/Video Cables',
+    image: 'https://images.unsplash.com/photo-1493962853295-0fd70327578a?auto=format&fit=crop&q=80',
+    description: 'Professional-grade audio and video cables for broadcasting and entertainment systems.',
+    applications: [
+      'Broadcasting equipment',
+      'Audio systems',
+      'Video transmission'
+    ]
+  },
+  {
+    name: 'Fiber Optic Cables',
+    image: 'https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?auto=format&fit=crop&q=80',
+    description: 'High-speed fiber optic cables for long-distance data transmission and telecommunications.',
+    applications: [
+      'Telecommunications',
+      'High-speed internet',
+      'Data centers'
+    ]
+  },
+  {
+    name: 'Control Cables',
+    image: 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&q=80',
+    description: 'Multi-core control cables for industrial automation and process control systems.',
+    applications: [
+      'Industrial automation',
+      'Process control',
+      'Manufacturing systems'
+    ]
+  },
+  {
+    name: 'Armored Cables',
+    image: 'https://images.unsplash.com/photo-1582562124811-c09040d0a901?auto=format&fit=crop&q=80',
+    description: 'Heavy-duty armored cables for underground installations and harsh environments.',
+    applications: [
+      'Underground installations',
+      'Industrial environments',
+      'Marine applications'
+    ]
+  },
+  {
+    name: 'Speaker Cables',
+    image: 'https://images.unsplash.com/photo-1721322800607-8c38375eef04?auto=format&fit=crop&q=80',
+    description: 'High-fidelity speaker cables for professional audio and home theater systems.',
+    applications: [
+      'Professional audio',
+      'Home theaters',
+      'Sound systems'
     ]
   }
 ];
