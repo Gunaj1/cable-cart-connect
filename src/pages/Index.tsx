@@ -562,7 +562,31 @@ const categories = [
         price: 35.99, 
         image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
         category: 'Cat5e LAN Cables',
-        description: 'Ultra-thin flat design for easy installation under carpets and along walls. Perfect for home networking.'
+        description: 'Ultra-thin flat design for easy installation under carpets and along walls. Perfect for home networking.',
+        detailedDescription: {
+          applications: [
+            '1000 BASE T GIGABIT 100 MBPS',
+            '100 BASE-TX',
+            'TPDDI. 155 MBPS ATM',
+            'HOME AND OFFICE NETWORKS',
+            'UNDER CARPET INSTALLATIONS'
+          ],
+          specifications: [
+            'FREQUENCY: UPTO 600 MHZ',
+            'CHARACTERISTIC IMPEDANCE: 1 TO 100 MHZ: 100Ω±15%',
+            'F. SPEED: ≥0,69',
+            'CONDUCTOR RESISTANCE AT 20ºC: 149 Ω/KM ± 5%',
+            'MAXIMUM VOLTAGE: AC 49 V',
+            'LENGTH: 100MTR/305MTR'
+          ],
+          features: [
+            'OEM SUPPLIERS',
+            'ELECTRICAL FEATURES OPTIMIZED',
+            'CUSTOMIZATION AVAILABLE',
+            'ALL COLORS AVAILABLE',
+            'SPEED: 1000 MBPS'
+          ]
+        }
       },
       { 
         id: 'lan2', 
@@ -570,7 +594,30 @@ const categories = [
         price: 32.99, 
         image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
         category: 'Cat5e LAN Cables',
-        description: 'Economical 2-pair solution for voice and basic data applications. Ideal for telephone systems.'
+        description: 'Economical 2-pair solution for voice and basic data applications. Ideal for telephone systems.',
+        detailedDescription: {
+          applications: [
+            'VOICE COMMUNICATION SYSTEMS',
+            'BASIC DATA APPLICATIONS',
+            'TELEPHONE SYSTEMS',
+            'ECONOMICAL NETWORK SOLUTIONS',
+            'POE APPLICATIONS'
+          ],
+          specifications: [
+            'JACKET: PVC, LLDPE',
+            'INSULATION: SPECIAL PE POLYOLEFIN, WHGN/GN, WHOG/OG',
+            'SHIELDING: SF/UTP (OVERALL TINNED COPPER BRAID SHIELD, UNSHIELDED TWISTED PAIR)',
+            'LENGTH: 100MTR/305MTR',
+            'SPEED: 1000 MBPS'
+          ],
+          features: [
+            'OEM SUPPLIERS',
+            'CUSTOMIZATION AVAILABLE',
+            'ALL COLORS AVAILABLE',
+            'COST-EFFECTIVE SOLUTION',
+            'RELIABLE PERFORMANCE'
+          ]
+        }
       },
       { 
         id: 'lan3', 
@@ -578,7 +625,33 @@ const categories = [
         price: 45.99, 
         image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
         category: 'Cat5e LAN Cables',
-        description: 'Heavy-duty armored cable for underground and outdoor installations. Excellent rodent protection.'
+        description: 'Heavy-duty armored cable for underground and outdoor installations. Excellent rodent protection.',
+        detailedDescription: {
+          applications: [
+            'UNDERGROUND INSTALLATIONS',
+            'OUTDOOR APPLICATIONS',
+            'INDUSTRIAL ENVIRONMENTS',
+            'DIRECT BURIAL APPLICATIONS',
+            'RODENT PROTECTION AREAS'
+          ],
+          specifications: [
+            'HEAVY 23/24/25/26 COPPER & CCA GAUGE',
+            'EC GRADE COPPER',
+            '0.8 MM ALUMINIUM ROD',
+            'INTERNATIONAL STANDARD TWISTING',
+            'OUTER LD PVC (WEATHER AND TEMPERATURE PROOF)',
+            'LENGTH: 100MTR/305MTR'
+          ],
+          features: [
+            'OEM SUPPLIERS',
+            'DCM TESTED',
+            'FLUKE TESTED',
+            'F.R FRESH HIGH QUALITY PVC',
+            'SPEED: 1000 MBPS',
+            'CUSTOMIZATION AVAILABLE',
+            'ALL COLORS AVAILABLE'
+          ]
+        }
       },
       { 
         id: 'lan4', 
@@ -586,7 +659,32 @@ const categories = [
         price: 38.99, 
         image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
         category: 'Cat5e LAN Cables',
-        description: 'Foiled cable with overall shield for superior noise immunity. Perfect for industrial environments.'
+        description: 'Foiled cable with overall shield for superior noise immunity. Perfect for industrial environments.',
+        detailedDescription: {
+          applications: [
+            'INDUSTRIAL ENVIRONMENTS',
+            'EMI SENSITIVE AREAS',
+            'COMMERCIAL BUILDINGS',
+            'HIGH-INTERFERENCE LOCATIONS',
+            'PROFESSIONAL NETWORKS'
+          ],
+          specifications: [
+            'FREQUENCY: 1 TO 500MHZ',
+            'IMPEDANCE: 100 ±15Ω',
+            'SHIELD: ALUMINUM FOIL SUPPORTED',
+            'SPECIFICATION: 23/24/25/26 AWG STRANDED',
+            'CONDUCTOR: CCA OR PURE COPPER',
+            'INSULATION: LLDPE',
+            'JACKET: PVC AND LSZH'
+          ],
+          features: [
+            'OEM SUPPLIERS',
+            'CUSTOMIZED LENGTHS AND COLORS ARE ACCEPTED',
+            'PASSED FLUKE TEST',
+            'PACKING: PE BAG OR CUSTOMIZED',
+            'SUPERIOR NOISE IMMUNITY'
+          ]
+        }
       },
       { 
         id: 'lan5', 
@@ -594,7 +692,30 @@ const categories = [
         price: 36.99, 
         image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
         category: 'Cat5e LAN Cables',
-        description: 'Individually shielded pairs for maximum protection against crosstalk and interference.'
+        description: 'Individually shielded pairs for maximum protection against crosstalk and interference.',
+        detailedDescription: {
+          applications: [
+            'NETWORK ADAPTERS',
+            'HUBS, SWITCHES, ROUTERS',
+            'DSL/CABLE MODEMS',
+            'PATCH PANELS',
+            'COMPUTER NETWORKING APPLICATIONS'
+          ],
+          specifications: [
+            'FTP SHIELDED TWIST PAIR',
+            'CM TYPE PVC JACKET',
+            '23/24/25/26 AWG 4PAIR STRANDED COPPER WIRE/ CCA WIRE',
+            'LENGTH: 100MTR/305MTR',
+            'SPEED: 1000 MBPS'
+          ],
+          features: [
+            'OEM SUPPLIERS',
+            'DESIGNED FOR NETWORK ADAPTERS',
+            'ALL COLORS AVAILABLE',
+            'CUSTOMIZATION AVAILABLE',
+            'MAXIMUM CROSSTALK PROTECTION'
+          ]
+        }
       },
       { 
         id: 'lan6', 
@@ -602,7 +723,31 @@ const categories = [
         price: 34.99, 
         image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
         category: 'Cat5e LAN Cables',
-        description: 'Standard unshielded cable for general networking needs. Cost-effective solution for office installations.'
+        description: 'Standard unshielded cable for general networking needs. Cost-effective solution for office installations.',
+        detailedDescription: {
+          applications: [
+            'GENERAL NETWORKING',
+            'OFFICE INSTALLATIONS',
+            'ENHANCED CATEGORY 5 (1,000 BASE-T)',
+            'ETHERNET STANDARD APPLICATIONS',
+            'COMMERCIAL BUILDINGS'
+          ],
+          specifications: [
+            'COMPLIANT WITH ETHERNET STANDARD',
+            'TRANSMISSION SPEED OF 1,000 MBPS (1 GBPS)',
+            'FLAT TYPE COMPLIANT WITH ENHANCED CATEGORY 5',
+            'ULTRA-RIBBON CABLE WITH THICKNESS OF 1.4 MM AND WIDTH OF 8 MM',
+            'CABLE STRUCTURE: STRANDED WIRE TWISTED PAIR',
+            'LENGTH: 100MTR/305MTR'
+          ],
+          features: [
+            'OEM SUPPLIERS',
+            'STRAIGHT-THROUGH CABLE USING ALL 4 PAIRS OF WIRES',
+            'CUSTOMIZATION AVAILABLE',
+            'SPEED: 1000 MBPS',
+            'ALL COLORS AVAILABLE'
+          ]
+        }
       },
       { 
         id: 'lan7', 
@@ -610,7 +755,32 @@ const categories = [
         price: 42.99, 
         image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
         category: 'Cat5e LAN Cables',
-        description: 'UV-resistant and waterproof design for outdoor installations. Suitable for direct burial.'
+        description: 'UV-resistant and waterproof design for outdoor installations. Suitable for direct burial.',
+        detailedDescription: {
+          applications: [
+            'OUTDOOR INSTALLATIONS',
+            'DIRECT BURIAL APPLICATIONS',
+            'WEATHER-RESISTANT NETWORKING',
+            'CAMPUS NETWORKS',
+            'OUTDOOR SECURITY SYSTEMS'
+          ],
+          specifications: [
+            '23/24/25/26 AWG 4-PAIR, SOLID BARE COPPER CONDUCTORS/ CCA WIRE',
+            'OVERALL ALUMINUM FOIL SHIELD – F/UTP',
+            'BANDWIDTH TESTED UP TO 600 MHZ',
+            'SUPPORTS POE++ (802.3BT) 4PPOE, UP TO 90W',
+            'NOT RATED FOR DIRECT BURIAL',
+            'LENGTH: 100MTR/305MTR'
+          ],
+          features: [
+            'OEM SUPPLIERS',
+            'SPEED: 1000 MBPS',
+            'CUSTOMIZATION AVAILABLE',
+            'ALL COLORS AVAILABLE',
+            'UV-RESISTANT DESIGN',
+            'WATERPROOF CONSTRUCTION'
+          ]
+        }
       }
     ]
   },
