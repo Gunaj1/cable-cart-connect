@@ -795,7 +795,30 @@ const categories = [
         price: 45.99, 
         image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
         category: 'Cat 6 LAN Cable',
-        description: 'Low-profile flat design Cat6 cable for discrete installations. Supports 10Gbps up to 55 meters.'
+        description: 'Low-profile flat design Cat6 cable for discrete installations. Supports 10Gbps up to 55 meters.',
+        detailedDescription: {
+          applications: [
+            'DISCRETE INSTALLATIONS',
+            'UNDER CARPET WIRING',
+            'ALONG WALLS',
+            'HIGH-SPEED DATA TRANSMISSION'
+          ],
+          specifications: [
+            'UNBREAKABLE OUTER JACKET',
+            '7/36 EC GRADE COPPER',
+            'HEAT PROOF INNER CORE',
+            'EXCELLENT SIGNAL CHARACTERISTICS',
+            'LENGTH: 100MTR/305MTR',
+            'SPEED: 1000 MBPS'
+          ],
+          features: [
+            'OEM SUPPLIERS',
+            'ALL COLORS AVAILABLE',
+            'CUSTOMIZATION AVAILABLE',
+            'SUPERIOR SIGNAL QUALITY',
+            'DURABLE CONSTRUCTION'
+          ]
+        }
       },
       { 
         id: 'cat2', 
@@ -803,7 +826,32 @@ const categories = [
         price: 55.99, 
         image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
         category: 'Cat 6 LAN Cable',
-        description: 'Double-jacketed armored Cat6 cable for harsh environments. Superior physical protection.'
+        description: 'Double-jacketed armored Cat6 cable for harsh environments. Superior physical protection.',
+        detailedDescription: {
+          applications: [
+            'HARSH ENVIRONMENTS',
+            'OUTDOOR INSTALLATIONS',
+            'INDUSTRIAL APPLICATIONS',
+            'UNDERGROUND INSTALLATIONS'
+          ],
+          specifications: [
+            'HEAVY 23/24/25/26 COPPER GAUGE / CCA WIRES',
+            'EC GRADE COPPER',
+            '0.8 MM ALUMINIUM ROD',
+            'INTERNATIONAL STANDARD TWISTING',
+            'OUTER LD PVC (WEATHER AND TEMPERATURE PROOF)',
+            'LENGTH: 100MTR/305MTR',
+            'SPEED: 1000 MBPS'
+          ],
+          features: [
+            'OEM SUPPLIERS',
+            'DCM TESTED',
+            'FLUKE TESTED',
+            'F.R FRESH HIGH QUALITY PVC',
+            'ALL COLORS AVAILABLE',
+            'CUSTOMIZATION AVAILABLE'
+          ]
+        }
       },
       { 
         id: 'cat3', 
@@ -811,7 +859,30 @@ const categories = [
         price: 48.99, 
         image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
         category: 'Cat 6 LAN Cable',
-        description: 'Shielded Cat6 cable with individual pair shielding. Excellent for high-speed data centers.'
+        description: 'Shielded Cat6 cable with individual pair shielding. Excellent for high-speed data centers.',
+        detailedDescription: {
+          applications: [
+            'HIGH-SPEED DATA CENTERS',
+            'INDUSTRIAL ENVIRONMENTS',
+            'EMI SENSITIVE AREAS',
+            'PROFESSIONAL NETWORKS'
+          ],
+          specifications: [
+            '80 WIRE ALOE SHIELDED',
+            '42 MICRON ALUMINIUM FOIL',
+            'OUTER LD PVC (WEATHER AND TEMPERATURE PROOF)',
+            'LENGTH: 100MTR/305MTR',
+            'SPEED: 1000 MBPS'
+          ],
+          features: [
+            'OEM SUPPLIERS',
+            'DCM TESTED',
+            'FLUKE TESTED',
+            'F.R FRESH HIGH QUALITY PVC',
+            'ALL COLORS AVAILABLE',
+            'CUSTOMIZATION AVAILABLE'
+          ]
+        }
       },
       { 
         id: 'cat4', 
@@ -819,7 +890,31 @@ const categories = [
         price: 46.99, 
         image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
         category: 'Cat 6 LAN Cable',
-        description: 'Foiled Cat6 cable with overall shield. Ideal for commercial and industrial applications.'
+        description: 'Foiled Cat6 cable with overall shield. Ideal for commercial and industrial applications.',
+        detailedDescription: {
+          applications: [
+            'COMMERCIAL APPLICATIONS',
+            'INDUSTRIAL ENVIRONMENTS',
+            'OFFICE NETWORKS',
+            'DATA TRANSMISSION'
+          ],
+          specifications: [
+            'WEATHER PROOF DOUBLE JACKET',
+            '23/24/25/26 EC GRADE COPPER/ CCA',
+            '42 MICRON ALUMINIUM FOIL',
+            'INTERNATIONAL STANDARD TWISTING',
+            'LENGTH: 100MTR/305MTR',
+            'SPEED: 1000 MBPS'
+          ],
+          features: [
+            'OEM SUPPLIERS',
+            'DCM TESTED',
+            'FLUKE TESTED',
+            'F.R FRESH HIGH QUALITY PVC',
+            'ALL COLORS AVAILABLE',
+            'CUSTOMIZATION AVAILABLE'
+          ]
+        }
       },
       { 
         id: 'cat5', 
@@ -827,7 +922,30 @@ const categories = [
         price: 44.99, 
         image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
         category: 'Cat 6 LAN Cable',
-        description: 'Standard Cat6 unshielded cable. Perfect for modern office networks requiring higher bandwidth.'
+        description: 'Standard Cat6 unshielded cable. Perfect for modern office networks requiring higher bandwidth.',
+        detailedDescription: {
+          applications: [
+            'OFFICE NETWORKS',
+            'VIDEO & DATA APPLICATIONS',
+            'COMMERCIAL BUILDINGS',
+            'GENERAL NETWORKING'
+          ],
+          specifications: [
+            'CAT 6 UTP IS OUR LAN CABLES RANGE',
+            '23/24/25/26 AWG, COPPER/CCA WIRE',
+            'DESIGNED TO DELIVER MAXIMUM PERFORMANCE FOR VIDEO & DATA APPLICATIONS',
+            'TWISTED PAIRS HELP TRANSMIT TRUE SIGNALS & REDUCE TRANSMISSION LOSSES',
+            'LENGTH: 100MTR/305MTR',
+            'SPEED: 1000 MBPS'
+          ],
+          features: [
+            'OEM SUPPLIERS',
+            'ALL COLORS AVAILABLE',
+            'CUSTOMIZATION AVAILABLE',
+            'MAXIMUM PERFORMANCE',
+            'REDUCED TRANSMISSION LOSSES'
+          ]
+        }
       },
       { 
         id: 'cat6', 
@@ -835,7 +953,32 @@ const categories = [
         price: 52.99, 
         image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
         category: 'Cat 6 LAN Cable',
-        description: 'Weather-resistant Cat6 cable for outdoor installations. UV-protected and waterproof design.'
+        description: 'Weather-resistant Cat6 cable for outdoor installations. UV-protected and waterproof design.',
+        detailedDescription: {
+          applications: [
+            '10 BASE T',
+            '100 BASE T',
+            '1000 BASE-TX',
+            'TP-PMD',
+            '100 MBPS CDDI',
+            'ATM 155',
+            '4/16 MBPS TOKEN RING',
+            'SUITABLE FOR OUTDOOR APPLICATION',
+            'INDOOR /OUTDOOR APPLICATIONS'
+          ],
+          specifications: [
+            'LDPE SHEATH FACILITATES INDOOR/OUTDOOR APPLICATIONS',
+            'LENGTH: 100MTR/305MTR',
+            'SPEED: 1000 MBPS'
+          ],
+          features: [
+            'OEM SUPPLIERS',
+            'ALL COLORS AVAILABLE',
+            'CUSTOMIZATION AVAILABLE',
+            'WEATHER RESISTANT',
+            'UV PROTECTED'
+          ]
+        }
       }
     ]
   },
@@ -850,7 +993,30 @@ const categories = [
         price: 29.99, 
         image: 'https://images.unsplash.com/photo-1557317605-47b7e98862e8?auto=format&fit=crop&q=80',
         category: 'CCTV Cable',
-        description: 'Combined power and video cable with 3 copper conductors and 1 coaxial core. Perfect for analog CCTV systems.'
+        description: 'Combined power and video cable with 3 copper conductors and 1 coaxial core. Perfect for analog CCTV systems.',
+        detailedDescription: {
+          applications: [
+            'CCTV SURVEILLANCE CAMERAS',
+            'DVR AND NVR CONNECTIONS',
+            'PC BASED SYSTEMS',
+            'SECURITY SYSTEMS'
+          ],
+          specifications: [
+            'COPPER SIZE OF VIDEO: 018, 020',
+            'CORE SIZE: 7X38, 14X40, 14X42, 14X43',
+            'BRAIDING WITH 36 X 0.115 MM ALLOY WITH ALUMINUM FOIL',
+            'LENGTH: 90M/180M',
+            'MANUFACTURED USING EXCEPTIONAL QUALITY RAW MATERIALS'
+          ],
+          features: [
+            'COLORS: ALL COLORS AVAILABLE',
+            'CUSTOMIZATION AVAILABLE',
+            'HIGHLY SHOCK-PROOF',
+            'HIGH TENSILE STRENGTH',
+            'GREAT PICTURE AND VIDEO QUALITY',
+            'WIRES ARE MADE OF QUALITY RAW MATERIALS'
+          ]
+        }
       },
       { 
         id: 'cctv2', 
@@ -858,7 +1024,31 @@ const categories = [
         price: 34.99, 
         image: 'https://images.unsplash.com/photo-1557317605-47b7e98862e8?auto=format&fit=crop&q=80',
         category: 'CCTV Cable',
-        description: 'Premium CCTV cable with 4 power conductors and 1 coaxial core. Ideal for PTZ cameras and long-distance installations.'
+        description: 'Premium CCTV cable with 4 power conductors and 1 coaxial core. Ideal for PTZ cameras and long-distance installations.',
+        detailedDescription: {
+          applications: [
+            'CCTV SURVEILLANCE CAMERAS',
+            'DVR AND NVR CONNECTIONS',
+            'PC BASED SYSTEMS',
+            'PTZ CAMERAS',
+            'LONG-DISTANCE INSTALLATIONS'
+          ],
+          specifications: [
+            'COPPER SIZE OF VIDEO: 018, 020',
+            'CORE SIZE: 7X38, 14X40, 14X42, 14X43',
+            'BRAIDING WITH 36 X 0.115 MM ALLOY WITH ALUMINUM FOIL',
+            'LENGTH: 90M/180M',
+            'MANUFACTURED USING EXCEPTIONAL QUALITY RAW MATERIALS'
+          ],
+          features: [
+            'COLORS: ALL COLORS AVAILABLE',
+            'CUSTOMIZATION AVAILABLE',
+            'HIGHLY SHOCK-PROOF',
+            'HIGH TENSILE STRENGTH',
+            'GREAT PICTURE AND VIDEO QUALITY',
+            'WIRES ARE MADE OF QUALITY RAW MATERIALS'
+          ]
+        }
       }
     ]
   },
@@ -873,7 +1063,30 @@ const categories = [
         price: 19.99, 
         image: 'https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&q=80',
         category: 'Telephone Cable',
-        description: 'Multi-pair telephone cable for voice communication. Suitable for internal and external telephone wiring systems.'
+        description: 'Multi-pair telephone cable for voice communication. Suitable for internal and external telephone wiring systems.',
+        detailedDescription: {
+          applications: [
+            'TELEPHONE SWITCHING EXCHANGES',
+            'SWITCH BOARD & TELEPHONE WIRING (MDF, SDH, DWDM, DSLAM ETC.)',
+            'PULSE CODE MODULATION SYSTEMS',
+            'RS-232 COMMUNICATION'
+          ],
+          specifications: [
+            'HIGH-SPEED STATE-OF-THE-ART MACHINERY',
+            'PURE ELECTROLYTIC GRADE, SUPER ANNEALED, TINNED COPPER CONDUCTOR',
+            'GOOD QUALITY PVC INSULATION',
+            'SUITABLE FOR OPERATION AT VOLTAGE OF 250 VOLTS',
+            'CONDUCTOR OPERATING TEMPERATURE 70°C, 85°C & 105°C',
+            '1-50 PAIR CABLE AVAILABLE'
+          ],
+          features: [
+            'LENGTH IS CUSTOMIZABLE AS PER REQUIREMENT',
+            'ALL COLORS AVAILABLE',
+            'FIRE RETARDANT/FIRE RETARDANT LOW SMOKE',
+            'ZERO HALOGEN LOW SMOKE & SHEATH MATERIAL',
+            'HIGH QUALITY CONSTRUCTION'
+          ]
+        }
       }
     ]
   },
@@ -888,7 +1101,30 @@ const categories = [
         price: 15.99, 
         image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80',
         category: 'Computer Cords',
-        description: 'Standard 3-pin power cord for desktop computers and monitors. Available in various lengths with safety certification.'
+        description: 'Standard 3-pin power cord for desktop computers and monitors. Available in various lengths with safety certification.',
+        detailedDescription: {
+          applications: [
+            'COMPUTER SYSTEMS',
+            'MONITORS',
+            'PRINTERS',
+            'SCANNERS',
+            'ELECTRONIC DEVICES WITH 3-PIN POWER PLUG'
+          ],
+          specifications: [
+            'CHHAJER CABLE INDUSTRIES - LEADING MANUFACTURER IN DELHI',
+            '3 PIN COMPUTER POWER CORD CABLE',
+            'FEMALE CONNECTOR FOR ELECTRONIC GADGETS',
+            '3-PRONG GROUNDED MALE PLUG FOR WALL OUTLETS',
+            'STANDARD OUTLET COMPATIBLE'
+          ],
+          features: [
+            'SUPPLY POWER TO COMPUTER SYSTEM AND VARIOUS DEVICES',
+            'DIRECT INSERTION INTO ELECTRONIC GADGETS',
+            'STANDARD WALL OUTLET CONNECTION',
+            'OVERLOAD PROTECTION',
+            'HIGH QUALITY CONSTRUCTION'
+          ]
+        }
       },
       { 
         id: 'cc2', 
@@ -896,7 +1132,33 @@ const categories = [
         price: 18.99, 
         image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80',
         category: 'Computer Cords',
-        description: 'Universal laptop power cord compatible with most notebook adapters. Features strain relief and durable construction.'
+        description: 'Universal laptop power cord compatible with most notebook adapters. Features strain relief and durable construction.',
+        detailedDescription: {
+          applications: [
+            'LAPTOP COMPUTER / VIDEO GAMES',
+            'NOTEBOOKS',
+            'PRINTERS',
+            'LCD TFT CRT MONITORS',
+            'AUDIO EQUIPMENT & AMPS',
+            'ELECTRONICS USING 3-PRONG POWER'
+          ],
+          specifications: [
+            'POLARISED POWER CABLE',
+            'FEMALE CONNECTOR FOR DEVICE CONNECTION',
+            'MALE CONNECTOR FOR STANDARD OUTLET',
+            'ADVANCED WIRES FOR OVERLOAD PROTECTION',
+            'ANTI-INTERFERENCE FEATURE',
+            'BETTER ISOLATION MATERIALS',
+            'RUBBERISED TEXTURE CORD'
+          ],
+          features: [
+            'COMPATIBLE WITH HP, DELL, LENOVO, SONY VAIO',
+            'COMPATIBLE WITH TOSHIBA, WIPRO, LG, ASUS',
+            'COMPATIBLE WITH SAMSUNG, IBM, ACER',
+            'OVERLOAD PROTECTION',
+            'ANTI-INTERFERENCE DESIGN'
+          ]
+        }
       }
     ]
   },
