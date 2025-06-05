@@ -1,8 +1,11 @@
+
 import React, { useState } from 'react';
 import { Cable, ShoppingCart, Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram, Eye, X } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Cart from '../components/Cart';
 import Logo from '../components/Logo';
+import AboutTabs from '../components/AboutTabs';
+import Checkout from '../components/Checkout';
 
 interface Product {
   id: string;
@@ -25,6 +28,7 @@ interface CartItem extends Product {
 const Index = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -67,6 +71,11 @@ const Index = () => {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
+  };
+
+  const handleCheckout = () => {
+    setIsCartOpen(false);
+    setIsCheckoutOpen(true);
   };
 
   const ProductDetailModal = ({ product, onClose }: { product: Product | null; onClose: () => void }) => {
@@ -230,7 +239,7 @@ const Index = () => {
                               className="bg-gradient-to-r from-gray-100 to-slate-100 text-gray-700 py-2 px-4 rounded-lg hover:from-slate-100 hover:to-gray-200 hover:text-slate-700 transition-all duration-300 flex items-center font-medium"
                             >
                               <Eye className="w-4 h-4 mr-2" />
-                              Details
+                              About
                             </button>
                           )}
                           <button
@@ -266,20 +275,8 @@ const Index = () => {
               Two decades of excellence in cable manufacturing
             </p>
           </div>
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-gray-100">
-              <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed space-y-6">
-                <p className="text-xl">
-                  Founded in 2000, Chhajer Cable Industries has grown to become one of India's leading manufacturers of high-quality cables and networking solutions. Our state-of-the-art manufacturing facility in Delhi is equipped with the latest technology and staffed by skilled professionals who ensure that every product meets the highest standards of quality and reliability.
-                </p>
-                <p className="text-xl">
-                  We take pride in our comprehensive range of products that cater to various sectors including IT, telecommunications, security systems, and industrial applications. Our commitment to innovation and quality has earned us the trust of countless customers across the country.
-                </p>
-                <p className="text-xl">
-                  At Chhajer Cable Industries, we believe in building lasting relationships with our customers through excellent service, competitive pricing, and unwavering support. Our team of experts is always ready to assist you in finding the perfect solution for your specific needs.
-                </p>
-              </div>
-            </div>
+          <div className="max-w-6xl mx-auto">
+            <AboutTabs />
           </div>
         </div>
       </div>
@@ -301,7 +298,7 @@ const Index = () => {
               <div className="space-y-4">
                 <p className="flex items-center text-lg">
                   <Phone className="w-6 h-6 mr-3 text-slate-400" />
-                  +91 98765 43210
+                  +91 9717535050
                 </p>
                 <p className="flex items-center text-lg">
                   <Mail className="w-6 h-6 mr-3 text-slate-400" />
@@ -309,7 +306,7 @@ const Index = () => {
                 </p>
                 <p className="flex items-center text-lg">
                   <MapPin className="w-6 h-6 mr-3 text-slate-400" />
-                  Industrial Area, Delhi, India
+                  A6 Jhilmil Industrial Area, New Delhi 110095, India
                 </p>
               </div>
             </div>
@@ -333,9 +330,9 @@ const Index = () => {
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
               <h3 className="text-2xl font-bold mb-6">Business Hours</h3>
               <div className="space-y-2 text-lg">
-                <p>Monday - Saturday</p>
-                <p className="text-slate-400 font-semibold">9:00 AM - 6:00 PM</p>
-                <p>Sunday</p>
+                <p>Monday, Wednesday - Saturday</p>
+                <p className="text-slate-400 font-semibold">8:00 AM - 6:00 PM</p>
+                <p>Tuesday, Sunday</p>
                 <p className="text-gray-400">Closed</p>
               </div>
             </div>
@@ -354,6 +351,13 @@ const Index = () => {
       <ProductDetailModal
         product={selectedProduct}
         onClose={() => setSelectedProduct(null)}
+      />
+
+      <Checkout
+        isOpen={isCheckoutOpen}
+        onClose={() => setIsCheckoutOpen(false)}
+        items={cartItems}
+        total={cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)}
       />
     </div>
   );

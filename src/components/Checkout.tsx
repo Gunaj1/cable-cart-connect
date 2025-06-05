@@ -1,0 +1,537 @@
+
+import React, { useState } from 'react';
+import { X, CreditCard, Wallet, MapPin, CheckCircle, ChevronRight, ShoppingBag } from 'lucide-react';
+
+interface CheckoutProps {
+  isOpen: boolean;
+  onClose: () => void;
+  items: CartItem[];
+  total: number;
+}
+
+interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+interface AddressForm {
+  fullName: string;
+  street: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+  phone: string;
+  email: string;
+}
+
+const Checkout: React.FC<CheckoutProps> = ({ isOpen, onClose, items, total }) => {
+  const [step, setStep] = useState<'address' | 'payment' | 'confirmation'>('address');
+  const [address, setAddress] = useState<AddressForm>({
+    fullName: '',
+    street: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    country: 'India',
+    phone: '',
+    email: ''
+  });
+  const [paymentMethod, setPaymentMethod] = useState<'credit-card' | 'upi' | 'cash'>('credit-card');
+  const [cardDetails, setCardDetails] = useState({
+    number: '',
+    name: '',
+    expiry: '',
+    cvc: ''
+  });
+  const [upiId, setUpiId] = useState('');
+  
+  if (!isOpen) return null;
+  
+  const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setAddress(prev => ({ ...prev, [name]: value }));
+  };
+  
+  const handleCardDetailsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCardDetails(prev => ({ ...prev, [name]: value }));
+  };
+  
+  const isAddressValid = () => {
+    return address.fullName && address.street && address.city && 
+           address.state && address.zipCode && address.phone && address.email;
+  };
+  
+  const isPaymentValid = () => {
+    if (paymentMethod === 'credit-card') {
+      return cardDetails.number && cardDetails.name && cardDetails.expiry && cardDetails.cvc;
+    } else if (paymentMethod === 'upi') {
+      return upiId.includes('@');
+    }
+    return true; // Cash on delivery always valid
+  };
+  
+  const handleNextStep = () => {
+    if (step === 'address' && isAddressValid()) {
+      setStep('payment');
+    } else if (step === 'payment' && isPaymentValid()) {
+      setStep('confirmation');
+    }
+  };
+  
+  const handlePreviousStep = () => {
+    if (step === 'payment') {
+      setStep('address');
+    } else if (step === 'confirmation') {
+      setStep('payment');
+    }
+  };
+  
+  const handlePlaceOrder = () => {
+    // Here you would typically handle the actual order placement and payment processing
+    console.log('Order placed!', { items, address, paymentMethod, total });
+    // In a real implementation, you would:
+    // 1. Send the order to your backend
+    // 2. Process payment (or initiate payment gateway)
+    // 3. Show confirmation and clear cart
+    
+    // For now, we'll just close the checkout
+    setTimeout(() => {
+      onClose();
+    }, 3000);
+  };
+  
+  const AddressStep = () => (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">Shipping Address</h2>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-700">Full Name</label>
+          <input
+            type="text"
+            name="fullName"
+            value={address.fullName}
+            onChange={handleAddressChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+            placeholder="Enter your full name"
+          />
+        </div>
+        
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-700">Phone Number</label>
+          <input
+            type="tel"
+            name="phone"
+            value={address.phone}
+            onChange={handleAddressChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+            placeholder="Enter your phone number"
+          />
+        </div>
+        
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-700">Email Address</label>
+          <input
+            type="email"
+            name="email"
+            value={address.email}
+            onChange={handleAddressChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+            placeholder="Enter your email address"
+          />
+        </div>
+        
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-700">Street Address</label>
+          <input
+            type="text"
+            name="street"
+            value={address.street}
+            onChange={handleAddressChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+            placeholder="Enter your street address"
+          />
+        </div>
+        
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-700">City</label>
+          <input
+            type="text"
+            name="city"
+            value={address.city}
+            onChange={handleAddressChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+            placeholder="Enter your city"
+          />
+        </div>
+        
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-700">State</label>
+          <input
+            type="text"
+            name="state"
+            value={address.state}
+            onChange={handleAddressChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+            placeholder="Enter your state"
+          />
+        </div>
+        
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-700">Zip/Postal Code</label>
+          <input
+            type="text"
+            name="zipCode"
+            value={address.zipCode}
+            onChange={handleAddressChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+            placeholder="Enter your zip/postal code"
+          />
+        </div>
+        
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-700">Country</label>
+          <select
+            name="country"
+            value={address.country}
+            onChange={handleAddressChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+          >
+            <option value="India">India</option>
+            <option value="United States">United States</option>
+            <option value="Canada">Canada</option>
+            <option value="United Kingdom">United Kingdom</option>
+            <option value="Australia">Australia</option>
+          </select>
+        </div>
+      </div>
+      
+      <div className="flex justify-end mt-8">
+        <button
+          onClick={handleNextStep}
+          disabled={!isAddressValid()}
+          className={`flex items-center px-6 py-3 rounded-lg text-white font-medium shadow-lg ${
+            isAddressValid() 
+              ? 'bg-gradient-to-r from-slate-600 to-gray-700 hover:from-slate-700 hover:to-gray-800' 
+              : 'bg-gray-400 cursor-not-allowed'
+          }`}
+        >
+          Continue to Payment
+          <ChevronRight className="ml-2 w-5 h-5" />
+        </button>
+      </div>
+    </div>
+  );
+  
+  const PaymentStep = () => (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">Payment Method</h2>
+      
+      <div className="space-y-4">
+        <div 
+          className={`border rounded-lg p-4 cursor-pointer transition-colors ${
+            paymentMethod === 'credit-card' 
+              ? 'border-slate-500 bg-slate-50' 
+              : 'border-gray-200 hover:bg-gray-50'
+          }`}
+          onClick={() => setPaymentMethod('credit-card')}
+        >
+          <div className="flex items-center">
+            <div className={`w-6 h-6 rounded-full border-2 mr-4 flex items-center justify-center ${
+              paymentMethod === 'credit-card' ? 'border-slate-600' : 'border-gray-400'
+            }`}>
+              {paymentMethod === 'credit-card' && <div className="w-3 h-3 bg-slate-600 rounded-full"></div>}
+            </div>
+            <CreditCard className="w-6 h-6 mr-3 text-slate-600" />
+            <span className="font-medium">Credit/Debit Card</span>
+          </div>
+          
+          {paymentMethod === 'credit-card' && (
+            <div className="mt-6 space-y-4">
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">Card Number</label>
+                <input
+                  type="text"
+                  name="number"
+                  value={cardDetails.number}
+                  onChange={handleCardDetailsChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+                  placeholder="1234 5678 9012 3456"
+                  maxLength={19}
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">Cardholder Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={cardDetails.name}
+                  onChange={handleCardDetailsChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+                  placeholder="John Doe"
+                />
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">Expiry Date</label>
+                  <input
+                    type="text"
+                    name="expiry"
+                    value={cardDetails.expiry}
+                    onChange={handleCardDetailsChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+                    placeholder="MM/YY"
+                    maxLength={5}
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">CVC</label>
+                  <input
+                    type="text"
+                    name="cvc"
+                    value={cardDetails.cvc}
+                    onChange={handleCardDetailsChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+                    placeholder="123"
+                    maxLength={3}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+        
+        <div 
+          className={`border rounded-lg p-4 cursor-pointer transition-colors ${
+            paymentMethod === 'upi' 
+              ? 'border-slate-500 bg-slate-50' 
+              : 'border-gray-200 hover:bg-gray-50'
+          }`}
+          onClick={() => setPaymentMethod('upi')}
+        >
+          <div className="flex items-center">
+            <div className={`w-6 h-6 rounded-full border-2 mr-4 flex items-center justify-center ${
+              paymentMethod === 'upi' ? 'border-slate-600' : 'border-gray-400'
+            }`}>
+              {paymentMethod === 'upi' && <div className="w-3 h-3 bg-slate-600 rounded-full"></div>}
+            </div>
+            <Wallet className="w-6 h-6 mr-3 text-slate-600" />
+            <span className="font-medium">UPI Payment</span>
+          </div>
+          
+          {paymentMethod === 'upi' && (
+            <div className="mt-6">
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">UPI ID</label>
+                <input
+                  type="text"
+                  value={upiId}
+                  onChange={(e) => setUpiId(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+                  placeholder="yourname@upi"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+        
+        <div 
+          className={`border rounded-lg p-4 cursor-pointer transition-colors ${
+            paymentMethod === 'cash' 
+              ? 'border-slate-500 bg-slate-50' 
+              : 'border-gray-200 hover:bg-gray-50'
+          }`}
+          onClick={() => setPaymentMethod('cash')}
+        >
+          <div className="flex items-center">
+            <div className={`w-6 h-6 rounded-full border-2 mr-4 flex items-center justify-center ${
+              paymentMethod === 'cash' ? 'border-slate-600' : 'border-gray-400'
+            }`}>
+              {paymentMethod === 'cash' && <div className="w-3 h-3 bg-slate-600 rounded-full"></div>}
+            </div>
+            <MapPin className="w-6 h-6 mr-3 text-slate-600" />
+            <span className="font-medium">Cash on Delivery</span>
+          </div>
+        </div>
+      </div>
+      
+      <div className="flex justify-between mt-8">
+        <button
+          onClick={handlePreviousStep}
+          className="px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-700 font-medium"
+        >
+          Back to Address
+        </button>
+        
+        <button
+          onClick={handleNextStep}
+          disabled={!isPaymentValid()}
+          className={`px-6 py-3 rounded-lg text-white font-medium shadow-lg ${
+            isPaymentValid() 
+              ? 'bg-gradient-to-r from-slate-600 to-gray-700 hover:from-slate-700 hover:to-gray-800' 
+              : 'bg-gray-400 cursor-not-allowed'
+          }`}
+        >
+          Review Order
+        </button>
+      </div>
+    </div>
+  );
+  
+  const ConfirmationStep = () => (
+    <div className="space-y-6">
+      <div className="text-center mb-8">
+        <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">Review Your Order</h2>
+        <p className="text-gray-600">Please check all information before placing your order.</p>
+      </div>
+      
+      <div className="border-b pb-6">
+        <h3 className="font-medium text-lg mb-3 flex items-center">
+          <MapPin className="w-5 h-5 mr-2 text-slate-600" />
+          Shipping Address
+        </h3>
+        <div className="bg-slate-50 rounded-lg p-4">
+          <p className="font-semibold">{address.fullName}</p>
+          <p>{address.street}</p>
+          <p>{address.city}, {address.state} {address.zipCode}</p>
+          <p>{address.country}</p>
+          <p className="mt-2">Phone: {address.phone}</p>
+          <p>Email: {address.email}</p>
+        </div>
+      </div>
+      
+      <div className="border-b pb-6">
+        <h3 className="font-medium text-lg mb-3 flex items-center">
+          <CreditCard className="w-5 h-5 mr-2 text-slate-600" />
+          Payment Method
+        </h3>
+        <div className="bg-slate-50 rounded-lg p-4">
+          {paymentMethod === 'credit-card' && (
+            <>
+              <p className="font-semibold">Credit/Debit Card</p>
+              <p>Card ending in {cardDetails.number.slice(-4)}</p>
+              <p>Expiry: {cardDetails.expiry}</p>
+            </>
+          )}
+          {paymentMethod === 'upi' && (
+            <>
+              <p className="font-semibold">UPI Payment</p>
+              <p>UPI ID: {upiId}</p>
+            </>
+          )}
+          {paymentMethod === 'cash' && (
+            <p className="font-semibold">Cash on Delivery</p>
+          )}
+        </div>
+      </div>
+      
+      <div>
+        <h3 className="font-medium text-lg mb-3 flex items-center">
+          <ShoppingBag className="w-5 h-5 mr-2 text-slate-600" />
+          Order Summary
+        </h3>
+        <div className="bg-slate-50 rounded-lg p-4">
+          <div className="space-y-3 mb-4">
+            {items.map((item) => (
+              <div key={item.id} className="flex justify-between">
+                <div>
+                  <span className="font-medium">{item.name}</span>
+                  <span className="text-gray-600 ml-2">× {item.quantity}</span>
+                </div>
+                <span>${(item.price * item.quantity).toFixed(2)}</span>
+              </div>
+            ))}
+          </div>
+          <div className="border-t pt-3 flex justify-between text-lg font-bold">
+            <span>Total:</span>
+            <span className="text-slate-700">${total.toFixed(2)}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div className="flex justify-between mt-8">
+        <button
+          onClick={handlePreviousStep}
+          className="px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-700 font-medium"
+        >
+          Back to Payment
+        </button>
+        
+        <button
+          onClick={handlePlaceOrder}
+          className="px-6 py-3 bg-gradient-to-r from-slate-600 to-gray-700 hover:from-slate-700 hover:to-gray-800 rounded-lg text-white font-medium shadow-lg"
+        >
+          Place Order
+        </button>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-start justify-center overflow-y-auto">
+      <div className="bg-white w-full max-w-4xl my-8 rounded-2xl shadow-2xl">
+        <div className="sticky top-0 bg-white z-10 rounded-t-2xl border-b p-6 flex justify-between items-center">
+          <h2 className="text-2xl font-bold text-gray-800">
+            {step === 'address' && 'Checkout'}
+            {step === 'payment' && 'Payment'}
+            {step === 'confirmation' && 'Order Confirmation'}
+          </h2>
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-700 transition-colors">
+            <X className="w-6 h-6" />
+          </button>
+        </div>
+        
+        <div className="p-6">
+          <div className="flex justify-between items-center mb-8">
+            <div className="flex items-center w-full max-w-lg mx-auto">
+              <div className={`flex flex-col items-center ${step === 'address' ? 'text-slate-600' : 'text-gray-400'}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  step === 'address' ? 'bg-slate-600 text-white' : step === 'payment' || step === 'confirmation' ? 'bg-green-500 text-white' : 'bg-gray-200'
+                }`}>
+                  {step === 'payment' || step === 'confirmation' ? <CheckCircle className="w-5 h-5" /> : "1"}
+                </div>
+                <span className="text-sm mt-1">Address</span>
+              </div>
+              
+              <div className={`flex-1 h-0.5 mx-2 ${step === 'address' ? 'bg-gray-200' : 'bg-green-500'}`}></div>
+              
+              <div className={`flex flex-col items-center ${step === 'payment' ? 'text-slate-600' : 'text-gray-400'}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  step === 'payment' ? 'bg-slate-600 text-white' : step === 'confirmation' ? 'bg-green-500 text-white' : 'bg-gray-200'
+                }`}>
+                  {step === 'confirmation' ? <CheckCircle className="w-5 h-5" /> : "2"}
+                </div>
+                <span className="text-sm mt-1">Payment</span>
+              </div>
+              
+              <div className={`flex-1 h-0.5 mx-2 ${step === 'confirmation' ? 'bg-green-500' : 'bg-gray-200'}`}></div>
+              
+              <div className={`flex flex-col items-center ${step === 'confirmation' ? 'text-slate-600' : 'text-gray-400'}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  step === 'confirmation' ? 'bg-slate-600 text-white' : 'bg-gray-200'
+                }`}>
+                  3
+                </div>
+                <span className="text-sm mt-1">Confirmation</span>
+              </div>
+            </div>
+          </div>
+          
+          {step === 'address' && <AddressStep />}
+          {step === 'payment' && <PaymentStep />}
+          {step === 'confirmation' && <ConfirmationStep />}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Checkout;
