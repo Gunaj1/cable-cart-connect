@@ -19,13 +19,13 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick, onNavigate, act
   ];
 
   return (
-    <nav className="bg-white/95 backdrop-blur-md shadow-xl sticky top-0 z-50 border-b border-gray-200">
+    <nav className="bg-white/95 backdrop-blur-md shadow-xl sticky top-0 z-50 border-b border-blue-100">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center space-x-4">
             <Logo className="h-12" />
             <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-slate-700 to-gray-700 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-700 to-gray-700 bg-clip-text text-transparent">
                 Chhajer Cable Industries
               </h1>
               <p className="text-sm text-gray-600 font-medium">Quality Cables Since 2000</p>
@@ -37,15 +37,15 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick, onNavigate, act
               <button
                 key={item.id}
                 onClick={() => onNavigate(item.id)}
-                className={`text-lg font-semibold transition-all duration-300 hover:text-slate-600 relative ${
+                className={`text-lg font-semibold transition-all duration-300 hover:text-blue-600 relative ${
                   activeSection === item.id 
-                    ? 'text-slate-600' 
-                    : 'text-gray-700 hover:text-slate-600'
+                    ? 'text-blue-600' 
+                    : 'text-gray-700 hover:text-blue-600'
                 }`}
               >
                 {item.label}
                 {activeSection === item.id && (
-                  <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-slate-600 to-gray-600 rounded-full"></div>
+                  <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full"></div>
                 )}
               </button>
             ))}
@@ -53,7 +53,7 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick, onNavigate, act
 
           <button
             onClick={onCartClick}
-            className="relative bg-gradient-to-r from-slate-600 to-gray-600 text-white p-3 rounded-xl hover:from-slate-700 hover:to-gray-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
+            className="relative bg-gradient-to-r from-blue-600 to-blue-700 text-white p-3 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105 shadow-lg"
           >
             <ShoppingCart className="w-6 h-6" />
             {cartCount > 0 && (

@@ -30,7 +30,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose, items, onUpdateQuantity, o
       <div className="bg-white w-full max-w-md h-full overflow-y-auto shadow-xl">
         <div className="sticky top-0 bg-white z-10 border-b p-4 flex justify-between items-center">
           <h2 className="text-xl font-bold flex items-center">
-            <ShoppingCart className="w-6 h-6 mr-2 text-slate-600" />
+            <ShoppingCart className="w-6 h-6 mr-2 text-blue-600" />
             Shopping Cart
           </h2>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700 transition-colors">
@@ -59,7 +59,7 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose, items, onUpdateQuantity, o
                       <div className="flex-1 min-w-0">
                         <h3 className="font-medium text-gray-900 truncate">{item.name}</h3>
                         <p className="text-sm text-gray-500 truncate">{item.description}</p>
-                        <p className="text-lg font-semibold text-slate-600 mt-1">${item.price}</p>
+                        <p className="text-lg font-semibold text-blue-600 mt-1">${item.price}</p>
                       </div>
                       <button
                         onClick={() => onRemove(item.id)}
@@ -96,14 +96,14 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose, items, onUpdateQuantity, o
               <div className="border-t pt-4 space-y-4">
                 <div className="flex justify-between items-center text-xl font-bold">
                   <span>Total: </span>
-                  <span className="text-slate-600">${total.toFixed(2)}</span>
+                  <span className="text-blue-600">${total.toFixed(2)}</span>
                 </div>
                 <button 
                   onClick={() => {
                     window.dispatchEvent(new CustomEvent('checkout', { detail: { items, total } }));
                     onClose();
                   }}
-                  className="w-full bg-gradient-to-r from-slate-600 to-gray-600 text-white py-3 px-4 rounded-lg hover:from-slate-700 hover:to-gray-700 transition-colors font-medium shadow-lg"
+                  className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-4 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-colors font-medium shadow-lg"
                 >
                   Proceed to Checkout
                 </button>

@@ -13,7 +13,7 @@ const AboutTabs: React.FC = () => {
   const tabContent = {
     about: {
       title: "About Us",
-      icon: <Users className="w-12 h-12 text-slate-600 mb-6" />,
+      icon: <Users className="w-12 h-12 text-blue-600 mb-6" />,
       content: (
         <div className="space-y-6">
           <p className="text-xl">
@@ -31,7 +31,7 @@ const AboutTabs: React.FC = () => {
     },
     mission: {
       title: "Our Mission",
-      icon: <Compass className="w-12 h-12 text-slate-600 mb-6" />,
+      icon: <Compass className="w-12 h-12 text-blue-600 mb-6" />,
       content: (
         <div className="space-y-6">
           <p className="text-xl">
@@ -43,7 +43,7 @@ const AboutTabs: React.FC = () => {
     },
     vision: {
       title: "Our Vision",
-      icon: <Target className="w-12 h-12 text-slate-600 mb-6" />,
+      icon: <Target className="w-12 h-12 text-blue-600 mb-6" />,
       content: (
         <div className="space-y-6">
           <p className="text-xl">
@@ -55,31 +55,31 @@ const AboutTabs: React.FC = () => {
     },
     values: {
       title: "Our Core Values",
-      icon: <BadgeCheck className="w-12 h-12 text-slate-600 mb-6" />,
+      icon: <BadgeCheck className="w-12 h-12 text-blue-600 mb-6" />,
       content: (
         <div className="space-y-8">
-          <div className="bg-white/30 backdrop-blur-sm rounded-xl p-5 border border-slate-200">
-            <h3 className="text-xl font-bold text-slate-700 mb-2">Quality First</h3>
+          <div className="bg-white/30 backdrop-blur-sm rounded-xl p-5 border border-blue-200">
+            <h3 className="text-xl font-bold text-blue-700 mb-2">Quality First</h3>
             <p className="text-gray-700">We never compromise on the durability, safety, or performance of our products.</p>
           </div>
           
-          <div className="bg-white/30 backdrop-blur-sm rounded-xl p-5 border border-slate-200">
-            <h3 className="text-xl font-bold text-slate-700 mb-2">Customer Commitment</h3>
+          <div className="bg-white/30 backdrop-blur-sm rounded-xl p-5 border border-blue-200">
+            <h3 className="text-xl font-bold text-blue-700 mb-2">Customer Commitment</h3>
             <p className="text-gray-700">We put our customers at the center of everything we do—delivering on time, every time.</p>
           </div>
           
-          <div className="bg-white/30 backdrop-blur-sm rounded-xl p-5 border border-slate-200">
-            <h3 className="text-xl font-bold text-slate-700 mb-2">Innovation & Growth</h3>
+          <div className="bg-white/30 backdrop-blur-sm rounded-xl p-5 border border-blue-200">
+            <h3 className="text-xl font-bold text-blue-700 mb-2">Innovation & Growth</h3>
             <p className="text-gray-700">We embrace change, invest in technology, and constantly improve to stay ahead.</p>
           </div>
           
-          <div className="bg-white/30 backdrop-blur-sm rounded-xl p-5 border border-slate-200">
-            <h3 className="text-xl font-bold text-slate-700 mb-2">Integrity & Accountability</h3>
+          <div className="bg-white/30 backdrop-blur-sm rounded-xl p-5 border border-blue-200">
+            <h3 className="text-xl font-bold text-blue-700 mb-2">Integrity & Accountability</h3>
             <p className="text-gray-700">We act with honesty, take responsibility, and uphold the highest ethical standards.</p>
           </div>
           
-          <div className="bg-white/30 backdrop-blur-sm rounded-xl p-5 border border-slate-200">
-            <h3 className="text-xl font-bold text-slate-700 mb-2">Teamwork & Continuous Learning</h3>
+          <div className="bg-white/30 backdrop-blur-sm rounded-xl p-5 border border-blue-200">
+            <h3 className="text-xl font-bold text-blue-700 mb-2">Teamwork & Continuous Learning</h3>
             <p className="text-gray-700">We work collaboratively and invest in our people to build a smarter, stronger future.</p>
           </div>
         </div>
@@ -106,7 +106,7 @@ const AboutTabs: React.FC = () => {
           {content.content}
         </div>
         <div className="order-1 lg:order-2 relative overflow-hidden rounded-2xl shadow-xl">
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-700/20 to-gray-900/40 z-10" />
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-700/20 to-gray-900/40 z-10" />
           <img 
             src={content.image}
             alt={content.title}
@@ -126,8 +126,8 @@ const AboutTabs: React.FC = () => {
             onClick={() => setActiveTab(tab)}
             className={`px-6 py-3 rounded-full text-lg font-medium transition-all duration-300 ${
               activeTab === tab 
-                ? 'bg-gradient-to-r from-slate-600 to-gray-700 text-white shadow-lg transform scale-105' 
-                : 'bg-white text-gray-700 hover:bg-slate-100'
+                ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg transform scale-105' 
+                : 'bg-white text-gray-700 hover:bg-blue-50 border border-blue-200'
             }`}
           >
             {tabContent[tab as keyof typeof tabContent].title}
