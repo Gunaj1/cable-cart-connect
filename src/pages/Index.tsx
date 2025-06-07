@@ -156,17 +156,17 @@ const Index = () => {
                 </div>
                 <div className="bg-gradient-to-r from-blue-50 to-gray-50 rounded-2xl p-6 border border-blue-200">
                   <p className="text-2xl font-bold text-blue-900 mb-4">Price: ${product.price}</p>
-                  <p className="text-lg font-medium text-gray-700 mb-4">Stock: {products.find(p => p.id === product.id)?.stock || 0} units</p>
+                  <p className="text-lg font-medium text-gray-700 mb-4">Stock: {product.stock || 0} units</p>
                   <button 
                     onClick={() => {
                       addToCart(product);
                       onClose();
                     }}
                     className="w-full bg-gradient-to-r from-blue-600 to-gray-600 text-white py-3 px-6 rounded-xl hover:from-blue-700 hover:to-gray-700 transition-all duration-300 flex items-center justify-center space-x-3 font-semibold shadow-lg transform hover:scale-105"
-                    disabled={!products.find(p => p.id === product.id)?.stock}
+                    disabled={!product.stock}
                   >
                     <ShoppingCart className="w-6 h-6" />
-                    <span>{products.find(p => p.id === product.id)?.stock ? 'Add to Cart' : 'Out of Stock'}</span>
+                    <span>{product.stock ? 'Add to Cart' : 'Out of Stock'}</span>
                   </button>
                 </div>
               </div>
@@ -315,7 +315,7 @@ const Index = () => {
                             </span>
                             {product.detailedDescription && (
                               <button
-                                onClick={() => setSelectedProduct(product)}
+                                onClick={() => setSelectedProduct(currentProduct || null)}
                                 className="bg-gradient-to-r from-gray-100 to-blue-50 text-gray-700 py-2 px-4 rounded-lg hover:from-blue-50 hover:to-gray-100 hover:text-blue-700 transition-all duration-300 flex items-center font-medium border border-gray-200"
                               >
                                 <Eye className="w-4 h-4 mr-2" />
@@ -323,7 +323,7 @@ const Index = () => {
                               </button>
                             )}
                             <button
-                              onClick={() => addToCart(product)}
+                              onClick={() => currentProduct && addToCart(currentProduct)}
                               className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2 px-4 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-medium shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                               disabled={!currentProduct?.stock}
                             >
