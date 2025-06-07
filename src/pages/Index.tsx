@@ -1,11 +1,13 @@
-
 import React, { useState } from 'react';
-import { Cable, ShoppingCart, Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram, Eye, X } from 'lucide-react';
+import { Cable, ShoppingCart, Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram, Eye, X, Award, Shield, Users, TrendingUp } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Cart from '../components/Cart';
 import Logo from '../components/Logo';
 import AboutTabs from '../components/AboutTabs';
 import Checkout from '../components/Checkout';
+import ServicesSection from '../components/ServicesSection';
+import BusinessCredentials from '../components/BusinessCredentials';
+import InventoryManager from '../components/InventoryManager';
 
 interface Product {
   id: string;
@@ -14,6 +16,7 @@ interface Product {
   image: string;
   price: number;
   description: string;
+  stock: number;
   detailedDescription?: {
     applications: string[];
     specifications: string[];
@@ -32,22 +35,54 @@ const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isInventoryOpen, setIsInventoryOpen] = useState(false);
+  const [products, setProducts] = useState<Product[]>(() => {
+    // Initialize products with stock levels
+    return categories.flatMap(category => 
+      category.products.map(product => ({
+        ...product,
+        stock: Math.floor(Math.random() * 100) + 10 // Random stock between 10-110
+      }))
+    );
+  });
 
   const addToCart = (product: Product) => {
+    const currentProduct = products.find(p => p.id === product.id);
+    if (!currentProduct || currentProduct.stock <= 0) {
+      alert('Sorry, this product is out of stock!');
+      return;
+    }
+
     setCartItems(prevItems => {
       const existingItem = prevItems.find(item => item.id === product.id);
       if (existingItem) {
+        if (existingItem.quantity >= currentProduct.stock) {
+          alert(`Sorry, only ${currentProduct.stock} items available in stock!`);
+          return prevItems;
+        }
         return prevItems.map(item =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
-      return [...prevItems, { ...product, quantity: 1 }];
+      return [...prevItems, { ...currentProduct, quantity: 1 }];
     });
+
+    // Update stock
+    setProducts(prev => prev.map(p => 
+      p.id === product.id ? { ...p, stock: p.stock - 1 } : p
+    ));
   };
 
   const removeFromCart = (productId: string) => {
+    const removedItem = cartItems.find(item => item.id === productId);
+    if (removedItem) {
+      // Restore stock
+      setProducts(prev => prev.map(p => 
+        p.id === productId ? { ...p, stock: p.stock + removedItem.quantity } : p
+      ));
+    }
     setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
   };
 
@@ -56,6 +91,19 @@ const Index = () => {
       removeFromCart(productId);
       return;
     }
+
+    const currentItem = cartItems.find(item => item.id === productId);
+    const currentProduct = products.find(p => p.id === productId);
+    
+    if (!currentItem || !currentProduct) return;
+
+    const quantityDiff = newQuantity - currentItem.quantity;
+    
+    if (quantityDiff > 0 && quantityDiff > currentProduct.stock) {
+      alert(`Sorry, only ${currentProduct.stock} more items available in stock!`);
+      return;
+    }
+
     setCartItems(prevItems =>
       prevItems.map(item =>
         item.id === productId
@@ -63,6 +111,11 @@ const Index = () => {
           : item
       )
     );
+
+    // Update stock
+    setProducts(prev => prev.map(p => 
+      p.id === productId ? { ...p, stock: p.stock - quantityDiff } : p
+    ));
   };
 
   const scrollToSection = (section: string) => {
@@ -84,7 +137,7 @@ const Index = () => {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
         <div className="bg-white rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto shadow-2xl">
-          <div className="sticky top-0 bg-gradient-to-r from-slate-600 to-gray-600 z-10 px-8 py-6 flex justify-between items-center rounded-t-2xl">
+          <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-gray-600 z-10 px-8 py-6 flex justify-between items-center rounded-t-2xl">
             <h2 className="text-3xl font-bold text-white">{product.name}</h2>
             <button onClick={onClose} className="text-white hover:text-gray-200 transition-colors p-2 rounded-full hover:bg-white/20">
               <X className="w-7 h-7" />
@@ -93,41 +146,41 @@ const Index = () => {
           
           <div className="p-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-              {/* Product Image Section */}
               <div className="space-y-6">
-                <div className="bg-gradient-to-br from-gray-50 to-slate-100 rounded-2xl overflow-hidden shadow-lg border">
+                <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl overflow-hidden shadow-lg border">
                   <img 
                     src={product.id === 'pc1' ? '/image-copy.png' : product.image}
                     alt={product.name}
                     className="w-full h-auto object-cover"
                   />
                 </div>
-                <div className="bg-gradient-to-r from-slate-50 to-gray-50 rounded-2xl p-6 border border-slate-200">
-                  <p className="text-2xl font-bold text-slate-900 mb-4">Price: ${product.price}</p>
+                <div className="bg-gradient-to-r from-blue-50 to-gray-50 rounded-2xl p-6 border border-blue-200">
+                  <p className="text-2xl font-bold text-blue-900 mb-4">Price: ${product.price}</p>
+                  <p className="text-lg font-medium text-gray-700 mb-4">Stock: {products.find(p => p.id === product.id)?.stock || 0} units</p>
                   <button 
                     onClick={() => {
                       addToCart(product);
                       onClose();
                     }}
-                    className="w-full bg-gradient-to-r from-slate-600 to-gray-600 text-white py-3 px-6 rounded-xl hover:from-slate-700 hover:to-gray-700 transition-all duration-300 flex items-center justify-center space-x-3 font-semibold shadow-lg transform hover:scale-105"
+                    className="w-full bg-gradient-to-r from-blue-600 to-gray-600 text-white py-3 px-6 rounded-xl hover:from-blue-700 hover:to-gray-700 transition-all duration-300 flex items-center justify-center space-x-3 font-semibold shadow-lg transform hover:scale-105"
+                    disabled={!products.find(p => p.id === product.id)?.stock}
                   >
                     <ShoppingCart className="w-6 h-6" />
-                    <span>Add to Cart</span>
+                    <span>{products.find(p => p.id === product.id)?.stock ? 'Add to Cart' : 'Out of Stock'}</span>
                   </button>
                 </div>
               </div>
 
-              {/* Product Details Section */}
               <div className="space-y-8">
                 <div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-                    <span className="w-1 h-8 bg-gradient-to-b from-slate-500 to-gray-500 rounded-full mr-3"></span>
+                    <span className="w-1 h-8 bg-gradient-to-b from-blue-500 to-gray-500 rounded-full mr-3"></span>
                     Applications
                   </h3>
-                  <ul className="bg-gradient-to-br from-gray-50 to-slate-50 rounded-xl p-6 space-y-3 border border-gray-200">
+                  <ul className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-6 space-y-3 border border-gray-200">
                     {product.detailedDescription.applications.map((app, index) => (
                       <li key={index} className="flex items-start">
-                        <Cable className="w-6 h-6 text-slate-600 mt-0.5 mr-3 flex-shrink-0" />
+                        <Cable className="w-6 h-6 text-blue-600 mt-0.5 mr-3 flex-shrink-0" />
                         <span className="text-gray-700 font-medium">{app}</span>
                       </li>
                     ))}
@@ -136,13 +189,13 @@ const Index = () => {
 
                 <div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-                    <span className="w-1 h-8 bg-gradient-to-b from-gray-500 to-zinc-500 rounded-full mr-3"></span>
+                    <span className="w-1 h-8 bg-gradient-to-b from-gray-500 to-blue-500 rounded-full mr-3"></span>
                     Specifications
                   </h3>
-                  <ul className="bg-gradient-to-br from-gray-50 to-zinc-50 rounded-xl p-6 space-y-3 border border-gray-200">
+                  <ul className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-6 space-y-3 border border-gray-200">
                     {product.detailedDescription.specifications.map((spec, index) => (
                       <li key={index} className="flex items-start">
-                        <span className="w-3 h-3 bg-gradient-to-r from-gray-500 to-zinc-500 rounded-full mt-2 mr-3 flex-shrink-0" />
+                        <span className="w-3 h-3 bg-gradient-to-r from-gray-500 to-blue-500 rounded-full mt-2 mr-3 flex-shrink-0" />
                         <span className="text-gray-700 font-medium">{spec}</span>
                       </li>
                     ))}
@@ -151,13 +204,13 @@ const Index = () => {
 
                 <div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-                    <span className="w-1 h-8 bg-gradient-to-b from-zinc-500 to-slate-500 rounded-full mr-3"></span>
+                    <span className="w-1 h-8 bg-gradient-to-b from-blue-500 to-gray-500 rounded-full mr-3"></span>
                     Features
                   </h3>
-                  <ul className="bg-gradient-to-br from-gray-50 to-slate-50 rounded-xl p-6 space-y-3 border border-gray-200">
+                  <ul className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-6 space-y-3 border border-gray-200">
                     {product.detailedDescription.features.map((feature, index) => (
                       <li key={index} className="flex items-start">
-                        <span className="w-3 h-3 bg-gradient-to-r from-zinc-500 to-slate-500 rounded-full mt-2 mr-3 flex-shrink-0" />
+                        <span className="w-3 h-3 bg-gradient-to-r from-blue-500 to-gray-500 rounded-full mt-2 mr-3 flex-shrink-0" />
                         <span className="text-gray-700 font-medium">{feature}</span>
                       </li>
                     ))}
@@ -191,22 +244,28 @@ const Index = () => {
             <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white via-blue-100 to-gray-100 bg-clip-text text-transparent leading-tight">
               Chhajer Cable Industries
             </h1>
-            <div className="mb-6 text-center">
-              <div className="inline-flex items-center space-x-8 bg-white/10 backdrop-blur-sm rounded-2xl px-8 py-4 border border-white/20">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-300">C</div>
-                  <div className="text-sm text-gray-200">Committed</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-300">C</div>
-                  <div className="text-sm text-gray-200">Credible</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-300">I</div>
-                  <div className="text-sm text-gray-200">Innovators</div>
+            
+            {/* CCI Acronym - Repositioned to left side */}
+            <div className="mb-8 flex justify-start">
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4 border border-white/20">
+                <div className="flex items-center space-x-6">
+                  <div className="text-left">
+                    <div className="text-2xl font-bold text-blue-300">C</div>
+                    <div className="text-sm text-gray-200">Committed</div>
+                  </div>
+                  <div className="text-left">
+                    <div className="text-2xl font-bold text-blue-300">C</div>
+                    <div className="text-sm text-gray-200">Credible</div>
+                  </div>
+                  <div className="text-left">
+                    <div className="text-2xl font-bold text-blue-300">I</div>
+                    <div className="text-sm text-gray-200">Innovators</div>
+                  </div>
                 </div>
               </div>
             </div>
+
+            <p className="text-sm text-blue-200 font-medium mb-4">Quality Cables Since 1997</p>
             <p className="text-xl md:text-2xl leading-relaxed animate-slide-up mx-auto font-light">
               With over two decades of excellence, we stand as a premier manufacturer of high-quality cables and networking solutions. Based in Delhi, we specialize in producing a comprehensive range of cables including LAN, CCTV, telephone, and specialized industrial cables. Our commitment to quality, innovation, and customer satisfaction has made us a trusted name in the industry.
             </p>
@@ -235,44 +294,51 @@ const Index = () => {
               <div className="p-8">
                 <h3 className="text-2xl font-bold mb-6 text-gray-900">{category.name}</h3>
                 <div className="space-y-5">
-                  {category.products.map((product) => (
-                    <div 
-                      key={product.id} 
-                      className="border-b border-gray-100 pb-5 relative"
-                      onMouseEnter={() => setHoveredProduct(product.id)}
-                      onMouseLeave={() => setHoveredProduct(null)}
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                          <Cable className="w-5 h-5 mr-3 text-blue-600" />
-                          <span className="font-semibold text-gray-800">{product.name}</span>
-                        </div>
-                        <div className="flex items-center space-x-3">
-                          <span className="text-lg font-bold text-blue-600">${product.price}</span>
-                          {product.detailedDescription && (
+                  {category.products.map((product) => {
+                    const currentProduct = products.find(p => p.id === product.id);
+                    return (
+                      <div 
+                        key={product.id} 
+                        className="border-b border-gray-100 pb-5 relative"
+                        onMouseEnter={() => setHoveredProduct(product.id)}
+                        onMouseLeave={() => setHoveredProduct(null)}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center">
+                            <Cable className="w-5 h-5 mr-3 text-blue-600" />
+                            <span className="font-semibold text-gray-800">{product.name}</span>
+                          </div>
+                          <div className="flex items-center space-x-3">
+                            <span className="text-lg font-bold text-blue-600">${product.price}</span>
+                            <span className={`text-sm px-2 py-1 rounded-full ${currentProduct?.stock && currentProduct.stock > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                              {currentProduct?.stock && currentProduct.stock > 0 ? `${currentProduct.stock} left` : 'Out of stock'}
+                            </span>
+                            {product.detailedDescription && (
+                              <button
+                                onClick={() => setSelectedProduct(product)}
+                                className="bg-gradient-to-r from-gray-100 to-blue-50 text-gray-700 py-2 px-4 rounded-lg hover:from-blue-50 hover:to-gray-100 hover:text-blue-700 transition-all duration-300 flex items-center font-medium border border-gray-200"
+                              >
+                                <Eye className="w-4 h-4 mr-2" />
+                                About
+                              </button>
+                            )}
                             <button
-                              onClick={() => setSelectedProduct(product)}
-                              className="bg-gradient-to-r from-gray-100 to-blue-50 text-gray-700 py-2 px-4 rounded-lg hover:from-blue-50 hover:to-gray-100 hover:text-blue-700 transition-all duration-300 flex items-center font-medium border border-gray-200"
+                              onClick={() => addToCart(product)}
+                              className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2 px-4 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-medium shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                              disabled={!currentProduct?.stock}
                             >
-                              <Eye className="w-4 h-4 mr-2" />
-                              About
+                              Add
                             </button>
-                          )}
-                          <button
-                            onClick={() => addToCart(product)}
-                            className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2 px-4 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-medium shadow-lg transform hover:scale-105"
-                          >
-                            Add
-                          </button>
+                          </div>
                         </div>
+                        {hoveredProduct === product.id && (
+                          <div className="absolute z-20 bg-white border border-gray-200 shadow-xl rounded-xl p-4 mt-3 w-full left-0 backdrop-blur-sm">
+                            <p className="text-sm text-gray-600 leading-relaxed">{product.description}</p>
+                          </div>
+                        )}
                       </div>
-                      {hoveredProduct === product.id && (
-                        <div className="absolute z-20 bg-white border border-gray-200 shadow-xl rounded-xl p-4 mt-3 w-full left-0 backdrop-blur-sm">
-                          <p className="text-sm text-gray-600 leading-relaxed">{product.description}</p>
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -295,6 +361,11 @@ const Index = () => {
             <AboutTabs />
           </div>
         </div>
+      </div>
+
+      {/* Services Section - New Column */}
+      <div id="services" className="bg-gradient-to-br from-gray-50 to-white py-20">
+        <ServicesSection />
       </div>
 
       {/* Contact Section */}
@@ -356,6 +427,9 @@ const Index = () => {
         </div>
       </div>
 
+      {/* Business Credentials Section */}
+      <BusinessCredentials />
+
       <Cart
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
@@ -374,6 +448,17 @@ const Index = () => {
         onClose={() => setIsCheckoutOpen(false)}
         items={cartItems}
         total={cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)}
+      />
+
+      <InventoryManager
+        isOpen={isInventoryOpen}
+        onClose={() => setIsInventoryOpen(false)}
+        products={products}
+        onUpdateStock={(productId, newStock) => {
+          setProducts(prev => prev.map(p => 
+            p.id === productId ? { ...p, stock: newStock } : p
+          ));
+        }}
       />
     </div>
   );

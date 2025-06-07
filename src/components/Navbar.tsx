@@ -15,6 +15,7 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick, onNavigate, act
     { id: 'home', label: 'Home' },
     { id: 'products', label: 'Products' },
     { id: 'about', label: 'About' },
+    { id: 'services', label: 'Services' },
     { id: 'contact', label: 'Contact' }
   ];
 
@@ -28,7 +29,7 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick, onNavigate, act
               <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-700 to-gray-700 bg-clip-text text-transparent">
                 Chhajer Cable Industries
               </h1>
-              <p className="text-sm text-gray-600 font-medium">Quality Cables Since 2000</p>
+              <p className="text-sm text-gray-600 font-medium">Quality Cables Since 1997</p>
             </div>
           </div>
           
