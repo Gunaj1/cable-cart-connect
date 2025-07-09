@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
-import { Cable, ShoppingCart, Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram, Eye, X, Award, Shield, Users, TrendingUp } from 'lucide-react';
-import Navbar from '../components/Navbar';
-import Cart from '../components/Cart';
-import Logo from '../components/Logo';
-import AboutTabs from '../components/AboutTabs';
-import Checkout from '../components/Checkout';
-import ServicesSection from '../components/ServicesSection';
-import BusinessCredentials from '../components/BusinessCredentials';
-import InventoryManager from '../components/InventoryManager';
+
+import React, { useState, useEffect } from 'react';
+import { Search, ShoppingCart, User, Star, Filter, Grid, List, Eye, Plus, Shield, Truck, Award, CheckCircle, Users, TrendingUp } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner";
+import Logo from '@/components/Logo';
+import ServicesSection from '@/components/ServicesSection';
+import AboutTabs from '@/components/AboutTabs';
+import BusinessCredentials from '@/components/BusinessCredentials';
+import Cart from '@/components/Cart';
+import Checkout from '@/components/Checkout';
+import InventoryManager from '@/components/InventoryManager';
 
 interface Product {
   id: string;
@@ -16,11 +25,12 @@ interface Product {
   image: string;
   price: number;
   description: string;
-  stock: number;
-  detailedDescription?: {
-    applications: string[];
-    specifications: string[];
-    features: string[];
+  features: string[];
+  rating: number;
+  reviews: number;
+  inStock: boolean;
+  specifications: {
+    [key: string]: string;
   };
 }
 
@@ -29,1322 +39,675 @@ interface CartItem extends Product {
 }
 
 const Index = () => {
+  const [products, setProducts] = useState<Product[]>([
+    {
+      id: "cat5e1",
+      name: "Cat5e Ethernet Cable - 25ft",
+      category: "Cables",
+      image: "/api/placeholder/300/200",
+      price: 15.99,
+      description: "High-quality Cat5e ethernet cable for reliable network connections. Perfect for home and office use.",
+      features: ["25 feet length", "RJ45 connectors", "1000 Mbps speed", "Durable PVC jacket"],
+      rating: 4.8,
+      reviews: 324,
+      inStock: true,
+      specifications: {
+        "Cable Type": "Cat5e",
+        "Length": "25 feet",
+        "Connector": "RJ45",
+        "Speed": "1000 Mbps"
+      }
+    },
+    {
+      id: "cat6-1",
+      name: "Cat6 Ethernet Cable - 50ft",
+      category: "Cables",
+      image: "/api/placeholder/300/200",
+      price: 28.99,
+      description: "Premium Cat6 ethernet cable for high-speed networking applications. Supports up to 10 Gbps.",
+      features: ["50 feet length", "Gold-plated connectors", "10 Gbps speed", "Anti-interference design"],
+      rating: 4.9,
+      reviews: 256,
+      inStock: true,
+      specifications: {
+        "Cable Type": "Cat6",
+        "Length": "50 feet",
+        "Connector": "RJ45 Gold-plated",
+        "Speed": "10 Gbps"
+      }
+    },
+    {
+      id: "patch-panel-1",
+      name: "24-Port Patch Panel",
+      category: "Patch Panels",
+      image: "/api/placeholder/300/200",
+      price: 89.99,
+      description: "Professional 24-port patch panel for network organization. Rack-mountable design.",
+      features: ["24 ports", "Rack mountable", "Cat6 compatible", "Label areas"],
+      rating: 4.7,
+      reviews: 142,
+      inStock: true,
+      specifications: {
+        "Ports": "24",
+        "Mounting": "19-inch rack",
+        "Compatibility": "Cat5e/Cat6",
+        "Material": "Steel"
+      }
+    },
+    {
+      id: "switch-1",
+      name: "24-Port Gigabit Switch",
+      category: "Switches",
+      image: "/api/placeholder/300/200",
+      price: 159.99,
+      description: "High-performance 24-port gigabit switch for enterprise networking.",
+      features: ["24 Gigabit ports", "Rack mountable", "Auto-negotiation", "LED indicators"],
+      rating: 4.6,
+      reviews: 198,
+      inStock: true,
+      specifications: {
+        "Ports": "24 x 1000Base-T",
+        "Switching Capacity": "48 Gbps",
+        "MAC Address Table": "8K",
+        "Power": "External adapter"
+      }
+    },
+    {
+      id: "fiber-1",
+      name: "Fiber Optic Cable - 100ft",
+      category: "Fiber Optic",
+      image: "/api/placeholder/300/200",
+      price: 79.99,
+      description: "Single-mode fiber optic cable for long-distance, high-speed data transmission.",
+      features: ["100 feet length", "Single-mode", "LC connectors", "OS2 standard"],
+      rating: 4.8,
+      reviews: 87,
+      inStock: true,
+      specifications: {
+        "Type": "Single-mode",
+        "Length": "100 feet",
+        "Connector": "LC/UPC",
+        "Standard": "OS2"
+      }
+    },
+    {
+      id: "crimper-1",
+      name: "RJ45 Crimping Tool",
+      category: "Tools",
+      image: "/api/placeholder/300/200",
+      price: 34.99,
+      description: "Professional RJ45 crimping tool for creating custom ethernet cables.",
+      features: ["RJ45 compatible", "Comfortable grip", "Built-in cable stripper", "Durable construction"],
+      rating: 4.5,
+      reviews: 421,
+      inStock: true,
+      specifications: {
+        "Connector Type": "RJ45",
+        "Material": "Carbon steel",
+        "Weight": "1.2 lbs",
+        "Warranty": "2 years"
+      }
+    }
+  ]);
+
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
-  const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
+  const [checkoutData, setCheckoutData] = useState<{ items: CartItem[]; total: number } | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [priceRange, setPriceRange] = useState('All');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isInventoryOpen, setIsInventoryOpen] = useState(false);
-  const [products, setProducts] = useState<Product[]>(() => {
-    // Initialize products with stock levels
-    return categories.flatMap(category => 
-      category.products.map(product => ({
-        ...product,
-        stock: Math.floor(Math.random() * 100) + 10 // Random stock between 10-110
-      }))
-    );
+  const [showAdmin, setShowAdmin] = useState(false);
+
+  const categories = ['All', 'Cables', 'Patch Panels', 'Switches', 'Fiber Optic', 'Tools'];
+
+  const filteredProducts = products.filter(product => {
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         product.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
+    const matchesPrice = priceRange === 'All' || 
+                        (priceRange === 'Under $50' && product.price < 50) ||
+                        (priceRange === '$50-$100' && product.price >= 50 && product.price <= 100) ||
+                        (priceRange === 'Over $100' && product.price > 100);
+    
+    return matchesSearch && matchesCategory && matchesPrice;
   });
 
   const addToCart = (product: Product) => {
-    const currentProduct = products.find(p => p.id === product.id);
-    if (!currentProduct || currentProduct.stock <= 0) {
-      alert('Sorry, this product is out of stock!');
+    const existingItem = cartItems.find(item => item.id === product.id);
+    if (existingItem) {
+      setCartItems(cartItems.map(item => 
+        item.id === product.id 
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      ));
+    } else {
+      setCartItems([...cartItems, { ...product, quantity: 1 }]);
+    }
+    toast.success(`${product.name} added to cart!`);
+  };
+
+  const updateCartQuantity = (productId: string, newQuantity: number) => {
+    if (newQuantity === 0) {
+      removeFromCart(productId);
       return;
     }
-
-    setCartItems(prevItems => {
-      const existingItem = prevItems.find(item => item.id === product.id);
-      if (existingItem) {
-        if (existingItem.quantity >= currentProduct.stock) {
-          alert(`Sorry, only ${currentProduct.stock} items available in stock!`);
-          return prevItems;
-        }
-        return prevItems.map(item =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-      return [...prevItems, { ...currentProduct, quantity: 1 }];
-    });
-
-    // Update stock
-    setProducts(prev => prev.map(p => 
-      p.id === product.id ? { ...p, stock: p.stock - 1 } : p
+    setCartItems(cartItems.map(item =>
+      item.id === productId ? { ...item, quantity: newQuantity } : item
     ));
   };
 
   const removeFromCart = (productId: string) => {
-    const removedItem = cartItems.find(item => item.id === productId);
-    if (removedItem) {
-      // Restore stock
-      setProducts(prev => prev.map(p => 
-        p.id === productId ? { ...p, stock: p.stock + removedItem.quantity } : p
-      ));
-    }
-    setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
+    setCartItems(cartItems.filter(item => item.id !== productId));
+    toast.success("Item removed from cart");
   };
 
-  const updateQuantity = (productId: string, newQuantity: number) => {
-    if (newQuantity < 1) {
-      removeFromCart(productId);
-      return;
-    }
-
-    const currentItem = cartItems.find(item => item.id === productId);
-    const currentProduct = products.find(p => p.id === productId);
-    
-    if (!currentItem || !currentProduct) return;
-
-    const quantityDiff = newQuantity - currentItem.quantity;
-    
-    if (quantityDiff > 0 && quantityDiff > currentProduct.stock) {
-      alert(`Sorry, only ${currentProduct.stock} more items available in stock!`);
-      return;
-    }
-
-    setCartItems(prevItems =>
-      prevItems.map(item =>
-        item.id === productId
-          ? { ...item, quantity: newQuantity }
-          : item
-      )
-    );
-
-    // Update stock
-    setProducts(prev => prev.map(p => 
-      p.id === productId ? { ...p, stock: p.stock - quantityDiff } : p
-    ));
+  const getTotalItems = () => {
+    return cartItems.reduce((total, item) => total + item.quantity, 0);
   };
 
-  const scrollToSection = (section: string) => {
-    setActiveSection(section);
-    const element = document.getElementById(section);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  useEffect(() => {
+    const handleCheckout = (event: CustomEvent) => {
+      setCheckoutData(event.detail);
+      setIsCheckoutOpen(true);
+    };
 
-  const handleCheckout = () => {
-    setIsCartOpen(false);
-    setIsCheckoutOpen(true);
-  };
+    window.addEventListener('checkout' as any, handleCheckout);
+    return () => window.removeEventListener('checkout' as any, handleCheckout);
+  }, []);
 
-  const ProductDetailModal = ({ product, onClose }: { product: Product | null; onClose: () => void }) => {
-    if (!product || !product.detailedDescription) return null;
-
-    return (
-      <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-        <div className="bg-white rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto shadow-2xl">
-          <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-gray-600 z-10 px-8 py-6 flex justify-between items-center rounded-t-2xl">
-            <h2 className="text-3xl font-bold text-white">{product.name}</h2>
-            <button onClick={onClose} className="text-white hover:text-gray-200 transition-colors p-2 rounded-full hover:bg-white/20">
-              <X className="w-7 h-7" />
-            </button>
-          </div>
-          
-          <div className="p-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-              <div className="space-y-6">
-                <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl overflow-hidden shadow-lg border">
-                  <img 
-                    src={product.id === 'pc1' ? '/image-copy.png' : product.image}
-                    alt={product.name}
-                    className="w-full h-auto object-cover"
+  const ProductDetailModal = ({ product, onClose }: { product: Product; onClose: () => void }) => (
+    <Dialog open={!!product} onOpenChange={onClose}>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold">{product.name}</DialogTitle>
+        </DialogHeader>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <img 
+              src={product.image} 
+              alt={product.name}
+              className="w-full h-80 object-cover rounded-lg bg-gray-100"
+            />
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center">
+                {[...Array(5)].map((_, i) => (
+                  <Star
+                    key={i}
+                    className={`w-5 h-5 ${i < Math.floor(product.rating) ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`}
                   />
-                </div>
-                <div className="bg-gradient-to-r from-blue-50 to-gray-50 rounded-2xl p-6 border border-blue-200">
-                  <p className="text-2xl font-bold text-blue-900 mb-4">Price: ${product.price}</p>
-                  <p className="text-lg font-medium text-gray-700 mb-4">Stock: {product.stock || 0} units</p>
-                  <button 
-                    onClick={() => {
-                      addToCart(product);
-                      onClose();
-                    }}
-                    className="w-full bg-gradient-to-r from-blue-600 to-gray-600 text-white py-3 px-6 rounded-xl hover:from-blue-700 hover:to-gray-700 transition-all duration-300 flex items-center justify-center space-x-3 font-semibold shadow-lg transform hover:scale-105"
-                    disabled={!product.stock}
-                  >
-                    <ShoppingCart className="w-6 h-6" />
-                    <span>{product.stock ? 'Add to Cart' : 'Out of Stock'}</span>
-                  </button>
-                </div>
+                ))}
+                <span className="ml-2 text-sm text-gray-600">({product.reviews} reviews)</span>
               </div>
+            </div>
+          </div>
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-3xl font-bold text-blue-600">${product.price}</h3>
+              <Badge variant="secondary" className="mt-2">{product.category}</Badge>
+            </div>
+            <p className="text-gray-700">{product.description}</p>
+            <div>
+              <h4 className="font-semibold mb-2">Key Features:</h4>
+              <ul className="space-y-1">
+                {product.features.map((feature, index) => (
+                  <li key={index} className="flex items-center text-sm text-gray-600">
+                    <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-2">Specifications:</h4>
+              <div className="space-y-2">
+                {Object.entries(product.specifications).map(([key, value]) => (
+                  <div key={key} className="flex justify-between text-sm">
+                    <span className="text-gray-600">{key}:</span>
+                    <span className="font-medium">{value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <Separator />
+            <div className="flex space-x-4">
+              <Button 
+                onClick={() => addToCart(product)}
+                className="flex-1 bg-blue-600 hover:bg-blue-700"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Add to Cart
+              </Button>
+              <Button variant="outline" className="flex-1">
+                <Eye className="w-4 h-4 mr-2" />
+                Quick View
+              </Button>
+            </div>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
 
-              <div className="space-y-8">
-                <div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-                    <span className="w-1 h-8 bg-gradient-to-b from-blue-500 to-gray-500 rounded-full mr-3"></span>
-                    Applications
-                  </h3>
-                  <ul className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-6 space-y-3 border border-gray-200">
-                    {product.detailedDescription.applications.map((app, index) => (
-                      <li key={index} className="flex items-start">
-                        <Cable className="w-6 h-6 text-blue-600 mt-0.5 mr-3 flex-shrink-0" />
-                        <span className="text-gray-700 font-medium">{app}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+  const ProductCard = ({ product }: { product: Product }) => (
+    <Card className="group hover:shadow-lg transition-shadow duration-300 border-gray-200">
+      <CardContent className="p-0">
+        <div className="relative overflow-hidden">
+          <img 
+            src={product.image} 
+            alt={product.name}
+            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300 bg-gray-100"
+          />
+          <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <Button 
+              variant="secondary" 
+              size="sm"
+              onClick={() => setSelectedProduct(product)}
+              className="mr-2"
+            >
+              <Eye className="w-4 h-4 mr-1" />
+              View
+            </Button>
+            <Button 
+              size="sm"
+              onClick={() => addToCart(product)}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              <Plus className="w-4 h-4 mr-1" />
+              Add
+            </Button>
+          </div>
+        </div>
+        <div className="p-4">
+          <div className="flex items-center justify-between mb-2">
+            <Badge variant="secondary" className="text-xs">{product.category}</Badge>
+            <div className="flex items-center">
+              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+              <span className="text-sm text-gray-600 ml-1">{product.rating}</span>
+            </div>
+          </div>
+          <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">{product.name}</h3>
+          <p className="text-sm text-gray-600 mb-3 line-clamp-2">{product.description}</p>
+          <div className="flex items-center justify-between">
+            <span className="text-2xl font-bold text-blue-600">${product.price}</span>
+            <Button 
+              size="sm" 
+              onClick={() => addToCart(product)}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              Add to Cart
+            </Button>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
 
-                <div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-                    <span className="w-1 h-8 bg-gradient-to-b from-gray-500 to-blue-500 rounded-full mr-3"></span>
-                    Specifications
-                  </h3>
-                  <ul className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-6 space-y-3 border border-gray-200">
-                    {product.detailedDescription.specifications.map((spec, index) => (
-                      <li key={index} className="flex items-start">
-                        <span className="w-3 h-3 bg-gradient-to-r from-gray-500 to-blue-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                        <span className="text-gray-700 font-medium">{spec}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-                    <span className="w-1 h-8 bg-gradient-to-b from-blue-500 to-gray-500 rounded-full mr-3"></span>
-                    Features
-                  </h3>
-                  <ul className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-6 space-y-3 border border-gray-200">
-                    {product.detailedDescription.features.map((feature, index) => (
-                      <li key={index} className="flex items-start">
-                        <span className="w-3 h-3 bg-gradient-to-r from-blue-500 to-gray-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                        <span className="text-gray-700 font-medium">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+  const ProductListItem = ({ product }: { product: Product }) => (
+    <Card className="mb-4 hover:shadow-md transition-shadow">
+      <CardContent className="p-4">
+        <div className="flex items-center space-x-4">
+          <img 
+            src={product.image} 
+            alt={product.name}
+            className="w-24 h-24 object-cover rounded-lg bg-gray-100"
+          />
+          <div className="flex-1">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="font-semibold text-lg">{product.name}</h3>
+              <span className="text-2xl font-bold text-blue-600">${product.price}</span>
+            </div>
+            <div className="flex items-center space-x-4 mb-2">
+              <Badge variant="secondary">{product.category}</Badge>
+              <div className="flex items-center">
+                <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                <span className="text-sm text-gray-600 ml-1">{product.rating} ({product.reviews} reviews)</span>
+              </div>
+            </div>
+            <p className="text-gray-600 mb-3">{product.description}</p>
+            <div className="flex items-center justify-between">
+              <div className="flex space-x-2">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => setSelectedProduct(product)}
+                >
+                  <Eye className="w-4 h-4 mr-1" />
+                  View Details
+                </Button>
+                <Button 
+                  size="sm"
+                  onClick={() => addToCart(product)}
+                  className="bg-blue-600 hover:bg-blue-700"
+                >
+                  <Plus className="w-4 h-4 mr-1" />
+                  Add to Cart
+                </Button>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    );
-  };
+      </CardContent>
+    </Card>
+  );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50">
-      <Navbar 
-        cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)} 
-        onCartClick={() => setIsCartOpen(true)}
-        onNavigate={scrollToSection}
-        activeSection={activeSection}
-      />
-      
-      {/* Hero Section */}
-      <div id="home" className="relative h-[600px] bg-cover bg-center overflow-hidden" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1601597111158-2fceff292cdc?auto=format&fit=crop&q=80")' }}>
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-gray-900/70 to-blue-800/60" />
-        <div className="relative container mx-auto px-4 h-full flex items-center justify-center">
-          <div className="text-white max-w-4xl text-center">
-            <div className="mb-10 animate-fade-in flex justify-center">
-              <Logo className="h-28" />
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white via-blue-100 to-gray-100 bg-clip-text text-transparent leading-tight">
-              Chhajer Cable Industries
-            </h1>
-            
-            {/* CCI Acronym - Repositioned to left side */}
-            <div className="mb-8 flex justify-start">
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4 border border-white/20">
-                <div className="flex items-center space-x-6">
-                  <div className="text-left">
-                    <div className="text-2xl font-bold text-blue-300">C</div>
-                    <div className="text-sm text-gray-200">Committed</div>
-                  </div>
-                  <div className="text-left">
-                    <div className="text-2xl font-bold text-blue-300">C</div>
-                    <div className="text-sm text-gray-200">Credible</div>
-                  </div>
-                  <div className="text-left">
-                    <div className="text-2xl font-bold text-blue-300">I</div>
-                    <div className="text-sm text-gray-200">Innovators</div>
-                  </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-8">
+              <div className="flex items-center space-x-3">
+                <Logo className="h-10" />
+                <div>
+                  <h1 className="text-xl font-bold text-gray-900">CableConnect</h1>
+                  <p className="text-sm text-gray-600">Solutions</p>
                 </div>
               </div>
             </div>
-
-            <p className="text-sm text-blue-200 font-medium mb-4">Quality Cables Since 1997</p>
-            <p className="text-xl md:text-2xl leading-relaxed animate-slide-up mx-auto font-light">
-              With over two decades of excellence, we stand as a premier manufacturer of high-quality cables and networking solutions. Based in Delhi, we specialize in producing a comprehensive range of cables including LAN, CCTV, telephone, and specialized industrial cables. Our commitment to quality, innovation, and customer satisfaction has made us a trusted name in the industry.
-            </p>
+            
+            <div className="flex items-center space-x-4">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setShowAdmin(!showAdmin)}
+                className="text-gray-600 hover:text-gray-900"
+              >
+                Admin
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => setIsCartOpen(true)}
+                className="relative"
+              >
+                <ShoppingCart className="w-4 h-4 mr-2" />
+                Cart
+                {getTotalItems() > 0 && (
+                  <Badge className="absolute -top-2 -right-2 bg-red-500 text-white text-xs min-w-[1.25rem] h-5 flex items-center justify-center rounded-full">
+                    {getTotalItems()}
+                  </Badge>
+                )}
+              </Button>
+              <Button variant="outline" size="sm">
+                <User className="w-4 h-4 mr-2" />
+                Login
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
+      </header>
+
+      {/* Admin Panel */}
+      {showAdmin && (
+        <div className="bg-yellow-50 border-b border-yellow-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <InventoryManager products={products} onUpdateProducts={setProducts} />
+          </div>
+        </div>
+      )}
+
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-blue-600 via-blue-700 to-gray-600 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              Professional Network Solutions
+            </h1>
+            <div className="flex justify-center items-center mb-8">
+              <div className="bg-white/20 backdrop-blur-sm rounded-lg px-8 py-4">
+                <h2 className="text-2xl md:text-3xl font-bold tracking-wider">
+                  C.C.I
+                </h2>
+                <p className="text-lg md:text-xl mt-2 opacity-90">
+                  Credible • Committed • Innovative
+                </p>
+              </div>
+            </div>
+            <p className="text-xl md:text-2xl mb-8 opacity-90">
+              Your trusted partner for high-quality networking equipment and solutions
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+                Shop Now
+              </Button>
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
+                Learn More
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose CableConnect?</h2>
+            <p className="text-xl text-gray-600">Professional-grade networking solutions for your business</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Shield className="w-8 h-8 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Quality Guaranteed</h3>
+              <p className="text-gray-600">All products tested and certified for professional use</p>
+            </div>
+            <div className="text-center">
+              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Truck className="w-8 h-8 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Fast Shipping</h3>
+              <p className="text-gray-600">Quick delivery to keep your projects on schedule</p>
+            </div>
+            <div className="text-center">
+              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Award className="w-8 h-8 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Expert Support</h3>
+              <p className="text-gray-600">Technical assistance from networking professionals</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Products Section */}
-      <div id="products" className="container mx-auto px-4 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-700 via-gray-700 to-blue-600 bg-clip-text text-transparent mb-4">
-            Our Products
-          </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Discover our comprehensive range of high-quality cables and networking solutions
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {categories.map((category) => (
-            <div key={category.id} className="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100">
-              <div className="relative overflow-hidden">
-                <img src={category.image} alt={category.name} className="w-full h-56 object-cover transition-transform duration-500 hover:scale-110" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-              </div>
-              <div className="p-8">
-                <h3 className="text-2xl font-bold mb-6 text-gray-900">{category.name}</h3>
-                <div className="space-y-5">
-                  {category.products.map((product) => {
-                    const currentProduct = products.find(p => p.id === product.id);
-                    return (
-                      <div 
-                        key={product.id} 
-                        className="border-b border-gray-100 pb-5 relative"
-                        onMouseEnter={() => setHoveredProduct(product.id)}
-                        onMouseLeave={() => setHoveredProduct(null)}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center">
-                            <Cable className="w-5 h-5 mr-3 text-blue-600" />
-                            <span className="font-semibold text-gray-800">{product.name}</span>
-                          </div>
-                          <div className="flex items-center space-x-3">
-                            <span className="text-lg font-bold text-blue-600">${product.price}</span>
-                            <span className={`text-sm px-2 py-1 rounded-full ${currentProduct?.stock && currentProduct.stock > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                              {currentProduct?.stock && currentProduct.stock > 0 ? `${currentProduct.stock} left` : 'Out of stock'}
-                            </span>
-                            {product.detailedDescription && (
-                              <button
-                                onClick={() => setSelectedProduct(currentProduct || null)}
-                                className="bg-gradient-to-r from-gray-100 to-blue-50 text-gray-700 py-2 px-4 rounded-lg hover:from-blue-50 hover:to-gray-100 hover:text-blue-700 transition-all duration-300 flex items-center font-medium border border-gray-200"
-                              >
-                                <Eye className="w-4 h-4 mr-2" />
-                                About
-                              </button>
-                            )}
-                            <button
-                              onClick={() => currentProduct && addToCart(currentProduct)}
-                              className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2 px-4 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-medium shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                              disabled={!currentProduct?.stock}
-                            >
-                              Add
-                            </button>
-                          </div>
-                        </div>
-                        {hoveredProduct === product.id && (
-                          <div className="absolute z-20 bg-white border border-gray-200 shadow-xl rounded-xl p-4 mt-3 w-full left-0 backdrop-blur-sm">
-                            <p className="text-sm text-gray-600 leading-relaxed">{product.description}</p>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Products</h2>
+            <p className="text-xl text-gray-600">Professional networking equipment for every need</p>
+          </div>
+
+          {/* Filters */}
+          <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+            <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
+              <div className="flex flex-col sm:flex-row gap-4 flex-1">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <Input
+                    placeholder="Search products..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 w-80"
+                  />
                 </div>
+                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                  <SelectTrigger className="w-48">
+                    <SelectValue placeholder="Category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map(category => (
+                      <SelectItem key={category} value={category}>{category}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select value={priceRange} onValueChange={setPriceRange}>
+                  <SelectTrigger className="w-48">
+                    <SelectValue placeholder="Price Range" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="All">All Prices</SelectItem>
+                    <SelectItem value="Under $50">Under $50</SelectItem>
+                    <SelectItem value="$50-$100">$50 - $100</SelectItem>
+                    <SelectItem value="Over $100">Over $100</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Button
+                  variant={viewMode === 'grid' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setViewMode('grid')}
+                >
+                  <Grid className="w-4 h-4" />
+                </Button>
+                <Button
+                  variant={viewMode === 'list' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setViewMode('list')}
+                >
+                  <List className="w-4 h-4" />
+                </Button>
               </div>
             </div>
-          ))}
+          </div>
+
+          {/* Products Grid/List */}
+          <div className="mb-8">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl font-semibold text-gray-900">
+                {filteredProducts.length} Products Found
+              </h3>
+            </div>
+            
+            {viewMode === 'grid' ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredProducts.map(product => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {filteredProducts.map(product => (
+                  <ProductListItem key={product.id} product={product} />
+                ))}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 bg-blue-600 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-4 gap-8 text-center">
+            <div>
+              <div className="text-4xl font-bold mb-2">5000+</div>
+              <div className="text-blue-100">Products Available</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold mb-2">98%</div>
+              <div className="text-blue-100">Customer Satisfaction</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold mb-2">24/7</div>
+              <div className="text-blue-100">Technical Support</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold mb-2">15+</div>
+              <div className="text-blue-100">Years Experience</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <ServicesSection />
 
       {/* About Section */}
-      <div id="about" className="bg-gradient-to-br from-white to-blue-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-700 via-gray-700 to-blue-600 bg-clip-text text-transparent mb-4">
-              About Us
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Two decades of excellence in cable manufacturing
-            </p>
-          </div>
-          <div className="max-w-6xl mx-auto">
-            <AboutTabs />
-          </div>
-        </div>
-      </div>
+      <AboutTabs />
 
-      {/* Services Section - New Column */}
-      <div id="services" className="bg-gradient-to-br from-gray-50 to-white py-20">
-        <ServicesSection />
-      </div>
-
-      {/* Contact Section */}
-      <div id="contact" className="bg-gradient-to-br from-blue-900 via-gray-900 to-blue-800 text-white py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Get In Touch
-            </h2>
-            <p className="text-xl text-blue-200">
-              We're here to help with all your cable needs
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-              <h3 className="text-2xl font-bold mb-6">Contact Us</h3>
-              <div className="space-y-4">
-                <p className="flex items-center text-lg">
-                  <Phone className="w-6 h-6 mr-3 text-blue-400" />
-                  +91 9717535050
-                </p>
-                <p className="flex items-center text-lg">
-                  <Mail className="w-6 h-6 mr-3 text-blue-400" />
-                  info@chhajercables.com
-                </p>
-                <p className="flex items-center text-lg">
-                  <MapPin className="w-6 h-6 mr-3 text-blue-400" />
-                  A6 Jhilmil Industrial Area, New Delhi 110095, India
-                </p>
-              </div>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-              <h3 className="text-2xl font-bold mb-6">Follow Us</h3>
-              <div className="flex space-x-4">
-                <a href="#" className="p-3 bg-white/20 rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-110">
-                  <Facebook className="w-6 h-6" />
-                </a>
-                <a href="#" className="p-3 bg-white/20 rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-110">
-                  <Twitter className="w-6 h-6" />
-                </a>
-                <a href="#" className="p-3 bg-white/20 rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-110">
-                  <Linkedin className="w-6 h-6" />
-                </a>
-                <a href="#" className="p-3 bg-white/20 rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-110">
-                  <Instagram className="w-6 h-6" />
-                </a>
-              </div>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-              <h3 className="text-2xl font-bold mb-6">Business Hours</h3>
-              <div className="space-y-2 text-lg">
-                <p>Monday, Wednesday - Sunday</p>
-                <p className="text-blue-400 font-semibold">8:00 AM - 6:00 PM</p>
-                <p>Tuesday</p>
-                <p className="text-gray-400">Closed</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Business Credentials Section */}
+      {/* Business Credentials */}
       <BusinessCredentials />
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div>
+              <div className="flex items-center space-x-3 mb-4">
+                <Logo className="h-8" />
+                <div>
+                  <h3 className="text-lg font-bold">CableConnect</h3>
+                  <p className="text-sm text-gray-400">Solutions</p>
+                </div>
+              </div>
+              <p className="text-gray-400">Professional networking solutions for businesses worldwide.</p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Products</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li>Ethernet Cables</li>
+                <li>Patch Panels</li>
+                <li>Network Switches</li>
+                <li>Fiber Optic</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Support</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li>Technical Support</li>
+                <li>Installation Guide</li>
+                <li>Warranty</li>
+                <li>Returns</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Contact</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li>support@cableconnect.com</li>
+                <li>1-800-CABLE-01</li>
+                <li>Mon-Fri 9AM-6PM EST</li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; 2024 CableConnect Solutions. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+
+      {/* Modals */}
+      {selectedProduct && (
+        <ProductDetailModal 
+          product={selectedProduct} 
+          onClose={() => setSelectedProduct(null)} 
+        />
+      )}
 
       <Cart
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
         items={cartItems}
-        onUpdateQuantity={updateQuantity}
+        onUpdateQuantity={updateCartQuantity}
         onRemove={removeFromCart}
       />
 
-      <ProductDetailModal
-        product={selectedProduct}
-        onClose={() => setSelectedProduct(null)}
-      />
-
-      <Checkout
-        isOpen={isCheckoutOpen}
-        onClose={() => setIsCheckoutOpen(false)}
-        items={cartItems}
-        total={cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)}
-      />
-
-      <InventoryManager
-        isOpen={isInventoryOpen}
-        onClose={() => setIsInventoryOpen(false)}
-        products={products}
-        onUpdateStock={(productId, newStock) => {
-          setProducts(prev => prev.map(p => 
-            p.id === productId ? { ...p, stock: newStock } : p
-          ));
-        }}
-      />
+      {checkoutData && (
+        <Checkout
+          isOpen={isCheckoutOpen}
+          onClose={() => setIsCheckoutOpen(false)}
+          items={checkoutData.items}
+          total={checkoutData.total}
+        />
+      )}
     </div>
   );
 };
-
-const categories = [
-  {
-    id: 1,
-    name: 'Patchcords',
-    image: 'https://images.unsplash.com/photo-1601597111158-2fceff292cdc?auto=format&fit=crop&q=80',
-    products: [
-      { 
-        id: 'pc1', 
-        name: 'Cat 6 STP', 
-        price: 29.99, 
-        image: '/image-copy.png',
-        category: 'Patchcords',
-        description: 'Shielded Twisted Pair Cat6 patchcord with enhanced EMI protection, ideal for high-interference environments. Supports speeds up to 10Gbps.',
-        detailedDescription: {
-          applications: [
-            'LAN NETWORK SYSTEM',
-            'COMPUTER NETWORK DISTRIBUTING SYSTEM',
-            'TELECOMMUNICATION NETWORK SYSTEM',
-            'TESTING EQUIPMENT SYSTEM',
-            'CATV SYSTEM'
-          ],
-          specifications: [
-            'STP TYPE',
-            'RJ45 PLUG',
-            'PVC JACKET',
-            '4 TWISTED PAIR',
-            'COPPER CONDUCTOR',
-            'MATERIAL OF CONDUCTOR: BARE COPPER OR TINNED COPPER OR CCA',
-            'GAUGE: 23/24/25/26AWG OR CUSTOMIZED'
-          ],
-          features: [
-            '4 TWISTED PAIRS CABLE AROUND A CROSS SHAPED CENTRAL FILLER INTO THE CABLE CORE',
-            'OEM SUPPLIER',
-            'LENGTHS: ALL LENGTHS AVAILABLE',
-            'CUSTOMIZATION AVAILABLE',
-            'ALL COLORS AVAILABLE'
-          ]
-        }
-      },
-      { 
-        id: 'pc2', 
-        name: 'Cat 6 FTP', 
-        price: 27.99, 
-        image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
-        category: 'Patchcords',
-        description: 'Foiled Twisted Pair Cat6 patchcord offering excellent noise protection. Perfect for data centers and enterprise networks.',
-        detailedDescription: {
-          applications: [
-            'DATA CENTERS',
-            'ENTERPRISE NETWORKS',
-            'HIGH-SPEED NETWORK APPLICATIONS',
-            'INDUSTRIAL ENVIRONMENTS'
-          ],
-          specifications: [
-            'FREQUENCY: UPTO 600MHZ',
-            'IMPEDANCE: 100 ±15Ω',
-            'SHIELD: ALUMINUM FOIL SUPPORTED',
-            'SPECIFICATION: 23/24/25/26 AWG STRANDED',
-            'CONDUCTOR: CCA OR PURE COPPER',
-            'INSULATION: LLDPE',
-            'JACKET: PVC AND LSZH',
-            'CONNECTORS: RJ45 8P8CS PLUG, NICKEL- OR GOLD-PLATED'
-          ],
-          features: [
-            'PASSED FLUKE TEST',
-            'CUSTOMIZED LENGTHS AND COLORS ARE ACCEPTED',
-            'PACKING: PE BAG OR CUSTOMIZED'
-          ]
-        }
-      },
-      { 
-        id: 'pc3', 
-        name: 'Cat 6 UTP', 
-        price: 25.99, 
-        image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
-        category: 'Patchcords',
-        description: 'Unshielded Twisted Pair Cat6 patchcord for standard networking needs. Cost-effective solution for office environments.',
-        detailedDescription: {
-          applications: [
-            'OFFICE ENVIRONMENTS',
-            'COMMERCIAL BUILDINGS',
-            'EDUCATIONAL INSTITUTIONS',
-            'SMALL TO MEDIUM BUSINESSES'
-          ],
-          specifications: [
-            'FREQUENCY: UPTO 600MHZ',
-            'IMPEDANCE: 100, ±15Ω',
-            'SPECIFICATION: 23/24/25/26 AWG, STRANDED',
-            'CONDUCTOR: CCA OR PURE COPPER',
-            'INSULATION: LLDPE',
-            'JACKET: PVC AND LSZH',
-            'CONNECTORS: RJ45 8P8CS PLUG, NICKEL- OR GOLD-PLATED'
-          ],
-          features: [
-            'OEM SUPPLIERS',
-            'CUSTOMIZED LENGTHS AND COLORS ARE ACCEPTED',
-            'PASSED FLUKE TEST',
-            'PACKING: PE BAG OR CUSTOMIZED'
-          ]
-        }
-      },
-      { 
-        id: 'pc4', 
-        name: 'Cat 5e STP', 
-        price: 24.99, 
-        image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
-        category: 'Patchcords',
-        description: 'Shielded Cat5e patchcord with reliable performance and EMI protection. Supports speeds up to 1Gbps.',
-        detailedDescription: {
-          applications: [
-            'ENTERPRISE NETWORKS',
-            'DATA CENTERS',
-            'INDUSTRIAL ENVIRONMENTS',
-            'HIGH-INTERFERENCE AREAS'
-          ],
-          specifications: [
-            'FREQUENCY: UPTO 600MHZ',
-            'LENGTH: 0.1 MTR TO 100 MTR',
-            'RJ45, 8P8C, 2 FORK 50µ" GOLD PLATED CONTACTS',
-            'SHIELDED PLUG BOOT CABLE ASSEMBLIES'
-          ],
-          features: [
-            'AVAILABLE IN LSZH JACKET- REDUCED TOXIC GASSES EMITTED DURING COMBUSTION',
-            '100% FACTORY TESTED',
-            'PROVIDES BETTER MECHANICAL PROPERTIES',
-            'AVAILABLE IN 5 DIFFERENT JACKET COLORS',
-            'CUSTOMIZATION AVAILABLE'
-          ]
-        }
-      },
-      { 
-        id: 'pc5', 
-        name: 'Cat5e FTP', 
-        price: 22.99, 
-        image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
-        category: 'Patchcords',
-        description: 'Foiled Cat5e patchcord with overall shield for noise reduction. Ideal for small business networks.',
-        detailedDescription: {
-          applications: [
-            'SMALL BUSINESS NETWORKS',
-            'EDUCATIONAL INSTITUTIONS',
-            'OFFICE ENVIRONMENTS',
-            'MEDIUM-INTERFERENCE AREAS'
-          ],
-          specifications: [
-            'FREQUENCY: UPTO 600MHZ',
-            'IMPEDANCE: 100 ±15Ω',
-            'SHIELD: ALUMINUM FOIL SUPPORTED',
-            'SPECIFICATION: 23/24/25/26 AWG STRANDED',
-            'CONDUCTOR: CCA OR PURE COPPER',
-            'INSULATION: LLDPE',
-            'JACKET: PVC AND LSZH',
-            'CONNECTORS: RJ45 8P8CS PLUG, NICKEL- OR GOLD-PLATED'
-          ],
-          features: [
-            'CUSTOMIZED LENGTHS AND COLORS ARE ACCEPTED',
-            'PASSED FLUKE TEST',
-            'PACKING: PE BAG OR CUSTOMIZED'
-          ]
-        }
-      },
-      { 
-        id: 'pc6', 
-        name: 'Cat5e UTP', 
-        price: 20.99, 
-        image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
-        category: 'Patchcords',
-        description: 'Standard Cat5e patchcord for basic networking needs. Perfect for home and small office use.',
-        detailedDescription: {
-          applications: [
-            'HOME NETWORKS',
-            'SMALL OFFICE NETWORKS',
-            'BASIC DATA TRANSMISSION',
-            'GENERAL NETWORKING'
-          ],
-          specifications: [
-            'FREQUENCY: UPTO 600MHZ',
-            'LENGTH: 0.1 MTR TO 100 MTR',
-            'RJ45, 8P8C, 2 FORK 50µ" GOLD PLATED CONTACTS',
-            'SHIELDED PLUG BOOT CABLE ASSEMBLIES'
-          ],
-          features: [
-            'AVAILABLE IN LSZH JACKET- REDUCED TOXIC GASSES EMITTED DURING COMBUSTION',
-            '100% FACTORY TESTED',
-            'PROVIDES BETTER MECHANICAL PROPERTIES',
-            'AVAILABLE IN 5 DIFFERENT JACKET COLORS',
-            'CUSTOMIZATION AVAILABLE'
-          ]
-        }
-      }
-    ]
-  },
-  {
-    id: 2,
-    name: 'Cat5e LAN Cables',
-    image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
-    products: [
-      { 
-        id: 'lan1', 
-        name: 'Cat 5e Flat', 
-        price: 35.99, 
-        image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
-        category: 'Cat5e LAN Cables',
-        description: 'Ultra-thin flat design for easy installation under carpets and along walls. Perfect for home networking.',
-        detailedDescription: {
-          applications: [
-            '1000 BASE T GIGABIT 100 MBPS',
-            '100 BASE-TX',
-            'TPDDI. 155 MBPS ATM',
-            'HOME AND OFFICE NETWORKS',
-            'UNDER CARPET INSTALLATIONS'
-          ],
-          specifications: [
-            'FREQUENCY: UPTO 600 MHZ',
-            'CHARACTERISTIC IMPEDANCE: 1 TO 100 MHZ: 100Ω±15%',
-            'F. SPEED: ≥0,69',
-            'CONDUCTOR RESISTANCE AT 20ºC: 149 Ω/KM ± 5%',
-            'MAXIMUM VOLTAGE: AC 49 V',
-            'LENGTH: 100MTR/305MTR'
-          ],
-          features: [
-            'OEM SUPPLIERS',
-            'ELECTRICAL FEATURES OPTIMIZED',
-            'CUSTOMIZATION AVAILABLE',
-            'ALL COLORS AVAILABLE',
-            'SPEED: 1000 MBPS'
-          ]
-        }
-      },
-      { 
-        id: 'lan2', 
-        name: 'Cat5e 2 pair', 
-        price: 32.99, 
-        image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
-        category: 'Cat5e LAN Cables',
-        description: 'Economical 2-pair solution for voice and basic data applications. Ideal for telephone systems.',
-        detailedDescription: {
-          applications: [
-            'VOICE COMMUNICATION SYSTEMS',
-            'BASIC DATA APPLICATIONS',
-            'TELEPHONE SYSTEMS',
-            'ECONOMICAL NETWORK SOLUTIONS',
-            'POE APPLICATIONS'
-          ],
-          specifications: [
-            'JACKET: PVC, LLDPE',
-            'INSULATION: SPECIAL PE POLYOLEFIN, WHGN/GN, WHOG/OG',
-            'SHIELDING: SF/UTP (OVERALL TINNED COPPER BRAID SHIELD, UNSHIELDED TWISTED PAIR)',
-            'LENGTH: 100MTR/305MTR',
-            'SPEED: 1000 MBPS'
-          ],
-          features: [
-            'OEM SUPPLIERS',
-            'CUSTOMIZATION AVAILABLE',
-            'ALL COLORS AVAILABLE',
-            'COST-EFFECTIVE SOLUTION',
-            'RELIABLE PERFORMANCE'
-          ]
-        }
-      },
-      { 
-        id: 'lan3', 
-        name: 'Cat 5e Armored', 
-        price: 45.99, 
-        image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
-        category: 'Cat5e LAN Cables',
-        description: 'Heavy-duty armored cable for underground and outdoor installations. Excellent rodent protection.',
-        detailedDescription: {
-          applications: [
-            'UNDERGROUND INSTALLATIONS',
-            'OUTDOOR APPLICATIONS',
-            'INDUSTRIAL ENVIRONMENTS',
-            'DIRECT BURIAL APPLICATIONS',
-            'RODENT PROTECTION AREAS'
-          ],
-          specifications: [
-            'HEAVY 23/24/25/26 COPPER & CCA GAUGE',
-            'EC GRADE COPPER',
-            '0.8 MM ALUMINIUM ROD',
-            'INTERNATIONAL STANDARD TWISTING',
-            'OUTER LD PVC (WEATHER AND TEMPERATURE PROOF)',
-            'LENGTH: 100MTR/305MTR'
-          ],
-          features: [
-            'OEM SUPPLIERS',
-            'DCM TESTED',
-            'FLUKE TESTED',
-            'F.R FRESH HIGH QUALITY PVC',
-            'SPEED: 1000 MBPS',
-            'CUSTOMIZATION AVAILABLE',
-            'ALL COLORS AVAILABLE'
-          ]
-        }
-      },
-      { 
-        id: 'lan4', 
-        name: 'Cat 5e FTP', 
-        price: 38.99, 
-        image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
-        category: 'Cat5e LAN Cables',
-        description: 'Foiled cable with overall shield for superior noise immunity. Perfect for industrial environments.',
-        detailedDescription: {
-          applications: [
-            'INDUSTRIAL ENVIRONMENTS',
-            'EMI SENSITIVE AREAS',
-            'COMMERCIAL BUILDINGS',
-            'HIGH-INTERFERENCE LOCATIONS',
-            'PROFESSIONAL NETWORKS'
-          ],
-          specifications: [
-            'FREQUENCY: 1 TO 500MHZ',
-            'IMPEDANCE: 100 ±15Ω',
-            'SHIELD: ALUMINUM FOIL SUPPORTED',
-            'SPECIFICATION: 23/24/25/26 AWG STRANDED',
-            'CONDUCTOR: CCA OR PURE COPPER',
-            'INSULATION: LLDPE',
-            'JACKET: PVC AND LSZH'
-          ],
-          features: [
-            'OEM SUPPLIERS',
-            'CUSTOMIZED LENGTHS AND COLORS ARE ACCEPTED',
-            'PASSED FLUKE TEST',
-            'PACKING: PE BAG OR CUSTOMIZED',
-            'SUPERIOR NOISE IMMUNITY'
-          ]
-        }
-      },
-      { 
-        id: 'lan5', 
-        name: 'Cat 5e STP', 
-        price: 36.99, 
-        image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
-        category: 'Cat5e LAN Cables',
-        description: 'Individually shielded pairs for maximum protection against crosstalk and interference.',
-        detailedDescription: {
-          applications: [
-            'NETWORK ADAPTERS',
-            'HUBS, SWITCHES, ROUTERS',
-            'DSL/CABLE MODEMS',
-            'PATCH PANELS',
-            'COMPUTER NETWORKING APPLICATIONS'
-          ],
-          specifications: [
-            'FTP SHIELDED TWIST PAIR',
-            'CM TYPE PVC JACKET',
-            '23/24/25/26 AWG 4PAIR STRANDED COPPER WIRE/ CCA WIRE',
-            'LENGTH: 100MTR/305MTR',
-            'SPEED: 1000 MBPS'
-          ],
-          features: [
-            'OEM SUPPLIERS',
-            'DESIGNED FOR NETWORK ADAPTERS',
-            'ALL COLORS AVAILABLE',
-            'CUSTOMIZATION AVAILABLE',
-            'MAXIMUM CROSSTALK PROTECTION'
-          ]
-        }
-      },
-      { 
-        id: 'lan6', 
-        name: 'Cat 5e UTP', 
-        price: 34.99, 
-        image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
-        category: 'Cat5e LAN Cables',
-        description: 'Standard unshielded cable for general networking needs. Cost-effective solution for office installations.',
-        detailedDescription: {
-          applications: [
-            'GENERAL NETWORKING',
-            'OFFICE INSTALLATIONS',
-            'ENHANCED CATEGORY 5 (1,000 BASE-T)',
-            'ETHERNET STANDARD APPLICATIONS',
-            'COMMERCIAL BUILDINGS'
-          ],
-          specifications: [
-            'COMPLIANT WITH ETHERNET STANDARD',
-            'TRANSMISSION SPEED OF 1,000 MBPS (1 GBPS)',
-            'FLAT TYPE COMPLIANT WITH ENHANCED CATEGORY 5',
-            'ULTRA-RIBBON CABLE WITH THICKNESS OF 1.4 MM AND WIDTH OF 8 MM',
-            'CABLE STRUCTURE: STRANDED WIRE TWISTED PAIR',
-            'LENGTH: 100MTR/305MTR'
-          ],
-          features: [
-            'OEM SUPPLIERS',
-            'STRAIGHT-THROUGH CABLE USING ALL 4 PAIRS OF WIRES',
-            'CUSTOMIZATION AVAILABLE',
-            'SPEED: 1000 MBPS',
-            'ALL COLORS AVAILABLE'
-          ]
-        }
-      },
-      { 
-        id: 'lan7', 
-        name: 'Cat 5e Outdoor', 
-        price: 42.99, 
-        image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
-        category: 'Cat5e LAN Cables',
-        description: 'UV-resistant and waterproof design for outdoor installations. Suitable for direct burial.',
-        detailedDescription: {
-          applications: [
-            'OUTDOOR INSTALLATIONS',
-            'DIRECT BURIAL APPLICATIONS',
-            'WEATHER-RESISTANT NETWORKING',
-            'CAMPUS NETWORKS',
-            'OUTDOOR SECURITY SYSTEMS'
-          ],
-          specifications: [
-            '23/24/25/26 AWG 4-PAIR, SOLID BARE COPPER CONDUCTORS/ CCA WIRE',
-            'OVERALL ALUMINUM FOIL SHIELD – F/UTP',
-            'BANDWIDTH TESTED UP TO 600 MHZ',
-            'SUPPORTS POE++ (802.3BT) 4PPOE, UP TO 90W',
-            'NOT RATED FOR DIRECT BURIAL',
-            'LENGTH: 100MTR/305MTR'
-          ],
-          features: [
-            'OEM SUPPLIERS',
-            'SPEED: 1000 MBPS',
-            'CUSTOMIZATION AVAILABLE',
-            'ALL COLORS AVAILABLE',
-            'UV-RESISTANT DESIGN',
-            'WATERPROOF CONSTRUCTION'
-          ]
-        }
-      }
-    ]
-  },
-  {
-    id: 3,
-    name: 'Cat 6 LAN Cable',
-    image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
-    products: [
-      { 
-        id: 'cat1', 
-        name: 'Cat 6 Flat', 
-        price: 45.99, 
-        image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
-        category: 'Cat 6 LAN Cable',
-        description: 'Low-profile flat design Cat6 cable for discrete installations. Supports 10Gbps up to 55 meters.',
-        detailedDescription: {
-          applications: [
-            'DISCRETE INSTALLATIONS',
-            'UNDER CARPET WIRING',
-            'ALONG WALLS',
-            'HIGH-SPEED DATA TRANSMISSION'
-          ],
-          specifications: [
-            'UNBREAKABLE OUTER JACKET',
-            '7/36 EC GRADE COPPER',
-            'HEAT PROOF INNER CORE',
-            'EXCELLENT SIGNAL CHARACTERISTICS',
-            'LENGTH: 100MTR/305MTR',
-            'SPEED: 1000 MBPS'
-          ],
-          features: [
-            'OEM SUPPLIERS',
-            'ALL COLORS AVAILABLE',
-            'CUSTOMIZATION AVAILABLE',
-            'SUPERIOR SIGNAL QUALITY',
-            'DURABLE CONSTRUCTION'
-          ]
-        }
-      },
-      { 
-        id: 'cat2', 
-        name: 'Cat 6 Armored', 
-        price: 55.99, 
-        image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
-        category: 'Cat 6 LAN Cable',
-        description: 'Double-jacketed armored Cat6 cable for harsh environments. Superior physical protection.',
-        detailedDescription: {
-          applications: [
-            'HARSH ENVIRONMENTS',
-            'OUTDOOR INSTALLATIONS',
-            'INDUSTRIAL APPLICATIONS',
-            'UNDERGROUND INSTALLATIONS'
-          ],
-          specifications: [
-            'HEAVY 23/24/25/26 COPPER GAUGE / CCA WIRES',
-            'EC GRADE COPPER',
-            '0.8 MM ALUMINIUM ROD',
-            'INTERNATIONAL STANDARD TWISTING',
-            'OUTER LD PVC (WEATHER AND TEMPERATURE PROOF)',
-            'LENGTH: 100MTR/305MTR',
-            'SPEED: 1000 MBPS'
-          ],
-          features: [
-            'OEM SUPPLIERS',
-            'DCM TESTED',
-            'FLUKE TESTED',
-            'F.R FRESH HIGH QUALITY PVC',
-            'ALL COLORS AVAILABLE',
-            'CUSTOMIZATION AVAILABLE'
-          ]
-        }
-      },
-      { 
-        id: 'cat3', 
-        name: 'Cat 6 STP', 
-        price: 48.99, 
-        image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
-        category: 'Cat 6 LAN Cable',
-        description: 'Shielded Cat6 cable with individual pair shielding. Excellent for high-speed data centers.',
-        detailedDescription: {
-          applications: [
-            'HIGH-SPEED DATA CENTERS',
-            'INDUSTRIAL ENVIRONMENTS',
-            'EMI SENSITIVE AREAS',
-            'PROFESSIONAL NETWORKS'
-          ],
-          specifications: [
-            '80 WIRE ALOE SHIELDED',
-            '42 MICRON ALUMINIUM FOIL',
-            'OUTER LD PVC (WEATHER AND TEMPERATURE PROOF)',
-            'LENGTH: 100MTR/305MTR',
-            'SPEED: 1000 MBPS'
-          ],
-          features: [
-            'OEM SUPPLIERS',
-            'DCM TESTED',
-            'FLUKE TESTED',
-            'F.R FRESH HIGH QUALITY PVC',
-            'ALL COLORS AVAILABLE',
-            'CUSTOMIZATION AVAILABLE'
-          ]
-        }
-      },
-      { 
-        id: 'cat4', 
-        name: 'Cat 6 FTP', 
-        price: 46.99, 
-        image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
-        category: 'Cat 6 LAN Cable',
-        description: 'Foiled Cat6 cable with overall shield. Ideal for commercial and industrial applications.',
-        detailedDescription: {
-          applications: [
-            'COMMERCIAL APPLICATIONS',
-            'INDUSTRIAL ENVIRONMENTS',
-            'OFFICE NETWORKS',
-            'DATA TRANSMISSION'
-          ],
-          specifications: [
-            'WEATHER PROOF DOUBLE JACKET',
-            '23/24/25/26 EC GRADE COPPER/ CCA',
-            '42 MICRON ALUMINIUM FOIL',
-            'INTERNATIONAL STANDARD TWISTING',
-            'LENGTH: 100MTR/305MTR',
-            'SPEED: 1000 MBPS'
-          ],
-          features: [
-            'OEM SUPPLIERS',
-            'DCM TESTED',
-            'FLUKE TESTED',
-            'F.R FRESH HIGH QUALITY PVC',
-            'ALL COLORS AVAILABLE',
-            'CUSTOMIZATION AVAILABLE'
-          ]
-        }
-      },
-      { 
-        id: 'cat5', 
-        name: 'Cat 6 UTP', 
-        price: 44.99, 
-        image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
-        category: 'Cat 6 LAN Cable',
-        description: 'Standard Cat6 unshielded cable. Perfect for modern office networks requiring higher bandwidth.',
-        detailedDescription: {
-          applications: [
-            'OFFICE NETWORKS',
-            'VIDEO & DATA APPLICATIONS',
-            'COMMERCIAL BUILDINGS',
-            'GENERAL NETWORKING'
-          ],
-          specifications: [
-            'CAT 6 UTP IS OUR LAN CABLES RANGE',
-            '23/24/25/26 AWG, COPPER/CCA WIRE',
-            'DESIGNED TO DELIVER MAXIMUM PERFORMANCE FOR VIDEO & DATA APPLICATIONS',
-            'TWISTED PAIRS HELP TRANSMIT TRUE SIGNALS & REDUCE TRANSMISSION LOSSES',
-            'LENGTH: 100MTR/305MTR',
-            'SPEED: 1000 MBPS'
-          ],
-          features: [
-            'OEM SUPPLIERS',
-            'ALL COLORS AVAILABLE',
-            'CUSTOMIZATION AVAILABLE',
-            'MAXIMUM PERFORMANCE',
-            'REDUCED TRANSMISSION LOSSES'
-          ]
-        }
-      },
-      { 
-        id: 'cat6', 
-        name: 'Cat 6 Outdoor', 
-        price: 52.99, 
-        image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
-        category: 'Cat 6 LAN Cable',
-        description: 'Weather-resistant Cat6 cable for outdoor installations. UV-protected and waterproof design.',
-        detailedDescription: {
-          applications: [
-            '10 BASE T',
-            '100 BASE T',
-            '1000 BASE-TX',
-            'TP-PMD',
-            '100 MBPS CDDI',
-            'ATM 155',
-            '4/16 MBPS TOKEN RING',
-            'SUITABLE FOR OUTDOOR APPLICATION',
-            'INDOOR /OUTDOOR APPLICATIONS'
-          ],
-          specifications: [
-            'LDPE SHEATH FACILITATES INDOOR/OUTDOOR APPLICATIONS',
-            'LENGTH: 100MTR/305MTR',
-            'SPEED: 1000 MBPS'
-          ],
-          features: [
-            'OEM SUPPLIERS',
-            'ALL COLORS AVAILABLE',
-            'CUSTOMIZATION AVAILABLE',
-            'WEATHER RESISTANT',
-            'UV PROTECTED'
-          ]
-        }
-      }
-    ]
-  },
-  {
-    id: 4,
-    name: 'CCTV Cable',
-    image: 'https://images.unsplash.com/photo-1557317605-47b7e98862e8?auto=format&fit=crop&q=80',
-    products: [
-      { 
-        id: 'cctv1', 
-        name: 'CCTV Cable 3+1', 
-        price: 29.99, 
-        image: 'https://images.unsplash.com/photo-1557317605-47b7e98862e8?auto=format&fit=crop&q=80',
-        category: 'CCTV Cable',
-        description: 'Combined power and video cable with 3 copper conductors and 1 coaxial core. Perfect for analog CCTV systems.',
-        detailedDescription: {
-          applications: [
-            'CCTV SURVEILLANCE CAMERAS',
-            'DVR AND NVR CONNECTIONS',
-            'PC BASED SYSTEMS',
-            'SECURITY SYSTEMS'
-          ],
-          specifications: [
-            'COPPER SIZE OF VIDEO: 018, 020',
-            'CORE SIZE: 7X38, 14X40, 14X42, 14X43',
-            'BRAIDING WITH 36 X 0.115 MM ALLOY WITH ALUMINUM FOIL',
-            'LENGTH: 90M/180M',
-            'MANUFACTURED USING EXCEPTIONAL QUALITY RAW MATERIALS'
-          ],
-          features: [
-            'COLORS: ALL COLORS AVAILABLE',
-            'CUSTOMIZATION AVAILABLE',
-            'HIGHLY SHOCK-PROOF',
-            'HIGH TENSILE STRENGTH',
-            'GREAT PICTURE AND VIDEO QUALITY',
-            'WIRES ARE MADE OF QUALITY RAW MATERIALS'
-          ]
-        }
-      },
-      { 
-        id: 'cctv2', 
-        name: 'CCTV Cable 4+1', 
-        price: 34.99, 
-        image: 'https://images.unsplash.com/photo-1557317605-47b7e98862e8?auto=format&fit=crop&q=80',
-        category: 'CCTV Cable',
-        description: 'Premium CCTV cable with 4 power conductors and 1 coaxial core. Ideal for PTZ cameras and long-distance installations.',
-        detailedDescription: {
-          applications: [
-            'CCTV SURVEILLANCE CAMERAS',
-            'DVR AND NVR CONNECTIONS',
-            'PC BASED SYSTEMS',
-            'PTZ CAMERAS',
-            'LONG-DISTANCE INSTALLATIONS'
-          ],
-          specifications: [
-            'COPPER SIZE OF VIDEO: 018, 020',
-            'CORE SIZE: 7X38, 14X40, 14X42, 14X43',
-            'BRAIDING WITH 36 X 0.115 MM ALLOY WITH ALUMINUM FOIL',
-            'LENGTH: 90M/180M',
-            'MANUFACTURED USING EXCEPTIONAL QUALITY RAW MATERIALS'
-          ],
-          features: [
-            'COLORS: ALL COLORS AVAILABLE',
-            'CUSTOMIZATION AVAILABLE',
-            'HIGHLY SHOCK-PROOF',
-            'HIGH TENSILE STRENGTH',
-            'GREAT PICTURE AND VIDEO QUALITY',
-            'WIRES ARE MADE OF QUALITY RAW MATERIALS'
-          ]
-        }
-      }
-    ]
-  },
-  {
-    id: 5,
-    name: 'Telephone Cable',
-    image: 'https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&q=80',
-    products: [
-      { 
-        id: 'tel1', 
-        name: 'Standard Telephone Cable', 
-        price: 19.99, 
-        image: 'https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&q=80',
-        category: 'Telephone Cable',
-        description: 'Multi-pair telephone cable for voice communication. Suitable for internal and external telephone wiring systems.',
-        detailedDescription: {
-          applications: [
-            'TELEPHONE SWITCHING EXCHANGES',
-            'SWITCH BOARD & TELEPHONE WIRING (MDF, SDH, DWDM, DSLAM ETC.)',
-            'PULSE CODE MODULATION SYSTEMS',
-            'RS-232 COMMUNICATION'
-          ],
-          specifications: [
-            'HIGH-SPEED STATE-OF-THE-ART MACHINERY',
-            'PURE ELECTROLYTIC GRADE, SUPER ANNEALED, TINNED COPPER CONDUCTOR',
-            'GOOD QUALITY PVC INSULATION',
-            'SUITABLE FOR OPERATION AT VOLTAGE OF 250 VOLTS',
-            'CONDUCTOR OPERATING TEMPERATURE 70°C, 85°C & 105°C',
-            '1-50 PAIR CABLE AVAILABLE'
-          ],
-          features: [
-            'LENGTH IS CUSTOMIZABLE AS PER REQUIREMENT',
-            'ALL COLORS AVAILABLE',
-            'FIRE RETARDANT/FIRE RETARDANT LOW SMOKE',
-            'ZERO HALOGEN LOW SMOKE & SHEATH MATERIAL',
-            'HIGH QUALITY CONSTRUCTION'
-          ]
-        }
-      }
-    ]
-  },
-  {
-    id: 6,
-    name: 'Computer Cords',
-    image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80',
-    products: [
-      { 
-        id: 'cc1', 
-        name: 'Desktop CPU Power Cord', 
-        price: 15.99, 
-        image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80',
-        category: 'Computer Cords',
-        description: 'Standard 3-pin power cord for desktop computers and monitors. Available in various lengths with safety certification.',
-        detailedDescription: {
-          applications: [
-            'COMPUTER SYSTEMS',
-            'MONITORS',
-            'PRINTERS',
-            'SCANNERS',
-            'ELECTRONIC DEVICES WITH 3-PIN POWER PLUG'
-          ],
-          specifications: [
-            'CHHAJER CABLE INDUSTRIES - LEADING MANUFACTURER IN DELHI',
-            '3 PIN COMPUTER POWER CORD CABLE',
-            'FEMALE CONNECTOR FOR ELECTRONIC GADGETS',
-            '3-PRONG GROUNDED MALE PLUG FOR WALL OUTLETS',
-            'STANDARD OUTLET COMPATIBLE'
-          ],
-          features: [
-            'SUPPLY POWER TO COMPUTER SYSTEM AND VARIOUS DEVICES',
-            'DIRECT INSERTION INTO ELECTRONIC GADGETS',
-            'STANDARD WALL OUTLET CONNECTION',
-            'OVERLOAD PROTECTION',
-            'HIGH QUALITY CONSTRUCTION'
-          ]
-        }
-      },
-      { 
-        id: 'cc2', 
-        name: 'Laptop Notebook Adaptor Power Cord', 
-        price: 18.99, 
-        image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80',
-        category: 'Computer Cords',
-        description: 'Universal laptop power cord compatible with most notebook adapters. Features strain relief and durable construction.',
-        detailedDescription: {
-          applications: [
-            'LAPTOP COMPUTER / VIDEO GAMES',
-            'NOTEBOOKS',
-            'PRINTERS',
-            'LCD TFT CRT MONITORS',
-            'AUDIO EQUIPMENT & AMPS',
-            'ELECTRONICS USING 3-PRONG POWER'
-          ],
-          specifications: [
-            'POLARISED POWER CABLE',
-            'FEMALE CONNECTOR FOR DEVICE CONNECTION',
-            'MALE CONNECTOR FOR STANDARD OUTLET',
-            'ADVANCED WIRES FOR OVERLOAD PROTECTION',
-            'ANTI-INTERFERENCE FEATURE',
-            'BETTER ISOLATION MATERIALS',
-            'RUBBERISED TEXTURE CORD'
-          ],
-          features: [
-            'COMPATIBLE WITH HP, DELL, LENOVO, SONY VAIO',
-            'COMPATIBLE WITH TOSHIBA, WIPRO, LG, ASUS',
-            'COMPATIBLE WITH SAMSUNG, IBM, ACER',
-            'OVERLOAD PROTECTION',
-            'ANTI-INTERFERENCE DESIGN'
-          ]
-        }
-      }
-    ]
-  },
-  {
-    id: 7,
-    name: 'Lift Cables',
-    image: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80',
-    products: [
-      {
-        id: 'lift1',
-        name: 'Standard Lift Cable',
-        price: 149.99,
-        image: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80',
-        category: 'Lift Cables',
-        description: 'Professional lift cable with enhanced flexibility and durability for elevator systems. Designed for reliable operation in demanding vertical transportation environments.',
-        detailedDescription: {
-          applications: [
-            'ELEVATOR SYSTEMS',
-            'LIFT INSTALLATIONS',
-            'VERTICAL TRANSPORTATION',
-            'CARRIAGE SYSTEMS',
-            'INDUSTRIAL LIFTING EQUIPMENT'
-          ],
-          specifications: [
-            'BARE COPPER CONDUCTOR, EXTRA FINE WIRE, HIGH FLEXIBLE',
-            'CORE INSULATION OF PLASTIC, FLEXIBLE AT LOW TEMPERATURES',
-            'CORE IDENTIFICATION BLACK CORES WITH CONTINUOUS WHITE NUMBERING',
-            'GN-YE CONDUCTOR',
-            'OUTER SHEATH OF SPECIAL PLASTIC, FLEXIBLE AT LOW TEMPERATURES',
-            'SHEATH COLOUR: ALL COLORS AVAILABLE'
-          ],
-          features: [
-            'SHEATH UV-RESISTANT',
-            'IN CARRIAGE VERSION WITH SPECIAL SUPPORT',
-            'BRAIDING AND WITH PUR SHEATH PARTICULARLY',
-            'RESISTANT TO WEAR, OIL, HYDROLYSIS AND',
-            'MICROBIAL ATTACK',
-            'CUSTOMIZABLE AVAILABLE'
-          ]
-        }
-      }
-    ]
-  },
-  {
-    id: 8,
-    name: 'Speaker Cable',
-    image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&q=80',
-    products: [
-      {
-        id: 'speaker1',
-        name: 'Standard Speaker Cable',
-        price: 39.99,
-        image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&q=80',
-        category: 'Speaker Cable',
-        description: 'High-quality speaker cable for audio applications. Features multi-stranded copper conductors and reliable connections for optimal sound transmission.',
-        detailedDescription: {
-          applications: [
-            'ALL THE CABLES ARE USED FOR SPEAKER RANGES, HOME THEATER OR AUDIO SYSTEM',
-            'USED FOR CONNECTING POWER AMPLIFIER AND BROADCASTING SYSTEMS',
-            'FOR TRANSMITTING THE AUDIO SIGNALS AMPLIFIED BY THE AMPLIFIER',
-            'HOME AUDIO SYSTEMS',
-            'PROFESSIONAL SOUND EQUIPMENT'
-          ],
-          specifications: [
-            'OFFERING WIDE RANGE OF HIGH QUALITY SPEAKER CABLE WITH ALL KINDS OF APPLICATIONS',
-            'SPEAKER CABLES ARE MOSTLY USED FOR ESTABLISHING A CONNECTION BETWEEN A SPEAKER AND AMPLIFIER SOURCES',
-            '3 KEY ELECTRICAL PROPERTIES RESISTANCE, CAPACITANCE AND INDUCTANCE',
-            'RATED VOLTAGE: 300/300V',
-            'FULL 100M'
-          ],
-          features: [
-            'MULTI-STRANDED/FLEXIBLE OFC, COPPER, TINNED-COPPER WIRE CONDUCTOR',
-            'RELIABLE CONNECTION',
-            'ROHS STANDARD PVC',
-            'CE,SGS,ISO9001 STANDARD',
-            'KEEP WORKING UNDER 70°C FOR LONG PERIOD OPERATION'
-          ]
-        }
-      }
-    ]
-  }
-];
 
 export default Index;
