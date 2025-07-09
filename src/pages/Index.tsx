@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { ShoppingCart, Eye, X, Plus, Minus, Menu, Phone, Mail, MapPin, Clock, Award, Shield, Truck, Headphones } from 'lucide-react';
 import Navbar from '../components/Navbar';
@@ -67,6 +66,48 @@ const Index = () => {
       }
     },
     {
+      id: 'cat5e1',
+      name: 'CAT5E Ethernet Cable',
+      price: 29,
+      image: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&h=500&fit=crop',
+      category: 'Cables',
+      description: 'High-quality CAT5E ethernet cable for reliable network connections',
+      stock: 50,
+      detailedDescription: {
+        applications: ['Home Networking', 'Office Networks', 'Internet Connectivity', 'Local Area Networks'],
+        specifications: ['CAT5E Standard', '100MHz Bandwidth', '1000Mbps Speed', 'RJ45 Connectors'],
+        features: ['Durable Construction', 'Snagless Design', 'Gold-Plated Connectors', 'Various Lengths']
+      }
+    },
+    {
+      id: 'cat6a1',
+      name: 'CAT6A LAN Cable',
+      price: 49,
+      image: 'https://images.unsplash.com/photo-1606112219348-204d7d8b94ee?w=500&h=500&fit=crop',
+      category: 'Cables',
+      description: 'Premium CAT6A cable for high-speed network applications',
+      stock: 35,
+      detailedDescription: {
+        applications: ['10 Gigabit Ethernet', 'Server Rooms', 'Data Centers', 'High-Speed Networks'],
+        specifications: ['CAT6A Standard', '500MHz Bandwidth', '10Gbps Speed', 'Shielded Design'],
+        features: ['Low Crosstalk', 'Enhanced Performance', 'Backward Compatible', 'Professional Grade']
+      }
+    },
+    {
+      id: 'patchcord1',
+      name: 'Patch Cord Set',
+      price: 25,
+      image: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=500&h=500&fit=crop',
+      category: 'Cables',
+      description: 'Professional patch cord set for network patch panels',
+      stock: 60,
+      detailedDescription: {
+        applications: ['Patch Panels', 'Network Switches', 'Rack Connections', 'Structured Cabling'],
+        specifications: ['CAT6 Standard', '250MHz Bandwidth', '1Gbps Speed', 'Molded Boots'],
+        features: ['Color Coded', 'Strain Relief', 'Flexible Design', 'Multiple Lengths']
+      }
+    },
+    {
       id: 'printer1',
       name: 'HP LaserJet Pro',
       price: 299,
@@ -107,52 +148,10 @@ const Index = () => {
         specifications: ['3840x2160 4K Resolution', 'IPS Panel', '99% sRGB', 'USB-C Hub'],
         features: ['Color Calibration', 'Height Adjustable', 'Blue Light Filter', 'Picture-in-Picture']
       }
-    },
-    {
-      id: 'keyboard1',
-      name: 'Logitech MX Mechanical',
-      price: 149,
-      image: 'https://images.unsplash.com/photo-1541140532154-b024d705b90a?w=500&h=500&fit=crop',
-      category: 'Accessories',
-      description: 'Wireless mechanical keyboard with smart backlighting',
-      stock: 20,
-      detailedDescription: {
-        applications: ['Programming', 'Writing', 'Gaming', 'Office Work'],
-        specifications: ['Tactile Brown Switches', 'Wireless/USB-C', 'Smart Backlighting', 'Multi-device'],
-        features: ['15-day Battery', 'Flow Technology', 'Programmable Keys', 'Premium Build']
-      }
-    },
-    {
-      id: 'mouse1',
-      name: 'Logitech MX Master 3S',
-      price: 99,
-      image: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=500&h=500&fit=crop',
-      category: 'Accessories',
-      description: 'Advanced wireless mouse for productivity and precision',
-      stock: 25,
-      detailedDescription: {
-        applications: ['Design Work', 'Programming', 'Office Tasks', 'Content Creation'],
-        specifications: ['4000 DPI Sensor', 'USB-C Charging', 'Multi-device', '70-day Battery'],
-        features: ['MagSpeed Wheel', 'Thumb Wheel', 'Gesture Control', 'Ergonomic Design']
-      }
-    },
-    {
-      id: 'webcam1',
-      name: 'Logitech C920s HD Pro',
-      price: 79,
-      image: 'https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=500&h=500&fit=crop',
-      category: 'Accessories',
-      description: 'Full HD webcam with privacy shutter for video calls',
-      stock: 18,
-      detailedDescription: {
-        applications: ['Video Calls', 'Streaming', 'Recording', 'Online Meetings'],
-        specifications: ['1080p HD Video', 'Dual Stereo Mics', 'Privacy Shutter', 'USB Plug-and-Play'],
-        features: ['Auto Focus', 'Light Correction', 'Wide Field of View', 'Universal Clip']
-      }
     }
   ]);
 
-  const categories = ['All', 'Computers', 'Printers', 'Scanners', 'Monitors', 'Accessories'];
+  const categories = ['All', 'Computers', 'Cables', 'Printers', 'Scanners', 'Monitors'];
 
   const filteredProducts = selectedCategory === 'All' 
     ? products 
@@ -338,8 +337,17 @@ const Index = () => {
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
             Since 1997, we've been your trusted partner in computer solutions. 
-            Discover our premium range of computers, printers, and accessories.
+            Discover our premium range of computers, networking cables, and accessories.
           </p>
+          
+          {/* Centered CCI Badge */}
+          <div className="flex justify-center mb-8">
+            <div className="bg-gradient-to-r from-blue-600 to-gray-600 text-white px-8 py-4 rounded-full shadow-lg">
+              <h2 className="text-2xl font-bold">CCI</h2>
+              <p className="text-sm opacity-90">Credible • Committed • Innovative</p>
+            </div>
+          </div>
+          
           <div className="flex flex-wrap justify-center gap-6 text-gray-600">
             <div className="flex items-center bg-white px-4 py-2 rounded-full shadow-md">
               <Award className="w-5 h-5 mr-2 text-blue-600" />
@@ -442,10 +450,10 @@ const Index = () => {
             <div>
               <h2 className="text-4xl font-bold text-gray-800 mb-6">About Us</h2>
               <p className="text-lg text-gray-600 mb-6">
-                Since 1997, Computer Corporation has been a leading provider of high-quality computer products and solutions. We are committed to delivering innovative technology and exceptional customer service.
+                Since 1997, Computer Corporation has been a leading provider of high-quality computer products and networking solutions. We are committed to delivering innovative technology and exceptional customer service.
               </p>
               <p className="text-lg text-gray-600">
-                Our mission is to empower businesses and individuals with the tools they need to succeed in the digital age. We offer a wide range of products, including computers, printers, scanners, and accessories, all designed to meet the highest standards of performance and reliability.
+                Our mission is to empower businesses and individuals with the tools they need to succeed in the digital age. We offer a wide range of products, including computers, networking cables, and accessories, all designed to meet the highest standards of performance and reliability.
               </p>
             </div>
             <div>
