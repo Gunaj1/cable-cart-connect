@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { ShoppingCart, Eye, X, Plus, Minus, Menu, Phone, Mail, MapPin, Clock, Award, Shield, Truck, Headphones } from 'lucide-react';
 import Navbar from '../components/Navbar';
@@ -34,13 +35,14 @@ const Index = () => {
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [checkoutData, setCheckoutData] = useState<{ items: CartItem[], total: number } | null>(null);
   const [showAdmin, setShowAdmin] = useState(false);
+  const [isInventoryOpen, setIsInventoryOpen] = useState(false);
   
   const [products, setProducts] = useState<Product[]>([
     {
       id: 'pc1',
       name: 'Gaming Desktop PC',
       price: 1299,
-      image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=500&h=500&fit=crop',
+      image: 'https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=500&h=500&fit=crop',
       category: 'Computers',
       description: 'High-performance gaming desktop with RGB lighting and powerful components',
       stock: 15,
@@ -54,7 +56,7 @@ const Index = () => {
       id: 'laptop1',
       name: 'MacBook Pro',
       price: 1999,
-      image: 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=500&h=500&fit=crop',
+      image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&h=500&fit=crop',
       category: 'Computers',
       description: 'Professional laptop with M2 chip for creative professionals',
       stock: 12,
@@ -82,7 +84,7 @@ const Index = () => {
       id: 'scanner1',
       name: 'Epson Document Scanner',
       price: 199,
-      image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=500&h=500&fit=crop',
+      image: 'https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?w=500&h=500&fit=crop',
       category: 'Scanners',
       description: 'High-speed document scanner with automatic document feeder',
       stock: 5,
@@ -295,7 +297,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50">
-      <Navbar cartItemCount={getTotalItems()} onCartClick={() => setIsCartOpen(true)} />
+      <Navbar cartCount={getTotalItems()} onCartClick={() => setIsCartOpen(true)} onNavigate={() => {}} activeSection="home" />
       
       {/* Admin Toggle */}
       <div className="fixed top-20 right-4 z-40">
@@ -310,7 +312,21 @@ const Index = () => {
       {/* Admin Panel */}
       {showAdmin && (
         <div className="fixed top-32 right-4 z-30 bg-white rounded-lg shadow-xl border p-4 max-w-md">
-          <InventoryManager products={products} onUpdateStock={updateProductStock} />
+          <h3 className="font-bold text-lg mb-4">Admin Panel</h3>
+          <div className="space-y-2">
+            <button
+              onClick={() => setIsInventoryOpen(true)}
+              className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Manage Inventory
+            </button>
+            <button
+              onClick={() => setShowAdmin(false)}
+              className="w-full bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors"
+            >
+              Close Panel
+            </button>
+          </div>
         </div>
       )}
       
@@ -404,7 +420,7 @@ const Index = () => {
                       )}
                       <button
                         onClick={() => currentProduct && addToCart(currentProduct)}
-                        className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2 px-4 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-medium shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2 px-4 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-medium shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
                         disabled={!currentProduct?.stock}
                       >
                         <ShoppingCart className="w-4 h-4 mr-2" />
@@ -524,6 +540,13 @@ const Index = () => {
         items={cartItems}
         onUpdateQuantity={updateCartQuantity}
         onRemove={removeFromCart}
+      />
+
+      <InventoryManager
+        isOpen={isInventoryOpen}
+        onClose={() => setIsInventoryOpen(false)}
+        products={products}
+        onUpdateStock={updateProductStock}
       />
 
       {isCheckoutOpen && checkoutData && (
