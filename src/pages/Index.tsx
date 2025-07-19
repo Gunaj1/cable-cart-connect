@@ -36,6 +36,7 @@ const Index = () => {
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isInventoryOpen, setIsInventoryOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [products, setProducts] = useState<Product[]>(() => {
     // Initialize products with stock levels
     return categories.flatMap(category => 
@@ -245,8 +246,8 @@ const Index = () => {
               Chhajer Cable Industries
             </h1>
             
-            {/* CCI Acronym - Repositioned to left side */}
-            <div className="mb-8 flex justify-start">
+            {/* CCI Acronym - Centered */}
+            <div className="mb-8 flex justify-center">
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4 border border-white/20">
                 <div className="flex items-center space-x-6">
                   <div className="text-left">
@@ -283,9 +284,36 @@ const Index = () => {
             Discover our comprehensive range of high-quality cables and networking solutions
           </p>
         </div>
+
+        {/* Category Filter Buttons */}
+        <div className="flex flex-wrap justify-center gap-4 mb-12">
+          <button
+            onClick={() => setSelectedCategory(null)}
+            className={`px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 ${
+              selectedCategory === null
+                ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-xl'
+                : 'bg-white text-gray-700 border-2 border-blue-200 hover:border-blue-400 hover:text-blue-700 shadow-lg'
+            }`}
+          >
+            All Categories
+          </button>
+          {categories.map((category) => (
+            <button
+              key={category.id}
+              onClick={() => setSelectedCategory(category.id)}
+              className={`px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 ${
+                selectedCategory === category.id
+                  ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-xl'
+                  : 'bg-white text-gray-700 border-2 border-blue-200 hover:border-blue-400 hover:text-blue-700 shadow-lg'
+              }`}
+            >
+              {category.name}
+            </button>
+          ))}
+        </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {categories.map((category) => (
+          {categories.filter(category => selectedCategory === null || category.id === selectedCategory).map((category) => (
             <div key={category.id} className="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100">
               <div className="relative overflow-hidden">
                 <img src={category.image} alt={category.name} className="w-full h-56 object-cover transition-transform duration-500 hover:scale-110" />
@@ -310,9 +338,6 @@ const Index = () => {
                           </div>
                           <div className="flex items-center space-x-3">
                             <span className="text-lg font-bold text-blue-600">${product.price}</span>
-                            <span className={`text-sm px-2 py-1 rounded-full ${currentProduct?.stock && currentProduct.stock > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                              {currentProduct?.stock && currentProduct.stock > 0 ? `${currentProduct.stock} left` : 'Out of stock'}
-                            </span>
                             {product.detailedDescription && (
                               <button
                                 onClick={() => setSelectedProduct(currentProduct || null)}

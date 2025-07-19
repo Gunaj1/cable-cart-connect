@@ -85,6 +85,82 @@ const AboutTabs: React.FC = () => {
         </div>
       ),
       image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80"
+    },
+    journey: {
+      title: "Our Journey",
+      icon: <ExternalLink className="w-12 h-12 text-blue-600 mb-6" />,
+      content: (
+        <div className="space-y-8">
+          <div className="relative">
+            {/* Timeline line */}
+            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-600 to-gray-600"></div>
+            
+            {/* Timeline items */}
+            <div className="space-y-12">
+              <div className="relative flex items-start">
+                <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center shadow-lg border-4 border-white">
+                  <span className="text-white font-bold text-lg">97</span>
+                </div>
+                <div className="ml-8 bg-white/50 backdrop-blur-sm rounded-xl p-6 border border-blue-200 shadow-lg">
+                  <h3 className="text-2xl font-bold text-blue-700 mb-2">1997 - Foundation</h3>
+                  <p className="text-gray-700 text-lg">Started our business with a vision to provide high-quality cables and networking solutions. Established our first manufacturing unit in Delhi.</p>
+                </div>
+              </div>
+
+              <div className="relative flex items-start">
+                <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-r from-gray-600 to-gray-700 rounded-full flex items-center justify-center shadow-lg border-4 border-white">
+                  <span className="text-white font-bold text-lg">05</span>
+                </div>
+                <div className="ml-8 bg-white/50 backdrop-blur-sm rounded-xl p-6 border border-blue-200 shadow-lg">
+                  <h3 className="text-2xl font-bold text-blue-700 mb-2">2005 - LAN Cable Innovation</h3>
+                  <p className="text-gray-700 text-lg">Introduced our first range of LAN cables, revolutionizing network connectivity solutions. Expanded our product line to include Cat5e and Cat6 cables.</p>
+                </div>
+              </div>
+
+              <div className="relative flex items-start">
+                <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center shadow-lg border-4 border-white">
+                  <span className="text-white font-bold text-lg">10</span>
+                </div>
+                <div className="ml-8 bg-white/50 backdrop-blur-sm rounded-xl p-6 border border-blue-200 shadow-lg">
+                  <h3 className="text-2xl font-bold text-blue-700 mb-2">2010 - Technology Advancement</h3>
+                  <p className="text-gray-700 text-lg">Invested in state-of-the-art manufacturing technology and achieved ISO certification. Enhanced our quality control processes.</p>
+                </div>
+              </div>
+
+              <div className="relative flex items-start">
+                <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-r from-gray-600 to-gray-700 rounded-full flex items-center justify-center shadow-lg border-4 border-white">
+                  <span className="text-white font-bold text-lg">15</span>
+                </div>
+                <div className="ml-8 bg-white/50 backdrop-blur-sm rounded-xl p-6 border border-blue-200 shadow-lg">
+                  <h3 className="text-2xl font-bold text-blue-700 mb-2">2015 - Product Diversification</h3>
+                  <p className="text-gray-700 text-lg">Expanded into specialized cables including CCTV, telephone, and computer power cords. Became a comprehensive cable solutions provider.</p>
+                </div>
+              </div>
+
+              <div className="relative flex items-start">
+                <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center shadow-lg border-4 border-white">
+                  <span className="text-white font-bold text-lg">20</span>
+                </div>
+                <div className="ml-8 bg-white/50 backdrop-blur-sm rounded-xl p-6 border border-blue-200 shadow-lg">
+                  <h3 className="text-2xl font-bold text-blue-700 mb-2">2020 - Digital Transformation</h3>
+                  <p className="text-gray-700 text-lg">Embraced digital technologies and enhanced our online presence. Streamlined operations and improved customer service capabilities.</p>
+                </div>
+              </div>
+
+              <div className="relative flex items-start">
+                <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-r from-gray-600 to-gray-700 rounded-full flex items-center justify-center shadow-lg border-4 border-white">
+                  <span className="text-white font-bold text-lg">25</span>
+                </div>
+                <div className="ml-8 bg-white/50 backdrop-blur-sm rounded-xl p-6 border border-blue-200 shadow-lg">
+                  <h3 className="text-2xl font-bold text-blue-700 mb-2">2025 - Future Ready</h3>
+                  <p className="text-gray-700 text-lg">Continuing our commitment to innovation and excellence. Leading the industry with sustainable practices and cutting-edge technology.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ),
+      image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80"
     }
   };
 
