@@ -312,16 +312,16 @@ const Index = () => {
           ))}
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className={`grid gap-8 ${selectedCategory === null ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1 md:grid-cols-2 max-w-5xl mx-auto'}`}>
           {categories.filter(category => selectedCategory === null || category.id === selectedCategory).map((category) => (
             <div key={category.id} className="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100">
               <div className="relative overflow-hidden">
                 <img src={category.image} alt={category.name} className="w-full h-56 object-cover transition-transform duration-500 hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
               </div>
-              <div className="p-8">
+              <div className={selectedCategory === null ? "p-8" : "p-10"}>
                 <h3 className="text-2xl font-bold mb-6 text-gray-900">{category.name}</h3>
-                <div className="space-y-5">
+                <div className={selectedCategory === null ? "space-y-5" : "space-y-6"}>
                   {category.products.map((product) => {
                     const currentProduct = products.find(p => p.id === product.id);
                     return (
@@ -333,23 +333,29 @@ const Index = () => {
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center">
-                            <Cable className="w-5 h-5 mr-3 text-blue-600" />
-                            <span className="font-semibold text-gray-800">{product.name}</span>
+                            <Cable className={selectedCategory === null ? "w-5 h-5 mr-3 text-blue-600" : "w-6 h-6 mr-4 text-blue-600"} />
+                            <span className={selectedCategory === null ? "font-semibold text-gray-800" : "font-semibold text-gray-800 text-lg"}>{product.name}</span>
                           </div>
-                          <div className="flex items-center space-x-3">
-                            <span className="text-lg font-bold text-blue-600">${product.price}</span>
+                          <div className={selectedCategory === null ? "flex items-center space-x-3" : "flex items-center space-x-4"}>
+                            <span className={selectedCategory === null ? "text-lg font-bold text-blue-600" : "text-xl font-bold text-blue-600"}>${product.price}</span>
                             {product.detailedDescription && (
                               <button
                                 onClick={() => setSelectedProduct(currentProduct || null)}
-                                className="bg-gradient-to-r from-gray-100 to-blue-50 text-gray-700 py-2 px-4 rounded-lg hover:from-blue-50 hover:to-gray-100 hover:text-blue-700 transition-all duration-300 flex items-center font-medium border border-gray-200"
+                                className={selectedCategory === null 
+                                  ? "bg-gradient-to-r from-gray-100 to-blue-50 text-gray-700 py-2 px-4 rounded-lg hover:from-blue-50 hover:to-gray-100 hover:text-blue-700 transition-all duration-300 flex items-center font-medium border border-gray-200"
+                                  : "bg-gradient-to-r from-gray-100 to-blue-50 text-gray-700 py-3 px-6 rounded-lg hover:from-blue-50 hover:to-gray-100 hover:text-blue-700 transition-all duration-300 flex items-center font-medium border border-gray-200 text-base"
+                                }
                               >
-                                <Eye className="w-4 h-4 mr-2" />
+                                <Eye className={selectedCategory === null ? "w-4 h-4 mr-2" : "w-5 h-5 mr-2"} />
                                 About
                               </button>
                             )}
                             <button
                               onClick={() => currentProduct && addToCart(currentProduct)}
-                              className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2 px-4 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-medium shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                              className={selectedCategory === null
+                                ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2 px-4 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-medium shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                                : "bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-6 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-medium shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed text-base"
+                              }
                               disabled={!currentProduct?.stock}
                             >
                               Add
