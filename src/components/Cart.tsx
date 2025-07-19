@@ -26,90 +26,97 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose, items, onUpdateQuantity, o
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-start justify-end">
-      <div className="bg-white w-full max-w-md h-full overflow-y-auto shadow-xl">
-        <div className="sticky top-0 bg-white z-10 border-b p-4 flex justify-between items-center">
-          <h2 className="text-xl font-bold flex items-center">
-            <ShoppingCart className="w-6 h-6 mr-2 text-blue-600" />
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-start justify-end">
+      <div className="bg-white w-full max-w-lg h-full overflow-y-auto shadow-2xl border-l border-gray-200">
+        <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-blue-700 z-10 p-6 flex justify-between items-center">
+          <h2 className="text-2xl font-bold flex items-center text-white">
+            <ShoppingCart className="w-7 h-7 mr-3" />
             Shopping Cart
           </h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700 transition-colors">
+          <button onClick={onClose} className="text-white hover:text-blue-200 transition-colors p-2 rounded-full hover:bg-white/20">
             <X className="w-6 h-6" />
           </button>
         </div>
         
-        <div className="p-4">
+        <div className="p-6">
           {items.length === 0 ? (
-            <div className="text-center py-12">
-              <ShoppingCart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500 text-lg">Your cart is empty</p>
-              <p className="text-gray-400 mt-2">Add some products to get started</p>
+            <div className="text-center py-16">
+              <div className="bg-gradient-to-br from-blue-50 to-gray-50 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6">
+                <ShoppingCart className="w-12 h-12 text-gray-400" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Your cart is empty</h3>
+              <p className="text-gray-500">Add some quality cables to get started</p>
             </div>
           ) : (
             <>
-              <div className="space-y-4 mb-6">
+              <div className="space-y-5 mb-8">
                 {items.map((item) => (
-                  <div key={item.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                  <div key={item.id} className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl p-5 border border-gray-200 hover:shadow-lg transition-all duration-300">
                     <div className="flex items-start space-x-4">
-                      <img 
-                        src={item.id === 'pc1' ? '/public/image copy.png' : item.image}
-                        alt={item.name}
-                        className="w-16 h-16 object-cover rounded-md bg-gray-100"
-                      />
+                      <div className="bg-white rounded-lg p-2 border border-gray-200">
+                        <img 
+                          src={item.id === 'pc1' ? '/image-copy.png' : item.image}
+                          alt={item.name}
+                          className="w-16 h-16 object-cover rounded-md"
+                        />
+                      </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-medium text-gray-900 truncate">{item.name}</h3>
-                        <p className="text-sm text-gray-500 truncate">{item.description}</p>
-                        <p className="text-lg font-semibold text-blue-600 mt-1">${item.price}</p>
+                        <h3 className="font-semibold text-gray-900 text-lg mb-1">{item.name}</h3>
+                        <p className="text-sm text-gray-600 mb-2">{item.description}</p>
+                        <p className="text-xl font-bold text-blue-600">${item.price}</p>
                       </div>
                       <button
                         onClick={() => onRemove(item.id)}
-                        className="text-red-500 hover:text-red-700 transition-colors p-1"
+                        className="text-red-400 hover:text-red-600 hover:bg-red-50 transition-all duration-200 p-2 rounded-lg"
                       >
                         <X className="w-5 h-5" />
                       </button>
                     </div>
                     
-                    <div className="flex items-center justify-between mt-4">
-                      <div className="flex items-center space-x-3 bg-gray-50 rounded-lg p-1">
+                    <div className="flex items-center justify-between mt-5 pt-4 border-t border-gray-200">
+                      <div className="flex items-center space-x-1 bg-white rounded-xl border border-gray-300 shadow-sm">
                         <button
                           onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
-                          className="bg-white text-gray-600 hover:text-gray-800 p-2 rounded-md hover:shadow-sm transition-all"
+                          className="text-gray-500 hover:text-blue-600 hover:bg-blue-50 p-3 rounded-l-xl transition-all duration-200"
                         >
                           <Minus className="w-4 h-4" />
                         </button>
-                        <span className="font-medium text-gray-900 min-w-[2rem] text-center">{item.quantity}</span>
+                        <span className="font-bold text-gray-900 min-w-[3rem] text-center py-3 bg-gray-50">{item.quantity}</span>
                         <button
                           onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
-                          className="bg-white text-gray-600 hover:text-gray-800 p-2 rounded-md hover:shadow-sm transition-all"
+                          className="text-gray-500 hover:text-blue-600 hover:bg-blue-50 p-3 rounded-r-xl transition-all duration-200"
                         >
                           <Plus className="w-4 h-4" />
                         </button>
                       </div>
-                      <p className="font-semibold text-gray-900">
-                        ${(item.price * item.quantity).toFixed(2)}
-                      </p>
+                      <div className="text-right">
+                        <p className="text-sm text-gray-500 mb-1">Subtotal</p>
+                        <p className="text-xl font-bold text-blue-600">
+                          ${(item.price * item.quantity).toFixed(2)}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
               
-              <div className="border-t pt-4 space-y-4">
-                <div className="flex justify-between items-center text-xl font-bold">
-                  <span>Total: </span>
-                  <span className="text-blue-600">${total.toFixed(2)}</span>
+              <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white space-y-6">
+                <div className="flex justify-between items-center">
+                  <span className="text-lg font-medium">Total Amount:</span>
+                  <span className="text-3xl font-bold">${total.toFixed(2)}</span>
                 </div>
                 <button 
                   onClick={() => {
                     window.dispatchEvent(new CustomEvent('checkout', { detail: { items, total } }));
                     onClose();
                   }}
-                  className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-4 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-colors font-medium shadow-lg"
+                  className="w-full bg-white text-blue-600 py-4 px-6 rounded-xl hover:bg-blue-50 transition-all duration-300 font-bold text-lg shadow-lg transform hover:scale-105"
                 >
                   Proceed to Checkout
                 </button>
                 <button 
                   onClick={onClose}
-                  className="w-full bg-gray-100 text-gray-700 py-3 px-4 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                  className="w-full bg-blue-800/50 text-white py-3 px-6 rounded-xl hover:bg-blue-800/70 transition-all duration-300 font-medium border border-blue-400"
                 >
                   Continue Shopping
                 </button>
