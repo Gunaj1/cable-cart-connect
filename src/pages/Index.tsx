@@ -312,7 +312,7 @@ const Index = () => {
           ))}
         </div>
         
-        <div className={`grid gap-8 ${selectedCategory === null ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5' : 'grid-cols-1 md:grid-cols-2 max-w-5xl mx-auto'}`}>
+        <div className={`grid gap-8 ${selectedCategory === null ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1 md:grid-cols-2 max-w-5xl mx-auto'}`}>
           {categories.filter(category => selectedCategory === null || category.id === selectedCategory).map((category) => (
             <div key={category.id} className="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100">
               <div className="relative overflow-hidden">
@@ -399,9 +399,6 @@ const Index = () => {
         <ServicesSection />
       </div>
 
-      {/* Business Credentials Section */}
-      <BusinessCredentials />
-
       {/* Contact Section */}
       <div id="contact" className="bg-gradient-to-br from-blue-900 via-gray-900 to-blue-800 text-white py-20">
         <div className="container mx-auto px-4">
@@ -417,47 +414,52 @@ const Index = () => {
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
               <h3 className="text-2xl font-bold mb-6">Contact Us</h3>
               <div className="space-y-4">
-                <div className="flex items-center">
+                <p className="flex items-center text-lg">
                   <Phone className="w-6 h-6 mr-3 text-blue-400" />
-                  <span>+91 11 2222 3333</span>
-                </div>
-                <div className="flex items-center">
+                  +91 9717535050
+                </p>
+                <p className="flex items-center text-lg">
                   <Mail className="w-6 h-6 mr-3 text-blue-400" />
-                  <span>info@chhajercable.com</span>
-                </div>
-                <div className="flex items-center">
+                  info@chhajercables.com
+                </p>
+                <p className="flex items-center text-lg">
                   <MapPin className="w-6 h-6 mr-3 text-blue-400" />
-                  <span>Delhi, India</span>
-                </div>
+                  A6 Jhilmil Industrial Area, New Delhi 110095, India
+                </p>
               </div>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-              <h3 className="text-2xl font-bold mb-6">Visit Our Factory</h3>
-              <p className="text-gray-300 mb-4">
-                Come see our state-of-the-art manufacturing facility and witness the quality that goes into every cable we produce.
-              </p>
-              <div className="space-y-2">
-                <p className="text-sm text-gray-400">Monday - Friday: 9:00 AM - 6:00 PM</p>
-                <p className="text-sm text-gray-400">Saturday: 9:00 AM - 2:00 PM</p>
-                <p className="text-sm text-gray-400">Sunday: Closed</p>
+              <h3 className="text-2xl font-bold mb-6">Follow Us</h3>
+              <div className="flex space-x-4">
+                <a href="#" className="p-3 bg-white/20 rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-110">
+                  <Facebook className="w-6 h-6" />
+                </a>
+                <a href="#" className="p-3 bg-white/20 rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-110">
+                  <Twitter className="w-6 h-6" />
+                </a>
+                <a href="#" className="p-3 bg-white/20 rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-110">
+                  <Linkedin className="w-6 h-6" />
+                </a>
+                <a href="#" className="p-3 bg-white/20 rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-110">
+                  <Instagram className="w-6 h-6" />
+                </a>
               </div>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-              <h3 className="text-2xl font-bold mb-6">Office Hours</h3>
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <p>Monday</p>
-                  <p className="text-gray-400">9:00 AM - 6:00 PM</p>
-                </div>
-                <div className="flex justify-between">
-                  <p>Tuesday</p>
-                  <p className="text-gray-400">Closed</p>
-                </div>
+              <h3 className="text-2xl font-bold mb-6">Business Hours</h3>
+              <div className="space-y-2 text-lg">
+                <p>Monday, Wednesday - Sunday</p>
+                <p className="text-blue-400 font-semibold">8:00 AM - 6:00 PM</p>
+                <p>Tuesday</p>
+                <p className="text-gray-400">Closed</p>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Business Credentials Section */}
+      <BusinessCredentials />
 
       <Cart
         isOpen={isCartOpen}
