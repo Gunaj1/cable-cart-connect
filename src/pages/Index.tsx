@@ -343,10 +343,6 @@ const Index = () => {
         <div className={`grid gap-8 ${selectedCategory === null ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1 md:grid-cols-2 max-w-5xl mx-auto'}`}>
           {categories.filter(category => selectedCategory === null || category.id === selectedCategory).map((category) => (
             <div key={category.id} className="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100">
-              <div className="relative overflow-hidden">
-                <img src={category.image} alt={category.name} className="w-full h-56 object-cover transition-transform duration-500 hover:scale-110" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-              </div>
               <div className={selectedCategory === null ? "p-8" : "p-10"}>
                 <h3 className="text-2xl font-bold mb-6 text-gray-900">{category.name}</h3>
                 <div className={selectedCategory === null ? "space-y-5" : "space-y-6"}>
@@ -527,7 +523,6 @@ const categories = [
   {
     id: 1,
     name: 'Patchcords',
-    image: 'https://images.unsplash.com/photo-1601597111158-2fceff292cdc?auto=format&fit=crop&q=80',
     products: [
       { 
         id: 'pc1', 
@@ -718,7 +713,6 @@ const categories = [
   {
     id: 2,
     name: 'Cat5e LAN Cables',
-    image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
     products: [
       { 
         id: 'lan1', 
@@ -951,7 +945,6 @@ const categories = [
   {
     id: 3,
     name: 'Cat 6 LAN Cable',
-    image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
     products: [
       { 
         id: 'cat1', 
@@ -1149,7 +1142,6 @@ const categories = [
   {
     id: 4,
     name: 'CCTV Cable',
-    image: 'https://images.unsplash.com/photo-1557317605-47b7e98862e8?auto=format&fit=crop&q=80',
     products: [
       { 
         id: 'cctv1', 
@@ -1219,7 +1211,6 @@ const categories = [
   {
     id: 5,
     name: 'Telephone Cable',
-    image: 'https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&q=80',
     products: [
       { 
         id: 'tel1', 
@@ -1257,7 +1248,6 @@ const categories = [
   {
     id: 6,
     name: 'Computer Cords',
-    image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80',
     products: [
       { 
         id: 'cc1', 
@@ -1329,7 +1319,6 @@ const categories = [
   {
     id: 7,
     name: 'Lift Cables',
-    image: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80',
     products: [
       {
         id: 'lift1',
@@ -1369,7 +1358,6 @@ const categories = [
   {
     id: 8,
     name: 'Speaker Cable',
-    image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&q=80',
     products: [
       {
         id: 'speaker1',
