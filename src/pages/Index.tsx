@@ -9,6 +9,34 @@ import ServicesSection from '../components/ServicesSection';
 import BusinessCredentials from '../components/BusinessCredentials';
 import InventoryManager from '../components/InventoryManager';
 
+// Import product images
+import cat6StpPatchcord from '../assets/cat6-stp-patchcord.jpg';
+import cat6FtpPatchcord from '../assets/cat6-ftp-patchcord.jpg';
+import cat6UtpPatchcord from '../assets/cat6-utp-patchcord.jpg';
+import cat5eStpPatchcord from '../assets/cat5e-stp-patchcord.jpg';
+import cat5eFtpPatchcord from '../assets/cat5e-ftp-patchcord.jpg';
+import cat5eUtpPatchcord from '../assets/cat5e-utp-patchcord.jpg';
+import cat5eFlatLan from '../assets/cat5e-flat-lan.jpg';
+import cat5e2pairLan from '../assets/cat5e-2pair-lan.jpg';
+import cat5eArmoredLan from '../assets/cat5e-armored-lan.jpg';
+import cat5eFtpLan from '../assets/cat5e-ftp-lan.jpg';
+import cat5eStpLan from '../assets/cat5e-stp-lan.jpg';
+import cat5eUtpLan from '../assets/cat5e-utp-lan.jpg';
+import cat5eOutdoorLan from '../assets/cat5e-outdoor-lan.jpg';
+import cat6FlatLan from '../assets/cat6-flat-lan.jpg';
+import cat6ArmoredLan from '../assets/cat6-armored-lan.jpg';
+import cat6StpLan from '../assets/cat6-stp-lan.jpg';
+import cat6FtpLan from '../assets/cat6-ftp-lan.jpg';
+import cat6UtpLan from '../assets/cat6-utp-lan.jpg';
+import cat6OutdoorLan from '../assets/cat6-outdoor-lan.jpg';
+import cctv3plus1Cable from '../assets/cctv-3plus1-cable.jpg';
+import cctv4plus1Cable from '../assets/cctv-4plus1-cable.jpg';
+import telephoneCable from '../assets/telephone-cable.jpg';
+import desktopPowerCord from '../assets/desktop-power-cord.jpg';
+import laptopAdapterCord from '../assets/laptop-adapter-cord.jpg';
+import liftCable from '../assets/lift-cable.jpg';
+import speakerCable from '../assets/speaker-cable.jpg';
+
 interface Product {
   id: string;
   name: string;
@@ -505,7 +533,7 @@ const categories = [
         id: 'pc1', 
         name: 'Cat 6 STP', 
         price: 29.99, 
-        image: '/image-copy.png',
+        image: cat6StpPatchcord,
         category: 'Patchcords',
         description: 'Shielded Twisted Pair Cat6 patchcord with enhanced EMI protection, ideal for high-interference environments. Supports speeds up to 10Gbps.',
         detailedDescription: {
@@ -538,7 +566,7 @@ const categories = [
         id: 'pc2', 
         name: 'Cat 6 FTP', 
         price: 27.99, 
-        image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
+        image: cat6FtpPatchcord,
         category: 'Patchcords',
         description: 'Foiled Twisted Pair Cat6 patchcord offering excellent noise protection. Perfect for data centers and enterprise networks.',
         detailedDescription: {
@@ -569,7 +597,7 @@ const categories = [
         id: 'pc3', 
         name: 'Cat 6 UTP', 
         price: 25.99, 
-        image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
+        image: cat6UtpPatchcord,
         category: 'Patchcords',
         description: 'Unshielded Twisted Pair Cat6 patchcord for standard networking needs. Cost-effective solution for office environments.',
         detailedDescription: {
@@ -600,7 +628,7 @@ const categories = [
         id: 'pc4', 
         name: 'Cat 5e STP', 
         price: 24.99, 
-        image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
+        image: cat5eStpPatchcord,
         category: 'Patchcords',
         description: 'Shielded Cat5e patchcord with reliable performance and EMI protection. Supports speeds up to 1Gbps.',
         detailedDescription: {
@@ -629,7 +657,7 @@ const categories = [
         id: 'pc5', 
         name: 'Cat5e FTP', 
         price: 22.99, 
-        image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
+        image: cat5eFtpPatchcord,
         category: 'Patchcords',
         description: 'Foiled Cat5e patchcord with overall shield for noise reduction. Ideal for small business networks.',
         detailedDescription: {
@@ -660,7 +688,7 @@ const categories = [
         id: 'pc6', 
         name: 'Cat5e UTP', 
         price: 20.99, 
-        image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
+        image: cat5eUtpPatchcord,
         category: 'Patchcords',
         description: 'Standard Cat5e patchcord for basic networking needs. Perfect for home and small office use.',
         detailedDescription: {
@@ -696,7 +724,7 @@ const categories = [
         id: 'lan1', 
         name: 'Cat 5e Flat', 
         price: 35.99, 
-        image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
+        image: cat5eFlatLan,
         category: 'Cat5e LAN Cables',
         description: 'Ultra-thin flat design for easy installation under carpets and along walls. Perfect for home networking.',
         detailedDescription: {
@@ -728,7 +756,7 @@ const categories = [
         id: 'lan2', 
         name: 'Cat5e 2 pair', 
         price: 32.99, 
-        image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
+        image: cat5e2pairLan,
         category: 'Cat5e LAN Cables',
         description: 'Economical 2-pair solution for voice and basic data applications. Ideal for telephone systems.',
         detailedDescription: {
@@ -759,7 +787,7 @@ const categories = [
         id: 'lan3', 
         name: 'Cat 5e Armored', 
         price: 45.99, 
-        image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
+        image: cat5eArmoredLan,
         category: 'Cat5e LAN Cables',
         description: 'Heavy-duty armored cable for underground and outdoor installations. Excellent rodent protection.',
         detailedDescription: {
@@ -793,7 +821,7 @@ const categories = [
         id: 'lan4', 
         name: 'Cat 5e FTP', 
         price: 38.99, 
-        image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
+        image: cat5eFtpLan,
         category: 'Cat5e LAN Cables',
         description: 'Foiled cable with overall shield for superior noise immunity. Perfect for industrial environments.',
         detailedDescription: {
@@ -826,7 +854,7 @@ const categories = [
         id: 'lan5', 
         name: 'Cat 5e STP', 
         price: 36.99, 
-        image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
+        image: cat5eStpLan,
         category: 'Cat5e LAN Cables',
         description: 'Individually shielded pairs for maximum protection against crosstalk and interference.',
         detailedDescription: {
@@ -857,7 +885,7 @@ const categories = [
         id: 'lan6', 
         name: 'Cat 5e UTP', 
         price: 34.99, 
-        image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
+        image: cat5eUtpLan,
         category: 'Cat5e LAN Cables',
         description: 'Standard unshielded cable for general networking needs. Cost-effective solution for office installations.',
         detailedDescription: {
@@ -889,7 +917,7 @@ const categories = [
         id: 'lan7', 
         name: 'Cat 5e Outdoor', 
         price: 42.99, 
-        image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
+        image: cat5eOutdoorLan,
         category: 'Cat5e LAN Cables',
         description: 'UV-resistant and waterproof design for outdoor installations. Suitable for direct burial.',
         detailedDescription: {
@@ -929,7 +957,7 @@ const categories = [
         id: 'cat1', 
         name: 'Cat 6 Flat', 
         price: 45.99, 
-        image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
+        image: cat6FlatLan,
         category: 'Cat 6 LAN Cable',
         description: 'Low-profile flat design Cat6 cable for discrete installations. Supports 10Gbps up to 55 meters.',
         detailedDescription: {
@@ -960,7 +988,7 @@ const categories = [
         id: 'cat2', 
         name: 'Cat 6 Armored', 
         price: 55.99, 
-        image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
+        image: cat6ArmoredLan,
         category: 'Cat 6 LAN Cable',
         description: 'Double-jacketed armored Cat6 cable for harsh environments. Superior physical protection.',
         detailedDescription: {
@@ -993,7 +1021,7 @@ const categories = [
         id: 'cat3', 
         name: 'Cat 6 STP', 
         price: 48.99, 
-        image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
+        image: cat6StpLan,
         category: 'Cat 6 LAN Cable',
         description: 'Shielded Cat6 cable with individual pair shielding. Excellent for high-speed data centers.',
         detailedDescription: {
@@ -1024,7 +1052,7 @@ const categories = [
         id: 'cat4', 
         name: 'Cat 6 FTP', 
         price: 46.99, 
-        image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
+        image: cat6FtpLan,
         category: 'Cat 6 LAN Cable',
         description: 'Foiled Cat6 cable with overall shield. Ideal for commercial and industrial applications.',
         detailedDescription: {
@@ -1056,7 +1084,7 @@ const categories = [
         id: 'cat5', 
         name: 'Cat 6 UTP', 
         price: 44.99, 
-        image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&q=80',
+        image: cat6UtpLan,
         category: 'Cat 6 LAN Cable',
         description: 'Standard Cat6 unshielded cable. Perfect for modern office networks requiring higher bandwidth.',
         detailedDescription: {
@@ -1087,7 +1115,7 @@ const categories = [
         id: 'cat6', 
         name: 'Cat 6 Outdoor', 
         price: 52.99, 
-        image: 'https://images.unsplash.com/photo-1589030942747-0581036c3869?auto=format&fit=crop&q=80',
+        image: cat6OutdoorLan,
         category: 'Cat 6 LAN Cable',
         description: 'Weather-resistant Cat6 cable for outdoor installations. UV-protected and waterproof design.',
         detailedDescription: {
@@ -1127,7 +1155,7 @@ const categories = [
         id: 'cctv1', 
         name: 'CCTV Cable 3+1', 
         price: 29.99, 
-        image: 'https://images.unsplash.com/photo-1557317605-47b7e98862e8?auto=format&fit=crop&q=80',
+        image: cctv3plus1Cable,
         category: 'CCTV Cable',
         description: 'Combined power and video cable with 3 copper conductors and 1 coaxial core. Perfect for analog CCTV systems.',
         detailedDescription: {
@@ -1158,7 +1186,7 @@ const categories = [
         id: 'cctv2', 
         name: 'CCTV Cable 4+1', 
         price: 34.99, 
-        image: 'https://images.unsplash.com/photo-1557317605-47b7e98862e8?auto=format&fit=crop&q=80',
+        image: cctv4plus1Cable,
         category: 'CCTV Cable',
         description: 'Premium CCTV cable with 4 power conductors and 1 coaxial core. Ideal for PTZ cameras and long-distance installations.',
         detailedDescription: {
@@ -1197,7 +1225,7 @@ const categories = [
         id: 'tel1', 
         name: 'Standard Telephone Cable', 
         price: 19.99, 
-        image: 'https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&q=80',
+        image: telephoneCable,
         category: 'Telephone Cable',
         description: 'Multi-pair telephone cable for voice communication. Suitable for internal and external telephone wiring systems.',
         detailedDescription: {
@@ -1235,7 +1263,7 @@ const categories = [
         id: 'cc1', 
         name: 'Desktop CPU Power Cord', 
         price: 15.99, 
-        image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80',
+        image: desktopPowerCord,
         category: 'Computer Cords',
         description: 'Standard 3-pin power cord for desktop computers and monitors. Available in various lengths with safety certification.',
         detailedDescription: {
@@ -1307,7 +1335,7 @@ const categories = [
         id: 'lift1',
         name: 'Standard Lift Cable',
         price: 149.99,
-        image: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80',
+        image: liftCable,
         category: 'Lift Cables',
         description: 'Professional lift cable with enhanced flexibility and durability for elevator systems. Designed for reliable operation in demanding vertical transportation environments.',
         detailedDescription: {
@@ -1347,7 +1375,7 @@ const categories = [
         id: 'speaker1',
         name: 'Standard Speaker Cable',
         price: 39.99,
-        image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&q=80',
+        image: speakerCable,
         category: 'Speaker Cable',
         description: 'High-quality speaker cable for audio applications. Features multi-stranded copper conductors and reliable connections for optimal sound transmission.',
         detailedDescription: {
