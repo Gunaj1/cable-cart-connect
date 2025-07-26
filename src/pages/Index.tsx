@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Cable, ShoppingCart, Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram, Eye, X, Award, Shield, Users, TrendingUp } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Cart from '../components/Cart';
@@ -8,11 +8,6 @@ import Checkout from '../components/Checkout';
 import ServicesSection from '../components/ServicesSection';
 import BusinessCredentials from '../components/BusinessCredentials';
 import InventoryManager from '../components/InventoryManager';
-import CableLoader from '../components/CableLoader';
-import ScrollCable from '../components/ScrollCable';
-import AnimatedButton from '../components/AnimatedButton';
-import WireDivider from '../components/WireDivider';
-import AnimatedIcon from '../components/AnimatedIcon';
 
 // Import product images
 import cat6StpPatchcord from '../assets/cat6-stp-patchcord.jpg';
@@ -70,12 +65,6 @@ const Index = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isInventoryOpen, setIsInventoryOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 2500);
-    return () => clearTimeout(timer);
-  }, []);
   const [products, setProducts] = useState<Product[]>(() => {
     // Initialize products with stock levels
     return categories.flatMap(category => 
@@ -197,17 +186,17 @@ const Index = () => {
                 <div className="bg-gradient-to-r from-blue-50 to-gray-50 rounded-2xl p-6 border border-blue-200">
                   <p className="text-2xl font-bold text-blue-900 mb-4">Price: ${product.price}</p>
                   <p className="text-lg font-medium text-gray-700 mb-4">Stock: {product.stock || 0} units</p>
-                  <AnimatedButton
+                  <button 
                     onClick={() => {
                       addToCart(product);
                       onClose();
                     }}
-                    className="w-full bg-gradient-to-r from-blue-600 to-gray-600 text-white py-3 px-6 rounded-xl hover:from-blue-700 hover:to-gray-700 flex items-center justify-center space-x-3 font-semibold shadow-lg"
+                    className="w-full bg-gradient-to-r from-blue-600 to-gray-600 text-white py-3 px-6 rounded-xl hover:from-blue-700 hover:to-gray-700 transition-all duration-300 flex items-center justify-center space-x-3 font-semibold shadow-lg transform hover:scale-105"
                     disabled={!product.stock}
                   >
                     <ShoppingCart className="w-6 h-6" />
                     <span>{product.stock ? 'Add to Cart' : 'Out of Stock'}</span>
-                  </AnimatedButton>
+                  </button>
                 </div>
               </div>
 
@@ -220,7 +209,7 @@ const Index = () => {
                   <ul className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-6 space-y-3 border border-gray-200">
                     {product.detailedDescription.applications.map((app, index) => (
                       <li key={index} className="flex items-start">
-                        <AnimatedIcon Icon={Cable} className="w-6 h-6 mt-0.5 mr-3 flex-shrink-0" glowColor="blue" />
+                        <Cable className="w-6 h-6 text-blue-600 mt-0.5 mr-3 flex-shrink-0" />
                         <span className="text-gray-700 font-medium">{app}</span>
                       </li>
                     ))}
@@ -264,13 +253,8 @@ const Index = () => {
     );
   };
 
-  if (isLoading) {
-    return <CableLoader />;
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50">
-      <ScrollCable />
       <Navbar 
         cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)} 
         onCartClick={() => setIsCartOpen(true)}
@@ -373,11 +357,7 @@ const Index = () => {
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center">
-                            <AnimatedIcon 
-                              Icon={Cable} 
-                              className={selectedCategory === null ? "w-5 h-5" : "w-6 h-6"} 
-                              glowColor="blue" 
-                            />
+                            <Cable className={selectedCategory === null ? "w-5 h-5 mr-3 text-blue-600" : "w-6 h-6 mr-4 text-blue-600"} />
                             <span className={selectedCategory === null ? "font-semibold text-gray-800" : "font-semibold text-gray-800 text-lg"}>{product.name}</span>
                           </div>
                           <div className={selectedCategory === null ? "flex items-center space-x-3" : "flex items-center space-x-4"}>
@@ -394,16 +374,16 @@ const Index = () => {
                                 About
                               </button>
                             )}
-                            <AnimatedButton
+                            <button
                               onClick={() => currentProduct && addToCart(currentProduct)}
                               className={selectedCategory === null
-                                ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2 px-4 rounded-lg hover:from-blue-700 hover:to-blue-800 font-medium shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                                : "bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-6 rounded-lg hover:from-blue-700 hover:to-blue-800 font-medium shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-base"
+                                ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2 px-4 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-medium shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                                : "bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-6 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-medium shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed text-base"
                               }
                               disabled={!currentProduct?.stock}
                             >
                               Add
-                            </AnimatedButton>
+                            </button>
                           </div>
                         </div>
                         {hoveredProduct === product.id && (
@@ -420,8 +400,6 @@ const Index = () => {
           ))}
         </div>
       </div>
-
-      <WireDivider />
 
       {/* About Section */}
       <div id="about" className="bg-gradient-to-br from-white to-blue-50 py-20">
@@ -440,14 +418,10 @@ const Index = () => {
         </div>
       </div>
 
-      <WireDivider />
-
       {/* Services Section - New Column */}
       <div id="services" className="bg-gradient-to-br from-gray-50 to-white py-20">
         <ServicesSection />
       </div>
-
-      <WireDivider />
 
       {/* Contact Section */}
       <div id="contact" className="bg-gradient-to-br from-blue-900 via-gray-900 to-blue-800 text-white py-20">
