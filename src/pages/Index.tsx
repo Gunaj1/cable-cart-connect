@@ -8,6 +8,10 @@ import Checkout from '../components/Checkout';
 import ServicesSection from '../components/ServicesSection';
 import BusinessCredentials from '../components/BusinessCredentials';
 import InventoryManager from '../components/InventoryManager';
+import ProductComparison from '../components/ProductComparison';
+import CompareButton from '../components/CompareButton';
+import ComparisonFloatingButton from '../components/ComparisonFloatingButton';
+import { useComparison } from '../contexts/ComparisonContext';
 
 // Import product images
 import cat6StpPatchcord from '../assets/cat6-stp-patchcord.jpg';
@@ -65,6 +69,9 @@ const Index = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isInventoryOpen, setIsInventoryOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [isComparisonOpen, setIsComparisonOpen] = useState(false);
+  
+  const { comparisonProducts, clearComparison } = useComparison();
   const [products, setProducts] = useState<Product[]>(() => {
     // Initialize products with stock levels
     return categories.flatMap(category => 
@@ -360,25 +367,34 @@ const Index = () => {
                             <Cable className={selectedCategory === null ? "w-5 h-5 mr-3 text-blue-600" : "w-6 h-6 mr-4 text-blue-600"} />
                             <span className={selectedCategory === null ? "font-semibold text-gray-800" : "font-semibold text-gray-800 text-lg"}>{product.name}</span>
                           </div>
-                          <div className={selectedCategory === null ? "flex items-center space-x-3" : "flex items-center space-x-4"}>
+                          <div className={selectedCategory === null ? "flex items-center space-x-2" : "flex items-center space-x-3"}>
                             <span className={selectedCategory === null ? "text-lg font-bold text-blue-600" : "text-xl font-bold text-blue-600"}>${product.price}</span>
+                            
+                            {/* Compare Button */}
+                            {currentProduct && (
+                              <CompareButton 
+                                product={currentProduct} 
+                                size={selectedCategory === null ? "sm" : "md"} 
+                              />
+                            )}
+                            
                             {product.detailedDescription && (
                               <button
                                 onClick={() => setSelectedProduct(currentProduct || null)}
                                 className={selectedCategory === null 
-                                  ? "bg-gradient-to-r from-gray-100 to-blue-50 text-gray-700 py-2 px-4 rounded-lg hover:from-blue-50 hover:to-gray-100 hover:text-blue-700 transition-all duration-300 flex items-center font-medium border border-gray-200"
-                                  : "bg-gradient-to-r from-gray-100 to-blue-50 text-gray-700 py-3 px-6 rounded-lg hover:from-blue-50 hover:to-gray-100 hover:text-blue-700 transition-all duration-300 flex items-center font-medium border border-gray-200 text-base"
+                                  ? "bg-gradient-to-r from-gray-100 to-blue-50 text-gray-700 py-2 px-3 rounded-lg hover:from-blue-50 hover:to-gray-100 hover:text-blue-700 transition-all duration-300 flex items-center font-medium border border-gray-200"
+                                  : "bg-gradient-to-r from-gray-100 to-blue-50 text-gray-700 py-3 px-4 rounded-lg hover:from-blue-50 hover:to-gray-100 hover:text-blue-700 transition-all duration-300 flex items-center font-medium border border-gray-200 text-base"
                                 }
                               >
-                                <Eye className={selectedCategory === null ? "w-4 h-4 mr-2" : "w-5 h-5 mr-2"} />
+                                <Eye className={selectedCategory === null ? "w-4 h-4 mr-1" : "w-5 h-5 mr-2"} />
                                 About
                               </button>
                             )}
                             <button
                               onClick={() => currentProduct && addToCart(currentProduct)}
                               className={selectedCategory === null
-                                ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2 px-4 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-medium shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                                : "bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-6 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-medium shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed text-base"
+                                ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2 px-3 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-medium shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                                : "bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-4 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-medium shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed text-base"
                               }
                               disabled={!currentProduct?.stock}
                             >
@@ -514,6 +530,22 @@ const Index = () => {
             p.id === productId ? { ...p, stock: newStock } : p
           ));
         }}
+      />
+
+      {/* Product Comparison Modal */}
+      <ProductComparison
+        isOpen={isComparisonOpen}
+        onClose={() => setIsComparisonOpen(false)}
+        products={comparisonProducts}
+        onClearComparison={() => {
+          clearComparison();
+          setIsComparisonOpen(false);
+        }}
+      />
+
+      {/* Floating Comparison Button */}
+      <ComparisonFloatingButton
+        onOpenComparison={() => setIsComparisonOpen(true)}
       />
     </div>
   );
