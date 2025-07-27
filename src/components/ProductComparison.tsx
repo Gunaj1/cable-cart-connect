@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, CheckCircle2, Zap, Shield, Settings, Award } from 'lucide-react';
+import { X, CheckCircle2, Zap, Shield, Settings, Award, Trash2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface Product {
@@ -22,6 +22,7 @@ interface ProductComparisonProps {
   onClose: () => void;
   products: Product[];
   onClearComparison: () => void;
+  onRemoveProduct?: (productId: string) => void;
 }
 
 // Helper function to extract technical details from products
@@ -62,9 +63,11 @@ const ProductComparison: React.FC<ProductComparisonProps> = ({
   isOpen,
   onClose,
   products,
-  onClearComparison
+  onClearComparison,
+  onRemoveProduct
 }) => {
   const [isAnimating, setIsAnimating] = useState(false);
+  const [hoveredColumn, setHoveredColumn] = useState<number | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -92,17 +95,26 @@ const ProductComparison: React.FC<ProductComparisonProps> = ({
   ];
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+    <div className={cn(
+      "fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm transition-all duration-500",
+      isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+    )}>
       <div 
         className={cn(
-          "bg-white rounded-2xl w-full max-w-7xl max-h-[90vh] overflow-hidden shadow-2xl transform transition-all duration-500",
-          isAnimating ? "scale-100 opacity-100 translate-y-0" : "scale-95 opacity-0 translate-y-4"
+          "bg-white rounded-2xl w-full max-w-7xl max-h-[90vh] overflow-hidden shadow-2xl transform transition-all duration-700 ease-out",
+          isAnimating ? "scale-100 opacity-100 translate-y-0" : "scale-95 opacity-0 translate-y-8"
         )}
       >
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-8 py-6 flex justify-between items-center">
+        <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-gray-600 px-8 py-6 flex justify-between items-center relative overflow-hidden">
+          {/* Animated background elements */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-white to-transparent animate-pulse-travel"></div>
+            <div className="absolute bottom-0 right-0 w-full h-0.5 bg-gradient-to-r from-transparent via-white to-transparent animate-pulse-travel" style={{ animationDelay: '1.5s' }}></div>
+          </div>
+          
           <div className="flex items-center space-x-4">
-            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/30">
               <Zap className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -129,22 +141,90 @@ const ProductComparison: React.FC<ProductComparisonProps> = ({
         {/* Content */}
         <div className="overflow-auto max-h-[calc(90vh-120px)]">
           {/* Product Images */}
-          <div className="bg-gradient-to-br from-gray-50 to-blue-50 p-8 border-b">
-            <div className={`grid gap-8 ${products.length === 2 ? 'grid-cols-2' : 'grid-cols-3'}`}>
+          <div className="bg-gradient-to-br from-gray-50 to-blue-50 p-8 border-b relative overflow-hidden">
+            {/* Cable line animations */}
+            <div className="absolute inset-0 pointer-events-none">
+              {products.length > 1 && (
+                <>
+                  <svg className="absolute inset-0 w-full h-full" style={{ zIndex: 1 }}>
+                    <defs>
+                      <linearGradient id="cableGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.3" />
+                        <stop offset="50%" stopColor="#1d4ed8" stopOpacity="0.6" />
+                        <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.3" />
+                      </linearGradient>
+                    </defs>
+                    {products.length === 2 && (
+                      <line
+                        x1="25%"
+                        y1="50%"
+                        x2="75%"
+                        y2="50%"
+                        stroke="url(#cableGradient)"
+                        strokeWidth="2"
+                        strokeDasharray="5,5"
+                        className="animate-pulse"
+                      />
+                    )}
+                    {products.length === 3 && (
+                      <>
+                        <line
+                          x1="16.67%"
+                          y1="50%"
+                          x2="50%"
+                          y2="50%"
+                          stroke="url(#cableGradient)"
+                          strokeWidth="2"
+                          strokeDasharray="5,5"
+                          className="animate-pulse"
+                        />
+                        <line
+                          x1="50%"
+                          y1="50%"
+                          x2="83.33%"
+                          y2="50%"
+                          stroke="url(#cableGradient)"
+                          strokeWidth="2"
+                          strokeDasharray="5,5"
+                          className="animate-pulse"
+                          style={{ animationDelay: '0.5s' }}
+                        />
+                      </>
+                    )}
+                  </svg>
+                </>
+              )}
+            </div>
+            
+            <div className={`grid gap-8 ${products.length === 2 ? 'grid-cols-2' : 'grid-cols-3'} relative z-10`}>
               {products.map((product, index) => (
                 <div 
                   key={product.id}
                   className={cn(
-                    "bg-white rounded-xl overflow-hidden shadow-lg border border-gray-200 transform transition-all duration-300",
-                    `animate-fade-in`
+                    "bg-white rounded-xl overflow-hidden shadow-lg border border-gray-200 transform transition-all duration-500 relative group",
+                    `animate-fade-in`,
+                    hoveredColumn === index && "scale-105 shadow-xl ring-2 ring-blue-400 ring-opacity-50"
                   )}
                   style={{ animationDelay: `${index * 150}ms` }}
+                  onMouseEnter={() => setHoveredColumn(index)}
+                  onMouseLeave={() => setHoveredColumn(null)}
                 >
+                  {/* Remove button */}
+                  {onRemoveProduct && (
+                    <button
+                      onClick={() => onRemoveProduct(product.id)}
+                      className="absolute top-2 right-2 z-20 bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 transform hover:scale-110"
+                      title="Remove from comparison"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                    </button>
+                  )}
+                  
                   <div className="aspect-square bg-gradient-to-br from-gray-100 to-blue-100 p-4">
                     <img 
                       src={product.image} 
                       alt={product.name}
-                      className="w-full h-full object-contain rounded-lg"
+                      className="w-full h-full object-contain rounded-lg transition-transform duration-300 group-hover:scale-110"
                     />
                   </div>
                   <div className="p-4">
@@ -230,10 +310,13 @@ const ProductComparison: React.FC<ProductComparisonProps> = ({
                             <td 
                               key={`${product.id}-${row.key}`}
                               className={cn(
-                                "py-4 px-4 text-center text-gray-700",
+                                "py-4 px-4 text-center text-gray-700 transition-all duration-300",
                                 colIndex % 2 === 0 ? "bg-blue-50/20" : "bg-gray-50/20",
-                                isDifferent && "relative"
+                                isDifferent && "relative",
+                                hoveredColumn === colIndex && "bg-blue-100/50 shadow-inner"
                               )}
+                              onMouseEnter={() => setHoveredColumn(colIndex)}
+                              onMouseLeave={() => setHoveredColumn(null)}
                             >
                               <div className={cn(
                                 "transition-all duration-300",
@@ -252,7 +335,7 @@ const ProductComparison: React.FC<ProductComparisonProps> = ({
                                 )}
                               </div>
                               {isDifferent && (
-                                <div className="absolute inset-0 bg-blue-400/10 rounded animate-pulse-subtle pointer-events-none" />
+                                <div className="absolute inset-0 bg-blue-400/20 rounded animate-pulse-subtle pointer-events-none" />
                               )}
                             </td>
                           );

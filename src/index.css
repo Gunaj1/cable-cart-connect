@@ -62,11 +62,31 @@
   0% {
     transform: translateX(-100%);
   }
-  50% {
-    transform: translateX(calc(100vw + 100%));
-  }
   100% {
     transform: translateX(calc(100vw + 100%));
+  }
+}
+
+@keyframes cable-connect {
+  0% {
+    stroke-dashoffset: 100;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.8), 0 0 30px rgba(59, 130, 246, 0.4);
   }
 }
 
@@ -93,6 +113,14 @@
 
 .animate-pulse-travel {
   animation: pulse-travel 3s ease-in-out infinite;
+}
+
+.animate-cable-connect {
+  animation: cable-connect 1.5s ease-out forwards;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
 }
 
 @layer base {
@@ -212,6 +240,14 @@
     animation: bounce 3s infinite;
   }
 
+  .animate-slide-in-bottom {
+    animation: slideInBottom 0.6s ease-out;
+  }
+
+  .animate-electric-blue {
+    animation: electricBlue 0.3s ease-out;
+  }
+
   .gradient-text {
     @apply bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent;
   }
@@ -262,6 +298,32 @@
     }
     50% {
       transform: translateY(-10px);
+    }
+  }
+
+  @keyframes slideInBottom {
+    from {
+      opacity: 0;
+      transform: translateY(100px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes electricBlue {
+    0% {
+      background-color: transparent;
+      box-shadow: none;
+    }
+    50% {
+      background-color: rgba(59, 130, 246, 0.1);
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+    }
+    100% {
+      background-color: rgba(59, 130, 246, 0.05);
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
     }
   }
 
@@ -320,6 +382,19 @@ textarea:focus {
 
 .prose p {
   margin-bottom: 1.25em;
+}
+
+/* Comparison specific styles */
+.comparison-modal-enter {
+  animation: slideInBottom 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.comparison-row-enter {
+  animation: slideUp 0.6s ease-out;
+}
+
+.comparison-column-hover {
+  animation: electricBlue 0.3s ease-out;
 }
 
 /* Loading skeleton animation */
