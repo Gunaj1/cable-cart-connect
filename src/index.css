@@ -70,6 +70,50 @@
   }
 }
 
+/* Enhanced Comparison Animations */
+@keyframes cable-connect {
+  0% {
+    stroke-dasharray: 0 100;
+  }
+  100% {
+    stroke-dasharray: 100 0;
+  }
+}
+
+@keyframes electric-pulse {
+  0%, 100% {
+    background-color: rgba(59, 130, 246, 0.2);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    background-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.6);
+  }
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes shake-attention {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+  20%, 40%, 60%, 80% { transform: translateX(2px); }
+}
+
 .animate-fade-in {
   animation: fade-in 0.5s ease-out forwards;
 }
@@ -93,6 +137,44 @@
 
 .animate-pulse-travel {
   animation: pulse-travel 3s ease-in-out infinite;
+}
+
+.animate-cable-connect {
+  animation: cable-connect 0.8s ease-in-out forwards;
+}
+
+.animate-electric-pulse {
+  animation: electric-pulse 2s ease-in-out infinite;
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+.animate-shake-attention {
+  animation: shake-attention 0.5s ease-in-out;
+}
+
+/* Comparison Modal Enhancements */
+.comparison-modal-overlay {
+  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.cable-connection-line {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: cable-connect 1s ease-in-out forwards;
+}
+
+.product-column-hover {
+  transition: all 0.3s ease;
+}
+
+.product-column-hover:hover {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 197, 253, 0.05));
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.15);
 }
 
 @layer base {

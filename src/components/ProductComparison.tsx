@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, CheckCircle2, Zap, Shield, Settings, Award } from 'lucide-react';
+import { X, CheckCircle2, Zap, Shield, Settings, Award, Cable } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface Product {
@@ -92,21 +92,43 @@ const ProductComparison: React.FC<ProductComparisonProps> = ({
   ];
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+    <div className="fixed inset-0 comparison-modal-overlay z-50 flex items-center justify-center p-4">
+      {/* Cable Connection SVG */}
+      <svg 
+        className="absolute inset-0 pointer-events-none z-10" 
+        width="100%" 
+        height="100%"
+        style={{ position: 'absolute', top: 0, left: 0 }}
+      >
+        {products.length >= 2 && Array.from({ length: products.length - 1 }).map((_, index) => (
+          <line
+            key={index}
+            x1={`${20 + (index * 30)}%`}
+            y1="40%"
+            x2={`${50 + (index * 30)}%`}
+            y2="40%"
+            stroke="rgba(59, 130, 246, 0.6)"
+            strokeWidth="3"
+            className="cable-connection-line"
+            style={{ animationDelay: `${index * 0.2}s` }}
+          />
+        ))}
+      </svg>
+      
       <div 
         className={cn(
-          "bg-white rounded-2xl w-full max-w-7xl max-h-[90vh] overflow-hidden shadow-2xl transform transition-all duration-500",
+          "bg-white rounded-2xl w-full max-w-7xl max-h-[90vh] overflow-hidden shadow-2xl transform transition-all duration-500 relative z-20",
           isAnimating ? "scale-100 opacity-100 translate-y-0" : "scale-95 opacity-0 translate-y-4"
         )}
       >
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-8 py-6 flex justify-between items-center">
           <div className="flex items-center space-x-4">
-            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-              <Zap className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center animate-electric-pulse">
+              <Cable className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-white">Product Comparison</h2>
+              <h2 className="text-3xl font-bold text-white animate-bounce-in">Product Comparison</h2>
               <p className="text-blue-100">Compare {products.length} selected products</p>
             </div>
           </div>
@@ -169,13 +191,14 @@ const ProductComparison: React.FC<ProductComparisonProps> = ({
                       Specifications
                     </th>
                     {products.map((product, index) => (
-                      <th 
+                       <th 
                         key={product.id} 
                         className={cn(
-                          "text-center py-4 px-4 text-lg font-bold text-gray-900",
+                          "text-center py-4 px-4 text-lg font-bold text-gray-900 product-column-hover cursor-pointer",
                           index === products.length - 1 && "rounded-r-lg",
                           index % 2 === 0 ? "bg-blue-50/50" : "bg-gray-50/50"
                         )}
+                        title="Click to highlight this product"
                       >
                         {product.name}
                       </th>
@@ -230,7 +253,7 @@ const ProductComparison: React.FC<ProductComparisonProps> = ({
                             <td 
                               key={`${product.id}-${row.key}`}
                               className={cn(
-                                "py-4 px-4 text-center text-gray-700",
+                                "py-4 px-4 text-center text-gray-700 product-column-hover",
                                 colIndex % 2 === 0 ? "bg-blue-50/20" : "bg-gray-50/20",
                                 isDifferent && "relative"
                               )}

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Scale, Eye, X } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Scale, Eye, X, Cable } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useComparison } from '@/contexts/ComparisonContext';
 
@@ -9,21 +9,36 @@ interface ComparisonFloatingButtonProps {
 
 const ComparisonFloatingButton: React.FC<ComparisonFloatingButtonProps> = ({ onOpenComparison }) => {
   const { comparisonProducts, clearComparison } = useComparison();
+  const [isVisible, setIsVisible] = useState(false);
+  const [shouldPulse, setShouldPulse] = useState(false);
 
-  if (comparisonProducts.length === 0) return null;
+  useEffect(() => {
+    if (comparisonProducts.length > 0) {
+      setIsVisible(true);
+      setShouldPulse(true);
+      // Remove pulse effect after animation
+      const timer = setTimeout(() => setShouldPulse(false), 1000);
+      return () => clearTimeout(timer);
+    } else {
+      setIsVisible(false);
+    }
+  }, [comparisonProducts.length]);
+
+  if (!isVisible) return null;
 
   return (
     <div className="fixed bottom-8 right-8 z-40">
       <div className={cn(
-        "bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl shadow-2xl shadow-blue-500/25 p-4 transform transition-all duration-500 animate-fade-in",
-        "hover:shadow-blue-500/40 hover:scale-105"
+        "bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl shadow-2xl shadow-blue-500/25 p-4 transform transition-all duration-500",
+        "hover:shadow-blue-500/40 hover:scale-105 animate-bounce-in",
+        shouldPulse && "animate-electric-pulse"
       )}>
         <div className="flex items-center space-x-4">
           {/* Product count indicator */}
           <div className="flex items-center space-x-3">
             <div className="relative">
-              <Scale className="w-6 h-6" />
-              <div className="absolute -top-2 -right-2 bg-white text-blue-600 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold animate-pulse">
+              <Cable className="w-6 h-6" />
+              <div className="absolute -top-2 -right-2 bg-white text-blue-600 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold animate-bounce">
                 {comparisonProducts.length}
               </div>
             </div>
@@ -63,9 +78,10 @@ const ComparisonFloatingButton: React.FC<ComparisonFloatingButtonProps> = ({ onO
               className={cn(
                 "px-4 py-2 rounded-lg font-semibold transition-all duration-300 flex items-center space-x-2",
                 comparisonProducts.length >= 2
-                  ? "bg-white text-blue-600 hover:bg-blue-50 transform hover:scale-105 shadow-lg"
-                  : "bg-white/50 text-blue-300 cursor-not-allowed"
+                  ? "bg-white text-blue-600 hover:bg-blue-50 transform hover:scale-105 shadow-lg animate-bounce-in"
+                  : "bg-white/50 text-blue-300 cursor-not-allowed opacity-50"
               )}
+              title={comparisonProducts.length < 2 ? "Add at least 2 products to compare" : "Open comparison view"}
             >
               <Eye className="w-4 h-4" />
               <span>Compare</span>
@@ -92,6 +108,11 @@ const ComparisonFloatingButton: React.FC<ComparisonFloatingButtonProps> = ({ onO
       
       {/* Floating animation indicator */}
       <div className="absolute inset-0 bg-blue-500 rounded-2xl animate-ping opacity-20" />
+      
+      {/* Cable connection effect */}
+      {comparisonProducts.length >= 2 && (
+        <div className="absolute -top-2 -left-2 w-4 h-4 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50" />
+      )}
     </div>
   );
 };
