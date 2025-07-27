@@ -2,6 +2,11 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { BadgeCheck, Target, Compass, Users, ExternalLink } from 'lucide-react';
+import aboutUsBg from '../assets/about-us-bg.jpg';
+import missionBg from '../assets/mission-bg.jpg';
+import visionBg from '../assets/vision-bg.jpg';
+import valuesBg from '../assets/values-bg.jpg';
+import journeyBg from '../assets/journey-bg.jpg';
 
 interface AboutTabProps {
   activeTab: string;
@@ -27,7 +32,7 @@ const AboutTabs: React.FC = () => {
           </p>
         </div>
       ),
-      image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80"
+      image: aboutUsBg
     },
     mission: {
       title: "Our Mission",
@@ -39,7 +44,7 @@ const AboutTabs: React.FC = () => {
           </p>
         </div>
       ),
-      image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80"
+      image: missionBg
     },
     vision: {
       title: "Our Vision",
@@ -51,7 +56,7 @@ const AboutTabs: React.FC = () => {
           </p>
         </div>
       ),
-      image: "https://images.unsplash.com/photo-1594805809385-6d3cc7716e95?auto=format&fit=crop&q=80"
+      image: visionBg
     },
     values: {
       title: "Our Core Values",
@@ -84,7 +89,7 @@ const AboutTabs: React.FC = () => {
           </div>
         </div>
       ),
-      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80"
+      image: valuesBg
     },
     journey: {
       title: "Our Journey",
@@ -160,7 +165,7 @@ const AboutTabs: React.FC = () => {
           </div>
         </div>
       ),
-      image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80"
+      image: journeyBg
     }
   };
 
@@ -182,12 +187,20 @@ const AboutTabs: React.FC = () => {
           {content.content}
         </div>
         <div className="order-1 lg:order-2 relative overflow-hidden rounded-2xl shadow-xl">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-700/20 to-gray-900/40 z-10" />
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-700/30 to-gray-900/50 z-10" />
           <img 
             src={content.image}
             alt={content.title}
             className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
           />
+          {/* Cable line animation for journey tab */}
+          {activeTab === 'journey' && (
+            <div className="absolute inset-0 z-20">
+              <div className="absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-60">
+                <div className="absolute top-0 left-0 w-4 h-0.5 bg-blue-300 animate-pulse-travel rounded-full shadow-lg"></div>
+              </div>
+            </div>
+          )}
         </div>
       </motion.div>
     );

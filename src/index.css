@@ -58,6 +58,18 @@
   }
 }
 
+@keyframes pulse-travel {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(calc(100vw + 100%));
+  }
+  100% {
+    transform: translateX(calc(100vw + 100%));
+  }
+}
+
 .animate-fade-in {
   animation: fade-in 0.5s ease-out forwards;
 }
@@ -77,6 +89,10 @@
 
 .animate-pulse-subtle {
   animation: pulse-subtle 2s ease-in-out infinite;
+}
+
+.animate-pulse-travel {
+  animation: pulse-travel 3s ease-in-out infinite;
 }
 
 @layer base {
