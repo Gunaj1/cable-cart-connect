@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Scale, Eye, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useComparison } from '@/contexts/ComparisonContext';
