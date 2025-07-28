@@ -1,16 +1,36 @@
 
-import React from 'react';
-import { ShoppingCart } from 'lucide-react';
+import React, { useState } from 'react';
+import { ShoppingCart, Search, X } from 'lucide-react';
 import Logo from './Logo';
+import ProductSearch from './ProductSearch';
+
+interface Product {
+  id: string;
+  name: string;
+  category: string;
+  image: string;
+  price: number;
+  description: string;
+  stock: number;
+  detailedDescription?: {
+    applications: string[];
+    specifications: string[];
+    features: string[];
+  };
+}
 
 interface NavbarProps {
   cartCount: number;
   onCartClick: () => void;
   onNavigate: (section: string) => void;
   activeSection: string;
+  products: Product[];
+  onProductSelect: (product: Product) => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick, onNavigate, activeSection }) => {
+const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick, onNavigate, activeSection, products, onProductSelect }) => {
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+  
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'products', label: 'Products' },
@@ -52,7 +72,25 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick, onNavigate, act
             ))}
           </div>
 
-          <button
+          {/* Search Box */}
+          <div className="hidden lg:block">
+            <ProductSearch 
+              products={products}
+              onProductSelect={onProductSelect}
+              className="w-80"
+            />
+          </div>
+
+          {/* Mobile Search Toggle */}
+          <div className="flex items-center space-x-3">
+            <button
+              onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
+              className="lg:hidden p-2 rounded-lg text-gray-600 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300"
+            >
+              {isMobileSearchOpen ? <X className="w-6 h-6" /> : <Search className="w-6 h-6" />}
+            </button>
+
+            <button
             onClick={onCartClick}
             className="relative bg-gradient-to-r from-blue-600 to-blue-700 text-white p-3 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105 shadow-lg"
           >
@@ -62,8 +100,23 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick, onNavigate, act
                 {cartCount}
               </span>
             )}
-          </button>
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Search Bar */}
+        {isMobileSearchOpen && (
+          <div className="lg:hidden px-4 pb-4 border-t border-gray-100 bg-white/95 backdrop-blur-md animate-fade-in">
+            <ProductSearch 
+              products={products}
+              onProductSelect={(product) => {
+                onProductSelect(product);
+                setIsMobileSearchOpen(false);
+              }}
+              className="w-full"
+            />
+          </div>
+        )}
       </div>
     </nav>
   );

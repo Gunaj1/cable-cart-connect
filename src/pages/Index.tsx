@@ -267,6 +267,8 @@ const Index = () => {
         onCartClick={() => setIsCartOpen(true)}
         onNavigate={scrollToSection}
         activeSection={activeSection}
+        products={products}
+        onProductSelect={(product) => setSelectedProduct(product)}
       />
       
       {/* Hero Section */}
