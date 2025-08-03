@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom";
 const supabase = createClient(
   "https://hddvrvhuemdqahfhgsnf.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkZHZydmh1ZW1kcWFoZmhnc25mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQyNDQ0MDIsImV4cCI6MjA2OTgyMDQwMn0.c8-0Aik8Si2tcP2jbs7NWs9ruMaNwWjGJI8MpswCDwA"
-
-"
 );
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -24,7 +22,7 @@ const PrivateRoute = ({ children }: { children: JSX.Element }) => {
       }
     };
     checkAuth();
-  }, []);
+  }, [navigate]);
 
   if (isAuthenticated === null) return <p>Loading...</p>;
 
