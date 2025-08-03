@@ -1,17 +1,19 @@
 import { createClient } from '@supabase/supabase-js';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // <-- Add this line
+import { useNavigate } from 'react-router-dom';
 
 const supabase = createClient(
   'https://hddvrvhuemdqahfhgsnf.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkZHZydmh1ZW1kcWFoZmhnc25mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQyNDQ0MDIsImV4cCI6MjA2OTgyMDQwMn0.c8-0Aik8Si2tcP2jbs7NWs9ruMaNwWjGJI8MpswCDwA'
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkZHZydmh1ZW1kcWFoZmhnc25mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQyNDQ0MDIsImV4cCI6MjA2OTgyMDQwMn0.c8-0Aik8Si2tcP2jbs7NWs9ruMaNwWjGJI8MpswCDwA
+
+'
 );
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
-  const navigate = useNavigate(); // <-- Hook for navigation
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -22,8 +24,8 @@ function Login() {
     if (error) {
       setError(error.message);
     } else {
-      setError(null);
-      navigate('/'); // 
+      // Redirect to homepage on successful login
+      navigate('/');
     }
   };
 
