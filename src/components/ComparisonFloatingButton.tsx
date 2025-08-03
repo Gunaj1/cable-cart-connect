@@ -24,6 +24,23 @@ const ComparisonFloatingButton: React.FC<ComparisonFloatingButtonProps> = ({ onO
     }
   }, [comparisonProducts.length]);
 
+  const handleCompareClick = () => {
+    if (comparisonProducts.length >= 2) {
+      onOpenComparison();
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (e.currentTarget.getAttribute('data-action') === 'compare') {
+        handleCompareClick();
+      } else if (e.currentTarget.getAttribute('data-action') === 'clear') {
+        clearComparison();
+      }
+    }
+  };
+
   if (!isVisible) return null;
 
   return (
@@ -73,10 +90,14 @@ const ComparisonFloatingButton: React.FC<ComparisonFloatingButtonProps> = ({ onO
           {/* Action buttons */}
           <div className="flex items-center space-x-2">
             <button
-              onClick={onOpenComparison}
+              onClick={handleCompareClick}
+              onKeyDown={handleKeyDown}
+              data-action="compare"
               disabled={comparisonProducts.length < 2}
+              tabIndex={0}
+              aria-label={`Compare ${comparisonProducts.length} selected products`}
               className={cn(
-                "px-4 py-2 rounded-lg font-semibold transition-all duration-300 flex items-center space-x-2",
+                "px-4 py-2 rounded-lg font-semibold transition-all duration-300 flex items-center space-x-2 focus:outline-none focus:ring-4 focus:ring-blue-300",
                 comparisonProducts.length >= 2
                   ? "bg-white text-blue-600 hover:bg-blue-50 transform hover:scale-105 shadow-lg animate-bounce-in"
                   : "bg-white/50 text-blue-300 cursor-not-allowed opacity-50"
@@ -89,7 +110,11 @@ const ComparisonFloatingButton: React.FC<ComparisonFloatingButtonProps> = ({ onO
             
             <button
               onClick={clearComparison}
-              className="p-2 rounded-lg bg-white/20 hover:bg-white/30 transition-colors duration-200"
+              onKeyDown={handleKeyDown}
+              data-action="clear"
+              tabIndex={0}
+              aria-label="Clear all selected products from comparison"
+              className="p-2 rounded-lg bg-white/20 hover:bg-white/30 transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-white/50"
               title="Clear comparison"
             >
               <X className="w-4 h-4" />

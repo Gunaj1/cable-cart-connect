@@ -43,6 +43,13 @@ const CompareButton: React.FC<CompareButtonProps> = ({ product, size = 'md' }) =
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleClick(e as any);
+    }
+  };
+
   const sizeClasses = {
     sm: 'h-8 w-8 text-xs',
     md: 'h-10 w-10 text-sm',
@@ -58,23 +65,26 @@ const CompareButton: React.FC<CompareButtonProps> = ({ product, size = 'md' }) =
   return (
     <button
       onClick={handleClick}
+      onKeyDown={handleKeyDown}
       disabled={isDisabled}
+      tabIndex={0}
+      role="button"
+      aria-label={
+        isComparing 
+          ? `Remove ${product.name} from comparison` 
+          : isDisabled 
+          ? "Maximum 3 products can be compared" 
+          : `Add ${product.name} to comparison`
+      }
       className={cn(
-        "relative overflow-hidden rounded-full flex items-center justify-center font-semibold transition-all duration-300 group",
+        "relative overflow-hidden rounded-full flex items-center justify-center font-semibold transition-all duration-300 group focus:outline-none focus:ring-4 focus:ring-blue-300",
         sizeClasses[size],
         isComparing
-          ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:from-blue-600 hover:to-blue-700 transform hover:scale-110 animate-electric-pulse"
+          ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:from-blue-600 hover:to-blue-700 transform hover:scale-110 animate-electric-pulse ring-2 ring-blue-400"
           : isDisabled
           ? "bg-gray-300 text-gray-500 cursor-not-allowed opacity-50"
           : "bg-white text-blue-600 border-2 border-blue-200 hover:border-blue-400 hover:bg-blue-50 transform hover:scale-110 shadow-md hover:shadow-lg animate-bounce-in"
       )}
-      title={
-        isComparing 
-          ? "Remove from comparison" 
-          : isDisabled 
-          ? "Maximum 3 products can be compared" 
-          : "Add to comparison"
-      }
     >
       <div className="relative z-10">
         {isComparing ? (

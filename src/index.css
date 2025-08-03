@@ -171,11 +171,39 @@
   transition: all 0.3s ease;
 }
 
-.product-column-hover:hover {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 197, 253, 0.05));
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.15);
-}
+  .product-column-hover:hover {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 197, 253, 0.05));
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.15);
+  }
+
+  /* Subtle pulse for differences */
+  .animate-pulse-subtle {
+    animation: pulse-subtle 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse-subtle {
+    0%, 100% {
+      opacity: 0.1;
+    }
+    50% {
+      opacity: 0.3;
+    }
+  }
+
+  /* Slide in up animation */
+  .animate-slide-in-up {
+    animation: slide-in-up 0.5s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  @keyframes slide-in-up {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
 @layer base {
   :root {
