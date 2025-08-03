@@ -1,8 +1,10 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+import { Toaster as AppToaster } from "@/components/ui/toaster";
+import { Toaster as SonnerToaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 import { ComparisonProvider } from "./contexts/ComparisonContext";
 
@@ -17,14 +19,14 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <ComparisonProvider>
       <TooltipProvider>
-        <Toaster />
-        <Sonner />
+        <AppToaster />
+        <SonnerToaster />
         <BrowserRouter>
           <Routes>
-            {/* Public Route */}
+            {/* Public Login Route */}
             <Route path="/login" element={<Login />} />
 
-            {/* Protected Route */}
+            {/* Protected Home Route */}
             <Route
               path="/"
               element={
@@ -34,7 +36,7 @@ const App = () => (
               }
             />
 
-            {/* Catch-all */}
+            {/* Catch-all Not Found Route */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
