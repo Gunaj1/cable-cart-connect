@@ -72,13 +72,16 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-industrial-dark relative overflow-hidden">
-      {/* Blueprint Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 relative overflow-hidden">
+      {/* Futuristic Network Background */}
+      <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M30 30h30v30H30V30zm15 15v15h15V45H45zm0-15v15h15V30H45z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23007BFF' fill-opacity='0.2'%3E%3Ccircle cx='20' cy='20' r='2'/%3E%3Ccircle cx='60' cy='20' r='2'/%3E%3Ccircle cx='20' cy='60' r='2'/%3E%3Ccircle cx='60' cy='60' r='2'/%3E%3Cpath d='M20 20h40M20 20v40M60 20v40M20 60h40' stroke='%23007BFF' stroke-width='0.5' stroke-opacity='0.3'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
         }} />
       </div>
+      
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-blue-600/30"></div>
 
       {/* Animated Logo Section */}
       {showAnimation && (
@@ -116,30 +119,37 @@ function Login() {
       {/* Login Form */}
       <div className={`flex items-center justify-center min-h-screen transition-all duration-1000 ${showAnimation ? 'opacity-0' : 'opacity-100'}`}>
         <div className="w-full max-w-md mx-4">
-          <div className="bg-card/80 backdrop-blur-sm border border-white/10 rounded-2xl p-8 shadow-2xl shadow-primary/20">
+          <div className="glass-effect rounded-2xl p-8 shadow-2xl shadow-primary/30 border border-white/20">
             {/* Header */}
             <div className="text-center mb-8">
               <div className="inline-flex items-center space-x-2 mb-4">
-                <Zap className="w-6 h-6 text-primary animate-pulse-subtle" />
-                <h1 className="text-2xl font-bold text-card-foreground">Welcome Back</h1>
-                <Zap className="w-6 h-6 text-primary animate-pulse-subtle" />
+                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-blue-400 flex items-center justify-center animate-pulse-subtle">
+                  <Cable className="w-5 h-5 text-white" />
+                </div>
+                <h1 className="text-3xl font-bold text-white font-heading animate-glow">CCI</h1>
+                <div className="w-10 h-10 rounded-full bg-gradient-to-l from-primary to-blue-400 flex items-center justify-center animate-pulse-subtle">
+                  <Zap className="w-5 h-5 text-white" />
+                </div>
               </div>
-              <p className="text-muted-foreground text-sm">
-                Sign in to access your CCI dashboard
+              <h2 className="text-lg text-white/90 font-medium tracking-wide mb-2">
+                Chhajer Cable Industry
+              </h2>
+              <p className="text-white/70 text-sm">
+                Sign in to access your dashboard
               </p>
             </div>
 
             {/* Login Form */}
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-card-foreground font-medium">
+                <Label htmlFor="email" className="text-white/90 font-medium">
                   Email Address
                 </Label>
                 <Input
                   id="email"
                   type="email"
                   placeholder="your.email@company.com"
-                  className="bg-background/50 border-white/20 focus:border-primary transition-all duration-300 h-12"
+                  className="bg-white/10 border-white/30 text-white placeholder:text-white/60 focus:border-primary focus:bg-white/15 transition-all duration-300 h-12"
                   {...register('email')}
                 />
                 {errors.email && (
@@ -148,25 +158,25 @@ function Login() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-card-foreground font-medium">
+                <Label htmlFor="password" className="text-white/90 font-medium">
                   Password
                 </Label>
                 <Input
                   id="password"
                   type="password"
                   placeholder="Enter your password"
-                  className="bg-background/50 border-white/20 focus:border-primary transition-all duration-300 h-12"
+                  className="bg-white/10 border-white/30 text-white placeholder:text-white/60 focus:border-primary focus:bg-white/15 transition-all duration-300 h-12"
                   {...register('password')}
                 />
                 {errors.password && (
-                  <p className="text-destructive text-sm">{errors.password.message}</p>
+                  <p className="text-red-400 text-sm">{errors.password.message}</p>
                 )}
               </div>
 
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full h-12 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white font-medium transition-all duration-300 hover:shadow-lg hover:shadow-primary/30 group"
+                className="w-full h-12 bg-gradient-to-r from-primary via-blue-500 to-blue-600 hover:from-blue-500 hover:via-blue-600 hover:to-primary text-white font-semibold transition-all duration-300 hover:shadow-2xl hover:shadow-primary/40 group relative overflow-hidden"
               >
                 {isLoading ? (
                   <>
@@ -184,14 +194,14 @@ function Login() {
 
             {/* Footer Links */}
             <div className="mt-6 text-center space-y-2">
-              <button className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              <button className="text-sm text-white/60 hover:text-primary transition-colors">
                 Forgot your password?
               </button>
             </div>
 
             {/* Company Tagline */}
             <div className="mt-8 pt-6 border-t border-white/10 text-center">
-              <p className="text-xs text-muted-foreground italic">
+              <p className="text-xs text-white/50 italic">
                 Connecting India through reliable cables and patchcords.
               </p>
             </div>
