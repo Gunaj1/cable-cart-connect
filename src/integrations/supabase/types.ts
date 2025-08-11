@@ -19,6 +19,7 @@ export type Database = {
           created_at: string | null
           description: string | null
           id: string
+          image_url: string | null
           name: string
           slug: string
           sort_order: number | null
@@ -27,6 +28,7 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           id?: string
+          image_url?: string | null
           name: string
           slug: string
           sort_order?: number | null
@@ -35,6 +37,7 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           id?: string
+          image_url?: string | null
           name?: string
           slug?: string
           sort_order?: number | null
@@ -92,6 +95,27 @@ export type Database = {
         }
         Relationships: []
       }
+      product_comparisons: {
+        Row: {
+          created_at: string
+          id: string
+          product_ids: string[]
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          product_ids: string[]
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          product_ids?: string[]
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       product_images: {
         Row: {
           alt_text: string | null
@@ -133,36 +157,51 @@ export type Database = {
       products: {
         Row: {
           about: Json | null
+          applications: string[] | null
           category_id: string | null
           created_at: string | null
+          features: string[] | null
           id: string
+          image_url: string | null
           metadata: Json | null
           name: string
           price: number | null
           short_description: string | null
           sku: string | null
+          specifications: Json | null
+          stock_quantity: number | null
         }
         Insert: {
           about?: Json | null
+          applications?: string[] | null
           category_id?: string | null
           created_at?: string | null
+          features?: string[] | null
           id?: string
+          image_url?: string | null
           metadata?: Json | null
           name: string
           price?: number | null
           short_description?: string | null
           sku?: string | null
+          specifications?: Json | null
+          stock_quantity?: number | null
         }
         Update: {
           about?: Json | null
+          applications?: string[] | null
           category_id?: string | null
           created_at?: string | null
+          features?: string[] | null
           id?: string
+          image_url?: string | null
           metadata?: Json | null
           name?: string
           price?: number | null
           short_description?: string | null
           sku?: string | null
+          specifications?: Json | null
+          stock_quantity?: number | null
         }
         Relationships: [
           {
@@ -173,6 +212,27 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string | null
+          id: string
+          role?: Database["public"]["Enums"]["app_role"]
+        }
+        Update: {
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+        }
+        Relationships: []
       }
       site_settings: {
         Row: {
@@ -197,10 +257,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_admin: {
+        Args: { _uid?: string }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "customer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -327,6 +390,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "customer"],
+    },
   },
 } as const
