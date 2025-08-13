@@ -1,0 +1,6 @@
+name,category_slug,price,image_url,short_description,applications,features,specifications
+"Cat 6 STP",patchcords,29.99,,"Shielded Twisted Pair Cat6 patchcord","LAN NETWORK SYSTEM;COMPUTER NETWORK DISTRIBUTING SYSTEM","OEM SUPPLIER;CUSTOMIZATION AVAILABLE","{\"gauge\":\"23/24/25/26AWG\"}"
+"Cat 6 FTP",patchcords,27.99,,"Foiled Twisted Pair Cat6 patchcord","DATA CENTERS;ENTERPRISE NETWORKS","PASSED FLUKE TEST;CUSTOMIZED LENGTHS","{\"impedance\":\"100 ±15Ω\"}"
+"Cat 6 UTP",patchcords,25.99,,"Unshielded Twisted Pair Cat6 patchcord","OFFICE ENVIRONMENTS;SCHOOLS","OEM SUPPLIER;PACKING CUSTOMIZED","{}"
+"Cat 5e Flat",cat5e-lan-cables,35.99,,"Ultra-thin flat design","HOME NETWORKS;UNDER CARPET","CUSTOMIZATION AVAILABLE;SPEED 1000MBPS","{}"
+"Cat 6 Armored",cat6-lan-cable,55.99,,"Armored Cat6 for harsh environments","OUTDOOR;INDUSTRIAL","FLUKE TESTED;DCM TESTED","{}"

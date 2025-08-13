@@ -1,85 +1,30 @@
-import { useState, useEffect } from "react";
-import { supabase } from "../integrations/supabase/client";
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  description?: string;
-}
+import { useState } from "react";
+import AdminRoute from "@/components/AdminRoute";
+import CategoriesManager from "@/components/admin/CategoriesManager";
+import ProductsManager from "@/components/admin/ProductsManager";
+import PagesManager from "@/components/admin/PagesManager";
 
 export default function Admin() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState<number>(0);
-
-  // Load products from Supabase
-  const fetchProducts = async () => {
-    const { data, error } = await supabase.from("products").select("*");
-    if (error) console.error("Error fetching products:", error);
-    else setProducts(data || []);
-  };
-
-  // Add a new product
-  const addProduct = async () => {
-    if (!name || price <= 0) {
-      alert("Please enter valid product details.");
-      return;
-    }
-    const { error } = await supabase.from("products").insert([{ name, price }]);
-    if (error) {
-      console.error(error);
-      alert("Error adding product");
-    } else {
-      setName("");
-      setPrice(0);
-      fetchProducts();
-    }
-  };
-
-  // Delete a product
-  const deleteProduct = async (id: string) => {
-    const { error } = await supabase.from("products").delete().eq("id", id);
-    if (error) {
-      console.error(error);
-      alert("Error deleting product");
-    } else {
-      fetchProducts();
-    }
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  const [tab, setTab] = useState<"products"|"categories"|"pages">("products");
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Admin Panel</h1>
+    <AdminRoute>
+      <div className="container mx-auto px-4 py-8">
+        <header className="mb-6">
+          <h1 className="text-3xl font-bold">Admin Panel</h1>
+          <p className="text-sm text-gray-600">Only admins may make changes. Data is synced with Supabase.</p>
+        </header>
 
-      <h2>Add Product</h2>
-      <input
-        type="text"
-        placeholder="Product Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <input
-        type="number"
-        placeholder="Price"
-        value={price}
-        onChange={(e) => setPrice(parseFloat(e.target.value))}
-      />
-      <button onClick={addProduct}>Add</button>
+        <nav className="flex gap-3 mb-8">
+          <button onClick={()=>setTab("products")} className={`px-4 py-2 rounded ${tab==="products"?"bg-blue-600 text-white":"bg-white border"}`}>Products</button>
+          <button onClick={()=>setTab("categories")} className={`px-4 py-2 rounded ${tab==="categories"?"bg-blue-600 text-white":"bg-white border"}`}>Categories</button>
+          <button onClick={()=>setTab("pages")} className={`px-4 py-2 rounded ${tab==="pages"?"bg-blue-600 text-white":"bg-white border"}`}>Pages</button>
+        </nav>
 
-      <h2>Existing Products</h2>
-      <ul>
-        {products.map((p) => (
-          <li key={p.id}>
-            {p.name} — ₹{p.price}
-            <button onClick={() => deleteProduct(p.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
-    </div>
+        {tab === "products" && <ProductsManager />}
+        {tab === "categories" && <CategoriesManager />}
+        {tab === "pages" && <PagesManager />}
+      </div>
+    </AdminRoute>
   );
 }
