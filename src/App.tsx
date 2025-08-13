@@ -12,6 +12,9 @@ import Index from "./pages/Index";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
+import AdminRoute from "./components/AdminRoute";
+import Admin from "./pages/admin";
+import ComparePage from "./pages/compare";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +35,26 @@ const App = () => (
               element={
                 <PrivateRoute>
                   <Index />
+                </PrivateRoute>
+              }
+            />
+
+            {/* Admin Route */}
+            <Route
+              path="/admin"
+              element={
+                <AdminRoute>
+                  <Admin />
+                </AdminRoute>
+              }
+            />
+
+            {/* Compare Page */}
+            <Route
+              path="/compare"
+              element={
+                <PrivateRoute>
+                  <ComparePage />
                 </PrivateRoute>
               }
             />
