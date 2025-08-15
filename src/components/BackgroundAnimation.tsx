@@ -3,10 +3,10 @@ import React from 'react';
 const BackgroundAnimation = () => {
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-      {/* Animated gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-primary/5 animate-pulse-slow" />
+      {/* Subtle gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-background via-background/98 to-primary/3" />
       
-      {/* Flowing wave layers */}
+      {/* Main cable network animation */}
       <div className="absolute inset-0">
         <svg
           className="absolute inset-0 w-full h-full"
@@ -14,95 +14,151 @@ const BackgroundAnimation = () => {
           preserveAspectRatio="xMidYMid slice"
         >
           <defs>
-            <linearGradient id="wave1" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="hsl(var(--primary) / 0.03)" />
+            {/* Cable gradients */}
+            <linearGradient id="cableGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="hsl(var(--primary) / 0.1)" />
+              <stop offset="50%" stopColor="hsl(var(--primary) / 0.2)" />
+              <stop offset="100%" stopColor="hsl(var(--primary) / 0.1)" />
+            </linearGradient>
+            
+            <linearGradient id="cableGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="hsl(var(--primary) / 0.08)" />
+              <stop offset="50%" stopColor="hsl(var(--primary) / 0.15)" />
               <stop offset="100%" stopColor="hsl(var(--primary) / 0.08)" />
             </linearGradient>
-            <linearGradient id="wave2" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="hsl(var(--primary) / 0.02)" />
-              <stop offset="100%" stopColor="hsl(var(--primary) / 0.06)" />
-            </linearGradient>
-          </defs>
-          
-          {/* First wave layer */}
-          <path
-            d="M0,400 C300,200 600,600 1200,300 L1200,800 L0,800 Z"
-            fill="url(#wave1)"
-            className="animate-wave-slow"
-          />
-          
-          {/* Second wave layer */}
-          <path
-            d="M0,600 C400,300 800,700 1200,400 L1200,800 L0,800 Z"
-            fill="url(#wave2)"
-            className="animate-wave-medium"
-          />
-        </svg>
-      </div>
-      
-      {/* Floating particles */}
-      <div className="absolute inset-0">
-        {Array.from({ length: 12 }).map((_, i) => (
-          <div
-            key={i}
-            className={`absolute w-1 h-1 bg-primary/20 rounded-full animate-float-${(i % 3) + 1}`}
-            style={{
-              left: `${10 + (i * 7)}%`,
-              top: `${20 + (i * 5)}%`,
-              animationDelay: `${i * 0.8}s`,
-            }}
-          />
-        ))}
-      </div>
-      
-      {/* Connection lines (subtle) */}
-      <div className="absolute inset-0">
-        <svg
-          className="w-full h-full opacity-30"
-          viewBox="0 0 1200 800"
-          preserveAspectRatio="xMidYMid slice"
-        >
-          <defs>
-            <linearGradient id="line1" x1="0%" y1="0%" x2="100%" y2="0%">
+
+            {/* Glow effects for connection points */}
+            <radialGradient id="connectionGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="hsl(var(--primary) / 0.4)" />
+              <stop offset="70%" stopColor="hsl(var(--primary) / 0.1)" />
+              <stop offset="100%" stopColor="transparent" />
+            </radialGradient>
+
+            {/* Data pulse gradient */}
+            <linearGradient id="dataPulse" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stopColor="transparent" />
-              <stop offset="50%" stopColor="hsl(var(--primary) / 0.1)" />
+              <stop offset="30%" stopColor="hsl(var(--primary) / 0.6)" />
+              <stop offset="70%" stopColor="hsl(var(--primary) / 0.8)" />
               <stop offset="100%" stopColor="transparent" />
             </linearGradient>
           </defs>
           
-          {/* Animated connection lines */}
-          <line
-            x1="0"
-            y1="200"
-            x2="1200"
-            y2="250"
-            stroke="url(#line1)"
-            strokeWidth="1"
-            className="animate-line-flow"
+          {/* Cable network paths */}
+          {/* Main horizontal cable */}
+          <path
+            d="M100,300 Q300,280 500,300 T900,320 Q1000,325 1100,320"
+            stroke="url(#cableGradient1)"
+            strokeWidth="3"
+            fill="none"
+            className="animate-cable-connect"
           />
-          <line
-            x1="0"
-            y1="500"
-            x2="1200"
-            y2="480"
-            stroke="url(#line1)"
-            strokeWidth="1"
-            className="animate-line-flow-reverse"
-            style={{ animationDelay: '2s' }}
+          
+          {/* Secondary cable paths */}
+          <path
+            d="M200,500 Q400,480 600,500 T1000,520"
+            stroke="url(#cableGradient2)"
+            strokeWidth="2.5"
+            fill="none"
+            className="animate-cable-connect-delay-1"
           />
+          
+          <path
+            d="M150,150 Q350,130 550,150 T850,170"
+            stroke="url(#cableGradient1)"
+            strokeWidth="2"
+            fill="none"
+            className="animate-cable-connect-delay-2"
+          />
+          
+          {/* Vertical connecting cables */}
+          <path
+            d="M500,300 Q520,400 500,500"
+            stroke="url(#cableGradient2)"
+            strokeWidth="2"
+            fill="none"
+            className="animate-cable-vertical"
+          />
+          
+          <path
+            d="M750,170 Q770,250 750,320"
+            stroke="url(#cableGradient1)"
+            strokeWidth="2"
+            fill="none"
+            className="animate-cable-vertical-delay"
+          />
+
+          {/* Connection nodes with glow */}
+          <g className="animate-pulse-connection">
+            <circle cx="500" cy="300" r="8" fill="url(#connectionGlow)" />
+            <circle cx="500" cy="300" r="3" fill="hsl(var(--primary) / 0.8)" />
+          </g>
+          
+          <g className="animate-pulse-connection-delay-1">
+            <circle cx="750" cy="320" r="6" fill="url(#connectionGlow)" />
+            <circle cx="750" cy="320" r="2.5" fill="hsl(var(--primary) / 0.8)" />
+          </g>
+          
+          <g className="animate-pulse-connection-delay-2">
+            <circle cx="600" cy="500" r="5" fill="url(#connectionGlow)" />
+            <circle cx="600" cy="500" r="2" fill="hsl(var(--primary) / 0.8)" />
+          </g>
+
+          {/* Data pulse effects */}
+          <circle r="4" fill="url(#dataPulse)">
+            <animateMotion
+              dur="6s"
+              repeatCount="indefinite"
+              path="M100,300 Q300,280 500,300 T900,320 Q1000,325 1100,320"
+            />
+          </circle>
+          
+          <circle r="3" fill="url(#dataPulse)">
+            <animateMotion
+              dur="8s"
+              repeatCount="indefinite"
+              begin="2s"
+              path="M200,500 Q400,480 600,500 T1000,520"
+            />
+          </circle>
+          
+          <circle r="2.5" fill="url(#dataPulse)">
+            <animateMotion
+              dur="5s"
+              repeatCount="indefinite"
+              begin="4s"
+              path="M150,150 Q350,130 550,150 T850,170"
+            />
+          </circle>
         </svg>
       </div>
       
-      {/* Subtle grid overlay */}
+      {/* Floating network nodes */}
+      <div className="absolute inset-0">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div
+            key={i}
+            className={`absolute w-2 h-2 bg-primary/30 rounded-full animate-float-node-${(i % 3) + 1}`}
+            style={{
+              left: `${15 + (i * 12)}%`,
+              top: `${25 + (i * 8)}%`,
+              animationDelay: `${i * 1.2}s`,
+            }}
+          >
+            {/* Node glow effect */}
+            <div className="absolute inset-0 bg-primary/10 rounded-full scale-150 animate-pulse" />
+          </div>
+        ))}
+      </div>
+      
+      {/* Subtle grid pattern representing network infrastructure */}
       <div 
-        className="absolute inset-0 opacity-20"
+        className="absolute inset-0 opacity-5"
         style={{
           backgroundImage: `
-            linear-gradient(hsl(var(--primary) / 0.02) 1px, transparent 1px),
-            linear-gradient(90deg, hsl(var(--primary) / 0.02) 1px, transparent 1px)
+            radial-gradient(circle at 1px 1px, hsl(var(--primary)) 1px, transparent 0)
           `,
-          backgroundSize: '50px 50px',
-          animation: 'grid-shift 20s linear infinite'
+          backgroundSize: '40px 40px',
+          animation: 'grid-drift 25s linear infinite'
         }}
       />
     </div>
