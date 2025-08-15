@@ -11,7 +11,6 @@ import InventoryManager from '../components/InventoryManager';
 import ProductComparison from '../components/ProductComparison';
 import CompareButton from '../components/CompareButton';
 import ComparisonFloatingButton from '../components/ComparisonFloatingButton';
-import BackgroundAnimation from '../components/BackgroundAnimation';
 import { useComparison } from '../contexts/ComparisonContext';
 
 // Import product images
@@ -262,8 +261,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50 relative">
-      <BackgroundAnimation />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50">
       <Navbar 
         cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)} 
         onCartClick={() => setIsCartOpen(true)}
