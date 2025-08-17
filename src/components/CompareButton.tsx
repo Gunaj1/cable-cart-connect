@@ -2,21 +2,7 @@ import React from 'react';
 import { Scale, Check, Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useComparison } from '@/contexts/ComparisonContext';
-
-interface Product {
-  id: string;
-  name: string;
-  category: string;
-  image: string;
-  price: number;
-  description: string;
-  stock: number;
-  detailedDescription?: {
-    applications: string[];
-    specifications: string[];
-    features: string[];
-  };
-}
+import { Product } from '@/types/Product';
 
 interface CompareButtonProps {
   product: Product;

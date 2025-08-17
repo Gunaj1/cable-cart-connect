@@ -6,20 +6,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-
-interface Product {
-  id: string | number;
-  name: string;
-  category: string;
-  image: string;
-  price: number;
-  stock: number;
-  detailedDescription: {
-    applications?: string[];
-    specifications?: string[];
-    features?: string[];
-  };
-}
+import { Product } from "@/types/Product";
 
 interface ProductComparisonProps {
   isOpen: boolean;

@@ -40,21 +40,11 @@ import desktopPowerCord from '../assets/desktop-power-cord.jpg';
 import laptopAdapterCord from '../assets/laptop-adapter-cord.jpg';
 import liftCable from '../assets/lift-cable.jpg';
 import speakerCable from '../assets/speaker-cable.jpg';
-
-interface Product {
-  id: string;
-  name: string;
-  category: string;
-  image: string;
-  price: number;
-  description: string;
-  stock: number;
-  detailedDescription?: {
-    applications: string[];
-    specifications: string[];
-    features: string[];
-  };
-}
+import { Product } from '@/types/Product';
+import ProductCard from '@/components/ProductCard';
+import ProductQuickView from '@/components/ProductQuickView';
+import ProductCompareDrawer from '@/components/ProductCompareDrawer';
+import CompareTable from '@/components/CompareTable';
 
 interface CartItem extends Product {
   quantity: number;
@@ -70,6 +60,10 @@ const Index = () => {
   const [isInventoryOpen, setIsInventoryOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [isComparisonOpen, setIsComparisonOpen] = useState(false);
+  const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
+  const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
+  const [isCompareDrawerOpen, setIsCompareDrawerOpen] = useState(false);
+  const [isFullCompareOpen, setIsFullCompareOpen] = useState(false);
   
   const { comparisonProducts, clearComparison } = useComparison();
   const [products, setProducts] = useState<Product[]>(() => {
@@ -348,75 +342,79 @@ const Index = () => {
             </button>
           ))}
         </div>
-        
-        <div className={`grid gap-8 ${selectedCategory === null ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1 md:grid-cols-2 max-w-5xl mx-auto'}`}>
-          {categories.filter(category => selectedCategory === null || category.id === selectedCategory).map((category) => (
-            <div key={category.id} className="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100">
-              <div className={selectedCategory === null ? "p-8" : "p-10"}>
-                <h3 className="text-2xl font-bold mb-6 text-gray-900">{category.name}</h3>
-                <div className={selectedCategory === null ? "space-y-5" : "space-y-6"}>
+
+        {/* Premium Product Grid */}
+        {selectedCategory === null ? (
+          // All Categories View - Show by category
+          <div className="space-y-16">
+            {categories.map((category) => (
+              <div key={category.id}>
+                {/* Category Header */}
+                <div className="mb-8">
+                  <h3 className="text-3xl font-bold text-gray-900 mb-2">{category.name}</h3>
+                  <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full"></div>
+                </div>
+                
+                {/* Product Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                   {category.products.map((product) => {
                     const currentProduct = products.find(p => p.id === product.id);
+                    if (!currentProduct) return null;
+                    
                     return (
-                      <div 
-                        key={product.id} 
-                        className="border-b border-gray-100 pb-5 relative"
-                        onMouseEnter={() => setHoveredProduct(product.id)}
-                        onMouseLeave={() => setHoveredProduct(null)}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center">
-                            <Cable className={selectedCategory === null ? "w-5 h-5 mr-3 text-blue-600" : "w-6 h-6 mr-4 text-blue-600"} />
-                            <span className={selectedCategory === null ? "font-semibold text-gray-800" : "font-semibold text-gray-800 text-lg"}>{product.name}</span>
-                          </div>
-                          <div className={selectedCategory === null ? "flex items-center space-x-2" : "flex items-center space-x-3"}>
-                            <span className={selectedCategory === null ? "text-lg font-bold text-blue-600" : "text-xl font-bold text-blue-600"}>${product.price}</span>
-                            
-                            {/* Compare Button */}
-                            {currentProduct && (
-                              <CompareButton 
-                                product={currentProduct} 
-                                size={selectedCategory === null ? "sm" : "md"} 
-                              />
-                            )}
-                            
-                            {product.detailedDescription && (
-                              <button
-                                onClick={() => setSelectedProduct(currentProduct || null)}
-                                className={selectedCategory === null 
-                                  ? "bg-gradient-to-r from-gray-100 to-blue-50 text-gray-700 py-2 px-3 rounded-lg hover:from-blue-50 hover:to-gray-100 hover:text-blue-700 transition-all duration-300 flex items-center font-medium border border-gray-200"
-                                  : "bg-gradient-to-r from-gray-100 to-blue-50 text-gray-700 py-3 px-4 rounded-lg hover:from-blue-50 hover:to-gray-100 hover:text-blue-700 transition-all duration-300 flex items-center font-medium border border-gray-200 text-base"
-                                }
-                              >
-                                <Eye className={selectedCategory === null ? "w-4 h-4 mr-1" : "w-5 h-5 mr-2"} />
-                                About
-                              </button>
-                            )}
-                            <button
-                              onClick={() => currentProduct && addToCart(currentProduct)}
-                              className={selectedCategory === null
-                                ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2 px-3 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-medium shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                                : "bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-4 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-medium shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed text-base"
-                              }
-                              disabled={!currentProduct?.stock}
-                            >
-                              Add
-                            </button>
-                          </div>
-                        </div>
-                        {hoveredProduct === product.id && (
-                          <div className="absolute z-20 bg-white border border-gray-200 shadow-xl rounded-xl p-4 mt-3 w-full left-0 backdrop-blur-sm">
-                            <p className="text-sm text-gray-600 leading-relaxed">{product.description}</p>
-                          </div>
-                        )}
-                      </div>
+                      <ProductCard
+                        key={product.id}
+                        product={currentProduct}
+                        onQuickView={(product) => {
+                          setQuickViewProduct(product);
+                          setIsQuickViewOpen(true);
+                        }}
+                        onAddToCart={addToCart}
+                      />
                     );
                   })}
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          // Single Category View - Show selected category products
+          <div className="max-w-6xl mx-auto">
+            {categories
+              .filter(category => category.id === selectedCategory)
+              .map((category) => (
+                <div key={category.id}>
+                  {/* Category Hero */}
+                  <div className="mb-12 text-center">
+                    <h3 className="text-4xl font-bold text-gray-900 mb-4">{category.name}</h3>
+                    <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                      Premium quality {category.name.toLowerCase()} designed for professional networking applications
+                    </p>
+                  </div>
+                  
+                  {/* Product Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {category.products.map((product) => {
+                      const currentProduct = products.find(p => p.id === product.id);
+                      if (!currentProduct) return null;
+                      
+                      return (
+                        <ProductCard
+                          key={product.id}
+                          product={currentProduct}
+                          onQuickView={(product) => {
+                            setQuickViewProduct(product);
+                            setIsQuickViewOpen(true);
+                          }}
+                          onAddToCart={addToCart}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+          </div>
+        )}
       </div>
 
       {/* About Section */}
@@ -534,20 +532,47 @@ const Index = () => {
         }}
       />
 
-      {/* Product Comparison Modal */}
-      <ProductComparison
-        isOpen={isComparisonOpen}
-        onClose={() => setIsComparisonOpen(false)}
+      {/* Quick View Modal */}
+      <ProductQuickView
+        product={quickViewProduct}
+        isOpen={isQuickViewOpen}
+        onClose={() => {
+          setIsQuickViewOpen(false);
+          setQuickViewProduct(null);
+        }}
+        onAddToCart={(product, quantity) => {
+          for (let i = 0; i < quantity; i++) {
+            addToCart(product);
+          }
+        }}
+        onViewDetails={(product) => setSelectedProduct(product)}
+      />
+
+      {/* Compare Drawer */}
+      <ProductCompareDrawer
+        isOpen={isCompareDrawerOpen}
+        onOpenChange={setIsCompareDrawerOpen}
+        onViewFullComparison={() => {
+          setIsCompareDrawerOpen(false);
+          setIsFullCompareOpen(true);
+        }}
+      />
+
+      {/* Full Compare Table */}
+      <CompareTable
         products={comparisonProducts}
+        isOpen={isFullCompareOpen}
+        onClose={() => setIsFullCompareOpen(false)}
+        onAddToCart={addToCart}
         onClearComparison={() => {
           clearComparison();
-          setIsComparisonOpen(false);
+          setIsFullCompareOpen(false);
         }}
       />
 
       {/* Floating Comparison Button */}
       <ComparisonFloatingButton
-        onOpenComparison={() => setIsComparisonOpen(true)}
+        onOpenComparison={() => setIsCompareDrawerOpen(true)}
       />
     </div>
   );

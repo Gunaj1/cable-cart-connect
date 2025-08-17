@@ -1,19 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-
-interface Product {
-  id: string;
-  name: string;
-  category: string;
-  image: string;
-  price: number;
-  description: string;
-  stock: number;
-  detailedDescription?: {
-    applications: string[];
-    specifications: string[];
-    features: string[];
-  };
-}
+import { Product } from '@/types/Product';
 
 interface ComparisonContextType {
   comparisonProducts: Product[];
