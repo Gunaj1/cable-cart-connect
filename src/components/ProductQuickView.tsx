@@ -25,7 +25,7 @@ type Product = {
   title: string;
   price: number;
   images?: Image[];
-  content?: ProductContent; // Detailed content structure (same as search results)
+  content?: ProductContent;
   variants?: Variant[];
 };
 
@@ -46,16 +46,11 @@ export default function ProductQuickView({
 
   const hasProduct = !!product;
 
-  // Use up to 5 images for better UI, take from the product or empty array
-  const images = useMemo(() => {
-    if (!product?.images) return [];
-    return product.images.slice(0, 5);
-  }, [product]);
+  // Up to 5 images for display
+  const images = useMemo(() => product?.images?.slice(0, 5) ?? [], [product]);
 
-  // Variants or empty
   const variants = useMemo(() => product?.variants ?? [], [product]);
 
-  // Manage states safely with stable hook order
   const [imageIndex, setImageIndex] = useState(0);
   const initialVariantId = useMemo(() => (variants.length > 0 ? variants[0].id : undefined), [variants]);
   const [selectedVariantId, setSelectedVariantId] = useState<string | undefined>(initialVariantId);
@@ -69,7 +64,6 @@ export default function ProductQuickView({
     setImageIndex(0);
   }, [images]);
 
-  // Close on ESC
   const onKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) onClose();
@@ -81,7 +75,6 @@ export default function ProductQuickView({
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [onKeyDown]);
 
-  // Close on backdrop click
   const onBackdropClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (modalRef.current && e.target === modalRef.current) onClose();
@@ -127,7 +120,7 @@ export default function ProductQuickView({
       style={{
         position: 'fixed',
         inset: 0,
-        background: 'rgba(0,0,0,0.75)',
+        backgroundColor: 'rgba(0,0,0,0.75)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -140,7 +133,7 @@ export default function ProductQuickView({
     >
       <div
         style={{
-          background: '#fff',
+          backgroundColor: '#fff',
           borderRadius: 14,
           width: 'min(95vw, 1100px)',
           maxHeight: '90vh',
@@ -154,7 +147,7 @@ export default function ProductQuickView({
           color: '#222',
         }}
       >
-        {/* Left: Image gallery */}
+        {/* Left: Images */}
         <div style={{ position: 'relative', borderRadius: 14, boxShadow: '0 0 18px #ccc', userSelect: 'none' }}>
           {images.length > 0 ? (
             <>
@@ -187,8 +180,6 @@ export default function ProductQuickView({
                   </button>
                 </>
               )}
-
-              {/* Thumbnails below */}
               <div
                 style={{
                   display: 'flex',
@@ -233,7 +224,7 @@ export default function ProductQuickView({
           )}
         </div>
 
-        {/* Right: Product details */}
+        {/* Right: Details */}
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <h1 style={{ marginTop: 0, marginBottom: 8, fontWeight: '700', fontSize: 28 }}>{product?.title || 'Product'}</h1>
 
@@ -241,7 +232,6 @@ export default function ProductQuickView({
             ${displayPrice.toFixed(2)}
           </p>
 
-          {/* Content sections */}
           {product?.content ? (
             <>
               {product.content.description && (
@@ -250,7 +240,6 @@ export default function ProductQuickView({
                   <p style={sectionTextStyle}>{product.content.description}</p>
                 </section>
               )}
-
               {renderListSection('Features', product.content.features)}
               {renderListSection('Applications', product.content.applications)}
               {renderSpecifications(product.content.specifications)}
@@ -261,7 +250,6 @@ export default function ProductQuickView({
             )
           )}
 
-          {/* Variant selector */}
           {variants.length > 0 && (
             <div style={{ marginTop: 24, marginBottom: 30 }}>
               <label htmlFor="variant-select" style={{ fontWeight: '600', fontSize: 16, display: 'block', marginBottom: 6 }}>
@@ -289,7 +277,6 @@ export default function ProductQuickView({
             </div>
           )}
 
-          {/* Quantity input */}
           <div style={{ marginBottom: 36 }}>
             <label htmlFor="qty-input" style={{ fontWeight: '600', fontSize: 16, display: 'block', marginBottom: 6 }}>
               Quantity
@@ -310,7 +297,6 @@ export default function ProductQuickView({
             />
           </div>
 
-          {/* Action buttons */}
           <div style={{ display: 'flex', gap: 16 }}>
             <button
               onClick={handleAddToCart}
