@@ -13,13 +13,20 @@ type Image = {
   highResSrc?: string;
 };
 
+type Variant = {
+  id: string;
+  name: string;
+  price: number;
+  inStock?: boolean;
+};
+
 type Product = {
   id: string;
   title: string;
   price: number;
   images?: Image[];
-  content?: ProductContent;
-  variants?: { id: string; name: string; price: number; inStock?: boolean }[];
+  content?: ProductContent; // Detailed content structure (same as search results)
+  variants?: Variant[];
 };
 
 type ProductQuickViewProps = {
@@ -39,26 +46,30 @@ export default function ProductQuickView({
 
   const hasProduct = !!product;
 
+  // Use up to 5 images for better UI, take from the product or empty array
   const images = useMemo(() => {
     if (!product?.images) return [];
     return product.images.slice(0, 5);
   }, [product]);
 
+  // Variants or empty
   const variants = useMemo(() => product?.variants ?? [], [product]);
 
+  // Manage states safely with stable hook order
   const [imageIndex, setImageIndex] = useState(0);
   const initialVariantId = useMemo(() => (variants.length > 0 ? variants[0].id : undefined), [variants]);
   const [selectedVariantId, setSelectedVariantId] = useState<string | undefined>(initialVariantId);
   const [qty, setQty] = useState(1);
 
   useEffect(() => {
-    setSelectedVariantId(variants.length > 0 ? variants.id : undefined);
-  }, [variants]);
+    setSelectedVariantId(initialVariantId);
+  }, [initialVariantId]);
 
   useEffect(() => {
     setImageIndex(0);
   }, [images]);
 
+  // Close on ESC
   const onKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) onClose();
@@ -70,6 +81,7 @@ export default function ProductQuickView({
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [onKeyDown]);
 
+  // Close on backdrop click
   const onBackdropClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (modalRef.current && e.target === modalRef.current) onClose();
@@ -115,11 +127,11 @@ export default function ProductQuickView({
       style={{
         position: 'fixed',
         inset: 0,
-        background: 'rgba(0,0,0,0.6)',
+        background: 'rgba(0,0,0,0.75)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        zIndex: 1000,
+        zIndex: 1100,
         overflowY: 'auto',
         padding: 20,
       }}
@@ -129,80 +141,61 @@ export default function ProductQuickView({
       <div
         style={{
           background: '#fff',
-          borderRadius: 12,
+          borderRadius: 14,
           width: 'min(95vw, 1100px)',
           maxHeight: '90vh',
           overflowY: 'auto',
-          boxShadow: '0 20px 50px rgba(0,0,0,0.15)',
+          boxShadow: '0 24px 60px rgba(0,0,0,0.25)',
           display: 'grid',
-          gridTemplateColumns: '1.2fr 1fr',
-          gap: 32,
-          padding: 30,
+          gridTemplateColumns: '1.3fr 1fr',
+          gap: 36,
+          padding: 36,
+          fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+          color: '#222',
         }}
       >
-        {/* Left: Image gallery carousel */}
-        <div style={{ position: 'relative', borderRadius: 12, boxShadow: '0 0 12px #ddd' }}>
+        {/* Left: Image gallery */}
+        <div style={{ position: 'relative', borderRadius: 14, boxShadow: '0 0 18px #ccc', userSelect: 'none' }}>
           {images.length > 0 ? (
             <>
               <img
                 src={images[imageIndex].highResSrc || images[imageIndex].src}
                 alt={images[imageIndex].alt || product?.title || 'Product image'}
-                style={{ width: '100%', height: 'auto', borderRadius: 12, objectFit: 'contain', maxHeight: '70vh' }}
+                style={{
+                  width: '100%',
+                  borderRadius: 14,
+                  objectFit: 'contain',
+                  maxHeight: '75vh',
+                  backgroundColor: '#fdfdfd',
+                }}
               />
               {images.length > 1 && (
                 <>
                   <button
                     onClick={handlePrevImage}
                     aria-label="Previous image"
-                    style={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: 12,
-                      transform: 'translateY(-50%)',
-                      background: 'rgba(255,255,255,0.8)',
-                      border: 'none',
-                      borderRadius: '50%',
-                      width: 36,
-                      height: 36,
-                      cursor: 'pointer',
-                      fontSize: 24,
-                      lineHeight: 1,
-                      boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
-                    }}
+                    style={navButtonStyles('left')}
                   >
                     ‹
                   </button>
                   <button
                     onClick={handleNextImage}
                     aria-label="Next image"
-                    style={{
-                      position: 'absolute',
-                      top: '50%',
-                      right: 12,
-                      transform: 'translateY(-50%)',
-                      background: 'rgba(255,255,255,0.8)',
-                      border: 'none',
-                      borderRadius: '50%',
-                      width: 36,
-                      height: 36,
-                      cursor: 'pointer',
-                      fontSize: 24,
-                      lineHeight: 1,
-                      boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
-                    }}
+                    style={navButtonStyles('right')}
                   >
                     ›
                   </button>
                 </>
               )}
-              {/* Thumbnail strip below */}
+
+              {/* Thumbnails below */}
               <div
                 style={{
                   display: 'flex',
-                  gap: 8,
-                  marginTop: 12,
+                  gap: 10,
+                  marginTop: 16,
                   overflowX: 'auto',
-                  paddingBottom: 4,
+                  paddingBottom: 6,
                 }}
               >
                 {images.map((img, i) => (
@@ -211,20 +204,21 @@ export default function ProductQuickView({
                     onClick={() => setImageIndex(i)}
                     aria-label={`View image ${i + 1}`}
                     style={{
-                      border: i === imageIndex ? '2px solid #0070f3' : '2px solid transparent',
+                      border: i === imageIndex ? '3px solid #0070f3' : '2px solid #ccc',
                       padding: 0,
-                      borderRadius: 8,
+                      borderRadius: 10,
                       cursor: 'pointer',
                       flexShrink: 0,
-                      width: 60,
-                      height: 60,
+                      width: 72,
+                      height: 72,
                       background: 'none',
+                      transition: 'border-color 0.3s',
                     }}
                   >
                     <img
                       src={img.src}
-                      alt={img.alt || `Product thumbnail ${i + 1}`}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 6 }}
+                      alt={img.alt || `Thumbnail ${i + 1}`}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 8 }}
                     />
                   </button>
                 ))}
@@ -232,30 +226,28 @@ export default function ProductQuickView({
             </>
           ) : (
             <div
-              style={{ display: 'grid', placeItems: 'center', height: 400, color: '#999', fontSize: 18 }}
+              style={{ display: 'grid', placeItems: 'center', height: 400, color: '#aaa', fontSize: 20 }}
             >
-              No Images
+              No Images Available
             </div>
           )}
         </div>
 
         {/* Right: Product details */}
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <div style={{ marginBottom: 10 }}>
-            <h2 style={{ margin: 0 }}>{product?.title || 'Product'}</h2>
-            <p style={{ color: '#0070f3', fontSize: 22, fontWeight: '600', marginTop: 4 }}>
-              ${displayPrice.toFixed(2)}
-            </p>
-          </div>
+          <h1 style={{ marginTop: 0, marginBottom: 8, fontWeight: '700', fontSize: 28 }}>{product?.title || 'Product'}</h1>
 
+          <p style={{ color: '#0070f3', fontSize: 24, fontWeight: '700', marginTop: 2, marginBottom: 18 }}>
+            ${displayPrice.toFixed(2)}
+          </p>
+
+          {/* Content sections */}
           {product?.content ? (
             <>
               {product.content.description && (
-                <section style={{ marginBottom: 20 }}>
-                  <h3 style={{ borderBottom: '1px solid #ddd', paddingBottom: 6, marginBottom: 12 }}>
-                    Description
-                  </h3>
-                  <p style={{ color: '#444', lineHeight: 1.6 }}>{product.content.description}</p>
+                <section style={sectionStyle}>
+                  <h3 style={sectionTitleStyle}>Description</h3>
+                  <p style={sectionTextStyle}>{product.content.description}</p>
                 </section>
               )}
 
@@ -265,17 +257,15 @@ export default function ProductQuickView({
             </>
           ) : (
             product?.description && (
-              <p style={{ color: '#444', lineHeight: 1.6 }}>{product.description}</p>
+              <p style={{ color: '#444', lineHeight: 1.7 }}>{product.description}</p>
             )
           )}
 
+          {/* Variant selector */}
           {variants.length > 0 && (
-            <div style={{ marginBottom: 20 }}>
-              <label
-                htmlFor="variant-select"
-                style={{ display: 'block', fontWeight: '600', marginBottom: 6 }}
-              >
-                Variant
+            <div style={{ marginTop: 24, marginBottom: 30 }}>
+              <label htmlFor="variant-select" style={{ fontWeight: '600', fontSize: 16, display: 'block', marginBottom: 6 }}>
+                Choose Variant
               </label>
               <select
                 id="variant-select"
@@ -283,10 +273,11 @@ export default function ProductQuickView({
                 onChange={(e) => setSelectedVariantId(e.target.value)}
                 style={{
                   width: '100%',
-                  padding: 10,
-                  borderRadius: 8,
-                  border: '1px solid #ddd',
+                  padding: 12,
+                  borderRadius: 10,
+                  border: '1px solid #ccc',
                   fontSize: 16,
+                  cursor: 'pointer',
                 }}
               >
                 {variants.map((v) => (
@@ -298,58 +289,64 @@ export default function ProductQuickView({
             </div>
           )}
 
-          <div style={{ marginBottom: 30 }}>
-            <label
-              htmlFor="qty-input"
-              style={{ display: 'block', fontWeight: '600', marginBottom: 6 }}
-            >
+          {/* Quantity input */}
+          <div style={{ marginBottom: 36 }}>
+            <label htmlFor="qty-input" style={{ fontWeight: '600', fontSize: 16, display: 'block', marginBottom: 6 }}>
               Quantity
             </label>
             <input
-              id="qty-input"
               type="number"
+              id="qty-input"
               min={1}
               value={qty}
               onChange={(e) => setQty(Math.max(1, Number(e.target.value) || 1))}
               style={{
-                width: 100,
-                padding: 10,
-                borderRadius: 8,
-                border: '1px solid #ddd',
+                width: 110,
+                padding: 12,
                 fontSize: 16,
+                borderRadius: 10,
+                border: '1px solid #ccc',
               }}
             />
           </div>
 
-          <div style={{ display: 'flex', gap: 12 }}>
+          {/* Action buttons */}
+          <div style={{ display: 'flex', gap: 16 }}>
             <button
               onClick={handleAddToCart}
               disabled={!hasProduct}
               style={{
+                flex: 1,
                 backgroundColor: '#0070f3',
-                color: '#fff',
+                color: 'white',
+                fontWeight: '700',
+                fontSize: 18,
+                padding: '14px 0',
                 border: 'none',
-                padding: '12px 20px',
-                borderRadius: 10,
-                fontWeight: '600',
+                borderRadius: 12,
                 cursor: 'pointer',
-                flexGrow: 1,
-                fontSize: 16,
+                transition: 'background-color 0.3s',
               }}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#005bb5')}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#0070f3')}
             >
               Add to Cart
             </button>
             <button
               onClick={onClose}
               style={{
+                flex: 1,
                 backgroundColor: '#eee',
+                fontWeight: '600',
+                fontSize: 18,
+                padding: '14px 0',
                 border: 'none',
-                padding: '12px 20px',
-                borderRadius: 10,
+                borderRadius: 12,
                 cursor: 'pointer',
-                fontSize: 16,
-                flexGrow: 1,
+                transition: 'background-color 0.3s',
               }}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#ccc')}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#eee')}
             >
               Close
             </button>
@@ -360,12 +357,48 @@ export default function ProductQuickView({
   );
 }
 
+const navButtonStyles = (pos: 'left' | 'right'): React.CSSProperties => ({
+  position: 'absolute',
+  top: '50%',
+  [pos]: 16,
+  transform: 'translateY(-50%)',
+  background: 'rgba(255, 255, 255, 0.85)',
+  border: 'none',
+  borderRadius: '50%',
+  width: 38,
+  height: 38,
+  cursor: 'pointer',
+  fontSize: 26,
+  lineHeight: 1,
+  fontWeight: '700',
+  boxShadow: '0 3px 8px rgba(0,0,0,0.15)',
+  userSelect: 'none',
+});
+
+const sectionStyle: React.CSSProperties = {
+  marginBottom: 24,
+};
+
+const sectionTitleStyle: React.CSSProperties = {
+  borderBottom: '2px solid #ddd',
+  paddingBottom: 8,
+  marginBottom: 14,
+  fontWeight: 700,
+  fontSize: 20,
+};
+
+const sectionTextStyle: React.CSSProperties = {
+  color: '#444',
+  lineHeight: 1.7,
+  fontSize: 16,
+};
+
 function renderListSection(title: string, items?: string[]) {
   if (!items || items.length === 0) return null;
   return (
-    <section style={{ marginBottom: 20 }}>
-      <h3 style={{ borderBottom: '1px solid #ddd', paddingBottom: 6, marginBottom: 12 }}>{title}</h3>
-      <ul style={{ listStyle: 'disc', paddingLeft: 20, color: '#444' }}>
+    <section style={sectionStyle}>
+      <h3 style={sectionTitleStyle}>{title}</h3>
+      <ul style={{ listStyle: 'disc', paddingLeft: 24, color: '#444', fontSize: 16, lineHeight: 1.6 }}>
         {items.map((item, idx) => (
           <li key={idx}>{item}</li>
         ))}
@@ -377,14 +410,23 @@ function renderListSection(title: string, items?: string[]) {
 function renderSpecifications(specs?: Record<string, string>) {
   if (!specs || Object.keys(specs).length === 0) return null;
   return (
-    <section style={{ marginBottom: 20 }}>
-      <h3 style={{ borderBottom: '1px solid #ddd', paddingBottom: 6, marginBottom: 12 }}>Specifications</h3>
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+    <section style={sectionStyle}>
+      <h3 style={sectionTitleStyle}>Specifications</h3>
+      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 16, color: '#444' }}>
         <tbody>
           {Object.entries(specs).map(([key, value]) => (
             <tr key={key} style={{ borderBottom: '1px solid #eee' }}>
-              <td style={{ padding: '6px 10px', fontWeight: '600', color: '#333', width: '40%' }}>{key}</td>
-              <td style={{ padding: '6px 10px', color: '#555' }}>{value}</td>
+              <td
+                style={{
+                  padding: '8px 14px',
+                  fontWeight: '600',
+                  width: '38%',
+                  verticalAlign: 'top',
+                }}
+              >
+                {key}
+              </td>
+              <td style={{ padding: '8px 14px', verticalAlign: 'top' }}>{value}</td>
             </tr>
           ))}
         </tbody>
