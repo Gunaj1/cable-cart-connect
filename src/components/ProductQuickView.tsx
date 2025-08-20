@@ -10,7 +10,7 @@ type ProductContent = {
 type Image = {
   src: string;
   alt?: string;
-  highResSrc?: string; // for higher quality images if available
+  highResSrc?: string;
 };
 
 type Product = {
@@ -18,7 +18,7 @@ type Product = {
   title: string;
   price: number;
   images?: Image[];
-  content?: ProductContent; // detailed content object
+  content?: ProductContent;
   variants?: { id: string; name: string; price: number; inStock?: boolean }[];
 };
 
@@ -39,7 +39,6 @@ export default function ProductQuickView({
 
   const hasProduct = !!product;
 
-  // Limit to 5 images max for better UI and performance
   const images = useMemo(() => {
     if (!product?.images) return [];
     return product.images.slice(0, 5);
@@ -108,41 +107,6 @@ export default function ProductQuickView({
   }, [images.length]);
 
   if (!isOpen) return null;
-
-  // Helper to render list if exists
-  const renderListSection = (title: string, items?: string[]) => {
-    if (!items || items.length === 0) return null;
-    return (
-      <section style={{ marginBottom: 20 }}>
-        <h3 style={{ borderBottom: '1px solid #ddd', paddingBottom: 6, marginBottom: 12 }}>{title}</h3>
-        <ul style={{ listStyle: 'disc', paddingLeft: 20, color: '#444' }}>
-          {items.map((item, idx) => (
-            <li key={idx}>{item}</li>
-          ))}
-        </ul>
-      </section>
-    );
-  };
-
-  // Helper to render specifications table
-  const renderSpecifications = (specs?: Record<string, string>) => {
-    if (!specs || Object.keys(specs).length === 0) return null;
-    return (
-      <section style={{ marginBottom: 20 }}>
-        <h3 style={{ borderBottom: '1px solid #ddd', paddingBottom: 6, marginBottom: 12 }}>Specifications</h3>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-          <tbody>
-            {Object.entries(specs).map(([key, value]) => (
-              <tr key={key} style={{ borderBottom: '1px solid #eee' }}>
-                <td style={{ padding: '6px 10px', fontWeight: '600', color: '#333', width: '40%' }}>{key}</td>
-                <td style={{ padding: '6px 10px', color: '#555' }}>{value}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
-    );
-  };
 
   return (
     <div
@@ -284,7 +248,6 @@ export default function ProductQuickView({
             </p>
           </div>
 
-          {/* Detailed Sections from product.content */}
           {product?.content ? (
             <>
               {product.content.description && (
@@ -306,7 +269,6 @@ export default function ProductQuickView({
             )
           )}
 
-          {/* Variants */}
           {variants.length > 0 && (
             <div style={{ marginBottom: 20 }}>
               <label
@@ -336,7 +298,6 @@ export default function ProductQuickView({
             </div>
           )}
 
-          {/* Quantity */}
           <div style={{ marginBottom: 30 }}>
             <label
               htmlFor="qty-input"
@@ -360,7 +321,6 @@ export default function ProductQuickView({
             />
           </div>
 
-          {/* Buttons */}
           <div style={{ display: 'flex', gap: 12 }}>
             <button
               onClick={handleAddToCart}
@@ -398,40 +358,37 @@ export default function ProductQuickView({
       </div>
     </div>
   );
+}
 
-  // Helper functions inside component
-  function renderListSection(title: string, items?: string[]) {
-    if (!items || items.length === 0) return null;
-    return (
-      <section style={{ marginBottom: 20 }}>
-        <h3 style={{ borderBottom: '1px solid #ddd', paddingBottom: 6, marginBottom: 12 }}>{title}</h3>
-        <ul style={{ listStyle: 'disc', paddingLeft: 20, color: '#444' }}>
-          {items.map((item, idx) => (
-            <li key={idx}>{item}</li>
+function renderListSection(title: string, items?: string[]) {
+  if (!items || items.length === 0) return null;
+  return (
+    <section style={{ marginBottom: 20 }}>
+      <h3 style={{ borderBottom: '1px solid #ddd', paddingBottom: 6, marginBottom: 12 }}>{title}</h3>
+      <ul style={{ listStyle: 'disc', paddingLeft: 20, color: '#444' }}>
+        {items.map((item, idx) => (
+          <li key={idx}>{item}</li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function renderSpecifications(specs?: Record<string, string>) {
+  if (!specs || Object.keys(specs).length === 0) return null;
+  return (
+    <section style={{ marginBottom: 20 }}>
+      <h3 style={{ borderBottom: '1px solid #ddd', paddingBottom: 6, marginBottom: 12 }}>Specifications</h3>
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <tbody>
+          {Object.entries(specs).map(([key, value]) => (
+            <tr key={key} style={{ borderBottom: '1px solid #eee' }}>
+              <td style={{ padding: '6px 10px', fontWeight: '600', color: '#333', width: '40%' }}>{key}</td>
+              <td style={{ padding: '6px 10px', color: '#555' }}>{value}</td>
+            </tr>
           ))}
-        </ul>
-      </section>
-    );
-  }
-
-  function renderSpecifications(specs?: Record<string, string>) {
-    if (!specs || Object.keys(specs).length === 0) return null;
-    return (
-      <section style={{ marginBottom: 20 }}>
-        <h3 style={{ borderBottom: '1px solid #ddd', paddingBottom: 6, marginBottom: 12 }}>Specifications</h3>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-          <tbody>
-            {Object.entries(specs).map(([key, value]) => (
-              <tr key={key} style={{ borderBottom: '1px solid #eee' }}>
-                <td style={{ padding: '6px 10px', fontWeight: '600', color: '#333', width: '40%' }}>
-                  {key}
-                </td>
-                <td style={{ padding: '6px 10px', color: '#555' }}>{value}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
-    );
-  }
+        </tbody>
+      </table>
+    </section>
+  );
 }
