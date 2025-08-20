@@ -1,202 +1,217 @@
-import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Minus, Plus, ShoppingCart, Eye, X } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { Product } from '@/types/Product';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-interface ProductQuickViewProps {
-  product: Product | null;
+type Variant = {
+  id: string;
+  name: string;
+  price: number;
+  inStock?: boolean;
+};
+
+type Image = {
+  src: string;
+  alt?: string;
+};
+
+type Product = {
+  id: string;
+  title: string;
+  description?: string;
+  price: number;
+  images?: Image[];
+  variants?: Variant[];
+};
+
+type ProductQuickViewProps = {
   isOpen: boolean;
   onClose: () => void;
-  onAddToCart: (product: Product, quantity: number) => void;
-  onViewDetails: (product: Product) => void;
-}
+  product: Product | null | undefined;
+  onAddToCart?: (payload: { productId: string; variantId?: string; quantity: number }) => void;
+};
 
-const ProductQuickView: React.FC<ProductQuickViewProps> = ({
-  product,
+export default function ProductQuickView({
   isOpen,
   onClose,
+  product,
   onAddToCart,
-  onViewDetails
-}) => {
-  const [quantity, setQuantity] = useState(1);
-  const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>({});
-  const [imageError, setImageError] = useState(false);
+}: ProductQuickViewProps) {
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
-  if (!product) return null;
+  const hasProduct = !!product;
 
-  const handleImageError = () => {
-    setImageError(true);
-    console.log(`Image improvement needed: ${product.name} (${product.image})`);
-  };
+  const images = useMemo<Image[]>(() => (product?.images && product.images.length > 0 ? product.images : []), [product]);
+  const variants = useMemo<Variant[]>(() => (product?.variants && product.variants.length > 0 ? product.variants : []), [product]);
 
-  const handleQuantityChange = (delta: number) => {
-    setQuantity(prev => Math.max(1, Math.min(prev + delta, product.stock)));
-  };
+  const [imageIndex, setImageIndex] = useState(0);
+  const initialVariantId = useMemo(() => (variants.length > 0 ? variants[0].id : undefined), [variants]);
+  const [selectedVariantId, setSelectedVariantId] = useState<string | undefined>(initialVariantId);
+  const [qty, setQty] = useState(1);
 
-  const handleAddToCart = () => {
-    onAddToCart(product, quantity);
-    onClose();
-  };
+  useEffect(() => {
+    setSelectedVariantId(variants.length > 0 ? variants[0].id : undefined);
+  }, [variants]);
 
-  // Extract variant options from specifications
-  const variantOptions = React.useMemo(() => {
-    const specs = product.detailedDescription?.specifications || [];
-    const options: Record<string, string[]> = {};
-    
-    // Example: extract shield types, gauges, etc.
-    specs.forEach(spec => {
-      if (spec.toLowerCase().includes('shield')) {
-        options.shield = ['UTP', 'FTP', 'STP'];
+  useEffect(() => {
+    setImageIndex(0);
+  }, [images]);
+
+  const onKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) onClose();
+    },
+    [isOpen, onClose]
+  );
+  useEffect(() => {
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [onKeyDown]);
+
+  const onBackdropClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (modalRef.current && e.target === modalRef.current) {
+        onClose();
       }
-      if (spec.toLowerCase().includes('gauge')) {
-        options.gauge = ['23AWG', '24AWG', '25AWG', '26AWG'];
-      }
-      if (spec.toLowerCase().includes('length')) {
-        options.length = ['1m', '2m', '3m', '5m', '10m'];
-      }
+    },
+    [onClose]
+  );
+
+  const selectedVariant = useMemo(() => {
+    if (!selectedVariantId) return undefined;
+    return variants.find(v => v.id === selectedVariantId);
+  }, [selectedVariantId, variants]);
+
+  const displayPrice = useMemo(() => {
+    if (selectedVariant) return selectedVariant.price;
+    return product?.price ?? 0;
+  }, [selectedVariant, product]);
+
+  const handleAddToCart = useCallback(() => {
+    if (!product) return;
+    onAddToCart?.({
+      productId: product.id,
+      variantId: selectedVariant?.id,
+      quantity: qty,
     });
-    
-    return options;
-  }, [product.detailedDescription?.specifications]);
+  }, [onAddToCart, product, selectedVariant, qty]);
 
-  // Feature highlights
-  const highlights = product.detailedDescription?.features?.slice(0, 3) || [];
+  const handleNextImage = useCallback(() => {
+    if (images.length === 0) return;
+    setImageIndex(i => (i + 1) % images.length);
+  }, [images.length]);
+
+  const handlePrevImage = useCallback(() => {
+    if (images.length === 0) return;
+    setImageIndex(i => (i - 1 + images.length) % images.length);
+  }, [images.length]);
+
+  if (!isOpen) return null;
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader className="flex flex-row items-center justify-between">
-          <DialogTitle className="text-xl font-bold">Quick View</DialogTitle>
-          <Button variant="ghost" size="icon" onClick={onClose}>
-            <X className="w-4 h-4" />
-          </Button>
-        </DialogHeader>
+    <div
+      ref={modalRef}
+      onClick={onBackdropClick}
+      style={{
+        position: 'fixed',
+        inset: 0,
+        background: 'rgba(0,0,0,0.5)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 1000,
+      }}
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        style={{
+          background: '#fff',
+          borderRadius: 8,
+          width: 'min(92vw, 900px)',
+          maxHeight: '90vh',
+          overflow: 'auto',
+          boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
+          padding: 16,
+        }}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+          <h2 style={{ margin: 0 }}>{hasProduct ? product!.title : 'Product'}</h2>
+          <button onClick={onClose} aria-label="Close quick view">✕</button>
+        </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          {/* Product Image */}
-          <div className="aspect-square bg-muted/30 rounded-lg overflow-hidden">
-            {imageError ? (
-              <div className="w-full h-full flex items-center justify-center bg-muted/50">
-                <div className="text-center text-muted-foreground">
-                  <div className="w-24 h-24 mx-auto mb-3 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <span className="text-3xl font-bold text-primary">CC</span>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+          <div style={{ position: 'relative', background: '#fafafa', borderRadius: 8, minHeight: 300 }}>
+            {images.length > 0 ? (
+              <>
+                <img
+                  src={images[Math.min(imageIndex, images.length - 1)].src}
+                  alt={images[Math.min(imageIndex, images.length - 1)].alt || (hasProduct ? product!.title : 'Product image')}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 8 }}
+                />
+                {images.length > 1 && (
+                  <div style={{ position: 'absolute', top: '50%', left: 8, right: 8, display: 'flex', justifyContent: 'space-between' }}>
+                    <button onClick={handlePrevImage} aria-label="Previous image">‹</button>
+                    <button onClick={handleNextImage} aria-label="Next image">›</button>
                   </div>
-                  <p className="text-sm">Chhajer Cable Industry</p>
-                </div>
-              </div>
+                )}
+              </>
             ) : (
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-full object-contain"
-                onError={handleImageError}
-              />
+              <div style={{ display: 'grid', placeItems: 'center', height: 300, color: '#888' }}>No image</div>
             )}
           </div>
 
-          {/* Product Details */}
-          <div className="flex flex-col">
-            {/* Product Name */}
-            <h2 className="text-2xl font-bold mb-2">{product.name}</h2>
-
-            {/* Price */}
-            <div className="text-3xl font-bold text-primary mb-4">
-              ${product.price.toFixed(2)}
+          <div>
+            <div style={{ marginBottom: 8, fontSize: 18, fontWeight: 600 }}>
+              ${displayPrice.toFixed(2)}
             </div>
 
-            {/* Description */}
-            <p className="text-muted-foreground mb-4 leading-relaxed">
-              {product.description}
-            </p>
+            {hasProduct && product!.description && (
+              <p style={{ color: '#555', lineHeight: 1.5 }}>{product!.description}</p>
+            )}
 
-            {/* Variant Selectors */}
-            {Object.entries(variantOptions).map(([key, options]) => (
-              <div key={key} className="mb-4">
-                <label className="block text-sm font-medium mb-2 capitalize">
-                  {key}
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {options.map(option => (
-                    <Button
-                      key={option}
-                      variant={selectedVariants[key] === option ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => setSelectedVariants(prev => ({ ...prev, [key]: option }))}
-                    >
-                      {option}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-            ))}
-
-            {/* Quantity */}
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-2">Quantity</label>
-              <div className="flex items-center gap-3">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => handleQuantityChange(-1)}
-                  disabled={quantity <= 1}
+            {variants.length > 0 && (
+              <div style={{ marginTop: 12 }}>
+                <label htmlFor="variant" style={{ display: 'block', marginBottom: 6 }}>Variant</label>
+                <select
+                  id="variant"
+                  value={selectedVariantId}
+                  onChange={(e) => setSelectedVariantId(e.target.value)}
+                  style={{ width: '100%', padding: 8 }}
                 >
-                  <Minus className="w-4 h-4" />
-                </Button>
-                <span className="w-12 text-center font-medium">{quantity}</span>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => handleQuantityChange(1)}
-                  disabled={quantity >= product.stock}
-                >
-                  <Plus className="w-4 h-4" />
-                </Button>
-              </div>
-              <p className="text-xs text-muted-foreground mt-1">
-                {product.stock} units available
-              </p>
-            </div>
-
-            {/* Highlights */}
-            {highlights.length > 0 && (
-              <div className="mb-6">
-                <h4 className="font-medium mb-2">Key Features</h4>
-                <ul className="space-y-1">
-                  {highlights.map((feature, index) => (
-                    <li key={index} className="text-sm text-muted-foreground flex items-center">
-                      <span className="w-1.5 h-1.5 bg-primary rounded-full mr-2 flex-shrink-0" />
-                      {feature}
-                    </li>
+                  {variants.map(v => (
+                    <option key={v.id} value={v.id} disabled={v.inStock === false}>
+                      {v.name} {v.inStock === false ? '(Out of stock)' : ''}
+                    </option>
                   ))}
-                </ul>
+                </select>
               </div>
             )}
 
-            {/* Actions */}
-            <div className="flex gap-3 mt-auto">
-              <Button className="flex-1" onClick={handleAddToCart}>
-                <ShoppingCart className="w-4 h-4 mr-2" />
-                Add to Cart
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => {
-                  onViewDetails(product);
-                  onClose();
-                }}
+            <div style={{ marginTop: 12, display: 'flex', gap: 8, alignItems: 'center' }}>
+              <label htmlFor="qty">Qty</label>
+              <input
+                id="qty"
+                type="number"
+                min={1}
+                value={qty}
+                onChange={(e) => setQty(Math.max(1, Number(e.target.value) || 1))}
+                style={{ width: 80, padding: 6 }}
+              />
+            </div>
+
+            <div style={{ marginTop: 16, display: 'flex', gap: 8 }}>
+              <button
+                onClick={handleAddToCart}
+                disabled={!hasProduct}
+                style={{ padding: '10px 14px' }}
               >
-                <Eye className="w-4 h-4 mr-2" />
-                View Details
-              </Button>
+                Add to cart
+              </button>
+              <button onClick={onClose} style={{ padding: '10px 14px' }}>
+                Close
+              </button>
             </div>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </div>
   );
-};
-
-export default ProductQuickView;
+}
