@@ -11,6 +11,7 @@ import { ComparisonProvider } from "./contexts/ComparisonContext";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import ProductDetail from "./pages/ProductDetail";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminRoute from "./components/AdminRoute";
 import Admin from "./pages/admin";
@@ -46,6 +47,16 @@ const App = () => (
                 <AdminRoute>
                   <Admin />
                 </AdminRoute>
+              }
+            />
+
+            {/* Product Detail Page */}
+            <Route
+              path="/product/:productId"
+              element={
+                <PrivateRoute>
+                  <ProductDetail />
+                </PrivateRoute>
               }
             />
 

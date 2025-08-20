@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ShoppingCart, Eye, Heart, Check, Plus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
@@ -19,6 +20,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   onAddToCart,
   className
 }) => {
+  const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
   const [imageError, setImageError] = useState(false);
   const { addToComparison, removeFromComparison, isInComparison, canAddMore } = useComparison();
@@ -39,27 +41,32 @@ const ProductCard: React.FC<ProductCardProps> = ({
     }
   };
 
-  // Extract badges from features
-  const badges = product.detailedDescription?.features?.filter(feature =>
-    feature.includes('FLUKE TESTED') || 
-    feature.includes('DCM TESTED') ||
-    feature.includes('OEM SUPPLIER') ||
-    feature.includes('CUSTOMIZATION AVAILABLE')
-  ) || [];
+  // Uniform badges for all products
+  const uniformBadges = [
+    'Customization Available',
+    'Fluke Test Passed', 
+    'DCM Tested',
+    'OEM Supplier'
+  ];
 
   // Extract variants from specifications
   const variants = product.detailedDescription?.specifications || [];
+
+  const handleProductClick = () => {
+    navigate(`/product/${product.id}`);
+  };
 
   return (
     <div
       className={cn(
         "group relative bg-card rounded-lg border border-border overflow-hidden",
         "transition-all duration-300 hover:shadow-lg hover:-translate-y-1",
-        "h-full flex flex-col",
+        "h-full flex flex-col cursor-pointer",
         className
       )}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={handleProductClick}
     >
       {/* Image Container */}
       <div className="relative aspect-square overflow-hidden bg-muted/30">
@@ -148,16 +155,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
       {/* Content */}
       <div className="p-4 flex-1 flex flex-col">
-        {/* Badges */}
-        {badges.length > 0 && (
-          <div className="flex flex-wrap gap-1 mb-2">
-            {badges.slice(0, 2).map((badge, index) => (
-              <Badge key={index} variant="secondary" className="text-xs">
-                {badge}
-              </Badge>
-            ))}
-          </div>
-        )}
+        {/* Uniform Badges */}
+        <div className="flex flex-wrap gap-1 mb-2">
+          {uniformBadges.slice(0, 2).map((badge, index) => (
+            <Badge key={index} variant="secondary" className="text-xs">
+              {badge}
+            </Badge>
+          ))}
+        </div>
 
         {/* Product Name */}
         <h3 className="font-semibold text-sm line-clamp-2 mb-2 min-h-[2.5rem]">
