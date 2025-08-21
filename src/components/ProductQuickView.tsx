@@ -1,39 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Product } from '@/types/Product';
 
-type ProductContent = {
-  description?: string;
-  features?: string[];
-  applications?: string[];
-  specifications?: Record<string, string>;
-};
-
-type Image = {
-  src: string;
-  alt?: string;
-  highResSrc?: string;
-};
-
-type Variant = {
-  id: string;
-  name: string;
-  price: number;
-  inStock?: boolean;
-};
-
-type Product = {
-  id: string;
-  title: string;
-  price: number;
-  images?: Image[];
-  content?: ProductContent;
-  variants?: Variant[];
-};
+// Remove legacy local types and use unified Product from '@/types/Product'
 
 type ProductQuickViewProps = {
   isOpen: boolean;
   onClose: () => void;
-  product: Product | null | undefined;
-  onAddToCart?: (info: { productId: string; variantId?: string; quantity: number }) => void;
+  product: Product | null;
+  onAddToCart?: (product: Product, quantity: number) => void;
+  onViewDetails?: (product: Product) => void;
 };
 
 export default function ProductQuickView({
@@ -41,24 +16,21 @@ export default function ProductQuickView({
   onClose,
   product,
   onAddToCart,
+  onViewDetails,
 }: ProductQuickViewProps) {
   const modalRef = useRef<HTMLDivElement | null>(null);
 
   const hasProduct = !!product;
 
-  // Up to 5 images for display
-  const images = useMemo(() => product?.images?.slice(0, 5) ?? [], [product]);
-
-  const variants = useMemo(() => product?.variants ?? [], [product]);
+  // Up to 5 images for display (replicate main image to fill gallery)
+  const images = useMemo(() => {
+    if (!product) return [] as { src: string; alt?: string }[];
+    const base = { src: product.image, alt: product.name };
+    return [base, base, base, base, base];
+  }, [product]);
 
   const [imageIndex, setImageIndex] = useState(0);
-  const initialVariantId = useMemo(() => (variants.length > 0 ? variants[0].id : undefined), [variants]);
-  const [selectedVariantId, setSelectedVariantId] = useState<string | undefined>(initialVariantId);
   const [qty, setQty] = useState(1);
-
-  useEffect(() => {
-    setSelectedVariantId(initialVariantId);
-  }, [initialVariantId]);
 
   useEffect(() => {
     setImageIndex(0);
@@ -82,36 +54,33 @@ export default function ProductQuickView({
     [onClose]
   );
 
-  const selectedVariant = useMemo(() => {
-    if (!selectedVariantId) return undefined;
-    return variants.find((v) => v.id === selectedVariantId);
-  }, [selectedVariantId, variants]);
-
   const displayPrice = useMemo(() => {
-    if (selectedVariant) return selectedVariant.price;
     return product?.price ?? 0;
-  }, [selectedVariant, product]);
+  }, [product]);
 
   const handleAddToCart = useCallback(() => {
     if (!product) return;
-    onAddToCart?.({
-      productId: product.id,
-      variantId: selectedVariant?.id,
-      quantity: qty,
-    });
-  }, [onAddToCart, product, selectedVariant, qty]);
-
-  const handleNextImage = useCallback(() => {
-    if (images.length === 0) return;
-    setImageIndex((i) => (i + 1) % images.length);
-  }, [images.length]);
-
-  const handlePrevImage = useCallback(() => {
-    if (images.length === 0) return;
-    setImageIndex((i) => (i - 1 + images.length) % images.length);
-  }, [images.length]);
+    onAddToCart?.(product, qty);
+  }, [onAddToCart, product, qty]);
 
   if (!isOpen) return null;
+
+  const unifiedDescription = useMemo(() => {
+    if (!product) return '';
+    const parts: string[] = [];
+    if (product.description) parts.push(product.description);
+    const dd = product.detailedDescription;
+    if (dd?.features && dd.features.length > 0) {
+      parts.push(`Features: ${dd.features.slice(0, 5).join('; ')}`);
+    }
+    if (dd?.applications && dd.applications.length > 0) {
+      parts.push(`Applications: ${dd.applications.slice(0, 5).join('; ')}`);
+    }
+    if (dd?.specifications && dd.specifications.length > 0) {
+      parts.push(`Specifications: ${dd.specifications.slice(0, 5).join('; ')}`);
+    }
+    return parts.join(' ');
+  }, [product]);
 
   return (
     <div
@@ -152,8 +121,8 @@ export default function ProductQuickView({
           {images.length > 0 ? (
             <>
               <img
-                src={images[imageIndex].highResSrc || images[imageIndex].src}
-                alt={images[imageIndex].alt || product?.title || 'Product image'}
+                src={images[imageIndex].src}
+                alt={images[imageIndex].alt || product?.name || 'Product image'}
                 style={{
                   width: '100%',
                   borderRadius: 14,
@@ -165,14 +134,14 @@ export default function ProductQuickView({
               {images.length > 1 && (
                 <>
                   <button
-                    onClick={handlePrevImage}
+                    onClick={() => setImageIndex((i) => (i - 1 + images.length) % images.length)}
                     aria-label="Previous image"
                     style={navButtonStyles('left')}
                   >
                     ‹
                   </button>
                   <button
-                    onClick={handleNextImage}
+                    onClick={() => setImageIndex((i) => (i + 1) % images.length)}
                     aria-label="Next image"
                     style={navButtonStyles('right')}
                   >
@@ -226,56 +195,22 @@ export default function ProductQuickView({
 
         {/* Right: Details */}
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <h1 style={{ marginTop: 0, marginBottom: 8, fontWeight: '700', fontSize: 28 }}>{product?.title || 'Product'}</h1>
+          <h1 style={{ marginTop: 0, marginBottom: 8, fontWeight: '700', fontSize: 28 }}>{product?.name || 'Product'}</h1>
 
           <p style={{ color: '#0070f3', fontSize: 24, fontWeight: '700', marginTop: 2, marginBottom: 18 }}>
             ${displayPrice.toFixed(2)}
           </p>
 
-          {product?.content ? (
-            <>
-              {product.content.description && (
-                <section style={sectionStyle}>
-                  <h3 style={sectionTitleStyle}>Description</h3>
-                  <p style={sectionTextStyle}>{product.content.description}</p>
-                </section>
-              )}
-              {renderListSection('Features', product.content.features)}
-              {renderListSection('Applications', product.content.applications)}
-              {renderSpecifications(product.content.specifications)}
-            </>
-          ) : (
-            product?.description && (
-              <p style={{ color: '#444', lineHeight: 1.7 }}>{product.description}</p>
-            )
+          {unifiedDescription && (
+            <section style={sectionStyle}>
+              <h3 style={sectionTitleStyle}>Description</h3>
+              <p style={sectionTextStyle}>{unifiedDescription}</p>
+            </section>
           )}
 
-          {variants.length > 0 && (
-            <div style={{ marginTop: 24, marginBottom: 30 }}>
-              <label htmlFor="variant-select" style={{ fontWeight: '600', fontSize: 16, display: 'block', marginBottom: 6 }}>
-                Choose Variant
-              </label>
-              <select
-                id="variant-select"
-                value={selectedVariantId}
-                onChange={(e) => setSelectedVariantId(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: 12,
-                  borderRadius: 10,
-                  border: '1px solid #ccc',
-                  fontSize: 16,
-                  cursor: 'pointer',
-                }}
-              >
-                {variants.map((v) => (
-                  <option key={v.id} value={v.id} disabled={v.inStock === false}>
-                    {v.name} {v.inStock === false ? '(Out of stock)' : ''}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
+          {renderListSection('Features', product?.detailedDescription?.features)}
+          {renderListSection('Applications', product?.detailedDescription?.applications)}
+          {renderSpecificationsFromArray(product?.detailedDescription?.specifications)}
 
           <div style={{ marginBottom: 36 }}>
             <label htmlFor="qty-input" style={{ fontWeight: '600', fontSize: 16, display: 'block', marginBottom: 6 }}>
@@ -318,6 +253,26 @@ export default function ProductQuickView({
             >
               Add to Cart
             </button>
+            {hasProduct && onViewDetails && (
+              <button
+                onClick={() => product && onViewDetails(product)}
+                style={{
+                  flex: 1,
+                  backgroundColor: '#f5f5f5',
+                  fontWeight: '600',
+                  fontSize: 18,
+                  padding: '14px 0',
+                  border: 'none',
+                  borderRadius: 12,
+                  cursor: 'pointer',
+                  transition: 'background-color 0.3s',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#e5e5e5')}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#f5f5f5')}
+              >
+                View Details
+              </button>
+            )}
             <button
               onClick={onClose}
               style={{
@@ -393,30 +348,16 @@ function renderListSection(title: string, items?: string[]) {
   );
 }
 
-function renderSpecifications(specs?: Record<string, string>) {
-  if (!specs || Object.keys(specs).length === 0) return null;
+function renderSpecificationsFromArray(specs?: string[]) {
+  if (!specs || specs.length === 0) return null;
   return (
     <section style={sectionStyle}>
       <h3 style={sectionTitleStyle}>Specifications</h3>
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 16, color: '#444' }}>
-        <tbody>
-          {Object.entries(specs).map(([key, value]) => (
-            <tr key={key} style={{ borderBottom: '1px solid #eee' }}>
-              <td
-                style={{
-                  padding: '8px 14px',
-                  fontWeight: '600',
-                  width: '38%',
-                  verticalAlign: 'top',
-                }}
-              >
-                {key}
-              </td>
-              <td style={{ padding: '8px 14px', verticalAlign: 'top' }}>{value}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <ul style={{ listStyle: 'disc', paddingLeft: 24, color: '#444', fontSize: 16, lineHeight: 1.6 }}>
+        {specs.map((spec, idx) => (
+          <li key={idx}>{spec}</li>
+        ))}
+      </ul>
     </section>
   );
 }
