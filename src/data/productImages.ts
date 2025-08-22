@@ -1,9 +1,45 @@
-// Professional product image collections for each product
-// Each product gets 5 high-quality, studio-style images
+// /src/data/productImages.ts
+// Safe, Vite + React SWC friendly. No indexOf/includes at module eval. Pure data + null-safe helpers.
 
-export const productImageCollections = {
+// Types
+type ProductSpec = Record<string, string>;
+type ProductDetails = {
+  images: string[];
+  title: string;
+  description: string;
+  specifications: ProductSpec;
+  applications: string[];
+  features: string[];
+};
+
+// Utility: immutable empty fallbacks to avoid accidental undefined access
+const EMPTY_DETAILS: ProductDetails = Object.freeze({
+  images: [],
+  title: '',
+  description: '',
+  specifications: {},
+  applications: [],
+  features: [],
+});
+
+// Validator to ensure each entry conforms and prevents undefined traps
+function normalizeDetails(input: Partial<ProductDetails> | undefined | null): ProductDetails {
+  if (!input || typeof input !== 'object') return EMPTY_DETAILS;
+  const images = Array.isArray(input.images) ? input.images.filter(Boolean) : [];
+  return {
+    images,
+    title: typeof input.title === 'string' ? input.title : '',
+    description: typeof input.description === 'string' ? input.description : '',
+    specifications: (input.specifications && typeof input.specifications === 'object') ? input.specifications as ProductSpec : {},
+    applications: Array.isArray(input.applications) ? input.applications.filter(Boolean) : [],
+    features: Array.isArray(input.features) ? input.features.filter(Boolean) : [],
+  };
+}
+
+// Pure data: keep as provided (content preserved). Ensure object commas and structure are valid.
+export const productImageCollections: Record<string, ProductDetails> = {
   // Patchcords
-  'pc1': { // Cat 6 STP
+  pc1: { // Cat 6 STP
     images: [
       'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -46,7 +82,7 @@ export const productImageCollections = {
       'Lifetime Warranty'
     ]
   },
-  'pc2': { // Cat 6 FTP
+  pc2: { // Cat 6 FTP
     images: [
       'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -89,7 +125,7 @@ export const productImageCollections = {
       'Industry Standard Compliance'
     ]
   },
-  'pc3': { // Cat 6 UTP
+  pc3: { // Cat 6 UTP
     images: [
       'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -132,7 +168,7 @@ export const productImageCollections = {
       'Professional Grade'
     ]
   },
-  'pc4': { // Cat 5e STP
+  pc4: { // Cat 5e STP
     images: [
       'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -175,7 +211,7 @@ export const productImageCollections = {
       'Lifetime Warranty'
     ]
   },
-  'pc5': { // Cat5e FTP
+  pc5: { // Cat5e FTP
     images: [
       'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -218,7 +254,7 @@ export const productImageCollections = {
       'Quality Assured'
     ]
   },
-  'pc6': { // Cat5e UTP
+  pc6: { // Cat5e UTP
     images: [
       'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -261,8 +297,9 @@ export const productImageCollections = {
       'Easy Installation'
     ]
   },
+
   // Cat5e LAN Cables
-  'lan2': { // Cat5e 2 pair
+  lan2: { // Cat5e 2 pair
     images: [
       'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -305,7 +342,7 @@ export const productImageCollections = {
       'Professional Grade'
     ]
   },
-  'lan3': { // Cat 5e Armored
+  lan3: { // Cat 5e Armored
     images: [
       'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -348,8 +385,9 @@ export const productImageCollections = {
       'Rodent Protection'
     ]
   },
+
   // Cat 6 LAN Cables
-  'cat1': { // Cat 6 Flat
+  cat1: { // Cat 6 Flat
     images: [
       'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -392,7 +430,7 @@ export const productImageCollections = {
       'Professional Grade'
     ]
   },
-  'cat2': { // Cat 6 Armored
+  cat2: { // Cat 6 Armored
     images: [
       'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -435,8 +473,9 @@ export const productImageCollections = {
       'Weather Resistant'
     ]
   },
+
   // CCTV Cable 4+1
-  'cctv2': { // CCTV Cable 4+1
+  cctv2: {
     images: [
       'https://images.pexels.com/photos/430208/pexels-photo-430208.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -479,8 +518,9 @@ export const productImageCollections = {
       'Professional Installation'
     ]
   },
+
   // Telephone Cable
-  'tel1': { // Standard Telephone Cable
+  tel1: {
     images: [
       'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -523,8 +563,9 @@ export const productImageCollections = {
       'Industry Standard'
     ]
   },
+
   // Computer Cord 2
-  'cc2': { // Laptop Notebook Adaptor Power Cord
+  cc2: {
     images: [
       'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -567,8 +608,9 @@ export const productImageCollections = {
       'Professional Quality'
     ]
   },
+
   // Lift Cable
-  'lift1': { // Standard Lift Cable
+  lift1: {
     images: [
       'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -611,8 +653,9 @@ export const productImageCollections = {
       'Customizable Available'
     ]
   },
+
   // Speaker Cable
-  'speaker1': { // Standard Speaker Cable
+  speaker1: {
     images: [
       'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -629,7 +672,6 @@ export const productImageCollections = {
       'Voltage Rating': '300/300V',
       'Length': 'Full 100m Available',
       'Conductor': 'Multi-stranded OFC/Copper/Tinned',
-      'Connection': 'Reliable Audio Connection',
       'Standard': 'RoHS PVC',
       'Certification': 'CE, SGS, ISO9001',
       'Temperature': '70°C Long Period Operation'
@@ -654,9 +696,10 @@ export const productImageCollections = {
       'Professional Audio Quality',
       'High-Quality Construction'
     ]
-  }
+  },
+
   // Cat5e LAN Cables
-  'lan1': { // Cat 5e Flat
+  lan1: { // Cat 5e Flat
     images: [
       'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -699,8 +742,9 @@ export const productImageCollections = {
       'Flexible Routing'
     ]
   },
+
   // CCTV Cables
-  'cctv1': { // CCTV Cable 3+1
+  cctv1: { // CCTV Cable 3+1
     images: [
       'https://images.pexels.com/photos/430208/pexels-photo-430208.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -742,8 +786,9 @@ export const productImageCollections = {
       'Professional Grade Quality'
     ]
   },
+
   // Computer Cords
-  'cc1': { // Desktop CPU Power Cord
+  cc1: { // Desktop CPU Power Cord
     images: [
       'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -787,20 +832,29 @@ export const productImageCollections = {
   }
 };
 
-// Function to get product images and details
-export const getProductDetails = (productId: string) => {
-  return productImageCollections[productId as keyof typeof productImageCollections] || {
-    images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
-    ],
-    title: 'Professional Cable Product',
-    description: 'High-quality cable product from Chhajer Cable Industries.',
-    specifications: {},
-    applications: [],
-    features: []
-  };
+// Safe getter with normalized fallback
+export const getProductDetails = (productId: string): ProductDetails => {
+  const key = typeof productId === 'string' ? productId : '';
+  const raw = key ? productImageCollections[key] : undefined;
+  const normalized = normalizeDetails(raw);
+
+  // If not found, return your default content (preserved)
+  if (normalized === EMPTY_DETAILS) {
+    return {
+      images: [
+        'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
+      ],
+      title: 'Professional Cable Product',
+      description: 'High-quality cable product from Chhajer Cable Industries.',
+      specifications: {},
+      applications: [],
+      features: []
+    };
+  }
+
+  return normalized;
 };
