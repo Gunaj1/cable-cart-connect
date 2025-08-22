@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { useComparison } from '@/contexts/ComparisonContext';
 import { Product } from '@/types/Product';
+import { getProductDetails } from '@/data/productImages';
 
 interface ProductCardProps {
   product: Product;
@@ -170,8 +171,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </h3>
 
         {/* Description */}
-        <p className="text-sm text-muted-foreground line-clamp-1 mb-3 flex-1">
-          {product.description}
+        <p className="text-sm text-muted-foreground line-clamp-2 mb-3 flex-1">
+          {getProductDetails(product.id).description}
         </p>
 
         {/* Variants Preview */}

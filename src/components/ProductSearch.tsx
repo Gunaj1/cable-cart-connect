@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Search, X, Cable } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { getProductDetails } from '@/data/productImages';
 
 interface Product {
   id: string;
@@ -199,8 +200,8 @@ const ProductSearch: React.FC<ProductSearchProps> = ({ products, onProductSelect
                     <p className="text-xs text-gray-500 truncate">
                       {product.category}
                     </p>
-                    <p className="text-xs text-gray-600 truncate mt-1">
-                      {product.description}
+                    <p className="text-xs text-gray-600 line-clamp-2 mt-1">
+                      {getProductDetails(product.id).description}
                     </p>
                     {product.stock <= 5 && (
                       <span className="text-xs text-orange-500 font-medium">

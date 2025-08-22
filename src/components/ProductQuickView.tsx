@@ -1,422 +1,469 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { X, ShoppingCart, Heart, Share2, ChevronLeft, ChevronRight, ZoomIn, Star, Award, Shield, Zap, Check, Plus, Minus } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { cn } from '@/lib/utils';
+import { getProductDetails } from '@/data/productImages';
+import { Product } from '@/types/Product';
 
-type ProductContent = {
-  description?: string;
-  features?: string[];
-  applications?: string[];
-  specifications?: Record<string, string>;
-};
-
-type Image = {
-  src: string;
-  alt?: string;
-  highResSrc?: string;
-};
-
-type Variant = {
-  id: string;
-  name: string;
-  price: number;
-  inStock?: boolean;
-};
-
-type Product = {
-  id: string;
-  title: string;
-  price: number;
-  images?: Image[];
-  content?: ProductContent;
-  variants?: Variant[];
-};
-
-type ProductQuickViewProps = {
+interface ProductQuickViewProps {
+  product: Product | null;
   isOpen: boolean;
   onClose: () => void;
-  product: Product | null | undefined;
-  onAddToCart?: (info: { productId: string; variantId?: string; quantity: number }) => void;
-};
+  onAddToCart?: (product: Product, quantity?: number) => void;
+  onViewDetails?: (product: Product) => void;
+}
 
-export default function ProductQuickView({
+const ProductQuickView: React.FC<ProductQuickViewProps> = ({
+  product,
   isOpen,
   onClose,
-  product,
   onAddToCart,
-}: ProductQuickViewProps) {
-  const modalRef = useRef<HTMLDivElement | null>(null);
-
-  const hasProduct = !!product;
-
-  // Up to 5 images for display
-  const images = useMemo(() => product?.images?.slice(0, 5) ?? [], [product]);
-
-  const variants = useMemo(() => product?.variants ?? [], [product]);
-
-  const [imageIndex, setImageIndex] = useState(0);
-  const initialVariantId = useMemo(() => (variants.length > 0 ? variants[0].id : undefined), [variants]);
-  const [selectedVariantId, setSelectedVariantId] = useState<string | undefined>(initialVariantId);
-  const [qty, setQty] = useState(1);
+  onViewDetails
+}) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+  const [isImageZoomed, setIsImageZoomed] = useState(false);
+  const [activeTab, setActiveTab] = useState<'overview' | 'specs' | 'applications' | 'features'>('overview');
 
   useEffect(() => {
-    setSelectedVariantId(initialVariantId);
-  }, [initialVariantId]);
+    if (isOpen) {
+      setCurrentImageIndex(0);
+      setQuantity(1);
+      setActiveTab('overview');
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
 
   useEffect(() => {
-    setImageIndex(0);
-  }, [images]);
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isOpen, onClose]);
 
-  const onKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) onClose();
-    },
-    [isOpen, onClose]
-  );
-  useEffect(() => {
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, [onKeyDown]);
+  if (!isOpen || !product) return null;
 
-  const onBackdropClick = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (modalRef.current && e.target === modalRef.current) onClose();
-    },
-    [onClose]
-  );
+  const productDetails = getProductDetails(product.id);
+  const images = productDetails.images;
 
-  const selectedVariant = useMemo(() => {
-    if (!selectedVariantId) return undefined;
-    return variants.find((v) => v.id === selectedVariantId);
-  }, [selectedVariantId, variants]);
+  const handleAddToCart = () => {
+    if (onAddToCart) {
+      onAddToCart(product, quantity);
+    }
+    onClose();
+  };
 
-  const displayPrice = useMemo(() => {
-    if (selectedVariant) return selectedVariant.price;
-    return product?.price ?? 0;
-  }, [selectedVariant, product]);
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
 
-  const handleAddToCart = useCallback(() => {
-    if (!product) return;
-    onAddToCart?.({
-      productId: product.id,
-      variantId: selectedVariant?.id,
-      quantity: qty,
-    });
-  }, [onAddToCart, product, selectedVariant, qty]);
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % images.length);
+  };
 
-  const handleNextImage = useCallback(() => {
-    if (images.length === 0) return;
-    setImageIndex((i) => (i + 1) % images.length);
-  }, [images.length]);
-
-  const handlePrevImage = useCallback(() => {
-    if (images.length === 0) return;
-    setImageIndex((i) => (i - 1 + images.length) % images.length);
-  }, [images.length]);
-
-  if (!isOpen) return null;
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
 
   return (
-    <div
-      ref={modalRef}
-      onClick={onBackdropClick}
-      style={{
-        position: 'fixed',
-        inset: 0,
-        backgroundColor: 'rgba(0,0,0,0.75)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        zIndex: 1100,
-        overflowY: 'auto',
-        padding: 20,
-      }}
-      role="dialog"
-      aria-modal="true"
-    >
-      <div
-        style={{
-          backgroundColor: '#fff',
-          borderRadius: 14,
-          width: 'min(95vw, 1100px)',
-          maxHeight: '90vh',
-          overflowY: 'auto',
-          boxShadow: '0 24px 60px rgba(0,0,0,0.25)',
-          display: 'grid',
-          gridTemplateColumns: '1.3fr 1fr',
-          gap: 36,
-          padding: 36,
-          fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-          color: '#222',
-        }}
+    <>
+      {/* Main Modal */}
+      <div 
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        onClick={handleBackdropClick}
       >
-        {/* Left: Images */}
-        <div style={{ position: 'relative', borderRadius: 14, boxShadow: '0 0 18px #ccc', userSelect: 'none' }}>
-          {images.length > 0 ? (
-            <>
-              <img
-                src={images[imageIndex].highResSrc || images[imageIndex].src}
-                alt={images[imageIndex].alt || product?.title || 'Product image'}
-                style={{
-                  width: '100%',
-                  borderRadius: 14,
-                  objectFit: 'contain',
-                  maxHeight: '75vh',
-                  backgroundColor: '#fdfdfd',
-                }}
-              />
-              {images.length > 1 && (
-                <>
-                  <button
-                    onClick={handlePrevImage}
-                    aria-label="Previous image"
-                    style={navButtonStyles('left')}
-                  >
-                    ‹
-                  </button>
-                  <button
-                    onClick={handleNextImage}
-                    aria-label="Next image"
-                    style={navButtonStyles('right')}
-                  >
-                    ›
-                  </button>
-                </>
-              )}
-              <div
-                style={{
-                  display: 'flex',
-                  gap: 10,
-                  marginTop: 16,
-                  overflowX: 'auto',
-                  paddingBottom: 6,
-                }}
-              >
-                {images.map((img, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setImageIndex(i)}
-                    aria-label={`View image ${i + 1}`}
-                    style={{
-                      border: i === imageIndex ? '3px solid #0070f3' : '2px solid #ccc',
-                      padding: 0,
-                      borderRadius: 10,
-                      cursor: 'pointer',
-                      flexShrink: 0,
-                      width: 72,
-                      height: 72,
-                      background: 'none',
-                      transition: 'border-color 0.3s',
-                    }}
-                  >
-                    <img
-                      src={img.src}
-                      alt={img.alt || `Thumbnail ${i + 1}`}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 8 }}
-                    />
-                  </button>
-                ))}
+        <div className="bg-white rounded-2xl w-full max-w-7xl max-h-[95vh] overflow-hidden shadow-2xl animate-scale-in">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4 flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                <Award className="w-5 h-5 text-white" />
               </div>
-            </>
-          ) : (
-            <div
-              style={{ display: 'grid', placeItems: 'center', height: 400, color: '#aaa', fontSize: 20 }}
+              <div>
+                <h2 className="text-xl font-bold text-white">{productDetails.title}</h2>
+                <p className="text-blue-100 text-sm">Professional Grade Quality</p>
+              </div>
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onClose}
+              className="text-white hover:bg-white/20 rounded-full"
             >
-              No Images Available
-            </div>
-          )}
-        </div>
-
-        {/* Right: Details */}
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <h1 style={{ marginTop: 0, marginBottom: 8, fontWeight: '700', fontSize: 28 }}>{product?.title || 'Product'}</h1>
-
-          <p style={{ color: '#0070f3', fontSize: 24, fontWeight: '700', marginTop: 2, marginBottom: 18 }}>
-            ${displayPrice.toFixed(2)}
-          </p>
-
-          {product?.content ? (
-            <>
-              {product.content.description && (
-                <section style={sectionStyle}>
-                  <h3 style={sectionTitleStyle}>Description</h3>
-                  <p style={sectionTextStyle}>{product.content.description}</p>
-                </section>
-              )}
-              {renderListSection('Features', product.content.features)}
-              {renderListSection('Applications', product.content.applications)}
-              {renderSpecifications(product.content.specifications)}
-            </>
-          ) : (
-            product?.description && (
-              <p style={{ color: '#444', lineHeight: 1.7 }}>{product.description}</p>
-            )
-          )}
-
-          {variants.length > 0 && (
-            <div style={{ marginTop: 24, marginBottom: 30 }}>
-              <label htmlFor="variant-select" style={{ fontWeight: '600', fontSize: 16, display: 'block', marginBottom: 6 }}>
-                Choose Variant
-              </label>
-              <select
-                id="variant-select"
-                value={selectedVariantId}
-                onChange={(e) => setSelectedVariantId(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: 12,
-                  borderRadius: 10,
-                  border: '1px solid #ccc',
-                  fontSize: 16,
-                  cursor: 'pointer',
-                }}
-              >
-                {variants.map((v) => (
-                  <option key={v.id} value={v.id} disabled={v.inStock === false}>
-                    {v.name} {v.inStock === false ? '(Out of stock)' : ''}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-
-          <div style={{ marginBottom: 36 }}>
-            <label htmlFor="qty-input" style={{ fontWeight: '600', fontSize: 16, display: 'block', marginBottom: 6 }}>
-              Quantity
-            </label>
-            <input
-              type="number"
-              id="qty-input"
-              min={1}
-              value={qty}
-              onChange={(e) => setQty(Math.max(1, Number(e.target.value) || 1))}
-              style={{
-                width: 110,
-                padding: 12,
-                fontSize: 16,
-                borderRadius: 10,
-                border: '1px solid #ccc',
-              }}
-            />
+              <X className="w-6 h-6" />
+            </Button>
           </div>
 
-          <div style={{ display: 'flex', gap: 16 }}>
-            <button
-              onClick={handleAddToCart}
-              disabled={!hasProduct}
-              style={{
-                flex: 1,
-                backgroundColor: '#0070f3',
-                color: 'white',
-                fontWeight: '700',
-                fontSize: 18,
-                padding: '14px 0',
-                border: 'none',
-                borderRadius: 12,
-                cursor: 'pointer',
-                transition: 'background-color 0.3s',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#005bb5')}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#0070f3')}
-            >
-              Add to Cart
-            </button>
-            <button
-              onClick={onClose}
-              style={{
-                flex: 1,
-                backgroundColor: '#eee',
-                fontWeight: '600',
-                fontSize: 18,
-                padding: '14px 0',
-                border: 'none',
-                borderRadius: 12,
-                cursor: 'pointer',
-                transition: 'background-color 0.3s',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#ccc')}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#eee')}
-            >
-              Close
-            </button>
+          <div className="grid grid-cols-1 lg:grid-cols-2 h-[calc(95vh-80px)]">
+            {/* Left: Image Gallery */}
+            <div className="p-6 bg-gradient-to-br from-gray-50 to-blue-50">
+              <div className="h-full flex flex-col">
+                {/* Main Image */}
+                <div className="relative flex-1 bg-white rounded-xl shadow-lg overflow-hidden mb-4">
+                  <img
+                    src={images[currentImageIndex]}
+                    alt={`${productDetails.title} - View ${currentImageIndex + 1}`}
+                    className="w-full h-full object-contain cursor-zoom-in transition-transform duration-300 hover:scale-105"
+                    onClick={() => setIsImageZoomed(true)}
+                  />
+                  
+                  {/* Navigation Arrows */}
+                  {images.length > 1 && (
+                    <>
+                      <Button
+                        variant="secondary"
+                        size="icon"
+                        className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white shadow-lg"
+                        onClick={prevImage}
+                      >
+                        <ChevronLeft className="w-5 h-5" />
+                      </Button>
+                      <Button
+                        variant="secondary"
+                        size="icon"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white shadow-lg"
+                        onClick={nextImage}
+                      >
+                        <ChevronRight className="w-5 h-5" />
+                      </Button>
+                    </>
+                  )}
+
+                  {/* Zoom Icon */}
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    className="absolute top-3 right-3 bg-white/90 hover:bg-white shadow-lg"
+                    onClick={() => setIsImageZoomed(true)}
+                  >
+                    <ZoomIn className="w-4 h-4" />
+                  </Button>
+
+                  {/* Image Counter */}
+                  <div className="absolute bottom-3 left-3 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
+                    {currentImageIndex + 1} / {images.length}
+                  </div>
+                </div>
+
+                {/* Thumbnail Strip */}
+                <div className="flex gap-2 overflow-x-auto pb-2">
+                  {images.map((image, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentImageIndex(index)}
+                      className={cn(
+                        "flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200",
+                        currentImageIndex === index 
+                          ? "border-blue-500 shadow-lg scale-105" 
+                          : "border-gray-200 hover:border-blue-300"
+                      )}
+                    >
+                      <img
+                        src={image}
+                        alt={`View ${index + 1}`}
+                        className="w-full h-full object-contain bg-white"
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Product Details */}
+            <div className="flex flex-col h-full">
+              {/* Product Info Header */}
+              <div className="p-6 border-b">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">{productDetails.title}</h3>
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="flex items-center">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} className={`w-4 h-4 ${i < 4 ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} />
+                        ))}
+                      </div>
+                      <span className="text-sm text-gray-600">(4.2)</span>
+                      <Badge variant="secondary">Best Seller</Badge>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-3xl font-bold text-blue-600 mb-1">
+                      ${product.price.toFixed(2)}
+                    </div>
+                    <p className="text-sm text-green-600 font-medium">
+                      ✓ In Stock ({product.stock || 50}+ available)
+                    </p>
+                  </div>
+                </div>
+
+                {/* Quality Badges */}
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <Badge variant="outline" className="flex items-center gap-1">
+                    <Shield className="w-3 h-3" />
+                    Fluke Tested
+                  </Badge>
+                  <Badge variant="outline" className="flex items-center gap-1">
+                    <Award className="w-3 h-3" />
+                    OEM Quality
+                  </Badge>
+                  <Badge variant="outline" className="flex items-center gap-1">
+                    <Zap className="w-3 h-3" />
+                    High Performance
+                  </Badge>
+                </div>
+
+                <p className="text-gray-700 leading-relaxed">
+                  {productDetails.description}
+                </p>
+              </div>
+
+              {/* Tabs */}
+              <div className="flex-1 flex flex-col">
+                <div className="border-b">
+                  <div className="flex">
+                    {[
+                      { id: 'overview', label: 'Overview' },
+                      { id: 'specs', label: 'Specifications' },
+                      { id: 'applications', label: 'Applications' },
+                      { id: 'features', label: 'Features' }
+                    ].map((tab) => (
+                      <button
+                        key={tab.id}
+                        onClick={() => setActiveTab(tab.id as any)}
+                        className={cn(
+                          "px-4 py-3 text-sm font-medium border-b-2 transition-colors",
+                          activeTab === tab.id
+                            ? "border-blue-500 text-blue-600"
+                            : "border-transparent text-gray-600 hover:text-gray-900"
+                        )}
+                      >
+                        {tab.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Tab Content */}
+                <div className="flex-1 p-6 overflow-y-auto">
+                  {activeTab === 'overview' && (
+                    <div className="space-y-6">
+                      <div className="grid grid-cols-3 gap-4">
+                        <div className="text-center p-4 bg-blue-50 rounded-lg">
+                          <Shield className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                          <h4 className="font-semibold text-sm">Quality Tested</h4>
+                          <p className="text-xs text-gray-600">Fluke & DCM Certified</p>
+                        </div>
+                        <div className="text-center p-4 bg-green-50 rounded-lg">
+                          <Award className="w-8 h-8 text-green-600 mx-auto mb-2" />
+                          <h4 className="font-semibold text-sm">OEM Grade</h4>
+                          <p className="text-xs text-gray-600">Professional Quality</p>
+                        </div>
+                        <div className="text-center p-4 bg-purple-50 rounded-lg">
+                          <Zap className="w-8 h-8 text-purple-600 mx-auto mb-2" />
+                          <h4 className="font-semibold text-sm">High Speed</h4>
+                          <p className="text-xs text-gray-600">Optimized Performance</p>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-gray-50 rounded-lg p-4">
+                        <h4 className="font-semibold mb-2">Key Highlights</h4>
+                        <ul className="space-y-1 text-sm text-gray-700">
+                          <li className="flex items-center gap-2">
+                            <Check className="w-4 h-4 text-green-500" />
+                            Professional grade construction
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <Check className="w-4 h-4 text-green-500" />
+                            Industry standard compliance
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <Check className="w-4 h-4 text-green-500" />
+                            Customizable options available
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  )}
+
+                  {activeTab === 'specs' && (
+                    <div className="space-y-4">
+                      <h4 className="font-semibold text-lg mb-4">Technical Specifications</h4>
+                      <div className="grid gap-3">
+                        {Object.entries(productDetails.specifications).map(([key, value]) => (
+                          <div key={key} className="grid grid-cols-3 gap-4 py-2 border-b border-gray-100 last:border-b-0">
+                            <dt className="font-medium text-sm text-gray-900">{key}</dt>
+                            <dd className="col-span-2 text-sm text-gray-700">{value}</dd>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {activeTab === 'applications' && (
+                    <div className="space-y-4">
+                      <h4 className="font-semibold text-lg mb-4">Applications & Use Cases</h4>
+                      <div className="grid grid-cols-1 gap-3">
+                        {productDetails.applications.map((app, index) => (
+                          <div key={index} className="flex items-start gap-3 p-3 bg-blue-50 rounded-lg border border-blue-100">
+                            <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
+                            <span className="text-sm font-medium text-gray-800">{app}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {activeTab === 'features' && (
+                    <div className="space-y-4">
+                      <h4 className="font-semibold text-lg mb-4">Key Features & Benefits</h4>
+                      <div className="grid grid-cols-1 gap-3">
+                        {productDetails.features.map((feature, index) => (
+                          <div key={index} className="flex items-start gap-3 p-3 bg-green-50 rounded-lg border border-green-100">
+                            <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                            <span className="text-sm font-medium text-gray-800">{feature}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Footer Actions */}
+              <div className="p-6 border-t bg-gray-50">
+                {/* Quantity Selector */}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm font-medium">Quantity:</span>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="w-8 h-8"
+                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                        disabled={quantity <= 1}
+                      >
+                        <Minus className="w-4 h-4" />
+                      </Button>
+                      <span className="w-12 text-center font-semibold">{quantity}</span>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="w-8 h-8"
+                        onClick={() => setQuantity(quantity + 1)}
+                      >
+                        <Plus className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div className="text-right">
+                    <div className="text-sm text-gray-600">Total Price</div>
+                    <div className="text-xl font-bold text-blue-600">
+                      ${(product.price * quantity).toFixed(2)}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex gap-3">
+                  <Button
+                    onClick={handleAddToCart}
+                    className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3"
+                    size="lg"
+                  >
+                    <ShoppingCart className="w-5 h-5 mr-2" />
+                    Add to Cart
+                  </Button>
+                  
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="px-4"
+                  >
+                    <Heart className="w-5 h-5" />
+                  </Button>
+                  
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="px-4"
+                  >
+                    <Share2 className="w-5 h-5" />
+                  </Button>
+                  
+                  {onViewDetails && (
+                    <Button
+                      variant="outline"
+                      onClick={() => onViewDetails(product)}
+                      className="px-6"
+                      size="lg"
+                    >
+                      View Full Details
+                    </Button>
+                  )}
+                </div>
+
+                {/* Trust Signals */}
+                <div className="grid grid-cols-3 gap-4 mt-4 pt-4 border-t">
+                  <div className="text-center">
+                    <Shield className="w-5 h-5 text-blue-600 mx-auto mb-1" />
+                    <p className="text-xs text-gray-600">2-Year Warranty</p>
+                  </div>
+                  <div className="text-center">
+                    <Award className="w-5 h-5 text-green-600 mx-auto mb-1" />
+                    <p className="text-xs text-gray-600">Quality Certified</p>
+                  </div>
+                  <div className="text-center">
+                    <Zap className="w-5 h-5 text-purple-600 mx-auto mb-1" />
+                    <p className="text-xs text-gray-600">Fast Delivery</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Image Zoom Modal */}
+      {isImageZoomed && (
+        <div 
+          className="fixed inset-0 bg-black/90 z-60 flex items-center justify-center p-4"
+          onClick={() => setIsImageZoomed(false)}
+        >
+          <div className="relative max-w-5xl max-h-full">
+            <img
+              src={images[currentImageIndex]}
+              alt={productDetails.title}
+              className="w-full h-full object-contain"
+            />
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-4 right-4 text-white hover:bg-white/20 rounded-full"
+              onClick={() => setIsImageZoomed(false)}
+            >
+              <X className="w-6 h-6" />
+            </Button>
+          </div>
+        </div>
+      )}
+    </>
   );
-}
-
-const navButtonStyles = (pos: 'left' | 'right'): React.CSSProperties => ({
-  position: 'absolute',
-  top: '50%',
-  [pos]: 16,
-  transform: 'translateY(-50%)',
-  background: 'rgba(255, 255, 255, 0.85)',
-  border: 'none',
-  borderRadius: '50%',
-  width: 38,
-  height: 38,
-  cursor: 'pointer',
-  fontSize: 26,
-  lineHeight: 1,
-  fontWeight: '700',
-  boxShadow: '0 3px 8px rgba(0,0,0,0.15)',
-  userSelect: 'none',
-});
-
-const sectionStyle: React.CSSProperties = {
-  marginBottom: 24,
 };
 
-const sectionTitleStyle: React.CSSProperties = {
-  borderBottom: '2px solid #ddd',
-  paddingBottom: 8,
-  marginBottom: 14,
-  fontWeight: 700,
-  fontSize: 20,
-};
-
-const sectionTextStyle: React.CSSProperties = {
-  color: '#444',
-  lineHeight: 1.7,
-  fontSize: 16,
-};
-
-function renderListSection(title: string, items?: string[]) {
-  if (!items || items.length === 0) return null;
-  return (
-    <section style={sectionStyle}>
-      <h3 style={sectionTitleStyle}>{title}</h3>
-      <ul style={{ listStyle: 'disc', paddingLeft: 24, color: '#444', fontSize: 16, lineHeight: 1.6 }}>
-        {items.map((item, idx) => (
-          <li key={idx}>{item}</li>
-        ))}
-      </ul>
-    </section>
-  );
-}
-
-function renderSpecifications(specs?: Record<string, string>) {
-  if (!specs || Object.keys(specs).length === 0) return null;
-  return (
-    <section style={sectionStyle}>
-      <h3 style={sectionTitleStyle}>Specifications</h3>
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 16, color: '#444' }}>
-        <tbody>
-          {Object.entries(specs).map(([key, value]) => (
-            <tr key={key} style={{ borderBottom: '1px solid #eee' }}>
-              <td
-                style={{
-                  padding: '8px 14px',
-                  fontWeight: '600',
-                  width: '38%',
-                  verticalAlign: 'top',
-                }}
-              >
-                {key}
-              </td>
-              <td style={{ padding: '8px 14px', verticalAlign: 'top' }}>{value}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </section>
-  );
-}
+export default ProductQuickView;

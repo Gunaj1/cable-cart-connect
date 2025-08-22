@@ -12,6 +12,7 @@ import ProductComparison from '../components/ProductComparison';
 import CompareButton from '../components/CompareButton';
 import ComparisonFloatingButton from '../components/ComparisonFloatingButton';
 import { useComparison } from '../contexts/ComparisonContext';
+import { getProductDetails } from '../data/productImages';
 
 // Import product images
 import cat6StpPatchcord from '../assets/cat6-stp-patchcord.jpg';
@@ -159,10 +160,13 @@ const Index = () => {
     onClose: () => void;
   }) => {
     if (!product || !product.detailedDescription) return null;
+    
+    const productDetails = getProductDetails(product.id);
+    
     return <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
         <div className="bg-white rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto shadow-2xl">
           <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-gray-600 z-10 px-8 py-6 flex justify-between items-center rounded-t-2xl">
-            <h2 className="text-3xl font-bold text-white">{product.name}</h2>
+            <h2 className="text-3xl font-bold text-white">{productDetails.title}</h2>
             <button onClick={onClose} className="text-white hover:text-gray-200 transition-colors p-2 rounded-full hover:bg-white/20">
               <X className="w-7 h-7" />
             </button>
@@ -172,11 +176,12 @@ const Index = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
               <div className="space-y-6">
                 <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl overflow-hidden shadow-lg border">
-                  <img src={product.id === 'pc1' ? '/image-copy.png' : product.image} alt={product.name} className="w-full h-auto object-cover" />
+                  <img src={productDetails.images[0]} alt={productDetails.title} className="w-full h-auto object-contain bg-white p-4" />
                 </div>
                 <div className="bg-gradient-to-r from-blue-50 to-gray-50 rounded-2xl p-6 border border-blue-200">
                   <p className="text-2xl font-bold text-blue-900 mb-4">Price: ${product.price}</p>
                   <p className="text-lg font-medium text-gray-700 mb-4">Stock: {product.stock || 0} units</p>
+                  <p className="text-gray-700 mb-4">{productDetails.description}</p>
                   <button onClick={() => {
                   addToCart(product);
                   onClose();
@@ -194,7 +199,7 @@ const Index = () => {
                     Applications
                   </h3>
                   <ul className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-6 space-y-3 border border-gray-200">
-                    {product.detailedDescription.applications.map((app, index) => <li key={index} className="flex items-start">
+                    {productDetails.applications.map((app, index) => <li key={index} className="flex items-start">
                         <Cable className="w-6 h-6 text-blue-600 mt-0.5 mr-3 flex-shrink-0" />
                         <span className="text-gray-700 font-medium">{app}</span>
                       </li>)}
@@ -207,9 +212,9 @@ const Index = () => {
                     Specifications
                   </h3>
                   <ul className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-6 space-y-3 border border-gray-200">
-                    {product.detailedDescription.specifications.map((spec, index) => <li key={index} className="flex items-start">
+                    {Object.entries(productDetails.specifications).map(([key, value], index) => <li key={index} className="flex items-start">
                         <span className="w-3 h-3 bg-gradient-to-r from-gray-500 to-blue-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                        <span className="text-gray-700 font-medium">{spec}</span>
+                        <span className="text-gray-700 font-medium"><strong>{key}:</strong> {value}</span>
                       </li>)}
                   </ul>
                 </div>
@@ -220,7 +225,7 @@ const Index = () => {
                     Features
                   </h3>
                   <ul className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-6 space-y-3 border border-gray-200">
-                    {product.detailedDescription.features.map((feature, index) => <li key={index} className="flex items-start">
+                    {productDetails.features.map((feature, index) => <li key={index} className="flex items-start">
                         <span className="w-3 h-3 bg-gradient-to-r from-blue-500 to-gray-500 rounded-full mt-2 mr-3 flex-shrink-0" />
                         <span className="text-gray-700 font-medium">{feature}</span>
                       </li>)}
