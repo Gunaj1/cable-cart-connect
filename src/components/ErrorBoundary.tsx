@@ -1,48 +1,37 @@
-// src/components/ErrorBoundary.tsx
-import React, { ReactNode, ErrorInfo } from 'react';
+import React from 'react';
 
-interface ErrorBoundaryProps {
-  children: ReactNode;
-}
+type Props = { children: React.ReactNode; fallback?: React.ReactNode };
+type State = { hasError: boolean; error?: Error };
 
-interface ErrorBoundaryState {
-  hasError: boolean;
-  error: Error | null;
-  errorInfo: ErrorInfo | null;
-}
+export class ErrorBoundary extends React.Component<Props, State> {
+  state: State = { hasError: false, error: undefined };
 
-class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  constructor(props: ErrorBoundaryProps) {
-    super(props);
-    this.state = { hasError: false, error: null, errorInfo: null };
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
   }
 
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    return { hasError: true, error: error, errorInfo: null };
+  componentDidCatch(error: Error, info: React.ErrorInfo) {
+    // Send to monitoring if desired
+    console.error('ErrorBoundary caught:', error, info);
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
-    this.setState({ error, errorInfo });
-  }
+  handleReset = () => {
+    this.setState({ hasError: false, error: undefined });
+  };
 
   render() {
     if (this.state.hasError) {
+      if (this.props.fallback) return <>{this.props.fallback}</>;
       return (
-        <div className="error-boundary">
-          <div className="error-container">
-            <div className="error-icon">⚠️</div>
-            <h2>Something went wrong</h2>
-            <p>We're sorry, but something unexpected happened. Please try refreshing the page.</p>
-            <button onClick={() => window.location.reload()} className="retry-button">
-              Refresh Page
-            </button>
-          </div>
+        <div role="alert" style={{ padding: 16 }}>
+          <p>Something went wrong.</p>
+          <pre style={{ whiteSpace: 'pre-wrap' }}>
+            {this.state.error?.message ?? 'Unknown error'}
+          </pre>
+          <button onClick={this.handleReset}>Retry</button>
         </div>
       );
     }
     return this.props.children;
   }
 }
-
-export default ErrorBoundary;
