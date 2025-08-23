@@ -11,7 +11,6 @@ export class ErrorBoundary extends React.Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: React.ErrorInfo) {
-    // Send to monitoring if desired
     console.error('ErrorBoundary caught:', error, info);
   }
 
