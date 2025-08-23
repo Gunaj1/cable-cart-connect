@@ -17,32 +17,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import AdminRoute from "./components/AdminRoute";
 import Admin from "./pages/admin";
 import ComparePage from "./pages/compare";
-
-/* Added: Local ErrorBoundary to safely catch render/effect errors without changing page content */
-class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean; error?: Error }> {
-  constructor(props: { children: React.ReactNode }) {
-    super(props);
-    this.state = { hasError: false, error: undefined };
-  }
-  static getDerivedStateFromError(error: Error) {
-    return { hasError: true, error };
-  }
-  componentDidCatch(error: Error, info: React.ErrorInfo) {
-    console.error("ErrorBoundary caught:", error, info);
-  }
-  render() {
-    if (this.state.hasError) {
-      return (
-        <div role="alert" style={{ padding: 16 }}>
-          <p>Something went wrong.</p>
-          <pre style={{ whiteSpace: "pre-wrap" }}>{this.state.error?.message ?? "Unknown error"}</pre>
-          <button onClick={() => this.setState({ hasError: false, error: undefined })}>Retry</button>
-        </div>
-      );
-    }
-    return this.props.children;
-  }
-}
+import ErrorBoundary from "./components/ErrorBoundary";
 
 const queryClient = new QueryClient();
 
@@ -52,27 +27,20 @@ const App = () => (
       <TooltipProvider>
         <AppToaster />
         <SonnerToaster />
-        {/* Wrap entire router to avoid app-wide crash on route/component errors */}
         <ErrorBoundary>
           <BrowserRouter>
             <Routes>
-              {/* Public Login Route */}
               <Route path="/login" element={<Login />} />
-
-              {/* Protected Home Route */}
               <Route
                 path="/"
                 element={
                   <PrivateRoute>
-                    {/* Local boundary around main page */}
                     <ErrorBoundary>
                       <Index />
                     </ErrorBoundary>
                   </PrivateRoute>
                 }
               />
-
-              {/* Admin Route */}
               <Route
                 path="/admin"
                 element={
@@ -83,8 +51,6 @@ const App = () => (
                   </AdminRoute>
                 }
               />
-
-              {/* Product Detail Page */}
               <Route
                 path="/product/:productId"
                 element={
@@ -95,8 +61,6 @@ const App = () => (
                   </PrivateRoute>
                 }
               />
-
-              {/* Compare Page */}
               <Route
                 path="/compare"
                 element={
@@ -107,8 +71,6 @@ const App = () => (
                   </PrivateRoute>
                 }
               />
-
-              {/* Catch-all Not Found Route */}
               <Route
                 path="*"
                 element={
