@@ -1,9 +1,10 @@
-import React from 'react';
+// src/components/ErrorBoundary.tsx
+import React from "react";
 
 type Props = { children: React.ReactNode; fallback?: React.ReactNode };
 type State = { hasError: boolean; error?: Error };
 
-export class ErrorBoundary extends React.Component<Props, State> {
+class ErrorBoundary extends React.Component<Props, State> {
   state: State = { hasError: false, error: undefined };
 
   static getDerivedStateFromError(error: Error) {
@@ -11,10 +12,10 @@ export class ErrorBoundary extends React.Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: React.ErrorInfo) {
-    console.error('ErrorBoundary caught:', error, info);
+    console.error("ErrorBoundary caught:", error, info);
   }
 
-  handleReset = () => {
+  private handleReset = () => {
     this.setState({ hasError: false, error: undefined });
   };
 
@@ -24,8 +25,8 @@ export class ErrorBoundary extends React.Component<Props, State> {
       return (
         <div role="alert" style={{ padding: 16 }}>
           <p>Something went wrong.</p>
-          <pre style={{ whiteSpace: 'pre-wrap' }}>
-            {this.state.error?.message ?? 'Unknown error'}
+          <pre style={{ whiteSpace: "pre-wrap" }}>
+            {this.state.error?.message ?? "Unknown error"}
           </pre>
           <button onClick={this.handleReset}>Retry</button>
         </div>
@@ -34,3 +35,5 @@ export class ErrorBoundary extends React.Component<Props, State> {
     return this.props.children;
   }
 }
+
+export default ErrorBoundary;
