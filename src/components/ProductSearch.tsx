@@ -200,8 +200,8 @@ const ProductSearch: React.FC<ProductSearchProps> = ({ products, onProductSelect
                     <p className="text-xs text-gray-500 truncate">
                       {product.category}
                     </p>
-                    <p className="text-xs text-gray-600 line-clamp-2 mt-1">
-                      {getProductDetails(product.id).description}
+                    <p className="text-xs text-gray-600 line-clamp-1 mt-1">
+                      {getProductDetails(product.id).description.substring(0, 80)}...
                     </p>
                     {product.stock <= 5 && (
                       <span className="text-xs text-orange-500 font-medium">
