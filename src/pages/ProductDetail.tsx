@@ -26,7 +26,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useComparison } from '@/contexts/ComparisonContext';
 import { Product } from '@/types/Product';
 import ProductCard from '@/components/ProductCard';
-import { getProductDetails } from '@/data/productImages';
 import Navbar from '@/components/Navbar';
 import ErrorBoundary from '@/components/ErrorBoundary';
 
@@ -44,9 +43,6 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ products = [], onAddToCar
   const [isImageZoomed, setIsImageZoomed] = useState(false);
   const [imageError, setImageError] = useState(false);
   const { addToComparison, isInComparison } = useComparison();
-
-  // Get unified product details
-  const productDetails = getProductDetails(product?.id || '');
 
   // Find product from products array
   const product = products.find(p => 
@@ -415,8 +411,8 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ products = [], onAddToCar
               <Card>
                 <CardContent className="p-6">
                   <h3 className="text-xl font-semibold mb-4">Product Overview</h3>
-                  <p className="text-muted-foreground leading-relaxed text-lg">
-                    {productDetails.description}
+                  <p className="text-muted-foreground leading-relaxed">
+                    {product.description}
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
                     <div className="flex items-center gap-3 p-4 bg-muted/30 rounded-lg">
@@ -449,9 +445,9 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ products = [], onAddToCar
               <Card>
                 <CardContent className="p-6">
                   <h3 className="text-xl font-semibold mb-4">Technical Specifications</h3>
-                  {Object.keys(productDetails.specifications).length > 0 ? (
+                  {Object.keys(specifications).length > 0 ? (
                     <div className="grid grid-cols-1 gap-2">
-                      {Object.entries(productDetails.specifications).map(([key, value]) => (
+                      {Object.entries(specifications).map(([key, value]) => (
                         <div key={key} className="grid grid-cols-3 gap-4 py-2 border-b last:border-b-0">
                           <dt className="font-medium text-sm">{key}</dt>
                           <dd className="col-span-2 text-sm text-muted-foreground">{value}</dd>
@@ -469,9 +465,9 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ products = [], onAddToCar
               <Card>
                 <CardContent className="p-6">
                   <h3 className="text-xl font-semibold mb-4">Applications & Use Cases</h3>
-                  {productDetails.applications.length > 0 ? (
+                  {product.detailedDescription?.applications ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {productDetails.applications.map((app, index) => (
+                      {product.detailedDescription.applications.map((app, index) => (
                         <div key={index} className="flex items-start gap-3 p-3 bg-muted/30 rounded-lg">
                           <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
                           <span className="text-sm">{app}</span>
@@ -489,9 +485,9 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ products = [], onAddToCar
               <Card>
                 <CardContent className="p-6">
                   <h3 className="text-xl font-semibold mb-4">Key Features</h3>
-                  {productDetails.features.length > 0 ? (
+                  {product.detailedDescription?.features ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {productDetails.features.map((feature, index) => (
+                      {product.detailedDescription.features.map((feature, index) => (
                         <div key={index} className="flex items-start gap-3 p-3 bg-muted/30 rounded-lg">
                           <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
                           <span className="text-sm">{feature}</span>

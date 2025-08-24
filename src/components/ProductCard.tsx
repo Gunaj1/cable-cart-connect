@@ -172,7 +172,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
         {/* Description */}
         <p className="text-sm text-muted-foreground line-clamp-2 mb-3 flex-1">
-          {getProductDetails(product.id).description.substring(0, 120)}...
+          {getProductDetails(product.id).description}
         </p>
 
         {/* Variants Preview */}

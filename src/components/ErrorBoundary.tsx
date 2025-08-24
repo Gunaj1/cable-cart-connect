@@ -1,34 +1,43 @@
 // src/components/ErrorBoundary.tsx
-import React from "react";
+import React, { ReactNode, ErrorInfo } from 'react';
 
-type Props = { children: React.ReactNode; fallback?: React.ReactNode };
-type State = { hasError: boolean; error?: Error };
+interface ErrorBoundaryProps {
+  children: ReactNode;
+}
 
-class ErrorBoundary extends React.Component<Props, State> {
-  state: State = { hasError: false, error: undefined };
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error: Error | null;
+  errorInfo: ErrorInfo | null;
+}
 
-  static getDerivedStateFromError(error: Error) {
-    return { hasError: true, error };
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false, error: null, errorInfo: null };
   }
 
-  componentDidCatch(error: Error, info: React.ErrorInfo) {
-    console.error("ErrorBoundary caught:", error, info);
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, error: error, errorInfo: null };
   }
 
-  private handleReset = () => {
-    this.setState({ hasError: false, error: undefined });
-  };
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error('ErrorBoundary caught an error:', error, errorInfo);
+    this.setState({ error, errorInfo });
+  }
 
   render() {
     if (this.state.hasError) {
-      if (this.props.fallback) return <>{this.props.fallback}</>;
       return (
-        <div role="alert" style={{ padding: 16 }}>
-          <p>Something went wrong.</p>
-          <pre style={{ whiteSpace: "pre-wrap" }}>
-            {this.state.error?.message ?? "Unknown error"}
-          </pre>
-          <button onClick={this.handleReset}>Retry</button>
+        <div className="error-boundary">
+          <div className="error-container">
+            <div className="error-icon">⚠️</div>
+            <h2>Something went wrong</h2>
+            <p>We're sorry, but something unexpected happened. Please try refreshing the page.</p>
+            <button onClick={() => window.location.reload()} className="retry-button">
+              Refresh Page
+            </button>
+          </div>
         </div>
       );
     }

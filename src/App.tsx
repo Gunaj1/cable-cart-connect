@@ -1,4 +1,3 @@
-// src/App.tsx
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -17,7 +16,6 @@ import PrivateRoute from "./components/PrivateRoute";
 import AdminRoute from "./components/AdminRoute";
 import Admin from "./pages/admin";
 import ComparePage from "./pages/compare";
-import ErrorBoundary from "./components/ErrorBoundary";
 
 const queryClient = new QueryClient();
 
@@ -27,64 +25,59 @@ const App = () => (
       <TooltipProvider>
         <AppToaster />
         <SonnerToaster />
-        <ErrorBoundary>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route
-                path="/"
-                element={
-                  <PrivateRoute>
-                    <ErrorBoundary>
-                      <Index />
-                    </ErrorBoundary>
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/admin"
-                element={
-                  <AdminRoute>
-                    <ErrorBoundary>
-                      <Admin />
-                    </ErrorBoundary>
-                  </AdminRoute>
-                }
-              />
-              <Route
-                path="/product/:productId"
-                element={
-                  <PrivateRoute>
-                    <ErrorBoundary>
-                      <ProductDetail />
-                    </ErrorBoundary>
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/compare"
-                element={
-                  <PrivateRoute>
-                    <ErrorBoundary>
-                      <ComparePage />
-                    </ErrorBoundary>
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="*"
-                element={
-                  <ErrorBoundary>
-                    <NotFound />
-                  </ErrorBoundary>
-                }
-              />
-            </Routes>
-          </BrowserRouter>
-        </ErrorBoundary>
+        <BrowserRouter>
+          <Routes>
+            {/* Public Login Route */}
+            <Route path="/login" element={<Login />} />
+
+            {/* Protected Home Route */}
+            <Route
+              path="/"
+              element={
+                <PrivateRoute>
+                  <Index />
+                </PrivateRoute>
+              }
+            />
+
+            {/* Admin Route */}
+            <Route
+              path="/admin"
+              element={
+                <AdminRoute>
+                  <Admin />
+                </AdminRoute>
+              }
+            />
+
+            {/* Product Detail Page */}
+            <Route
+              path="/product/:productId"
+              element={
+                <PrivateRoute>
+                  <ProductDetail />
+                </PrivateRoute>
+              }
+            />
+
+            {/* Compare Page */}
+            <Route
+              path="/compare"
+              element={
+                <PrivateRoute>
+                  <ComparePage />
+                </PrivateRoute>
+              }
+            />
+
+            {/* Catch-all Not Found Route */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
       </TooltipProvider>
     </ComparisonProvider>
   </QueryClientProvider>
 );
 
 export default App;
+

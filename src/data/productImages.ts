@@ -1,31 +1,54 @@
-// Professional Product Images and Unified Descriptions
-// Single source of truth for all product information
+// /src/data/productImages.ts
+// Safe, Vite + React SWC friendly. No indexOf/includes at module eval. Pure data + null-safe helpers.
 
-export interface ProductDetails {
+// Types
+type ProductSpec = Record<string, string>;
+type ProductDetails = {
   images: string[];
   title: string;
   description: string;
-  specifications: Record<string, string>;
+  specifications: ProductSpec;
   applications: string[];
   features: string[];
+};
+
+// Utility: immutable empty fallbacks to avoid accidental undefined access
+const EMPTY_DETAILS: ProductDetails = Object.freeze({
+  images: [],
+  title: '',
+  description: '',
+  specifications: {},
+  applications: [],
+  features: [],
+});
+
+// Validator to ensure each entry conforms and prevents undefined traps
+function normalizeDetails(input: Partial<ProductDetails> | undefined | null): ProductDetails {
+  if (!input || typeof input !== 'object') return EMPTY_DETAILS;
+  const images = Array.isArray(input.images) ? input.images.filter(Boolean) : [];
+  return {
+    images,
+    title: typeof input.title === 'string' ? input.title : '',
+    description: typeof input.description === 'string' ? input.description : '',
+    specifications: (input.specifications && typeof input.specifications === 'object') ? input.specifications as ProductSpec : {},
+    applications: Array.isArray(input.applications) ? input.applications.filter(Boolean) : [],
+    features: Array.isArray(input.features) ? input.features.filter(Boolean) : [],
+  };
 }
 
-// Professional high-resolution product images (5 per product)
+// Pure data: keep as provided (content preserved). Ensure object commas and structure are valid.
 export const productImageCollections: Record<string, ProductDetails> = {
-  // ========================
-  // PATCHCORDS
-  // ========================
-  
-  pc1: { // Cat 6 STP Patchcord
+  // Patchcords
+  pc1: { // Cat 6 STP
     images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200', // Front view
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200', // 45° angled view
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200', // Close-up detail
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200', // Top/flat lay
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'  // Application shot
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
     ],
     title: 'Cat 6 STP Patchcord',
-    description: 'Premium Shielded Twisted Pair Cat6 patchcord engineered for high-performance networking environments. Features enhanced EMI protection with aluminum foil shielding and supports speeds up to 10Gbps with superior signal integrity. Ideal for data centers, enterprise networks, and industrial applications requiring maximum interference protection.',
+    description: 'Premium Shielded Twisted Pair Cat6 patchcord engineered for high-performance networking environments. Features enhanced EMI protection and supports speeds up to 10Gbps with superior signal integrity.',
     specifications: {
       'Cable Type': 'STP (Shielded Twisted Pair)',
       'Category': 'Cat 6',
@@ -59,17 +82,16 @@ export const productImageCollections: Record<string, ProductDetails> = {
       'Lifetime Warranty'
     ]
   },
-
-  pc2: { // Cat 6 FTP Patchcord
+  pc2: { // Cat 6 FTP
     images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
     ],
     title: 'Cat 6 FTP Patchcord',
-    description: 'Professional Foiled Twisted Pair Cat6 patchcord offering excellent noise protection and signal integrity. Features overall aluminum foil shielding for enhanced performance in moderate interference environments. Ideal for data centers and enterprise networks requiring reliable high-speed connectivity up to 10Gbps.',
+    description: 'Professional Foiled Twisted Pair Cat6 patchcord offering excellent noise protection and signal integrity. Ideal for data centers and enterprise networks requiring reliable high-speed connectivity.',
     specifications: {
       'Cable Type': 'FTP (Foiled Twisted Pair)',
       'Category': 'Cat 6',
@@ -103,17 +125,16 @@ export const productImageCollections: Record<string, ProductDetails> = {
       'Industry Standard Compliance'
     ]
   },
-
-  pc3: { // Cat 6 UTP Patchcord
+  pc3: { // Cat 6 UTP
     images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
     ],
     title: 'Cat 6 UTP Patchcord',
-    description: 'Cost-effective Unshielded Twisted Pair Cat6 patchcord perfect for standard office networking needs. Delivers reliable performance for everyday business applications with support for speeds up to 10Gbps over shorter distances. Ideal for clean electrical environments with minimal interference.',
+    description: 'Cost-effective Unshielded Twisted Pair Cat6 patchcord perfect for standard office networking needs. Delivers reliable performance for everyday business applications.',
     specifications: {
       'Cable Type': 'UTP (Unshielded Twisted Pair)',
       'Category': 'Cat 6',
@@ -147,17 +168,16 @@ export const productImageCollections: Record<string, ProductDetails> = {
       'Professional Grade'
     ]
   },
-
-  pc4: { // Cat 5e STP Patchcord
+  pc4: { // Cat 5e STP
     images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
     ],
     title: 'Cat 5e STP Patchcord',
-    description: 'Shielded Cat5e patchcord with reliable performance and EMI protection. Engineered for enterprise networks and industrial environments requiring stable 1Gbps connectivity with enhanced protection against electromagnetic interference.',
+    description: 'Shielded Cat5e patchcord with reliable performance and EMI protection. Engineered for enterprise networks and industrial environments requiring stable 1Gbps connectivity.',
     specifications: {
       'Cable Type': 'STP (Shielded Twisted Pair)',
       'Category': 'Cat 5e Enhanced',
@@ -191,17 +211,16 @@ export const productImageCollections: Record<string, ProductDetails> = {
       'Lifetime Warranty'
     ]
   },
-
-  pc5: { // Cat 5e FTP Patchcord
+  pc5: { // Cat5e FTP
     images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
     ],
-    title: 'Cat 5e FTP Patchcord',
-    description: 'Foiled Cat5e patchcord with overall shield for noise reduction. Perfect for small business networks and educational institutions requiring reliable connectivity with moderate interference protection. Supports 1Gbps speeds with enhanced signal quality.',
+    title: 'Cat5e FTP Patchcord',
+    description: 'Foiled Cat5e patchcord with overall shield for noise reduction. Perfect for small business networks and educational institutions requiring reliable connectivity.',
     specifications: {
       'Cable Type': 'FTP (Foiled Twisted Pair)',
       'Category': 'Cat 5e Enhanced',
@@ -235,17 +254,16 @@ export const productImageCollections: Record<string, ProductDetails> = {
       'Quality Assured'
     ]
   },
-
-  pc6: { // Cat 5e UTP Patchcord
+  pc6: { // Cat5e UTP
     images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
     ],
-    title: 'Cat 5e UTP Patchcord',
-    description: 'Standard Cat5e patchcord for basic networking needs. Cost-effective solution perfect for home networks and small office environments requiring reliable data transmission up to 1Gbps. Features durable construction and professional-grade connectors.',
+    title: 'Cat5e UTP Patchcord',
+    description: 'Standard Cat5e patchcord for basic networking needs. Cost-effective solution perfect for home networks and small office environments requiring reliable data transmission.',
     specifications: {
       'Cable Type': 'UTP (Unshielded Twisted Pair)',
       'Category': 'Cat 5e Enhanced',
@@ -280,64 +298,17 @@ export const productImageCollections: Record<string, ProductDetails> = {
     ]
   },
 
-  // ========================
-  // CAT 5e LAN CABLES
-  // ========================
-
-  lan1: { // Cat 5e Flat
+  // Cat5e LAN Cables
+  lan2: { // Cat5e 2 pair
     images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
     ],
-    title: 'Cat 5e Flat LAN Cable',
-    description: 'Ultra-thin flat design Cat5e cable perfect for discrete installations under carpets and along walls. Maintains excellent performance while offering superior aesthetics. Features 1.4mm thickness and 8mm width for seamless integration into any environment.',
-    specifications: {
-      'Cable Type': 'UTP Flat Design',
-      'Category': 'Cat 5e Enhanced',
-      'Profile': 'Ultra-thin 1.4mm thickness',
-      'Width': '8mm ribbon design',
-      'Frequency': 'Up to 600MHz',
-      'Speed': '1000 Mbps (1 Gbps)',
-      'Conductor': 'Stranded Copper/CCA',
-      'Impedance': '100 ±15Ω',
-      'Jacket': 'PVC Flat Profile',
-      'Length': '100m/305m Standard'
-    },
-    applications: [
-      'Under Carpet Installation',
-      'Wall-mounted Routing',
-      'Home Networks',
-      'Office Environments',
-      'Discrete Cable Management',
-      'Residential Wiring',
-      'Commercial Buildings',
-      'Clean Installations'
-    ],
-    features: [
-      'Ultra-thin Flat Design',
-      'Easy Under-carpet Installation',
-      '1000 Mbps Speed Support',
-      'Customizable Lengths',
-      'Multiple Color Options',
-      'Professional Aesthetics',
-      'Space-saving Design',
-      'Flexible Routing'
-    ]
-  },
-
-  lan2: { // Cat 5e 2 pair
-    images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
-    ],
-    title: 'Cat 5e 2 Pair LAN Cable',
-    description: 'Economical 2-pair solution for voice and basic data applications. Ideal for telephone systems and cost-effective network solutions requiring reliable connectivity. Features special PE polyolefin insulation for enhanced performance.',
+    title: 'Cat5e 2 Pair LAN Cable',
+    description: 'Economical 2-pair solution for voice and basic data applications. Ideal for telephone systems and cost-effective network solutions requiring reliable connectivity.',
     specifications: {
       'Configuration': '2 Pair (4 Conductors)',
       'Category': 'Cat 5e Enhanced',
@@ -371,17 +342,16 @@ export const productImageCollections: Record<string, ProductDetails> = {
       'Professional Grade'
     ]
   },
-
   lan3: { // Cat 5e Armored
     images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
     ],
     title: 'Cat 5e Armored LAN Cable',
-    description: 'Heavy-duty armored cable for underground and outdoor installations. Features excellent rodent protection and weather resistance for demanding environments. Built with 0.8mm aluminum rod armor for maximum physical protection.',
+    description: 'Heavy-duty armored cable for underground and outdoor installations. Features excellent rodent protection and weather resistance for demanding environments.',
     specifications: {
       'Construction': 'Armored Design',
       'Category': 'Cat 5e Enhanced',
@@ -416,196 +386,17 @@ export const productImageCollections: Record<string, ProductDetails> = {
     ]
   },
 
-  lan4: { // Cat 5e FTP
-    images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
-    ],
-    title: 'Cat 5e FTP LAN Cable',
-    description: 'Foiled cable with overall shield for superior noise immunity. Perfect for industrial environments and commercial buildings requiring enhanced protection against electromagnetic interference while maintaining cost-effectiveness.',
-    specifications: {
-      'Cable Type': 'FTP (Foiled Twisted Pair)',
-      'Category': 'Cat 5e Enhanced',
-      'Frequency': '1 to 500MHz',
-      'Impedance': '100 ±15Ω',
-      'Shield': 'Aluminum Foil Supported',
-      'Conductor': '23/24/25/26 AWG Stranded',
-      'Material': 'CCA or Pure Copper',
-      'Insulation': 'LLDPE',
-      'Jacket': 'PVC and LSZH',
-      'Length': '100m/305m Standard'
-    },
-    applications: [
-      'Industrial Environments',
-      'EMI Sensitive Areas',
-      'Commercial Buildings',
-      'High-Interference Locations',
-      'Professional Networks',
-      'Manufacturing Facilities',
-      'Electrical Environments',
-      'Network Infrastructure'
-    ],
-    features: [
-      'OEM Suppliers',
-      'Customized Lengths and Colors',
-      'Passed Fluke Test',
-      'Professional Packaging',
-      'Superior Noise Immunity',
-      'Enhanced Signal Quality',
-      'Durable Construction',
-      'Industry Compliance'
-    ]
-  },
-
-  lan5: { // Cat 5e STP
-    images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
-    ],
-    title: 'Cat 5e STP LAN Cable',
-    description: 'Individually shielded pairs for maximum protection against crosstalk and interference. Designed specifically for network adapters, hubs, switches, and routers requiring superior signal integrity and performance.',
-    specifications: {
-      'Cable Type': 'STP (Shielded Twisted Pair)',
-      'Category': 'Cat 5e Enhanced',
-      'Construction': 'FTP Shielded Twist Pair',
-      'Jacket': 'CM Type PVC',
-      'Conductor': '23/24/25/26 AWG 4-Pair Stranded',
-      'Material': 'Copper Wire/CCA Wire',
-      'Length': '100m/305m Standard',
-      'Speed': '1000 Mbps',
-      'Shield': 'Individual Pair Shielding',
-      'Applications': 'Network Equipment'
-    },
-    applications: [
-      'Network Adapters',
-      'Hubs, Switches, Routers',
-      'DSL/Cable Modems',
-      'Patch Panels',
-      'Computer Networking Applications',
-      'Data Centers',
-      'Enterprise Networks',
-      'Professional Installations'
-    ],
-    features: [
-      'OEM Suppliers',
-      'Designed for Network Adapters',
-      'All Colors Available',
-      'Customization Available',
-      'Maximum Crosstalk Protection',
-      'Superior Signal Integrity',
-      'Professional Grade Quality',
-      'Enhanced Performance'
-    ]
-  },
-
-  lan6: { // Cat 5e UTP
-    images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
-    ],
-    title: 'Cat 5e UTP LAN Cable',
-    description: 'Standard unshielded cable for general networking needs. Cost-effective solution for office installations compliant with Enhanced Category 5 Ethernet standards. Features ultra-ribbon design with 1.4mm thickness for versatile installations.',
-    specifications: {
-      'Cable Type': 'UTP (Unshielded Twisted Pair)',
-      'Category': 'Enhanced Category 5',
-      'Design': 'Ultra-ribbon Cable',
-      'Thickness': '1.4mm',
-      'Width': '8mm',
-      'Construction': 'Stranded Wire Twisted Pair',
-      'Speed': '1000 Mbps (1 Gbps)',
-      'Compliance': 'Ethernet Standard',
-      'Length': '100m/305m Standard',
-      'Pairs': 'All 4 Pairs Utilized'
-    },
-    applications: [
-      'General Networking',
-      'Office Installations',
-      'Enhanced Category 5 (1000 BASE-T)',
-      'Ethernet Standard Applications',
-      'Commercial Buildings',
-      'Workstation Connections',
-      'Network Infrastructure',
-      'Professional Installations'
-    ],
-    features: [
-      'OEM Suppliers',
-      'Straight-through Cable Using All 4 Pairs',
-      'Customization Available',
-      'Speed: 1000 Mbps',
-      'All Colors Available',
-      'Ultra-thin Design',
-      'Professional Grade',
-      'Easy Installation'
-    ]
-  },
-
-  lan7: { // Cat 5e Outdoor
-    images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
-    ],
-    title: 'Cat 5e Outdoor LAN Cable',
-    description: 'UV-resistant and waterproof design for outdoor installations. Features overall aluminum foil shield and supports PoE++ up to 90W. Bandwidth tested up to 600MHz for reliable outdoor networking applications.',
-    specifications: {
-      'Construction': 'Outdoor Rated',
-      'Category': 'Cat 5e Enhanced',
-      'Conductor': '23/24/25/26 AWG 4-Pair Solid',
-      'Material': 'Bare Copper/CCA Wire',
-      'Shield': 'Overall Aluminum Foil (F/UTP)',
-      'Bandwidth': 'Tested up to 600MHz',
-      'PoE Support': 'PoE++ (802.3bt) up to 90W',
-      'Length': '100m/305m Standard',
-      'Rating': 'Outdoor Applications',
-      'UV Protection': 'Enhanced UV Resistance'
-    },
-    applications: [
-      'Outdoor Installations',
-      'Direct Burial Applications',
-      'Weather-Resistant Networking',
-      'Campus Networks',
-      'Outdoor Security Systems',
-      'Building-to-Building Links',
-      'Harsh Environment Networks',
-      'Infrastructure Projects'
-    ],
-    features: [
-      'OEM Suppliers',
-      'Speed: 1000 Mbps',
-      'Customization Available',
-      'All Colors Available',
-      'UV-Resistant Design',
-      'Waterproof Construction',
-      'PoE++ Support',
-      'Weather Resistant'
-    ]
-  },
-
-  // ========================
-  // CAT 6 LAN CABLES
-  // ========================
-
+  // Cat 6 LAN Cables
   cat1: { // Cat 6 Flat
     images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
     ],
     title: 'Cat 6 Flat LAN Cable',
-    description: 'Low-profile flat design Cat6 cable for discrete installations. Supports 10Gbps up to 55 meters with superior signal characteristics. Features unbreakable outer jacket and heat-proof inner core for maximum durability and performance.',
+    description: 'Low-profile flat design Cat6 cable for discrete installations. Supports 10Gbps up to 55 meters with superior signal characteristics and aesthetic appeal.',
     specifications: {
       'Design': 'Flat Profile',
       'Category': 'Cat 6',
@@ -639,17 +430,16 @@ export const productImageCollections: Record<string, ProductDetails> = {
       'Professional Grade'
     ]
   },
-
   cat2: { // Cat 6 Armored
     images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
     ],
     title: 'Cat 6 Armored LAN Cable',
-    description: 'Double-jacketed armored Cat6 cable for harsh environments. Provides superior physical protection while maintaining high-speed performance capabilities. Features 0.8mm aluminum rod armor and weather-proof outer jacket.',
+    description: 'Double-jacketed armored Cat6 cable for harsh environments. Provides superior physical protection while maintaining high-speed performance capabilities.',
     specifications: {
       'Construction': 'Double-Jacketed Armored',
       'Category': 'Cat 6',
@@ -684,240 +474,17 @@ export const productImageCollections: Record<string, ProductDetails> = {
     ]
   },
 
-  cat3: { // Cat 6 STP
+  // CCTV Cable 4+1
+  cctv2: {
     images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
-    ],
-    title: 'Cat 6 STP LAN Cable',
-    description: 'Shielded Cat6 cable with individual pair shielding for maximum EMI protection. Excellent for high-speed data centers and industrial environments requiring superior signal integrity and performance up to 10Gbps.',
-    specifications: {
-      'Cable Type': 'STP (Shielded Twisted Pair)',
-      'Category': 'Cat 6',
-      'Shield': '80 Wire Aloe Shielded',
-      'Foil': '42 Micron Aluminum Foil',
-      'Jacket': 'LD PVC Weather & Temperature Proof',
-      'Length': '100m/305m Standard',
-      'Speed': '1000 Mbps',
-      'Protection': 'Maximum EMI Protection',
-      'Grade': 'Professional Grade',
-      'Testing': 'DCM & Fluke Tested'
-    },
-    applications: [
-      'High-Speed Data Centers',
-      'Industrial Environments',
-      'EMI Sensitive Areas',
-      'Professional Networks',
-      'Critical Data Applications',
-      'Server Rooms',
-      'Network Infrastructure',
-      'Enterprise Networks'
-    ],
-    features: [
-      'OEM Suppliers',
-      'DCM Tested',
-      'Fluke Tested',
-      'Fire Retardant High Quality PVC',
-      'All Colors Available',
-      'Customization Available',
-      'Maximum EMI Protection',
-      'Professional Grade Quality'
-    ]
-  },
-
-  cat4: { // Cat 6 FTP
-    images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
-    ],
-    title: 'Cat 6 FTP LAN Cable',
-    description: 'Foiled Cat6 cable with overall shield for commercial and industrial applications. Features weather-proof double jacket construction with EC grade copper conductors and 42 micron aluminum foil shielding for enhanced performance.',
-    specifications: {
-      'Cable Type': 'FTP (Foiled Twisted Pair)',
-      'Category': 'Cat 6',
-      'Construction': 'Weather Proof Double Jacket',
-      'Conductor': '23/24/25/26 EC Grade Copper/CCA',
-      'Foil': '42 Micron Aluminum Foil',
-      'Twisting': 'International Standard',
-      'Length': '100m/305m Standard',
-      'Speed': '1000 Mbps',
-      'Protection': 'Weather & Temperature Proof',
-      'Testing': 'DCM & Fluke Tested'
-    },
-    applications: [
-      'Commercial Applications',
-      'Industrial Environments',
-      'Office Networks',
-      'Data Transmission',
-      'Professional Networks',
-      'Building Infrastructure',
-      'Network Installations',
-      'Enterprise Applications'
-    ],
-    features: [
-      'OEM Suppliers',
-      'DCM Tested',
-      'Fluke Tested',
-      'Fire Retardant High Quality PVC',
-      'All Colors Available',
-      'Customization Available',
-      'Weather Protection',
-      'Professional Grade'
-    ]
-  },
-
-  cat5: { // Cat 6 UTP
-    images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
-    ],
-    title: 'Cat 6 UTP LAN Cable',
-    description: 'Standard Cat6 unshielded cable perfect for modern office networks requiring higher bandwidth. Designed to deliver maximum performance for video and data applications with twisted pairs that help transmit true signals and reduce transmission losses.',
-    specifications: {
-      'Cable Type': 'UTP (Unshielded Twisted Pair)',
-      'Category': 'Cat 6',
-      'Conductor': '23/24/25/26 AWG Copper/CCA Wire',
-      'Design': 'Twisted Pair Configuration',
-      'Performance': 'Maximum Video & Data Performance',
-      'Signal': 'True Signal Transmission',
-      'Loss': 'Reduced Transmission Losses',
-      'Length': '100m/305m Standard',
-      'Speed': '1000 Mbps',
-      'Applications': 'Video & Data'
-    },
-    applications: [
-      'Office Networks',
-      'Video & Data Applications',
-      'Commercial Buildings',
-      'General Networking',
-      'Professional Installations',
-      'Network Infrastructure',
-      'Enterprise Networks',
-      'High-Bandwidth Applications'
-    ],
-    features: [
-      'OEM Suppliers',
-      'All Colors Available',
-      'Customization Available',
-      'Maximum Performance',
-      'Reduced Transmission Losses',
-      'True Signal Transmission',
-      'Professional Grade',
-      'Reliable Performance'
-    ]
-  },
-
-  cat6: { // Cat 6 Outdoor
-    images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
-    ],
-    title: 'Cat 6 Outdoor LAN Cable',
-    description: 'Weather-resistant Cat6 cable for outdoor installations. Features UV-protected LDPE sheath facilitating both indoor and outdoor applications. Supports multiple network standards including 10BASE-T, 100BASE-T, and 1000BASE-TX.',
-    specifications: {
-      'Construction': 'Outdoor Rated',
-      'Category': 'Cat 6',
-      'Sheath': 'LDPE UV-Protected',
-      'Applications': 'Indoor/Outdoor',
-      'Standards': '10BASE-T, 100BASE-T, 1000BASE-TX',
-      'Protocols': 'TP-PMD, 100 Mbps CDDI, ATM 155',
-      'Token Ring': '4/16 Mbps Support',
-      'Length': '100m/305m Standard',
-      'Speed': '1000 Mbps',
-      'Protection': 'UV & Weather Resistant'
-    },
-    applications: [
-      '10BASE-T Networks',
-      '100BASE-T Applications',
-      '1000BASE-TX High-Speed',
-      'TP-PMD Connections',
-      '100 Mbps CDDI',
-      'ATM 155 Applications',
-      'Token Ring Networks',
-      'Outdoor Installations'
-    ],
-    features: [
-      'OEM Suppliers',
-      'All Colors Available',
-      'Customization Available',
-      'Weather Resistant',
-      'UV Protected',
-      'Indoor/Outdoor Use',
-      'Multiple Standards Support',
-      'Professional Grade'
-    ]
-  },
-
-  // ========================
-  // CCTV CABLES
-  // ========================
-
-  cctv1: { // CCTV Cable 3+1
-    images: [
-      'https://images.pexels.com/photos/430208/pexels-photo-430208.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
-    ],
-    title: 'CCTV Cable 3+1',
-    description: 'Professional CCTV cable combining power and video transmission in a single cable. Features 3 copper power conductors and 1 coaxial video core for reliable surveillance system connections. Manufactured using exceptional quality raw materials with superior picture quality.',
-    specifications: {
-      'Configuration': '3+1 (3 Power + 1 Video)',
-      'Video Core': 'Coaxial RG59 Type',
-      'Power Conductors': '3 x Copper Wire',
-      'Video Conductor': '0.18mm/0.20mm Copper',
-      'Core Size': '7x38, 14x40, 14x42, 14x43',
-      'Shielding': '36 x 0.115mm Alloy + Aluminum Foil',
-      'Jacket': 'PVC Weather Resistant',
-      'Length': '90m/180m Standard',
-      'Operating Voltage': '12V DC Power',
-      'Quality': 'Exceptional Raw Materials'
-    },
-    applications: [
-      'CCTV Surveillance Cameras',
-      'DVR and NVR Connections',
-      'PC-based Security Systems',
-      'Analog Camera Systems',
-      'Security Installations',
-      'Monitoring Systems',
-      'Commercial Surveillance',
-      'Residential Security'
-    ],
-    features: [
-      'Combined Power & Video',
-      'High Tensile Strength',
-      'Shock-proof Construction',
-      'Superior Picture Quality',
-      'Weather Resistant',
-      'All Colors Available',
-      'Customizable Lengths',
-      'Professional Grade Quality'
-    ]
-  },
-
-  cctv2: { // CCTV Cable 4+1
-    images: [
-      'https://images.pexels.com/photos/430208/pexels-photo-430208.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
+      'https://images.pexels.com/photos/430208/pexels-photo-430208.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
     ],
     title: 'CCTV Cable 4+1',
-    description: 'Premium CCTV cable with 4 power conductors and 1 coaxial core for enhanced power delivery. Ideal for PTZ cameras and long-distance installations requiring superior power capacity and video quality. Features exceptional raw materials and professional construction.',
+    description: 'Premium CCTV cable with 4 power conductors and 1 coaxial core. Ideal for PTZ cameras and long-distance installations requiring enhanced power delivery.',
     specifications: {
       'Configuration': '4+1 (4 Power + 1 Video)',
       'Video Core': 'Coaxial RG59 Type',
@@ -952,20 +519,17 @@ export const productImageCollections: Record<string, ProductDetails> = {
     ]
   },
 
-  // ========================
-  // TELEPHONE CABLES
-  // ========================
-
-  tel1: { // Standard Telephone Cable
+  // Telephone Cable
+  tel1: {
     images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
     ],
     title: 'Standard Telephone Cable',
-    description: 'Multi-pair telephone cable for voice communication systems. Features pure electrolytic grade copper conductors with high-quality PVC insulation. Suitable for internal and external telephone wiring with superior signal quality and durability. Available in 1-50 pair configurations.',
+    description: 'Multi-pair telephone cable for voice communication systems. Suitable for internal and external telephone wiring with superior signal quality and durability.',
     specifications: {
       'Type': 'Multi-pair Telephone Cable',
       'Conductor': 'Pure Electrolytic Grade Copper',
@@ -1000,64 +564,17 @@ export const productImageCollections: Record<string, ProductDetails> = {
     ]
   },
 
-  // ========================
-  // COMPUTER CORDS
-  // ========================
-
-  cc1: { // Desktop CPU Power Cord
+  // Computer Cord 2
+  cc2: {
     images: [
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
     ],
-    title: 'Desktop CPU Power Cord',
-    description: 'Standard 3-pin power cord designed for desktop computers, monitors, and electronic devices. Features safety certification, overload protection, and durable construction for reliable power delivery. Compatible with standard wall outlets and electronic gadgets.',
-    specifications: {
-      'Connector Type': '3-Pin Grounded Male Plug',
-      'Female End': 'IEC C13 Socket',
-      'Wire Gauge': '18 AWG',
-      'Voltage Rating': '250V AC',
-      'Current Rating': '10A',
-      'Length Options': '1m, 1.5m, 2m, 3m',
-      'Jacket': 'PVC Black',
-      'Safety': 'CE, RoHS Compliant',
-      'Temperature': '-10°C to +70°C',
-      'Protection': 'Overload Protection'
-    },
-    applications: [
-      'Desktop Computer Systems',
-      'LCD/LED Monitors',
-      'Printers and Scanners',
-      'Network Equipment',
-      'Audio Equipment',
-      'Electronic Devices',
-      'Office Equipment',
-      'Server Systems'
-    ],
-    features: [
-      'Universal Compatibility',
-      'Safety Certified',
-      'Overload Protection',
-      'Durable Construction',
-      'Standard Wall Outlet Compatible',
-      'High Quality Materials',
-      'Strain Relief Design',
-      'Professional Grade'
-    ]
-  },
-
-  cc2: { // Laptop Notebook Adapter Power Cord
-    images: [
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
-    ],
-    title: 'Laptop Notebook Adapter Power Cord',
-    description: 'Universal laptop power cord compatible with most notebook adapters. Features advanced overload protection, anti-interference design, and better isolation materials. Compatible with major brands including HP, Dell, Lenovo, Sony, Toshiba, and more.',
+    title: 'Laptop Notebook Adaptor Power Cord',
+    description: 'Universal laptop power cord compatible with most notebook adapters. Features strain relief, durable construction, and wide brand compatibility.',
     specifications: {
       'Type': 'Polarized Power Cable',
       'Female End': 'Device Connection',
@@ -1092,20 +609,17 @@ export const productImageCollections: Record<string, ProductDetails> = {
     ]
   },
 
-  // ========================
-  // LIFT CABLES
-  // ========================
-
-  lift1: { // Standard Lift Cable
+  // Lift Cable
+  lift1: {
     images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
     ],
     title: 'Standard Lift Cable',
-    description: 'Professional lift cable with enhanced flexibility and durability for elevator systems. Features bare copper extra fine wire conductors with high flexible design. Designed for reliable operation in demanding vertical transportation environments with special carriage support.',
+    description: 'Professional lift cable with enhanced flexibility and durability for elevator systems. Designed for reliable operation in demanding vertical transportation environments.',
     specifications: {
       'Conductor': 'Bare Copper, Extra Fine Wire',
       'Flexibility': 'High Flexible Design',
@@ -1140,20 +654,17 @@ export const productImageCollections: Record<string, ProductDetails> = {
     ]
   },
 
-  // ========================
-  // SPEAKER CABLES
-  // ========================
-
-  speaker1: { // Standard Speaker Cable
+  // Speaker Cable
+  speaker1: {
     images: [
-      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
     ],
     title: 'Standard Speaker Cable',
-    description: 'High-quality speaker cable for audio applications. Features multi-stranded copper conductors and reliable connections for optimal sound transmission and clarity. Designed for establishing connections between speakers and amplifier sources with superior audio quality.',
+    description: 'High-quality speaker cable for audio applications. Features multi-stranded copper conductors and reliable connections for optimal sound transmission and clarity.',
     specifications: {
       'Application': 'Speaker & Audio Systems',
       'Connection': 'Amplifier to Speaker',
@@ -1163,8 +674,7 @@ export const productImageCollections: Record<string, ProductDetails> = {
       'Conductor': 'Multi-stranded OFC/Copper/Tinned',
       'Standard': 'RoHS PVC',
       'Certification': 'CE, SGS, ISO9001',
-      'Temperature': '70°C Long Period Operation',
-      'Quality': 'Professional Audio Grade'
+      'Temperature': '70°C Long Period Operation'
     },
     applications: [
       'Speaker Range Systems',
@@ -1186,48 +696,165 @@ export const productImageCollections: Record<string, ProductDetails> = {
       'Professional Audio Quality',
       'High-Quality Construction'
     ]
+  },
+
+  // Cat5e LAN Cables
+  lan1: { // Cat 5e Flat
+    images: [
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
+    ],
+    title: 'Cat 5e Flat LAN Cable',
+    description: 'Ultra-thin flat design Cat5e cable perfect for discrete installations under carpets and along walls. Maintains excellent performance while offering superior aesthetics.',
+    specifications: {
+      'Cable Type': 'UTP Flat Design',
+      'Category': 'Cat 5e Enhanced',
+      'Profile': 'Ultra-thin 1.4mm thickness',
+      'Width': '8mm ribbon design',
+      'Frequency': 'Up to 600MHz',
+      'Speed': '1000 Mbps (1 Gbps)',
+      'Conductor': 'Stranded Copper/CCA',
+      'Impedance': '100 ±15Ω',
+      'Jacket': 'PVC Flat Profile',
+      'Length': '100m/305m Standard'
+    },
+    applications: [
+      'Under Carpet Installation',
+      'Wall-mounted Routing',
+      'Home Networks',
+      'Office Environments',
+      'Discrete Cable Management',
+      'Residential Wiring',
+      'Commercial Buildings',
+      'Clean Installations'
+    ],
+    features: [
+      'Ultra-thin Flat Design',
+      'Easy Under-carpet Installation',
+      '1000 Mbps Speed Support',
+      'Customizable Lengths',
+      'Multiple Color Options',
+      'Professional Aesthetics',
+      'Space-saving Design',
+      'Flexible Routing'
+    ]
+  },
+
+  // CCTV Cables
+  cctv1: { // CCTV Cable 3+1
+    images: [
+      'https://images.pexels.com/photos/430208/pexels-photo-430208.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
+    ],
+    title: 'CCTV Cable 3+1',
+    description: 'Professional CCTV cable combining power and video transmission in a single cable. Features 3 copper power conductors and 1 coaxial video core for reliable surveillance system connections.',
+    specifications: {
+      'Configuration': '3+1 (3 Power + 1 Video)',
+      'Video Core': 'Coaxial RG59 Type',
+      'Power Conductors': '3 x Copper Wire',
+      'Video Conductor': '0.18mm/0.20mm Copper',
+      'Core Size': '7x38, 14x40, 14x42, 14x43',
+      'Shielding': '36 x 0.115mm Alloy + Aluminum Foil',
+      'Jacket': 'PVC Weather Resistant',
+      'Length': '90m/180m Standard',
+      'Operating Voltage': '12V DC Power'
+    },
+    applications: [
+      'CCTV Surveillance Cameras',
+      'DVR and NVR Connections',
+      'PC-based Security Systems',
+      'Analog Camera Systems',
+      'Security Installations',
+      'Monitoring Systems',
+      'Commercial Surveillance',
+      'Residential Security'
+    ],
+    features: [
+      'Combined Power & Video',
+      'High Tensile Strength',
+      'Shock-proof Construction',
+      'Superior Picture Quality',
+      'Weather Resistant',
+      'All Colors Available',
+      'Customizable Lengths',
+      'Professional Grade Quality'
+    ]
+  },
+
+  // Computer Cords
+  cc1: { // Desktop CPU Power Cord
+    images: [
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
+    ],
+    title: 'Desktop CPU Power Cord',
+    description: 'Standard 3-pin power cord designed for desktop computers, monitors, and electronic devices. Features safety certification and durable construction for reliable power delivery.',
+    specifications: {
+      'Connector Type': '3-Pin Grounded Male Plug',
+      'Female End': 'IEC C13 Socket',
+      'Wire Gauge': '18 AWG',
+      'Voltage Rating': '250V AC',
+      'Current Rating': '10A',
+      'Length Options': '1m, 1.5m, 2m, 3m',
+      'Jacket': 'PVC Black',
+      'Safety': 'CE, RoHS Compliant',
+      'Temperature': '-10°C to +70°C'
+    },
+    applications: [
+      'Desktop Computer Systems',
+      'LCD/LED Monitors',
+      'Printers and Scanners',
+      'Network Equipment',
+      'Audio Equipment',
+      'Electronic Devices',
+      'Office Equipment',
+      'Server Systems'
+    ],
+    features: [
+      'Universal Compatibility',
+      'Safety Certified',
+      'Overload Protection',
+      'Durable Construction',
+      'Standard Wall Outlet Compatible',
+      'High Quality Materials',
+      'Strain Relief Design',
+      'Professional Grade'
+    ]
   }
 };
 
 // Safe getter with normalized fallback
 export const getProductDetails = (productId: string): ProductDetails => {
   const key = typeof productId === 'string' ? productId : '';
-  const details = key ? productImageCollections[key] : undefined;
+  const raw = key ? productImageCollections[key] : undefined;
+  const normalized = normalizeDetails(raw);
 
-  // If not found, return default content
-  if (!details) {
+  // If not found, return your default content (preserved)
+  if (normalized === EMPTY_DETAILS) {
     return {
       images: [
-        'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=1200',
-        'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=1200',
-        'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=1200',
-        'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=1200',
-        'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1200'
+        'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+        'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
       ],
       title: 'Professional Cable Product',
-      description: 'High-quality cable product from Chhajer Cable Industries. Engineered for professional applications with superior performance and reliability.',
-      specifications: {
-        'Quality': 'Professional Grade',
-        'Manufacturer': 'Chhajer Cable Industries',
-        'Certification': 'Industry Standard'
-      },
-      applications: [
-        'Professional Applications',
-        'Network Infrastructure',
-        'Commercial Use'
-      ],
-      features: [
-        'Professional Grade Quality',
-        'Reliable Performance',
-        'Industry Standard'
-      ]
+      description: 'High-quality cable product from Chhajer Cable Industries.',
+      specifications: {},
+      applications: [],
+      features: []
     };
   }
 
-  return details;
-};
-
-// Unified description component for consistent rendering
-export const getUnifiedProductDescription = (productId: string) => {
-  return getProductDetails(productId);
+  return normalized;
 };

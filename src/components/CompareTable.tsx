@@ -5,7 +5,6 @@ import { Badge } from '@/components/ui/badge';
 import { ShoppingCart, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Product } from '@/types/Product';
-import { getProductDetails } from '@/data/productImages';
 
 interface CompareTableProps {
   products: Product[];
@@ -30,17 +29,23 @@ const CompareTable: React.FC<CompareTableProps> = ({
   const allSpecKeys = React.useMemo(() => {
     const keys = new Set<string>();
     products.forEach(product => {
-      const productDetails = getProductDetails(product.id);
-      Object.keys(productDetails.specifications).forEach(key => {
-        keys.add(key);
+      product.detailedDescription?.specifications?.forEach(spec => {
+        // Try to extract key-value pairs from specifications
+        if (typeof spec === 'string' && spec.includes(':')) {
+          const [key] = spec.split(':');
+          keys.add(key.trim());
+        }
       });
     });
     return Array.from(keys);
   }, [products]);
 
   const getSpecValue = (product: Product, key: string) => {
-    const productDetails = getProductDetails(product.id);
-    return productDetails.specifications[key] || '-';
+    const specs = product.detailedDescription?.specifications || [];
+    const spec = specs.find(s => 
+      typeof s === 'string' && s.toLowerCase().includes(key.toLowerCase())
+    );
+    return spec ? spec.split(':')[1]?.trim() || '-' : '-';
   };
 
   if (!isOpen || products.length < 2) return null;
@@ -126,7 +131,7 @@ const CompareTable: React.FC<CompareTableProps> = ({
                 {products.map((product) => (
                   <td key={`${product.id}-applications`} className="p-4 text-center">
                     <div className="space-y-1">
-                      {getProductDetails(product.id).applications.slice(0, 3).map((app, index) => (
+                      {product.detailedDescription?.applications?.slice(0, 3).map((app, index) => (
                         <div key={index} className="text-sm bg-muted/50 px-2 py-1 rounded">
                           {app}
                         </div>
@@ -142,7 +147,7 @@ const CompareTable: React.FC<CompareTableProps> = ({
                 {products.map((product) => (
                   <td key={`${product.id}-features`} className="p-4 text-center">
                     <div className="space-y-1">
-                      {getProductDetails(product.id).features.slice(0, 3).map((feature, index) => (
+                      {product.detailedDescription?.features?.slice(0, 3).map((feature, index) => (
                         <div key={index} className="text-sm text-left">
                           <span className="w-1.5 h-1.5 bg-primary rounded-full inline-block mr-2" />
                           {feature}
