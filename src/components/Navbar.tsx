@@ -36,6 +36,7 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick, onNavigate, act
     { id: 'products', label: 'Products' },
     { id: 'about', label: 'About' },
     { id: 'services', label: 'Services' },
+    { id: 'credentials', label: 'Credentials' },
     { id: 'contact', label: 'Contact' }
   ];
 

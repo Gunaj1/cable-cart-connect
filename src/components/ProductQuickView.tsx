@@ -1,11 +1,12 @@
 // ProductQuickView.tsx
 import React, { useState, useEffect } from 'react';
-import { X, ShoppingCart, Heart, Share2, ChevronLeft, ChevronRight, ZoomIn, Star, Award, Shield, Zap, Check, Plus, Minus } from 'lucide-react';
+import { X, ShoppingCart, Heart, Share2, ChevronLeft, ChevronRight, ZoomIn, Star, Award, Shield, Zap, Check, Plus, Minus, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { getProductDetails } from '@/data/productImages';
 import { Product } from '@/types/Product';
+import { imageService } from '@/services/imageService';
 
 interface ProductQuickViewProps {
   product: Product | null;
@@ -26,6 +27,31 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
   const [quantity, setQuantity] = useState(1);
   const [isImageZoomed, setIsImageZoomed] = useState(false);
   const [activeTab, setActiveTab] = useState<'overview' | 'specs' | 'applications' | 'features'>('overview');
+  const [productImages, setProductImages] = useState<string[]>([]);
+  const [imagesLoading, setImagesLoading] = useState(false);
+
+  // Load AI-generated images when product changes
+  useEffect(() => {
+    const loadImages = async () => {
+      if (!product) {
+        setProductImages([]);
+        return;
+      }
+
+      setImagesLoading(true);
+      try {
+        const images = await imageService.getProductImages(product);
+        setProductImages(images.length > 0 ? images : [product.image].filter(Boolean));
+      } catch (error) {
+        console.error('Failed to load product images:', error);
+        setProductImages([product.image].filter(Boolean));
+      } finally {
+        setImagesLoading(false);
+      }
+    };
+
+    loadImages();
+  }, [product]);
 
   useEffect(() => {
     if (isOpen) {
@@ -54,7 +80,7 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
   if (!isOpen || !product) return null;
 
   const productDetails = getProductDetails(product.id);
-  const images = productDetails.images;
+  const images = productImages.length > 0 ? productImages : productDetails.images;
 
   const handleAddToCart = () => {
     if (onAddToCart) {
@@ -113,17 +139,26 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
               {/* Left: Image Gallery */}
               <div className="p-6 bg-gradient-to-br from-gray-50 to-blue-50">
                 <div className="h-full flex flex-col">
-                  {/* Main Image */}
-                  <div className="relative aspect-[4/3] bg-white rounded-xl shadow-lg overflow-hidden mb-4">
-                    <img
-                      src={images[currentImageIndex]}
-                      alt={`${productDetails.title} - View ${currentImageIndex + 1}`}
-                      className="w-full h-full object-contain cursor-zoom-in transition-transform duration-300 hover:scale-105"
-                      onClick={() => setIsImageZoomed(true)}
-                    />
+                   {/* Main Image */}
+                   <div className="relative aspect-[4/3] bg-white rounded-xl shadow-lg overflow-hidden mb-4">
+                     {imagesLoading ? (
+                       <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                         <div className="text-center">
+                           <Loader2 className="w-8 h-8 animate-spin text-blue-600 mx-auto mb-2" />
+                           <p className="text-sm text-gray-600">Generating product images...</p>
+                         </div>
+                       </div>
+                     ) : (
+                       <img
+                         src={images[currentImageIndex]}
+                         alt={`${productDetails.title} - View ${currentImageIndex + 1}`}
+                         className="w-full h-full object-contain cursor-zoom-in transition-transform duration-300 hover:scale-105"
+                         onClick={() => setIsImageZoomed(true)}
+                       />
+                     )}
 
-                    {/* Navigation Arrows */}
-                    {images.length > 1 && (
+                     {/* Navigation Arrows */}
+                     {!imagesLoading && images.length > 1 && (
                       <>
                         <Button
                           variant="secondary"
@@ -144,43 +179,57 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
                       </>
                     )}
 
-                    {/* Zoom Icon */}
-                    <Button
-                      variant="secondary"
-                      size="icon"
-                      className="absolute top-3 right-3 bg-white/90 hover:bg-white shadow-lg"
-                      onClick={() => setIsImageZoomed(true)}
-                    >
-                      <ZoomIn className="w-4 h-4" />
-                    </Button>
+                     {/* Zoom Icon */}
+                     {!imagesLoading && (
+                       <Button
+                         variant="secondary"
+                         size="icon"
+                         className="absolute top-3 right-3 bg-white/90 hover:bg-white shadow-lg"
+                         onClick={() => setIsImageZoomed(true)}
+                       >
+                         <ZoomIn className="w-4 h-4" />
+                       </Button>
+                     )}
 
-                    {/* Image Counter */}
-                    <div className="absolute bottom-3 left-3 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
-                      {currentImageIndex + 1} / {images.length}
-                    </div>
+                     {/* Image Counter */}
+                     {!imagesLoading && images.length > 0 && (
+                       <div className="absolute bottom-3 left-3 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
+                         {currentImageIndex + 1} / {images.length}
+                       </div>
+                     )}
                   </div>
 
-                  {/* Thumbnail Strip */}
-                  <div className="flex gap-2 overflow-x-auto pb-2">
-                    {images.map((image, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentImageIndex(index)}
-                        className={cn(
-                          "flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200",
-                          currentImageIndex === index
-                            ? "border-blue-500 shadow-lg scale-105"
-                            : "border-gray-200 hover:border-blue-300"
-                        )}
-                      >
-                        <img
-                          src={image}
-                          alt={`View ${index + 1}`}
-                          className="w-full h-full object-contain bg-white"
-                        />
-                      </button>
-                    ))}
-                  </div>
+                   {/* Thumbnail Strip */}
+                   {!imagesLoading && images.length > 1 && (
+                     <div className="flex gap-2 overflow-x-auto pb-2">
+                       {images.map((image, index) => (
+                         <button
+                           key={index}
+                           onClick={() => setCurrentImageIndex(index)}
+                           className={cn(
+                             "flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200",
+                             currentImageIndex === index
+                               ? "border-blue-500 shadow-lg scale-105"
+                               : "border-gray-200 hover:border-blue-300"
+                           )}
+                         >
+                           <img
+                             src={image}
+                             alt={`View ${index + 1}`}
+                             className="w-full h-full object-contain bg-white"
+                           />
+                         </button>
+                       ))}
+                     </div>
+                   )}
+
+                   {/* AI Generation Status */}
+                   {imagesLoading && (
+                     <div className="text-center text-sm text-gray-600 mt-2">
+                       <p>Generating 5 professional product images...</p>
+                       <p className="text-xs mt-1">Hero shot • Close-up • Alternate view • In-use • Packaging</p>
+                     </div>
+                   )}
                 </div>
               </div>
 
@@ -211,21 +260,25 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
                     </div>
                   </div>
 
-                  {/* Quality Badges */}
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    <Badge variant="outline" className="flex items-center gap-1">
-                      <Shield className="w-3 h-3" />
-                      Fluke Tested
-                    </Badge>
-                    <Badge variant="outline" className="flex items-center gap-1">
-                      <Award className="w-3 h-3" />
-                      OEM Quality
-                    </Badge>
-                    <Badge variant="outline" className="flex items-center gap-1">
-                      <Zap className="w-3 h-3" />
-                      High Performance
-                    </Badge>
-                  </div>
+                   {/* Uniform Quality Badges - Always Show These 4 */}
+                   <div className="flex flex-wrap gap-2 mb-4">
+                     <Badge variant="outline" className="flex items-center gap-1">
+                       <Shield className="w-3 h-3" />
+                       Customization Available
+                     </Badge>
+                     <Badge variant="outline" className="flex items-center gap-1">
+                       <Award className="w-3 h-3" />
+                       Fluke Test Passed
+                     </Badge>
+                     <Badge variant="outline" className="flex items-center gap-1">
+                       <Zap className="w-3 h-3" />
+                       DCM Tested
+                     </Badge>
+                     <Badge variant="outline" className="flex items-center gap-1">
+                       <Shield className="w-3 h-3" />
+                       OEM Supplier
+                     </Badge>
+                   </div>
 
                   <p className="text-gray-700 leading-relaxed">
                     {productDetails.description}

@@ -370,12 +370,17 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Services Section - New Column */}
+      {/* Services Section */}
       <div id="services" className="bg-gradient-to-br from-gray-50 to-white py-20">
         <ServicesSection />
       </div>
 
-      {/* Contact Section */}
+      {/* Credentials Section - New placement */}
+      <div id="credentials">
+        <BusinessCredentials />
+      </div>
+
+      {/* Contact Section - Moved to bottom */}
       <div id="contact" className="bg-gradient-to-br from-blue-900 via-gray-900 to-blue-800 text-white py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
@@ -433,9 +438,6 @@ const Index = () => {
           </div>
         </div>
       </div>
-
-      {/* Business Credentials Section */}
-      <BusinessCredentials />
 
       <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} items={cartItems} onUpdateQuantity={updateQuantity} onRemove={removeFromCart} />
 
