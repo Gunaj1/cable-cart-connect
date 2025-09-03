@@ -28,6 +28,7 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
   const [isImageZoomed, setIsImageZoomed] = useState(false);
   const [activeTab, setActiveTab] = useState<'overview' | 'specs' | 'applications' | 'features'>('overview');
   const [productImages, setProductImages] = useState<string[]>([]);
+  const [imagesStatus, setImagesStatus] = useState<('valid' | 'placeholder' | 'generating' | 'error')[]>([]);
   const [imagesLoading, setImagesLoading] = useState(false);
 
   // Load AI-generated images when product changes
@@ -35,16 +36,21 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
     const loadImages = async () => {
       if (!product) {
         setProductImages([]);
+        setImagesStatus([]);
         return;
       }
 
       setImagesLoading(true);
       try {
-        const images = await imageService.getProductImages(product);
-        setProductImages(images.length > 0 ? images : [product.image].filter(Boolean));
+        const imageSet = await imageService.getProductImageSet(product);
+        setProductImages(imageSet.images);
+        setImagesStatus(imageSet.images_status);
       } catch (error) {
         console.error('Failed to load product images:', error);
-        setProductImages([product.image].filter(Boolean));
+        // Fallback to placeholder images
+        const placeholders = Array(5).fill("https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?auto=format&fit=crop&q=80&w=1024&h=1024");
+        setProductImages(placeholders);
+        setImagesStatus(Array(5).fill('placeholder'));
       } finally {
         setImagesLoading(false);
       }
@@ -141,21 +147,28 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
                 <div className="h-full flex flex-col">
                    {/* Main Image */}
                    <div className="relative aspect-[4/3] bg-white rounded-xl shadow-lg overflow-hidden mb-4">
-                     {imagesLoading ? (
-                       <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                         <div className="text-center">
-                           <Loader2 className="w-8 h-8 animate-spin text-blue-600 mx-auto mb-2" />
-                           <p className="text-sm text-gray-600">Generating product images...</p>
-                         </div>
-                       </div>
-                     ) : (
-                       <img
-                         src={images[currentImageIndex]}
-                         alt={`${productDetails.title} - View ${currentImageIndex + 1}`}
-                         className="w-full h-full object-contain cursor-zoom-in transition-transform duration-300 hover:scale-105"
-                         onClick={() => setIsImageZoomed(true)}
-                       />
-                     )}
+                      {imagesLoading ? (
+                        <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                          <div className="text-center">
+                            <Loader2 className="w-8 h-8 animate-spin text-blue-600 mx-auto mb-2" />
+                            <p className="text-sm text-gray-600">Generating product images...</p>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="relative w-full h-full">
+                          <img
+                            src={images[currentImageIndex]}
+                            alt={`${productDetails.title} - View ${currentImageIndex + 1}`}
+                            className="w-full h-full object-contain cursor-zoom-in transition-transform duration-300 hover:scale-105"
+                            onClick={() => setIsImageZoomed(true)}
+                          />
+                          {imagesStatus[currentImageIndex] === 'placeholder' && (
+                            <div className="absolute top-2 left-2 bg-black/70 text-white px-2 py-1 rounded text-xs">
+                              Loading...
+                            </div>
+                          )}
+                        </div>
+                      )}
 
                      {/* Navigation Arrows */}
                      {!imagesLoading && images.length > 1 && (
@@ -460,16 +473,6 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
                       <Share2 className="w-5 h-5" />
                     </Button>
 
-                    {onViewDetails && (
-                      <Button
-                        variant="outline"
-                        onClick={() => onViewDetails(product)}
-                        className="px-6"
-                        size="lg"
-                      >
-                        View Full Details
-                      </Button>
-                    )}
                   </div>
 
                   {/* Trust Signals */}

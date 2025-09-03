@@ -3,6 +3,7 @@ import { Product } from '@/types/Product';
 
 interface GeneratedImageSet {
   images: string[];
+  images_status: ('valid' | 'placeholder' | 'generating' | 'error')[];
   image_generation_prompt: string;
   image_set_version: string;
 }
@@ -13,7 +14,8 @@ interface ProductImageCache {
 
 class ImageService {
   private cache: ProductImageCache = {};
-  private readonly IMAGE_SET_VERSION = "v1.0-cci";
+  private readonly IMAGE_SET_VERSION = "v1.1-cci";
+  private readonly PLACEHOLDER_IMAGE = "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?auto=format&fit=crop&q=80&w=1024&h=1024";
 
   /**
    * Generate product-specific prompt based on product metadata
@@ -104,26 +106,71 @@ private generatePrompt(product: Product): string {
   }
 
   /**
-   * Generate 5 AI images for a product
+   * Validate if URL is HTTPS and accessible
+   */
+  private async validateImageUrl(url: string): Promise<boolean> {
+    if (!url || !url.startsWith('https://')) {
+      return false;
+    }
+    
+    try {
+      const response = await fetch(url, { method: 'HEAD' });
+      return response.ok;
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * Generate 5 AI images for a product with HTTPS validation
    */
   async generateProductImages(product: Product): Promise<GeneratedImageSet> {
     // Check cache first
-    if (this.cache[product.id]) {
-      return this.cache[product.id];
+    const cached = this.cache[product.id];
+    if (cached && cached.images.length === 5) {
+      // Validate cached images
+      const validationPromises = cached.images.map(url => this.validateImageUrl(url));
+      const validationResults = await Promise.all(validationPromises);
+      
+      if (validationResults.every(Boolean)) {
+        return cached;
+      }
     }
 
     const prompt = this.generatePrompt(product);
     
     try {
-      // Generate 5 images using Lovable's built-in image generation
-      const imagePromises = Array.from({ length: 5 }, (_, index) => 
-        this.generateSingleImage(prompt, product.name, index + 1)
+      // Generate 4 additional images (first image will be original product.image if valid)
+      const imagePromises = Array.from({ length: 4 }, (_, index) => 
+        this.generateSingleImage(prompt, product.name, index + 2) // Start from image 2
       );
       
-      const images = await Promise.all(imagePromises);
+      const generatedImages = await Promise.all(imagePromises);
+      
+      // Always use original product image as first image if valid, otherwise placeholder
+      const firstImage = (product.image && await this.validateImageUrl(product.image)) 
+        ? product.image 
+        : this.PLACEHOLDER_IMAGE;
+      
+      const allImages = [firstImage, ...generatedImages];
+      const images_status: ('valid' | 'placeholder' | 'generating' | 'error')[] = [];
+      
+      // Validate all images and set status
+      for (let i = 0; i < 5; i++) {
+        const url = allImages[i];
+        if (url === this.PLACEHOLDER_IMAGE) {
+          images_status.push('placeholder');
+        } else if (await this.validateImageUrl(url)) {
+          images_status.push('valid');
+        } else {
+          allImages[i] = this.PLACEHOLDER_IMAGE;
+          images_status.push('placeholder');
+        }
+      }
       
       const imageSet: GeneratedImageSet = {
-        images: images.filter(Boolean), // Remove any failed generations
+        images: allImages,
+        images_status,
         image_generation_prompt: prompt,
         image_set_version: this.IMAGE_SET_VERSION
       };
@@ -135,9 +182,13 @@ private generatePrompt(product: Product): string {
     } catch (error) {
       console.error(`Failed to generate images for product ${product.id}:`, error);
       
-      // Return fallback with existing image if available
+      // Return fallback with placeholders
+      const fallbackImages = Array(5).fill(this.PLACEHOLDER_IMAGE);
+      const fallbackStatus = Array(5).fill('placeholder') as ('placeholder')[];
+      
       return {
-        images: product.image ? [product.image] : [],
+        images: fallbackImages,
+        images_status: fallbackStatus,
         image_generation_prompt: prompt,
         image_set_version: this.IMAGE_SET_VERSION + "-fallback"
       };
@@ -207,7 +258,14 @@ private generatePrompt(product: Product): string {
    */
   async getProductImages(product: Product): Promise<string[]> {
     const imageSet = await this.generateProductImages(product);
-    return imageSet.images.length > 0 ? imageSet.images : [product.image].filter(Boolean);
+    return imageSet.images;
+  }
+
+  /**
+   * Get full image set with status information
+   */
+  async getProductImageSet(product: Product): Promise<GeneratedImageSet> {
+    return await this.generateProductImages(product);
   }
 
   /**
