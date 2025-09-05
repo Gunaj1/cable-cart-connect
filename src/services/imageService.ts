@@ -247,8 +247,22 @@ private generatePrompt(product: Product): string {
    * Generate placeholder image URL (temporary implementation)
    */
   private generatePlaceholderImage(productName: string, imageIndex: number): string {
-    // This would be replaced with actual image generation
-    // For now, return a placeholder URL that indicates the image type
+    // Special handling for CAT 6 STP - Add specific professional-grade images
+    if (productName.toLowerCase().includes('cat 6') && productName.toLowerCase().includes('stp')) {
+      const cat6StpImages = [
+        "https://images.unsplash.com/photo-1587909209111-5097ee518b05?auto=format&fit=crop&q=80&w=1200&h=1200", // Bundle shot - coiled cables
+        "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=1200&h=1200", // Single full-length diagonal
+        "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=1200&h=1200", // RJ45 connector close-up
+        "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=1200&h=1200", // Angled side view
+        "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1200&h=1200"  // Application shot with networking device
+      ];
+      
+      if (imageIndex >= 1 && imageIndex <= 5) {
+        return cat6StpImages[imageIndex - 1];
+      }
+    }
+    
+    // Default placeholder for other products
     const baseUrl = "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?auto=format&fit=crop&q=80&w=1024&h=1024";
     return `${baseUrl}&sig=${this.generateSeed(productName, imageIndex)}`;
   }

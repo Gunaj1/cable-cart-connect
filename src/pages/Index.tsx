@@ -238,11 +238,14 @@ const Index = () => {
       </div>;
   };
   return <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50">
-      <Navbar cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)} onCartClick={() => setIsCartOpen(true)} onNavigate={scrollToSection} activeSection={activeSection} products={products} onProductSelect={product => setSelectedProduct(product)} />
+      <Navbar cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)} onCartClick={() => setIsCartOpen(true)} onNavigate={scrollToSection} activeSection={activeSection} products={products} onProductSelect={product => {
+        setQuickViewProduct(product);
+        setIsQuickViewOpen(true);
+      }} />
       
       {/* Hero Section */}
       <div id="home" className="relative h-[600px] bg-cover bg-center overflow-hidden" style={{
-      backgroundImage: 'url("https://images.unsplash.com/photo-1601597111158-2fceff292cdc?auto=format&fit=crop&q=80")'
+      backgroundImage: 'url("/lovable-uploads/4fe743c1-7814-4030-b751-98c886511e2c.png")'
     }}>
         <div className="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-gray-900/70 to-blue-800/60" />
         <div className="relative container mx-auto px-4 h-full flex items-center justify-center">

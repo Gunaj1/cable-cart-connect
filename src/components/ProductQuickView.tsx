@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { getProductDetails } from '@/data/productImages';
 import { Product } from '@/types/Product';
 import { imageService } from '@/services/imageService';
+import { productContentMap } from '@/data/productContent';
 
 interface ProductQuickViewProps {
   product: Product | null;
@@ -87,6 +88,14 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
 
   const productDetails = getProductDetails(product.id);
   const images = productImages.length > 0 ? productImages : productDetails.images;
+  
+  // Get enhanced content from the mapping
+  const enhancedContent = productContentMap[product.id] || {
+    overview: productDetails.description,
+    applications: productDetails.applications,
+    specifications: productDetails.specifications,
+    features: productDetails.features
+  };
 
   const handleAddToCart = () => {
     if (onAddToCart) {
@@ -294,7 +303,7 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
                    </div>
 
                   <p className="text-gray-700 leading-relaxed">
-                    {productDetails.description}
+                    {enhancedContent.overview}
                   </p>
                 </div>
 
@@ -347,20 +356,21 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
                         </div>
 
                         <div className="bg-gray-50 rounded-lg p-4">
+                          <h4 className="font-semibold mb-2">Professional Overview</h4>
+                          <p className="text-sm text-gray-700 leading-relaxed">
+                            {enhancedContent.overview}
+                          </p>
+                        </div>
+                        
+                        <div className="bg-gray-50 rounded-lg p-4">
                           <h4 className="font-semibold mb-2">Key Highlights</h4>
                           <ul className="space-y-1 text-sm text-gray-700">
-                            <li className="flex items-center gap-2">
-                              <Check className="w-4 h-4 text-green-500" />
-                              Professional grade construction
-                            </li>
-                            <li className="flex items-center gap-2">
-                              <Check className="w-4 h-4 text-green-500" />
-                              Industry standard compliance
-                            </li>
-                            <li className="flex items-center gap-2">
-                              <Check className="w-4 h-4 text-green-500" />
-                              Customizable options available
-                            </li>
+                            {enhancedContent.features.slice(0, 4).map((feature, index) => (
+                              <li key={index} className="flex items-center gap-2">
+                                <Check className="w-4 h-4 text-green-500" />
+                                {feature}
+                              </li>
+                            ))}
                           </ul>
                         </div>
                       </div>
@@ -370,7 +380,7 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
                       <div className="space-y-4">
                         <h4 className="font-semibold text-lg mb-4">Technical Specifications</h4>
                         <div className="grid gap-3">
-                          {Object.entries(productDetails.specifications).map(([key, value]) => (
+                          {Object.entries(enhancedContent.specifications).map(([key, value]) => (
                             <div key={key} className="grid grid-cols-3 gap-4 py-2 border-b border-gray-100 last:border-b-0">
                               <dt className="font-medium text-sm text-gray-900">{key}</dt>
                               <dd className="col-span-2 text-sm text-gray-700">{value}</dd>
@@ -384,7 +394,7 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
                       <div className="space-y-4">
                         <h4 className="font-semibold text-lg mb-4">Applications & Use Cases</h4>
                         <div className="grid grid-cols-1 gap-3">
-                          {productDetails.applications.map((app, index) => (
+                          {enhancedContent.applications.map((app, index) => (
                             <div key={index} className="flex items-start gap-3 p-3 bg-blue-50 rounded-lg border border-blue-100">
                               <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
                               <span className="text-sm font-medium text-gray-800">{app}</span>
@@ -398,7 +408,7 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
                       <div className="space-y-4">
                         <h4 className="font-semibold text-lg mb-4">Key Features & Benefits</h4>
                         <div className="grid grid-cols-1 gap-3">
-                          {productDetails.features.map((feature, index) => (
+                          {enhancedContent.features.map((feature, index) => (
                             <div key={index} className="flex items-start gap-3 p-3 bg-green-50 rounded-lg border border-green-100">
                               <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
                               <span className="text-sm font-medium text-gray-800">{feature}</span>

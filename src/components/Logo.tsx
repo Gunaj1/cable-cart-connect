@@ -9,12 +9,11 @@ interface LogoProps {
 const Logo: React.FC<LogoProps> = ({ className = "h-8" }) => {
   return (
     <div className={`flex items-center ${className}`}>
-      <div className="relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-400 via-blue-500 to-gray-500 rounded-lg opacity-20 blur-sm transform rotate-3"></div>
-        <div className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-gray-600 rounded-lg p-2 shadow-lg">
-          <Cable className="w-full h-full text-white" />
-        </div>
-      </div>
+      <img 
+        src="/lovable-uploads/4fe743c1-7814-4030-b751-98c886511e2c.png" 
+        alt="Chhajer Cable Industries" 
+        className="w-full h-full object-contain"
+      />
     </div>
   );
 };
