@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Truck, Shield, Headphones, Clock, Award, Zap } from 'lucide-react';
+import { Truck, Shield, Headphones, Award, Settings, Zap } from 'lucide-react';
 
 const ServicesSection = () => {
   const services = [
@@ -20,12 +20,12 @@ const ServicesSection = () => {
       description: 'Round-the-clock customer support for technical queries, order assistance, and after-sales service.'
     },
     {
-      icon: Clock,
-      title: 'Quick Installation',
-      description: 'Professional installation services available with certified technicians for complex setups.'
+      icon: Award,
+      title: 'OEM & Branding Services',
+      description: 'Comprehensive OEM manufacturing and private label solutions with custom branding options for bulk orders.'
     },
     {
-      icon: Award,
+      icon: Settings,
       title: 'Certified Products',
       description: 'ISO certified products meeting international standards with proper documentation and testing reports.'
     },

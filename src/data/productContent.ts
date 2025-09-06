@@ -499,32 +499,32 @@ export const productContentMap: Record<string, {
       'Shield': 'OVERALL ALUMINUM FOIL SHIELD – F/UTP',
       'Bandwidth': 'TESTED UP TO 600 MHZ',
       'POE Support': 'POE++ (802.3BT) 4PPOE, UP TO 90W',
-      'Installation': 'NOT RATED FOR DIRECT BURIAL',
       'Length': '100MTR/305MTR',
-      'Speed': '1000 MBPS'
+      'Speed': '1000 MBPS',
+      'Installation': 'NOT RATED FOR DIRECT BURIAL'
     },
     features: [
       'OEM SUPPLIERS',
       'CUSTOMIZATION AVAILABLE',
       'ALL COLORS AVAILABLE',
-      'High Power POE Support',
-      'Wide Bandwidth Testing',
-      'Outdoor Environment Ready'
+      'High Bandwidth Performance',
+      'Power over Ethernet Support',
+      'Weather Resistant Design'
     ]
   },
 
   // CCTV Cables
   'cctv-3plus1': {
-    overview: 'Premium CCTV Cable 3+1 manufactured using exceptional quality raw materials for connecting CCTV surveillance cameras to DVR, NVR and PC-based systems.',
+    overview: 'CCTV Cables 3+1 manufactured using exceptional quality raw materials. These durable cables are widely used in connecting CCTV surveillance cameras to DVR and NVR systems.',
     applications: [
       'CCTV SURVEILLANCE CAMERAS',
-      'DVR CONNECTIONS',
-      'NVR CONNECTIONS',
+      'DVR CONNECTION',
+      'NVR CONNECTION',
       'PC BASED SYSTEMS',
       'SECURITY INSTALLATIONS'
     ],
     specifications: {
-      'Video Copper Size': '018, 020',
+      'Copper Size of Video': '018, 020',
       'Core Size': '7X38, 14X40, 14X42, 14X43',
       'Braiding': '36 X 0.115 MM ALLOY WITH ALUMINUM FOIL',
       'Length': '90M/180M',
@@ -536,20 +536,20 @@ export const productContentMap: Record<string, {
       'HIGH TENSILE STRENGTH',
       'GREAT PICTURE AND VIDEO QUALITY',
       'QUALITY RAW MATERIALS',
-      'Professional Security Grade'
+      'Exceptional Durability'
     ]
   },
   'cctv-4plus1': {
-    overview: 'High-quality CCTV Cable 4+1 designed for professional surveillance systems with superior picture and video quality transmission.',
+    overview: 'CCTV Cables 4+1 manufactured using exceptional quality raw materials. These durable cables are widely used in connecting CCTV surveillance cameras to DVR and NVR systems.',
     applications: [
       'CCTV SURVEILLANCE CAMERAS',
-      'DVR CONNECTIONS',
-      'NVR CONNECTIONS', 
+      'DVR CONNECTION',
+      'NVR CONNECTION',
       'PC BASED SYSTEMS',
-      'PROFESSIONAL SECURITY SYSTEMS'
+      'SECURITY INSTALLATIONS'
     ],
     specifications: {
-      'Video Copper Size': '018, 020',
+      'Copper Size of Video': '018, 020',
       'Core Size': '7X38, 14X40, 14X42, 14X43',
       'Braiding': '36 X 0.115 MM ALLOY WITH ALUMINUM FOIL',
       'Length': '90M/180M',
@@ -561,146 +561,142 @@ export const productContentMap: Record<string, {
       'HIGH TENSILE STRENGTH',
       'GREAT PICTURE AND VIDEO QUALITY',
       'QUALITY RAW MATERIALS',
-      'Enhanced 4+1 Configuration'
+      'Enhanced Signal Quality'
     ]
   },
 
   // Computer Cords
   'desktop-power-cord': {
-    overview: 'Professional 3 Pin Computer Power Cord Cable for desktop CPUs and various electronic devices with grounded male plug for wall outlets.',
+    overview: 'Computer Desktop CPU Power Cord designed to supply power to computer systems and various other devices with 3-pin connectivity.',
     applications: [
-      'DESKTOP COMPUTERS',
-      'PC SYSTEMS',
+      'COMPUTER SYSTEMS',
       'MONITORS',
       'PRINTERS',
       'SCANNERS',
-      'ELECTRONIC DEVICES WITH 3-PIN POWER'
+      'ELECTRONIC GADGETS'
     ],
     specifications: {
-      'Configuration': '3 PIN COMPUTER POWER CORD',
-      'Female End': '3-PIN FEMALE PLUG FOR DEVICES',
-      'Male End': '3-PRONG GROUNDED MALE PLUG FOR WALL',
-      'Safety': 'OVERLOAD PROTECTION',
-      'Construction': 'ADVANCED WIRES WITH GROUNDING'
+      'Configuration': '3 PIN COMPUTER POWER CORD CABLE',
+      'Female End': '3-PIN FEMALE PLUG FOR ELECTRONIC GADGETS',
+      'Male End': '3-PRONG GROUNDED MALE PLUG FOR WALL OUTLETS',
+      'Connection': 'STANDARD WALL OUTLETS TO DEVICES',
+      'Applications': 'PCs, MONITORS, PRINTERS, SCANNERS'
     },
     features: [
-      'OVERLOAD PROTECTION',
-      'ANTI-INTERFERENCE FEATURE',
-      'BETTER ISOLATION MATERIALS',
-      'RUBBERISED TEXTURE CORD',
-      'Standard Wall Outlet Compatible',
-      'Device Safety Assured'
+      'Standard 3-Pin Configuration',
+      'Direct Device Connection',
+      'Grounded Male Plug',
+      'Universal Compatibility',
+      'Reliable Power Supply',
+      'Safety Certified Construction'
     ]
   },
   'laptop-adapter-cord': {
-    overview: 'Polarised power cable designed for laptop/notebook power bricks with advanced safety features and wide device compatibility.',
+    overview: 'Computer Laptop Notebook Adaptor Power Cord designed to connect wall socket to laptop/notebook power brick with polarized configuration.',
     applications: [
       'LAPTOP COMPUTERS',
-      'NOTEBOOK POWER BRICKS',
       'VIDEO GAMES',
+      'NOTEBOOKS',
       'PRINTERS',
-      'LCD/TFT/CRT MONITORS',
+      'LCD TFT CRT MONITORS',
       'AUDIO EQUIPMENT & AMPS'
     ],
     specifications: {
       'Design': 'POLARISED POWER CABLE',
-      'Connection': 'WALL SOCKET TO LAPTOP POWER BRICK',
-      'Safety': 'OVERLOAD PROTECTION',
-      'Construction': 'ANTI-INTERFERENCE WITH ISOLATION MATERIALS',
-      'Texture': 'RUBBERISED TEXTURE CORD'
+      'Connection': 'WALL SOCKET TO LAPTOP/NOTEBOOK POWER BRICK',
+      'Protection': 'OVERLOAD PROTECTION WITH ADVANCED WIRES',
+      'Feature': 'ANTI-INTERFERENCE WITH BETTER ISOLATION',
+      'Texture': 'RUBBERISED TEXTURE CORD',
+      'Compatibility': 'HP, DELL, LENOVO, SONY VAIO, TOSHIBA, WIPRO, LG, ASUS, SAMSUNG, IBM, ACER'
     },
     features: [
-      'WIDE DEVICE COMPATIBILITY',
-      'HP, DELL, LENOVO, SONY VAIO, TOSHIBA COMPATIBLE',
-      'WIPRO, LG, ASUS, SAMSUNG, IBM, ACER COMPATIBLE',
-      'Advanced Safety Features',
-      'Professional Grade Construction',
-      'Universal Application Support'
+      'Overload Protection',
+      'Anti-Interference Feature',
+      'Better Isolation Materials',
+      'Rubberised Texture Cord',
+      'Universal Brand Compatibility',
+      'Professional Grade Quality'
     ]
   },
 
   // Telephone Cables
   'telephone-cable': {
-    overview: 'Professional telephonic cables processed by high-speed state-of-the-art machinery with pure electrolytic grade copper conductors and quality PVC insulation.',
+    overview: 'Standard Telephone Cable/Multi Pair Cable processed by high-speed state-of-the-art machinery with pure electrolytic grade copper conductors.',
     applications: [
       'TELEPHONE SWITCHING EXCHANGES',
-      'SWITCH BOARD & TELEPHONE WIRING',
-      'MDF, SDH, DWDM, DSLAM SYSTEMS',
+      'SWITCH BOARD & TELEPHONE WIRING (MDF, SDH, DWDM, DSLAM)',
       'PULSE CODE MODULATION SYSTEMS',
       'RS-232 COMMUNICATION'
     ],
     specifications: {
-      'Voltage Rating': 'SUITABLE FOR 250 VOLTS OPERATION',
-      'Temperature': 'CONDUCTOR OPERATING TEMP 70°C, 85°C & 105°C',
+      'Conductor': 'PURE ELECTROLYTIC GRADE, SUPER ANNEALED, TINNED COPPER',
+      'Insulation': 'GOOD QUALITY PVC',
+      'Operating Voltage': 'SUITABLE FOR 250 VOLTS',
+      'Temperature': '70°C, 85°C & 105°C AVAILABLE ON REQUEST',
       'Pairs': '1-50 PAIR CABLE AVAILABLE',
-      'Length': 'CUSTOMIZABLE AS PER REQUIREMENT',
-      'Colors': 'ALL COLORS AVAILABLE'
+      'Length': 'CUSTOMIZABLE AS PER REQUIREMENT'
     },
     features: [
-      'PURE ELECTROLYTIC GRADE COPPER',
-      'SUPER ANNEALED, TINNED COPPER',
-      'FIRE RETARDANT/FIRE RETARDANT LOW SMOKE',
-      'ZERO HALOGEN LOW SMOKE OPTIONS',
-      'HIGH-SPEED MACHINERY PROCESSING',
-      'Multiple Temperature Ratings'
+      'ALL COLORS AVAILABLE',
+      'High-Speed Manufacturing Process',
+      'Superior Copper Quality',
+      'Fire Retardant Options Available',
+      'Fire Retardant Low Smoke Available',
+      'Zero Halogen Low Smoke Options'
     ]
   },
 
   // Speaker Cables
   'speaker-cable': {
-    overview: 'Professional speaker cables for establishing connections between speakers and amplifier sources with optimized electrical properties for audio applications.',
+    overview: 'Standard Speaker Cable offering wide range of high-quality speaker cables for establishing connections between speakers and amplifier sources.',
     applications: [
-      'SPEAKER RANGES',
-      'HOME THEATER SYSTEMS',
-      'AUDIO SYSTEMS',
-      'POWER AMPLIFIER CONNECTIONS',
-      'BROADCASTING SYSTEMS',
-      'AUDIO SIGNAL TRANSMISSION'
+      'SPEAKER RANGES, HOME THEATER OR AUDIO SYSTEM',
+      'CONNECTING POWER AMPLIFIER AND BROADCASTING SYSTEMS',
+      'TRANSMITTING AUDIO SIGNALS AMPLIFIED BY THE AMPLIFIER'
     ],
     specifications: {
-      'Conductor': 'MULTI-STRANDED/FLEXIBLE OFC, COPPER, TINNED-COPPER',
-      'Jacket': 'ROHS STANDARD PVC',
-      'Standards': 'CE, SGS, ISO9001 STANDARD',
+      'Conductor': 'MULTI-STRANDED/FLEXIBLE OFC, COPPER, TINNED-COPPER WIRE',
+      'Standard': 'ROHS STANDARD PVC',
+      'Certification': 'CE, SGS, ISO9001 STANDARD',
       'Length': 'FULL 100M',
       'Rated Voltage': '300/300V',
-      'Temperature': 'WORKING UNDER 70°C FOR LONG PERIOD'
+      'Operating Temperature': 'KEEP WORKING UNDER 70°C FOR LONG PERIOD'
     },
     features: [
-      'RELIABLE CONNECTION',
-      'OPTIMIZED ELECTRICAL PROPERTIES',
-      'RESISTANCE, CAPACITANCE AND INDUCTANCE',
-      'LONG PERIOD OPERATION CAPABILITY',
-      'Professional Audio Grade',
-      'International Standards Compliance'
+      'Reliable Connection',
+      'Multi-Stranded Flexible Design',
+      'International Standards Compliance',
+      'Long-Term High Temperature Operation',
+      '3 Key Electrical Properties: Resistance, Capacitance, Inductance',
+      'Professional Audio Quality'
     ]
   },
 
   // Lift Cables
   'lift-cable': {
-    overview: 'Professional lift cables with bare copper conductor and special plastic construction designed for elevator applications with enhanced flexibility and durability.',
+    overview: 'Standard Lift Cable with bare copper conductor and extra fine wire construction for high flexibility in lift and elevator applications.',
     applications: [
-      'ELEVATOR SYSTEMS',
       'LIFT INSTALLATIONS',
+      'ELEVATOR SYSTEMS',
       'VERTICAL TRANSPORTATION',
-      'LIFT CARRIAGE CONNECTIONS',
-      'ELEVATOR CONTROL SYSTEMS'
+      'CARRIAGE APPLICATIONS'
     ],
     specifications: {
       'Conductor': 'BARE COPPER CONDUCTOR, EXTRA FINE WIRE',
       'Flexibility': 'HIGH FLEXIBLE',
-      'Insulation': 'PLASTIC, FLEXIBLE AT LOW TEMPERATURES',
-      'Identification': 'BLACK CORES WITH CONTINUOUS WHITE NUMBERING',
-      'Ground': 'GN-YE CONDUCTOR',
-      'Sheath': 'SPECIAL PLASTIC, FLEXIBLE AT LOW TEMPERATURES',
+      'Core Insulation': 'PLASTIC, FLEXIBLE AT LOW TEMPERATURES',
+      'Core Identification': 'BLACK CORES WITH CONTINUOUS WHITE NUMBERING',
+      'Earth Conductor': 'GN-YE CONDUCTOR',
+      'Outer Sheath': 'SPECIAL PLASTIC, FLEXIBLE AT LOW TEMPERATURES',
       'Colors': 'ALL COLORS AVAILABLE'
     },
     features: [
-      'SHEATH UV-RESISTANT',
-      'SPECIAL SUPPORT FOR CARRIAGE VERSION',
-      'BRAIDING WITH PUR SHEATH',
-      'WEAR, OIL, HYDROLYSIS RESISTANT',
-      'MICROBIAL ATTACK RESISTANT',
-      'CUSTOMIZABLE AVAILABLE'
+      'CUSTOMIZABLE AVAILABLE',
+      'Sheath UV-Resistant',
+      'Special Support in Carriage Version',
+      'PUR Sheath Particularly Resistant to Wear',
+      'Oil and Hydrolysis Resistant',
+      'Microbial Attack Resistant'
     ]
   }
 };
