@@ -1,6 +1,6 @@
 // ProductQuickView.tsx
 import React, { useState, useEffect } from 'react';
-import { X, ShoppingCart, Heart, Share2, ChevronLeft, ChevronRight, ZoomIn, Star, Award, Shield, Zap, Check, Plus, Minus, Loader2 } from 'lucide-react';
+import { X, ShoppingCart, Heart, Share2, ChevronLeft, ChevronRight, ZoomIn, Star, Award, Shield, Zap, Check, Plus, Minus, Loader2, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
@@ -8,6 +8,7 @@ import { getProductDetails } from '@/data/productImages';
 import { Product } from '@/types/Product';
 import { imageService } from '@/services/imageService';
 import { productContentMap } from '@/data/productContent';
+import { pdfService } from '@/services/pdfService';
 
 interface ProductQuickViewProps {
   product: Product | null;
@@ -31,6 +32,7 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
   const [productImages, setProductImages] = useState<string[]>([]);
   const [imagesStatus, setImagesStatus] = useState<('valid' | 'placeholder' | 'generating' | 'error')[]>([]);
   const [imagesLoading, setImagesLoading] = useState(false);
+  const [pdfGenerating, setPdfGenerating] = useState(false);
 
   // Load AI-generated images when product changes
   useEffect(() => {
@@ -102,6 +104,17 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
       onAddToCart(product, quantity);
     }
     onClose();
+  };
+
+  const handleDownloadCatalog = async () => {
+    setPdfGenerating(true);
+    try {
+      await pdfService.downloadProductCatalog(product, productImages);
+    } catch (error) {
+      console.error('Failed to generate PDF:', error);
+    } finally {
+      setPdfGenerating(false);
+    }
   };
 
   const handleBackdropClick = (e: React.MouseEvent) => {
@@ -457,32 +470,49 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="flex gap-3">
-                    <Button
-                      onClick={handleAddToCart}
-                      className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3"
-                      size="lg"
-                    >
-                      <ShoppingCart className="w-5 h-5 mr-2" />
-                      Add to Cart
-                    </Button>
+                  <div className="space-y-3">
+                    <div className="flex gap-3">
+                      <Button
+                        onClick={handleAddToCart}
+                        className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3"
+                        size="lg"
+                      >
+                        <ShoppingCart className="w-5 h-5 mr-2" />
+                        Add to Cart
+                      </Button>
 
+                      <Button
+                        variant="outline"
+                        size="lg"
+                        className="px-4"
+                      >
+                        <Heart className="w-5 h-5" />
+                      </Button>
+
+                      <Button
+                        variant="outline"
+                        size="lg"
+                        className="px-4"
+                      >
+                        <Share2 className="w-5 h-5" />
+                      </Button>
+                    </div>
+
+                    {/* PDF Download Button */}
                     <Button
+                      onClick={handleDownloadCatalog}
+                      disabled={pdfGenerating}
                       variant="outline"
+                      className="w-full border-2 border-dashed border-blue-300 text-blue-600 hover:bg-blue-50 hover:border-blue-400"
                       size="lg"
-                      className="px-4"
                     >
-                      <Heart className="w-5 h-5" />
+                      {pdfGenerating ? (
+                        <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                      ) : (
+                        <Download className="w-5 h-5 mr-2" />
+                      )}
+                      {pdfGenerating ? 'Generating...' : 'Download Product Catalog'}
                     </Button>
-
-                    <Button
-                      variant="outline"
-                      size="lg"
-                      className="px-4"
-                    >
-                      <Share2 className="w-5 h-5" />
-                    </Button>
-
                   </div>
 
                   {/* Trust Signals */}
