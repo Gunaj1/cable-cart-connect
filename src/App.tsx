@@ -12,6 +12,7 @@ import Index from "./pages/Index";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import ProductDetail from "./pages/ProductDetail";
+import TechnicalConsultation from "./pages/TechnicalConsultation";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminRoute from "./components/AdminRoute";
 import Admin from "./pages/admin";
@@ -66,6 +67,16 @@ const App = () => (
               element={
                 <PrivateRoute>
                   <ComparePage />
+                </PrivateRoute>
+              }
+            />
+
+            {/* Technical Consultation Page */}
+            <Route
+              path="/technical-consultation"
+              element={
+                <PrivateRoute>
+                  <TechnicalConsultation />
                 </PrivateRoute>
               }
             />

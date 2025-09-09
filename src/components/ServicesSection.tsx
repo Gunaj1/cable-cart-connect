@@ -67,20 +67,6 @@ const ServicesSection = () => {
         })}
       </div>
 
-      <div className="mt-16 bg-gradient-to-r from-blue-600 to-gray-600 rounded-2xl p-8 text-white text-center">
-        <h3 className="text-2xl font-bold mb-4">Need Help Choosing the Right Cable?</h3>
-        <p className="text-lg mb-6 opacity-90">
-          Our technical experts are ready to assist you in selecting the perfect solution for your specific requirements.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button className="bg-white text-blue-600 px-6 py-3 rounded-lg hover:bg-gray-100 transition-colors font-semibold">
-            Get Technical Consultation
-          </button>
-          <button className="border-2 border-white text-white px-6 py-3 rounded-lg hover:bg-white hover:text-blue-600 transition-colors font-semibold">
-            Request Bulk Quote
-          </button>
-        </div>
-      </div>
     </div>
   );
 };

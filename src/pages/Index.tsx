@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Cable, ShoppingCart, Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram, Eye, X, Award, Shield, Users, TrendingUp } from 'lucide-react';
 import ChatBot from '../components/ChatBot';
+import ClientLogoStrip from '../components/ClientLogoStrip';
 import Navbar from '../components/Navbar';
 import Cart from '../components/Cart';
 import Logo from '../components/Logo';
@@ -359,6 +360,29 @@ const Index = () => {
           </div>}
       </div>
 
+      {/* Need Help Section - Moved above About */}
+      <div className="py-16 bg-gradient-to-r from-blue-600 to-blue-700">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            Need Help Choosing the Right Cable?
+          </h2>
+          <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
+            Our experts are here to help you find the perfect cable solution for your specific requirements
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="/technical-consultation"
+              className="bg-white text-blue-700 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg"
+            >
+              Get Technical Consultation
+            </a>
+            <button className="bg-blue-800 text-white px-8 py-4 rounded-xl font-semibold hover:bg-blue-900 transition-all duration-300 transform hover:scale-105 shadow-lg border border-blue-600">
+              Request Bulk Quote
+            </button>
+          </div>
+        </div>
+      </div>
+
       {/* About Section */}
       <div id="about" className="bg-gradient-to-br from-white to-blue-50 py-20">
         <div className="container mx-auto px-4">
@@ -375,6 +399,9 @@ const Index = () => {
           </div>
         </div>
       </div>
+
+      {/* Client Logo Strip */}
+      <ClientLogoStrip />
 
       {/* Services Section */}
       <div id="services" className="bg-gradient-to-br from-gray-50 to-white py-20">
