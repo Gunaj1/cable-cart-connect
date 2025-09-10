@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Cable, ShoppingCart, Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram, Eye, X, Award, Shield, Users, TrendingUp } from 'lucide-react';
+import { Cable, ShoppingCart, Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram, Eye, X, Award, Shield, Users, TrendingUp, MessageSquare, ArrowLeft } from 'lucide-react';
 import ChatBot from '../components/ChatBot';
 import ClientLogoStrip from '../components/ClientLogoStrip';
 import Navbar from '../components/Navbar';
@@ -261,21 +261,62 @@ const Index = () => {
               Chhajer Cable Industries
             </h1>
             
-            {/* CCI Acronym - Centered */}
-            <div className="mb-6 flex justify-center">
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-4 md:px-6 py-3 md:py-4 border border-white/20">
-                <div className="flex items-center space-x-4 md:space-x-6">
-                  <div className="text-center">
-                    <div className="text-xl md:text-2xl font-bold text-blue-300">C</div>
-                    <div className="text-xs md:text-sm text-gray-200">Committed</div>
+            {/* Enhanced CCI Acronym Section */}
+            <div className="mb-8 flex justify-center">
+              <div className="relative group">
+                {/* Animated background */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 via-white/30 to-gray-400/20 rounded-3xl blur-sm transform group-hover:scale-110 transition-transform duration-500"></div>
+                
+                {/* Main container */}
+                <div className="relative bg-white/15 backdrop-blur-md rounded-3xl px-6 md:px-10 py-6 md:py-8 border border-white/30 shadow-2xl">
+                  <div className="flex items-center justify-center space-x-6 md:space-x-12">
+                    {[
+                      { letter: 'C', word: 'Committed', color: 'from-blue-300 to-blue-400', bgColor: 'bg-blue-500/20' },
+                      { letter: 'C', word: 'Credible', color: 'from-white to-blue-100', bgColor: 'bg-white/20' },
+                      { letter: 'I', word: 'Innovators', color: 'from-gray-200 to-white', bgColor: 'bg-gray-500/20' }
+                    ].map((item, index) => (
+                      <div key={index} className="group/item text-center transform hover:scale-110 transition-all duration-300">
+                        {/* Letter container with enhanced styling */}
+                        <div className={`relative w-16 h-16 md:w-20 md:h-20 ${item.bgColor} backdrop-blur-sm rounded-2xl flex items-center justify-center mb-3 mx-auto border border-white/40 shadow-lg group-hover/item:shadow-2xl transition-all duration-300`}>
+                          <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-2xl"></div>
+                          <div className={`text-2xl md:text-4xl font-black bg-gradient-to-br ${item.color} bg-clip-text text-transparent relative z-10 group-hover/item:scale-125 transition-transform duration-300`}>
+                            {item.letter}
+                          </div>
+                          
+                          {/* Floating particles effect */}
+                          <div className="absolute inset-0 opacity-0 group-hover/item:opacity-100 transition-opacity duration-500">
+                            {[...Array(3)].map((_, i) => (
+                              <div
+                                key={i}
+                                className={`absolute w-1 h-1 bg-gradient-to-r ${item.color} rounded-full animate-ping`}
+                                style={{
+                                  top: `${20 + i * 20}%`,
+                                  left: `${15 + i * 25}%`,
+                                  animationDelay: `${i * 0.2}s`
+                                }}
+                              ></div>
+                            ))}
+                          </div>
+                        </div>
+                        
+                        {/* Word with enhanced typography */}
+                        <div className={`text-sm md:text-base font-bold bg-gradient-to-br ${item.color} bg-clip-text text-transparent group-hover/item:text-white transition-colors duration-300`}>
+                          {item.word}
+                        </div>
+                        
+                        {/* Hover description */}
+                        <div className="opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 mt-2">
+                          <div className="text-xs text-white/90 bg-black/30 backdrop-blur-sm rounded-lg px-2 py-1">
+                            {index === 0 ? 'Quality First' : index === 1 ? 'Trusted Partner' : 'Future Ready'}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  <div className="text-center">
-                    <div className="text-xl md:text-2xl font-bold text-blue-300">C</div>
-                    <div className="text-xs md:text-sm text-gray-200">Credible</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-xl md:text-2xl font-bold text-blue-300">I</div>
-                    <div className="text-xs md:text-sm text-gray-200">Innovators</div>
+                  
+                  {/* Connecting lines animation */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-30 group-hover:opacity-60 transition-opacity duration-500">
+                    <div className="w-full h-0.5 bg-gradient-to-r from-transparent via-white to-transparent"></div>
                   </div>
                 </div>
               </div>
@@ -395,7 +436,61 @@ const Index = () => {
             </p>
           </div>
           <div className="max-w-6xl mx-auto">
-            <AboutTabs />
+      {/* Need Help Choosing Section - Moved above About */}
+      <div className="container mx-auto px-4 py-20">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-700 via-gray-700 to-blue-600 bg-clip-text text-transparent mb-6">
+            Need Help Choosing the Right Cable?
+          </h2>
+          <p className="text-xl text-gray-600 mb-12 leading-relaxed">
+            Our technical experts are here to guide you through our extensive range of cables and help you find the perfect solution for your specific requirements.
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
+            <div className="group relative overflow-hidden bg-gradient-to-br from-blue-50 to-white rounded-2xl p-8 border border-blue-100 hover:border-blue-300 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-gray-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative z-10">
+                <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mb-6 mx-auto transform group-hover:rotate-6 transition-transform duration-300">
+                  <MessageSquare className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Get Technical Consultation</h3>
+                <p className="text-gray-600 mb-8 leading-relaxed">
+                  Speak with our cable experts to get personalized recommendations, technical specifications, and professional guidance for your project requirements.
+                </p>
+                <button
+                  onClick={() => scrollToSection('technical-consultation')}
+                  className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-4 px-8 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-semibold shadow-lg transform hover:scale-105 text-lg group-hover:shadow-2xl"
+                >
+                  Start Consultation
+                  <ArrowLeft className="w-5 h-5 ml-2 inline transform rotate-180" />
+                </button>
+              </div>
+            </div>
+
+            <div className="group relative overflow-hidden bg-gradient-to-br from-green-50 to-white rounded-2xl p-8 border border-green-100 hover:border-green-300 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative z-10">
+                <div className="w-16 h-16 bg-gradient-to-r from-green-600 to-green-700 rounded-2xl flex items-center justify-center mb-6 mx-auto transform group-hover:rotate-6 transition-transform duration-300">
+                  <ShoppingCart className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Request Bulk Quote</h3>
+                <p className="text-gray-600 mb-8 leading-relaxed">
+                  Looking for large quantities? Get competitive pricing for bulk orders with fast delivery, custom specifications, and professional support services.
+                </p>
+                <button
+                  onClick={() => window.location.href = '/bulk-quote'}
+                  className="w-full bg-gradient-to-r from-green-600 to-green-700 text-white py-4 px-8 rounded-xl hover:from-green-700 hover:to-green-800 transition-all duration-300 font-semibold shadow-lg transform hover:scale-105 text-lg group-hover:shadow-2xl"
+                >
+                  Get Bulk Quote
+                  <ArrowLeft className="w-5 h-5 ml-2 inline transform rotate-180" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <AboutTabs />
           </div>
         </div>
       </div>
