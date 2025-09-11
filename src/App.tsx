@@ -17,6 +17,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import AdminRoute from "./components/AdminRoute";
 import Admin from "./pages/admin";
 import ComparePage from "./pages/compare";
+import BulkQuote from "./pages/BulkQuote";
 
 const queryClient = new QueryClient();
 
@@ -77,6 +78,16 @@ const App = () => (
               element={
                 <PrivateRoute>
                   <TechnicalConsultation />
+                </PrivateRoute>
+              }
+            />
+
+            {/* Bulk Quote Page */}
+            <Route
+              path="/bulk-quote"
+              element={
+                <PrivateRoute>
+                  <BulkQuote />
                 </PrivateRoute>
               }
             />

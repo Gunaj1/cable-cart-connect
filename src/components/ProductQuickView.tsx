@@ -9,6 +9,7 @@ import { Product } from '@/types/Product';
 import { imageService } from '@/services/imageService';
 import { productContentMap } from '@/data/productContent';
 import { pdfService } from '@/services/pdfService';
+import ShareButton from '@/components/ShareButton';
 
 interface ProductQuickViewProps {
   product: Product | null;

@@ -1,8 +1,11 @@
 
 import React from 'react';
-import { Truck, Shield, Headphones, Award, Settings, Zap } from 'lucide-react';
+import { Truck, Shield, Headphones, Award, Settings, Zap, Package } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 const ServicesSection = () => {
+  const navigate = useNavigate();
   const services = [
     {
       icon: Truck,
@@ -45,6 +48,15 @@ const ServicesSection = () => {
         <p className="text-xl text-gray-600 max-w-2xl mx-auto">
           Comprehensive solutions for all your cable and networking needs
         </p>
+        <div className="mt-8">
+          <Button 
+            onClick={() => navigate('/bulk-quote')} 
+            className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
+          >
+            <Package className="w-5 h-5 mr-2" />
+            Request Bulk Quote
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">

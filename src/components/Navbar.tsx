@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { ShoppingCart, Search, X } from 'lucide-react';
 import Logo from './Logo';
-import ProductSearch from './ProductSearch';
+import ProductSearchWithFilters from './ProductSearchWithFilters';
 
 interface Product {
   id: string;
@@ -75,7 +75,7 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick, onNavigate, act
 
           {/* Search Box */}
           <div className="hidden lg:block">
-            <ProductSearch 
+            <ProductSearchWithFilters
               products={products}
               onProductSelect={onProductSelect}
               className="w-80"
@@ -108,7 +108,7 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick, onNavigate, act
         {/* Mobile Search Bar */}
         {isMobileSearchOpen && (
           <div className="lg:hidden px-4 pb-4 border-t border-gray-100 bg-white/95 backdrop-blur-md animate-fade-in">
-            <ProductSearch 
+        <ProductSearchWithFilters
               products={products}
               onProductSelect={(product) => {
                 onProductSelect(product);
