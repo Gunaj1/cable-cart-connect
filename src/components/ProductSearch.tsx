@@ -1,9 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, X, Cable, Filter, SlidersHorizontal, DollarSign, Zap, Settings } from 'lucide-react';
+import { Search, X, Cable } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getProductDetails } from '@/data/productImages';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 
 interface Product {
   id: string;
@@ -26,36 +24,19 @@ interface ProductSearchProps {
   className?: string;
 }
 
-interface FilterState {
-  priceRange: 'all' | 'under-50' | '50-100' | 'over-100';
-  category: string;
-  specifications: string[];
-  features: string[];
-}
-
 const ProductSearch: React.FC<ProductSearchProps> = ({ products, onProductSelect, className }) => {
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(-1);
-  const [showFilters, setShowFilters] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
-  
-  const [filters, setFilters] = useState<FilterState>({
-    priceRange: 'all',
-    category: 'all',
-    specifications: [],
-    features: []
-  });
 
-  // Filter products based on search query and filters
+  // Filter products based on search query
   const filteredProducts = query.trim() 
     ? products.filter(product => {
         const searchTerm = query.toLowerCase();
-        
-        // Text search
-        const matchesSearch = (
+        return (
           product.name.toLowerCase().includes(searchTerm) ||
           product.category.toLowerCase().includes(searchTerm) ||
           product.description.toLowerCase().includes(searchTerm) ||
@@ -66,44 +47,8 @@ const ProductSearch: React.FC<ProductSearchProps> = ({ products, onProductSelect
             spec.toLowerCase().includes(searchTerm)
           )
         );
-        
-        if (!matchesSearch) return false;
-        
-        // Price filter
-        const matchesPrice = (() => {
-          switch (filters.priceRange) {
-            case 'under-50': return product.price < 50;
-            case '50-100': return product.price >= 50 && product.price <= 100;
-            case 'over-100': return product.price > 100;
-            default: return true;
-          }
-        })();
-        
-        // Category filter
-        const matchesCategory = filters.category === 'all' || 
-          product.category.toLowerCase().includes(filters.category.toLowerCase());
-        
-        return matchesPrice && matchesCategory;
       }).slice(0, 8) // Limit to 8 results
     : [];
-
-  const updateFilter = (key: keyof FilterState, value: any) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
-  };
-
-  const clearFilters = () => {
-    setFilters({
-      priceRange: 'all',
-      category: 'all',
-      specifications: [],
-      features: []
-    });
-  };
-
-  const hasActiveFilters = filters.priceRange !== 'all' || 
-    filters.category !== 'all' || 
-    filters.specifications.length > 0 || 
-    filters.features.length > 0;
 
   // Handle keyboard navigation
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -173,9 +118,9 @@ const ProductSearch: React.FC<ProductSearchProps> = ({ products, onProductSelect
     }
   }, [focusedIndex]);
 
-    return (
+  return (
     <div ref={searchRef} className={cn("relative", className)}>
-      {/* Search Input with Filters */}
+      {/* Search Input */}
       <div className="relative">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <Search className="h-5 w-5 text-gray-400" />
@@ -192,163 +137,26 @@ const ProductSearch: React.FC<ProductSearchProps> = ({ products, onProductSelect
           onKeyDown={handleKeyDown}
           placeholder="Search products, specs, categories..."
           className={cn(
-            "w-full pl-10 pr-20 py-3 rounded-xl border-2 border-gray-200",
+            "w-full pl-10 pr-10 py-3 rounded-xl border-2 border-gray-200",
             "bg-white text-gray-900 placeholder-gray-500",
             "focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200",
             "transition-all duration-300 shadow-lg hover:shadow-xl",
             "text-sm md:text-base"
           )}
         />
-        <div className="absolute inset-y-0 right-0 flex items-center pr-3 space-x-1">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setShowFilters(!showFilters)}
-            className={cn(
-              "p-1 h-8 w-8",
-              (showFilters || hasActiveFilters) && "bg-blue-100 text-blue-600"
-            )}
+        {query && (
+          <button
+            onClick={() => {
+              setQuery('');
+              setIsOpen(false);
+              setFocusedIndex(-1);
+            }}
+            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
           >
-            <SlidersHorizontal className="h-4 w-4" />
-          </Button>
-          {query && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                setQuery('');
-                setIsOpen(false);
-                setFocusedIndex(-1);
-              }}
-              className="p-1 h-8 w-8 text-gray-400 hover:text-gray-600"
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          )}
-        </div>
+            <X className="h-5 w-5" />
+          </button>
+        )}
       </div>
-
-      {/* Filter Panel */}
-      {showFilters && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-gray-200 z-50 p-4">
-          <div className="flex items-center justify-between mb-4">
-            <h4 className="font-semibold text-gray-900 flex items-center gap-2">
-              <Filter className="w-4 h-4" />
-              Filters
-            </h4>
-            {hasActiveFilters && (
-              <Button variant="outline" size="sm" onClick={clearFilters}>
-                Clear All
-              </Button>
-            )}
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Price Range */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                <DollarSign className="w-4 h-4 inline mr-1" />
-                Price Range
-              </label>
-              <select
-                value={filters.priceRange}
-                onChange={(e) => updateFilter('priceRange', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="all">All Prices</option>
-                <option value="under-50">Under $50</option>
-                <option value="50-100">$50 - $100</option>
-                <option value="over-100">Over $100</option>
-              </select>
-            </div>
-
-            {/* Category */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                <Cable className="w-4 h-4 inline mr-1" />
-                Category
-              </label>
-              <select
-                value={filters.category}
-                onChange={(e) => updateFilter('category', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="all">All Categories</option>
-                <option value="patchcords">Patchcords</option>
-                <option value="cat6-lan-cables">CAT 6 LAN Cables</option>
-                <option value="cat5e-lan-cables">CAT 5e LAN Cables</option>
-                <option value="cctv-cables">CCTV Cables</option>
-                <option value="computer-cords">Computer Cords</option>
-                <option value="specialty-cables">Specialty Cables</option>
-              </select>
-            </div>
-
-            {/* Specifications */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                <Settings className="w-4 h-4 inline mr-1" />
-                Key Features
-              </label>
-              <div className="flex flex-wrap gap-1">
-                {['OEM Supplier', 'Fluke Tested', 'DCM Tested', 'Customizable', 'Weather Proof'].map((feature) => (
-                  <Badge
-                    key={feature}
-                    variant={filters.features.includes(feature) ? "default" : "outline"}
-                    className="cursor-pointer text-xs"
-                    onClick={() => {
-                      const newFeatures = filters.features.includes(feature)
-                        ? filters.features.filter(f => f !== feature)
-                        : [...filters.features, feature];
-                      updateFilter('features', newFeatures);
-                    }}
-                  >
-                    {feature}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-      
-      {/* Active Filters Display */}
-      {hasActiveFilters && (
-        <div className="mt-2 flex flex-wrap gap-2">
-          {filters.priceRange !== 'all' && (
-            <Badge variant="secondary" className="text-xs">
-              Price: {filters.priceRange}
-              <button
-                onClick={() => updateFilter('priceRange', 'all')}
-                className="ml-1 hover:text-red-600"
-              >
-                ×
-              </button>
-            </Badge>
-          )}
-          {filters.category !== 'all' && (
-            <Badge variant="secondary" className="text-xs">
-              {filters.category}
-              <button
-                onClick={() => updateFilter('category', 'all')}
-                className="ml-1 hover:text-red-600"
-              >
-                ×
-              </button>
-            </Badge>
-          )}
-          {filters.features.map((feature) => (
-            <Badge key={feature} variant="secondary" className="text-xs">
-              {feature}
-              <button
-                onClick={() => updateFilter('features', filters.features.filter(f => f !== feature))}
-                className="ml-1 hover:text-red-600"
-              >
-                ×
-              </button>
-            </Badge>
-          ))}
-        </div>
-      )}
 
       {/* Search Results Dropdown */}
       {isOpen && query.trim() && (
