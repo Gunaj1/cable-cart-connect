@@ -42,7 +42,7 @@ export const productImageCollections: Record<string, ProductDetails> = {
   pc1: { // Cat 6 STP
     images: [
       'https://lh3.googleusercontent.com/gg-dl/AJfQ9KTQEd0X-tAlDR6kZkoOZRuBSVzh1Bg_QXMLCdGasUjfAH8C3JjT3YD2IThGA9cCXen9bwVQU2UYrtPzg8Ht47XB4l5ywMnv0ggxvOJvWwFD4ws6Xh4v_R0s1P6Tuc3mh5u3wmq9cIiUEWqJcvg7-gFppWM5-KV5hDfwzeC-A8zEwz63Dw=s1024',
-      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://ibb.co/VYdm2Zxk',
       'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
