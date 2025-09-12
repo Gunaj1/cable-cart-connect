@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Cable, ShoppingCart, Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram, Eye, X, Award, Shield, Users, TrendingUp } from 'lucide-react';
+import { Cable, ShoppingCart, Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram, Eye, X, Award, Shield, Users, TrendingUp, Map, Star } from 'lucide-react';
 import ChatBot from '../components/ChatBot';
 import ClientLogoStrip from '../components/ClientLogoStrip';
 import Navbar from '../components/Navbar';
@@ -440,6 +440,28 @@ const Index = () => {
                   <MapPin className="w-6 h-6 mr-3 text-blue-400" />
                   A6 Jhilmil Industrial Area, New Delhi 110095, India
                 </p>
+                
+                {/* Google Maps Button */}
+                <div className="mt-4">
+                  <button
+                    onClick={() => window.open('https://www.google.com/maps/dir//A6+Jhilmil+Industrial+Area,+New+Delhi+110095,+India/@28.6851,77.2426,17z', '_blank')}
+                    className="flex items-center justify-center w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                  >
+                    <Map className="w-5 h-5 mr-2" />
+                    <span className="font-semibold">View on Google Maps</span>
+                  </button>
+                </div>
+
+                {/* Google Reviews Button */}
+                <div className="mt-3">
+                  <button
+                    onClick={() => window.open('https://www.google.com/search?sca_esv=12e50a14a6107b85&rlz=1C1VDKB_en-GBIN1101IN1101&sxsrf=AE3TifOC_UIgONEdUsFEhFLFxI6OUre3tA:1756626174964&si=AMgyJEtREmoPL4P1I5IDCfuA8gybfVI2d5Uj7QMwYCZHKDZ-E3fIPw7Xl6VH7ZUJS1CPV8ZrDr_9-DqpOFAlEM0oTwJ3xRRZyt5ReYrvuAKLcVKLukLFLUhMCcxPcElH1FiSsndQHSTPxNwSCFEA-nAYxIUWfs10xw%3D%3D&q=Chhajer+Cable+Industries+Reviews&sa=X&ved=2ahUKEwjcxKW5xrSPAxXFSWwGHZcWI_AQ0bkNegQIHhAE&biw=1366&bih=641&dpr=1#lrd=0x390cfbf65a34cc11:0x4402284828be60a5,3', '_blank')}
+                    className="flex items-center justify-center w-full py-3 px-4 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                  >
+                    <Star className="w-5 h-5 mr-2" />
+                    <span className="font-semibold">Rate Us on Google</span>
+                  </button>
+                </div>
               </div>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
