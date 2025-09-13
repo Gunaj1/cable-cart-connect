@@ -60,13 +60,18 @@
 
 @keyframes pulse-travel {
   0% {
-    transform: translateX(-100%);
+    transform: translateX(-150%);
+    opacity: 0;
   }
-  50% {
-    transform: translateX(calc(100vw + 100%));
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
   }
   100% {
-    transform: translateX(calc(100vw + 100%));
+    transform: translateX(150%);
+    opacity: 0;
   }
 }
 
@@ -162,7 +167,7 @@
 }
 
 .animate-pulse-travel {
-  animation: pulse-travel 3s ease-in-out infinite;
+  animation: pulse-travel 2s ease-in-out infinite;
 }
 
 .animate-cable-connect {

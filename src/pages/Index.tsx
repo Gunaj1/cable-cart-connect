@@ -441,25 +441,55 @@ const Index = () => {
                   A6 Jhilmil Industrial Area, New Delhi 110095, India
                 </p>
                 
-                {/* Google Maps Button */}
-                <div className="mt-4">
+                {/* Premium Google Maps Button */}
+                <div className="mt-6">
                   <button
                     onClick={() => window.open('https://www.google.com/maps/dir//A6+Jhilmil+Industrial+Area,+New+Delhi+110095,+India/@28.6851,77.2426,17z', '_blank')}
-                    className="flex items-center justify-center w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                    className="group relative flex items-center justify-center w-full py-4 px-6 overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-600 hover:via-teal-600 hover:to-cyan-600 transition-all duration-500 transform hover:scale-[1.02] hover:-translate-y-1 shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_15px_40px_rgba(16,185,129,0.4)] border border-white/20"
                   >
-                    <Map className="w-5 h-5 mr-2" />
-                    <span className="font-semibold">View on Google Maps</span>
+                    {/* Animated background glow */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/20 via-teal-400/20 to-cyan-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl blur-xl"></div>
+                    
+                    {/* Icon with premium styling */}
+                    <div className="relative flex items-center justify-center w-8 h-8 mr-3 rounded-full bg-white/20 backdrop-blur-sm group-hover:bg-white/30 transition-all duration-300">
+                      <Map className="w-5 h-5 text-white drop-shadow-lg" />
+                    </div>
+                    
+                    {/* Text with glow effect */}
+                    <span className="relative font-bold text-white text-lg tracking-wide drop-shadow-lg group-hover:drop-shadow-2xl transition-all duration-300">
+                      View on Google Maps
+                    </span>
+                    
+                    {/* Subtle shine effect */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-pulse-travel"></div>
+                    </div>
                   </button>
                 </div>
 
-                {/* Google Reviews Button */}
-                <div className="mt-3">
+                {/* Premium Google Reviews Button */}
+                <div className="mt-4">
                   <button
                     onClick={() => window.open('https://www.google.com/search?sca_esv=12e50a14a6107b85&rlz=1C1VDKB_en-GBIN1101IN1101&sxsrf=AE3TifOC_UIgONEdUsFEhFLFxI6OUre3tA:1756626174964&si=AMgyJEtREmoPL4P1I5IDCfuA8gybfVI2d5Uj7QMwYCZHKDZ-E3fIPw7Xl6VH7ZUJS1CPV8ZrDr_9-DqpOFAlEM0oTwJ3xRRZyt5ReYrvuAKLcVKLukLFLUhMCcxPcElH1FiSsndQHSTPxNwSCFEA-nAYxIUWfs10xw%3D%3D&q=Chhajer+Cable+Industries+Reviews&sa=X&ved=2ahUKEwjcxKW5xrSPAxXFSWwGHZcWI_AQ0bkNegQIHhAE&biw=1366&bih=641&dpr=1#lrd=0x390cfbf65a34cc11:0x4402284828be60a5,3', '_blank')}
-                    className="flex items-center justify-center w-full py-3 px-4 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                    className="group relative flex items-center justify-center w-full py-4 px-6 overflow-hidden rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 hover:from-amber-600 hover:via-orange-600 hover:to-red-600 transition-all duration-500 transform hover:scale-[1.02] hover:-translate-y-1 shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_15px_40px_rgba(251,146,60,0.4)] border border-white/20"
                   >
-                    <Star className="w-5 h-5 mr-2" />
-                    <span className="font-semibold">Rate Us on Google</span>
+                    {/* Animated background glow */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 via-orange-400/20 to-red-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl blur-xl"></div>
+                    
+                    {/* Google icon with premium styling */}
+                    <div className="relative flex items-center justify-center w-8 h-8 mr-3 rounded-full bg-white/20 backdrop-blur-sm group-hover:bg-white/30 transition-all duration-300">
+                      <Star className="w-5 h-5 text-white drop-shadow-lg fill-current" />
+                    </div>
+                    
+                    {/* Text with glow effect */}
+                    <span className="relative font-bold text-white text-lg tracking-wide drop-shadow-lg group-hover:drop-shadow-2xl transition-all duration-300">
+                      Rate Us on Google
+                    </span>
+                    
+                    {/* Subtle shine effect */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-pulse-travel"></div>
+                    </div>
                   </button>
                 </div>
               </div>
