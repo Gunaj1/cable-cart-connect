@@ -14,11 +14,28 @@ const TechnicalConsultation = () => {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
-    console.log('Form submitted:', formData);
-    setIsSubmitted(true);
+    
+    try {
+      const response = await fetch('https://hddvrvhuemdqahfhgsnf.supabase.co/functions/v1/submit-consultation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit consultation request');
+      }
+
+      console.log('Form submitted successfully:', formData);
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('Failed to submit consultation request. Please try again.');
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

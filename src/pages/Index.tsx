@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Cable, ShoppingCart, Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram, Eye, X, Award, Shield, Users, TrendingUp, Map, Star } from 'lucide-react';
 import ChatBot from '../components/ChatBot';
 import ClientLogoStrip from '../components/ClientLogoStrip';
@@ -15,6 +15,8 @@ import CompareButton from '../components/CompareButton';
 import ComparisonFloatingButton from '../components/ComparisonFloatingButton';
 import { useComparison } from '../contexts/ComparisonContext';
 import { getProductDetails } from '../data/productImages';
+import AdvancedFilter from '@/components/AdvancedFilter';
+import BulkQuoteForm from '@/components/BulkQuoteForm';
 
 // Import product images
 import cat6StpPatchcord from '../assets/cat6-stp-patchcord.jpg';
@@ -65,6 +67,8 @@ const Index = () => {
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
   const [isCompareDrawerOpen, setIsCompareDrawerOpen] = useState(false);
   const [isFullCompareOpen, setIsFullCompareOpen] = useState(false);
+  const [isBulkQuoteOpen, setIsBulkQuoteOpen] = useState(false);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const {
     comparisonProducts,
     clearComparison
@@ -73,9 +77,22 @@ const Index = () => {
     // Initialize products with stock levels
     return categories.flatMap(category => category.products.map(product => ({
       ...product,
-      stock: Math.floor(Math.random() * 100) + 10 // Random stock between 10-110
+      stock: Math.floor(Math.random() * 100) + 10, // Random stock between 10-110
+      applications: product.detailedDescription?.applications || [],
+      features: product.detailedDescription?.features || [],
+      specifications: product.detailedDescription?.specifications.reduce((acc: Record<string, string>, spec: string, index: number) => {
+        acc[`spec_${index}`] = spec;
+        return acc;
+      }, {}) || {}
     })));
   });
+
+  // Initialize filtered products when products change
+  React.useEffect(() => {
+    if (filteredProducts.length === 0) {
+      setFilteredProducts(products);
+    }
+  }, [products]);
   const addToCart = (product: Product) => {
     const currentProduct = products.find(p => p.id === product.id);
     if (!currentProduct || currentProduct.stock <= 0) {
@@ -239,11 +256,18 @@ const Index = () => {
         </div>
       </div>;
   };
-  return <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50">
-      <Navbar cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)} onCartClick={() => setIsCartOpen(true)} onNavigate={scrollToSection} activeSection={activeSection} products={products} onProductSelect={product => {
-        setQuickViewProduct(product);
-        setIsQuickViewOpen(true);
-      }} />
+    return <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50">
+      <Navbar 
+        cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)} 
+        onCartClick={() => setIsCartOpen(true)} 
+        onNavigate={scrollToSection} 
+        activeSection={activeSection} 
+        products={products} 
+        onProductSelect={product => {
+          setQuickViewProduct(product);
+          setIsQuickViewOpen(true);
+        }} 
+      />
       
       {/* Hero Section */}
       <div id="home" className="relative min-h-[600px] bg-cover bg-center bg-no-repeat overflow-hidden" style={{
@@ -376,7 +400,10 @@ const Index = () => {
             >
               Get Technical Consultation
             </a>
-            <button className="bg-blue-800 text-white px-8 py-4 rounded-xl font-semibold hover:bg-blue-900 transition-all duration-300 transform hover:scale-105 shadow-lg border border-blue-600">
+            <button 
+              onClick={() => setIsBulkQuoteOpen(true)}
+              className="bg-blue-800 text-white px-8 py-4 rounded-xl font-semibold hover:bg-blue-900 transition-all duration-300 transform hover:scale-105 shadow-lg border border-blue-600"
+            >
               Request Bulk Quote
             </button>
           </div>
@@ -561,6 +588,13 @@ const Index = () => {
 
       {/* Floating Comparison Button */}
       <ComparisonFloatingButton onOpenComparison={() => setIsCompareDrawerOpen(true)} />
+
+      {/* Bulk Quote Modal */}
+      {isBulkQuoteOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+          <BulkQuoteForm onClose={() => setIsBulkQuoteOpen(false)} />
+        </div>
+      )}
       
       {/* AI ChatBot */}
       <ChatBot />
