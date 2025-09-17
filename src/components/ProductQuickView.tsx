@@ -8,6 +8,7 @@ import { getProductDetails } from '@/data/productImages';
 import { Product } from '@/types/Product';
 import { imageService } from '@/services/imageService';
 import { productContentMap } from '@/data/productContent';
+import { productDescriptions } from '@/data/productDescriptions';
 import { pdfService } from '@/services/pdfService';
 import ShareButton from '@/components/ShareButton';
 
@@ -94,7 +95,7 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
   
   // Get enhanced content from the mapping
   const enhancedContent = productContentMap[product.id] || {
-    overview: productDetails.description,
+    overview: productDescriptions[product.id] || productDetails.description,
     applications: productDetails.applications,
     specifications: productDetails.specifications,
     features: productDetails.features

@@ -7,6 +7,10 @@ export interface Product {
   price: number;
   description: string;
   stock: number;
+  applications?: string[];
+  features?: string[];
+  specifications?: Record<string, string>;
+  rating?: number;
   detailedDescription?: {
     applications: string[];
     specifications: string[];

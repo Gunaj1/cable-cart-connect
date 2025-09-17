@@ -15,7 +15,8 @@ import CompareButton from '../components/CompareButton';
 import ComparisonFloatingButton from '../components/ComparisonFloatingButton';
 import { useComparison } from '../contexts/ComparisonContext';
 import { getProductDetails } from '../data/productImages';
-import AdvancedFilter from '@/components/AdvancedFilter';
+import { Search } from 'lucide-react';
+import AmazonStyleFilter from '@/components/AmazonStyleFilter';
 import BulkQuoteForm from '@/components/BulkQuoteForm';
 
 // Import product images
@@ -69,6 +70,7 @@ const Index = () => {
   const [isFullCompareOpen, setIsFullCompareOpen] = useState(false);
   const [isBulkQuoteOpen, setIsBulkQuoteOpen] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [appliedFilters, setAppliedFilters] = useState<any>(null);
   const {
     comparisonProducts,
     clearComparison
@@ -93,6 +95,97 @@ const Index = () => {
       setFilteredProducts(products);
     }
   }, [products]);
+
+  // Handle filter changes
+  const handleFilterChange = (filters: any) => {
+    setAppliedFilters(filters);
+    let filtered = [...products];
+
+    // Apply category filter if selected
+    if (selectedCategory) {
+      const selectedCat = categories.find(cat => cat.id === selectedCategory);
+      if (selectedCat) {
+        const categoryProductIds = selectedCat.products.map(p => p.id);
+        filtered = filtered.filter(p => categoryProductIds.includes(p.id));
+      }
+    }
+
+    // Apply category filters
+    if (filters.categories && filters.categories.length > 0) {
+      filtered = filtered.filter(product => 
+        filters.categories.includes(product.category)
+      );
+    }
+
+    // Apply price range filter
+    if (filters.priceRange && filters.priceRange.length === 2) {
+      filtered = filtered.filter(product => 
+        product.price >= filters.priceRange[0] && product.price <= filters.priceRange[1]
+      );
+    }
+
+    // Apply availability filter
+    if (filters.availability && filters.availability.length > 0) {
+      filtered = filtered.filter(product => {
+        if (filters.availability.includes('in-stock') && product.stock > 5) return true;
+        if (filters.availability.includes('low-stock') && product.stock <= 5 && product.stock > 0) return true;
+        if (filters.availability.includes('out-of-stock') && product.stock === 0) return true;
+        return false;
+      });
+    }
+
+    // Apply applications filter
+    if (filters.applications && filters.applications.length > 0) {
+      filtered = filtered.filter(product =>
+        product.applications && filters.applications.some(app => 
+          product.applications.includes(app)
+        )
+      );
+    }
+
+    // Apply features filter
+    if (filters.features && filters.features.length > 0) {
+      filtered = filtered.filter(product =>
+        product.features && filters.features.some(feature => 
+          product.features.includes(feature)
+        )
+      );
+    }
+
+    // Apply specifications filter
+    if (filters.specifications && filters.specifications.length > 0) {
+      filtered = filtered.filter(product =>
+        product.specifications && filters.specifications.some(spec => 
+          Object.keys(product.specifications).includes(spec)
+        )
+      );
+    }
+
+    // Apply sorting
+    if (filters.sortOption) {
+      switch (filters.sortOption) {
+        case 'price-low-high':
+          filtered.sort((a, b) => a.price - b.price);
+          break;
+        case 'price-high-low':
+          filtered.sort((a, b) => b.price - a.price);
+          break;
+        case 'rating':
+          // Sort by rating (assuming higher is better)
+          filtered.sort((a, b) => (b.rating || 4) - (a.rating || 4));
+          break;
+        case 'newest':
+          // Sort by newest (assuming id order represents newness)
+          filtered.reverse();
+          break;
+        default:
+          // relevance - keep original order
+          break;
+      }
+    }
+
+    setFilteredProducts(filtered);
+  };
   const addToCart = (product: Product) => {
     const currentProduct = products.find(p => p.id === product.id);
     if (!currentProduct || currentProduct.stock <= 0) {
@@ -324,6 +417,22 @@ const Index = () => {
           </p>
         </div>
 
+        {/* Search Bar and Filter */}
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-center mb-8">
+          <div className="relative max-w-md w-full">
+            <input
+              type="text"
+              placeholder="Search products..."
+              className="w-full px-4 py-3 pl-10 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+            />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+          </div>
+          <AmazonStyleFilter
+            products={products}
+            onFilterChange={handleFilterChange}
+          />
+        </div>
+
         {/* Category Filter Buttons */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
           <button onClick={() => setSelectedCategory(null)} className={`px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 ${selectedCategory === null ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-xl' : 'bg-white text-gray-700 border-2 border-blue-200 hover:border-blue-400 hover:text-blue-700 shadow-lg'}`}>
@@ -345,16 +454,19 @@ const Index = () => {
                   <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full"></div>
                 </div>
                 
-                {/* Product Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {category.products.map(product => {
-              const currentProduct = products.find(p => p.id === product.id);
-              if (!currentProduct) return null;
-              return <ProductCard key={product.id} product={currentProduct} onQuickView={product => {
-                setQuickViewProduct(product);
-                setIsQuickViewOpen(true);
-              }} onAddToCart={addToCart} />;
-            })}
+                 {/* Product Grid */}
+                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                   {(appliedFilters ? filteredProducts.filter(product => 
+                     category.products.some(p => p.id === product.id)
+                   ) : category.products.map(product => products.find(p => p.id === product.id)).filter(Boolean)
+                   ).map(product => {
+               const currentProduct = products.find(p => p.id === product.id) || product;
+               if (!currentProduct) return null;
+               return <ProductCard key={product.id} product={currentProduct} onQuickView={product => {
+                 setQuickViewProduct(product);
+                 setIsQuickViewOpen(true);
+               }} onAddToCart={addToCart} />;
+             })}
                 </div>
               </div>)}
           </div> :
@@ -369,16 +481,19 @@ const Index = () => {
                     </p>
                   </div>
                   
-                  {/* Product Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {category.products.map(product => {
-              const currentProduct = products.find(p => p.id === product.id);
-              if (!currentProduct) return null;
-              return <ProductCard key={product.id} product={currentProduct} onQuickView={product => {
-                setQuickViewProduct(product);
-                setIsQuickViewOpen(true);
-              }} onAddToCart={addToCart} />;
-            })}
+                   {/* Product Grid */}
+                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                     {(appliedFilters ? filteredProducts.filter(product => 
+                       category.products.some(p => p.id === product.id)
+                     ) : category.products.map(product => products.find(p => p.id === product.id)).filter(Boolean)
+                     ).map(product => {
+               const currentProduct = products.find(p => p.id === product.id) || product;
+               if (!currentProduct) return null;
+               return <ProductCard key={product.id} product={currentProduct} onQuickView={product => {
+                 setQuickViewProduct(product);
+                 setIsQuickViewOpen(true);
+               }} onAddToCart={addToCart} />;
+             })}
                   </div>
                 </div>)}
           </div>}
