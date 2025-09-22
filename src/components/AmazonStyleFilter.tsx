@@ -26,26 +26,17 @@ const AmazonStyleFilter: React.FC<AmazonStyleFilterProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [filters, setFilters] = useState({
     categories: [],
-    brands: [],
     priceRange: [0, 1000],
     rating: [],
-    specifications: [],
-    applications: [],
-    features: [],
     availability: []
   });
   const [sortOption, setSortOption] = useState('relevance');
   const [expandedSections, setExpandedSections] = useState({
     categories: true,
-    brands: true,
     price: true,
     rating: true,
-    specifications: false,
-    applications: false,
-    features: false,
     availability: true
   });
-  const [filterSearch, setFilterSearch] = useState('');
 
   // Extract filter options from products
   const filterOptions = {
@@ -53,32 +44,6 @@ const AmazonStyleFilter: React.FC<AmazonStyleFilterProps> = ({
       id: cat,
       label: cat,
       count: products.filter(p => p.category === cat).length
-    })),
-    brands: [
-      { id: 'chhajer', label: 'Chhajer Cables', count: products.length },
-      { id: 'premium', label: 'Premium Series', count: Math.floor(products.length * 0.6) },
-      { id: 'professional', label: 'Professional Grade', count: Math.floor(products.length * 0.8) }
-    ],
-    specifications: Array.from(new Set(
-      products.flatMap(p => p.specifications ? Object.keys(p.specifications) : [])
-    )).map(spec => ({
-      id: spec,
-      label: spec.charAt(0).toUpperCase() + spec.slice(1),
-      count: products.filter(p => p.specifications && p.specifications[spec]).length
-    })),
-    applications: Array.from(new Set(
-      products.flatMap(p => p.applications || [])
-    )).map(app => ({
-      id: app,
-      label: app,
-      count: products.filter(p => p.applications && p.applications.includes(app)).length
-    })),
-    features: Array.from(new Set(
-      products.flatMap(p => p.features || [])
-    )).map(feature => ({
-      id: feature,
-      label: feature,
-      count: products.filter(p => p.features && p.features.includes(feature)).length
     })),
     availability: [
       { id: 'in-stock', label: 'In Stock', count: products.filter(p => p.stock > 5).length },
@@ -127,12 +92,8 @@ const AmazonStyleFilter: React.FC<AmazonStyleFilterProps> = ({
   const resetFilters = () => {
     const emptyFilters = {
       categories: [],
-      brands: [],
       priceRange: [priceRange[0], priceRange[1]],
       rating: [],
-      specifications: [],
-      applications: [],
-      features: [],
       availability: []
     };
     setFilters(emptyFilters);
@@ -163,19 +124,14 @@ const AmazonStyleFilter: React.FC<AmazonStyleFilterProps> = ({
     title, 
     options, 
     filterType, 
-    sectionKey,
-    showSearch = false 
+    sectionKey
   }: {
     title: string;
     options: FilterOption[];
     filterType: string;
     sectionKey: string;
-    showSearch?: boolean;
   }) => {
-    const filteredOptions = showSearch && filterSearch ? 
-      options.filter(option =>
-        option.label.toLowerCase().includes(filterSearch.toLowerCase())
-      ) : options;
+    const filteredOptions = options;
 
     return (
       <div className="border-b border-gray-200 pb-4">
@@ -362,18 +318,6 @@ const AmazonStyleFilter: React.FC<AmazonStyleFilterProps> = ({
             </div>
 
             {/* Search in Filters */}
-            <div className="p-4 border-b border-gray-200">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                <input
-                  type="text"
-                  placeholder="Search in filters..."
-                  value={filterSearch}
-                  onChange={(e) => setFilterSearch(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                />
-              </div>
-            </div>
 
             {/* Filter Content */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -383,15 +327,6 @@ const AmazonStyleFilter: React.FC<AmazonStyleFilterProps> = ({
                 options={filterOptions.categories}
                 filterType="categories"
                 sectionKey="categories"
-                showSearch={true}
-              />
-
-              {/* Brands */}
-              <FilterSection
-                title="Brands"
-                options={filterOptions.brands}
-                filterType="brands"
-                sectionKey="brands"
               />
 
               {/* Price Range */}
@@ -408,38 +343,6 @@ const AmazonStyleFilter: React.FC<AmazonStyleFilterProps> = ({
                 sectionKey="availability"
               />
 
-              {/* Applications */}
-              {filterOptions.applications.length > 0 && (
-                <FilterSection
-                  title="Applications"
-                  options={filterOptions.applications}
-                  filterType="applications"
-                  sectionKey="applications"
-                  showSearch={true}
-                />
-              )}
-
-              {/* Features */}
-              {filterOptions.features.length > 0 && (
-                <FilterSection
-                  title="Features"
-                  options={filterOptions.features}
-                  filterType="features"
-                  sectionKey="features"
-                  showSearch={true}
-                />
-              )}
-
-              {/* Specifications */}
-              {filterOptions.specifications.length > 0 && (
-                <FilterSection
-                  title="Specifications"
-                  options={filterOptions.specifications}
-                  filterType="specifications"
-                  sectionKey="specifications"
-                  showSearch={true}
-                />
-              )}
             </div>
 
             {/* Actions */}
@@ -490,7 +393,7 @@ const AmazonStyleFilter: React.FC<AmazonStyleFilterProps> = ({
             
             if (Array.isArray(values) && values.length > 0) {
               return values.map(value => {
-                const option = filterOptions[filterType]?.find(opt => opt.id === value);
+                const option = filterOptions[filterType as keyof typeof filterOptions]?.find(opt => opt.id === value);
                 return (
                   <Badge key={`${filterType}-${value}`} variant="secondary" className="bg-blue-100 text-blue-800">
                     {option?.label || value}
