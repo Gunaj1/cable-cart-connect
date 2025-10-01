@@ -71,6 +71,7 @@ const Index = () => {
   const [isBulkQuoteOpen, setIsBulkQuoteOpen] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [appliedFilters, setAppliedFilters] = useState<any>(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const {
     comparisonProducts,
     clearComparison
@@ -359,7 +360,8 @@ const Index = () => {
         onProductSelect={product => {
           setQuickViewProduct(product);
           setIsQuickViewOpen(true);
-        }} 
+        }}
+        onFilterClick={() => setIsFilterOpen(true)}
       />
       
       {/* Hero Section */}

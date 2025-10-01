@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, X, Cable } from 'lucide-react';
+import { Search, X, Cable, Filter } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getProductDetails } from '@/data/productImages';
 
@@ -22,9 +22,11 @@ interface ProductSearchProps {
   products: Product[];
   onProductSelect: (product: Product) => void;
   className?: string;
+  onFilterClick?: () => void;
+  showFilterButton?: boolean;
 }
 
-const ProductSearch: React.FC<ProductSearchProps> = ({ products, onProductSelect, className }) => {
+const ProductSearch: React.FC<ProductSearchProps> = ({ products, onProductSelect, className, onFilterClick, showFilterButton = false }) => {
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(-1);
@@ -137,25 +139,37 @@ const ProductSearch: React.FC<ProductSearchProps> = ({ products, onProductSelect
           onKeyDown={handleKeyDown}
           placeholder="Search products, specs, categories..."
           className={cn(
-            "w-full pl-10 pr-10 py-3 rounded-xl border-2 border-gray-200",
+            "w-full pl-10 py-3 rounded-xl border-2 border-gray-200",
             "bg-white text-gray-900 placeholder-gray-500",
             "focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200",
             "transition-all duration-300 shadow-lg hover:shadow-xl",
-            "text-sm md:text-base"
+            "text-sm md:text-base",
+            showFilterButton ? "pr-20" : "pr-10"
           )}
         />
-        {query && (
-          <button
-            onClick={() => {
-              setQuery('');
-              setIsOpen(false);
-              setFocusedIndex(-1);
-            }}
-            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            <X className="h-5 w-5" />
-          </button>
-        )}
+        <div className="absolute inset-y-0 right-0 flex items-center gap-1 pr-3">
+          {query && (
+            <button
+              onClick={() => {
+                setQuery('');
+                setIsOpen(false);
+                setFocusedIndex(-1);
+              }}
+              className="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-md hover:bg-gray-100"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          )}
+          {showFilterButton && (
+            <button
+              onClick={onFilterClick}
+              className="text-gray-600 hover:text-blue-600 transition-colors p-2 rounded-md hover:bg-blue-50 border-l border-gray-200 ml-1 pl-3"
+              title="Open filters"
+            >
+              <Filter className="h-5 w-5" />
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Search Results Dropdown */}

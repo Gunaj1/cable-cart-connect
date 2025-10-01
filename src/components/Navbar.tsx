@@ -26,9 +26,10 @@ interface NavbarProps {
   activeSection: string;
   products: Product[];
   onProductSelect: (product: Product) => void;
+  onFilterClick?: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick, onNavigate, activeSection, products, onProductSelect }) => {
+const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick, onNavigate, activeSection, products, onProductSelect, onFilterClick }) => {
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   
   const navItems = [

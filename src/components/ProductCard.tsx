@@ -124,23 +124,25 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </div>
 
         {/* Compare & Wishlist - Top Right */}
-        <div className="absolute top-2 right-2 flex flex-col gap-1">
+        <div className="absolute top-2 right-2 flex flex-col gap-1 z-10">
           <Button
             size="icon"
             variant="secondary"
             className={cn(
-              "w-8 h-8 bg-white/90 hover:bg-white",
+              "w-8 h-8 bg-white/90 hover:bg-white relative pointer-events-auto cursor-pointer",
               isInCompare && "bg-primary text-primary-foreground hover:bg-primary/90"
             )}
             onClick={handleCompareToggle}
             disabled={!isInCompare && !canAddMore}
+            style={{ zIndex: 1001, pointerEvents: 'auto' }}
           >
             {isInCompare ? <Check className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
           </Button>
           <Button
             size="icon"
             variant="secondary"
-            className="w-8 h-8 bg-white/90 hover:bg-white"
+            className="w-8 h-8 bg-white/90 hover:bg-white relative pointer-events-auto cursor-pointer"
+            style={{ zIndex: 1001, pointerEvents: 'auto' }}
           >
             <Heart className="w-4 h-4" />
           </Button>
