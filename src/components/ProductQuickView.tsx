@@ -329,8 +329,8 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
                       {[
                         { id: 'overview', label: 'Overview' },
                         { id: 'specs', label: 'Specifications' },
-                        { id: 'applications', label: 'Applications' },
-                        { id: 'features', label: 'Features' }
+                        { id: 'features', label: 'Features' },
+                        { id: 'applications', label: 'Applications' }
                       ].map((tab) => (
                         <button
                           key={tab.id}

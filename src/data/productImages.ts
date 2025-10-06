@@ -299,6 +299,178 @@ export const productImageCollections: Record<string, ProductDetails> = {
   },
 
   // Cat5e LAN Cables
+  'cat5e-stp-lan-cable': { // Cat 5e STP LAN Cable
+    images: [
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
+    ],
+    title: 'Cat 5e STP Cable',
+    description: 'OEM SUPPLIERS - Designed for network adapters, hubs, switches, routers, DSL/cable modems, patch panels and other computer networking applications with FTP shielded twist pair construction.',
+    specifications: {
+      'Cable Type': 'FTP SHIELDED TWIST PAIR',
+      'Jacket': 'CM TYPE PVC JACKET',
+      'Wire Gauge': '23/24/25/26 AWG 4PAIR',
+      'Conductor': 'STRANDED COPPER WIRE/CCA WIRE',
+      'Cable Length': '100MTR/305MTR',
+      'Speed': '1000 MBPS',
+      'Customization': 'All Colors Available'
+    },
+    applications: [
+      'Network Adapters',
+      'Hubs',
+      'Switches',
+      'Routers',
+      'DSL/Cable Modems',
+      'Patch Panels',
+      'Computer Networking Applications',
+      'Professional Network Infrastructure'
+    ],
+    features: [
+      'OEM Supplier Quality',
+      'FTP Shielded Twist Pair',
+      'CM Type PVC Jacket',
+      '23/24/25/26 AWG 4Pair',
+      'Stranded Copper Wire/CCA',
+      '1000 MBPS Speed',
+      'All Colors Available',
+      'Customization Available'
+    ]
+  },
+  'cat5e-ftp-lan-cable': { // Cat 5e FTP LAN Cable
+    images: [
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
+    ],
+    title: 'Cat 5e FTP Cable',
+    description: 'OEM SUPPLIERS - Premium Cat 5e FTP cable with aluminum foil shielding and customized lengths. Passed Fluke test for guaranteed performance.',
+    specifications: {
+      'Frequency': '1 TO 500MHZ',
+      'Impedance': '100 ±15Ω',
+      'Shield': 'ALUMINUM FOIL SUPPORTED',
+      'Specification': '23/24/25/26 AWG STRANDED',
+      'Conductor': 'CCA OR PURE COPPER',
+      'Insulation': 'LLDPE',
+      'Jacket': 'PVC AND LSZH',
+      'Testing': 'PASSED FLUKE TEST',
+      'Packing': 'PE BAG OR CUSTOMIZED'
+    },
+    applications: [
+      'LAN Network Systems',
+      'Data Centers',
+      'Enterprise Networks',
+      'Commercial Applications',
+      'Professional Installations',
+      'High-Speed Data Transmission',
+      'Network Infrastructure',
+      'Office Environments'
+    ],
+    features: [
+      'OEM Supplier Quality',
+      'Frequency 1 to 500MHz',
+      'Impedance 100 ±15Ω',
+      'Aluminum Foil Shield',
+      '23/24/25/26 AWG Stranded',
+      'CCA or Pure Copper',
+      'LLDPE Insulation',
+      'PVC and LSZH Jacket',
+      'Passed Fluke Test',
+      'Customized Lengths & Colors'
+    ]
+  },
+  'cat5e-utp-lan-cable': { // Cat 5e UTP LAN Cable
+    images: [
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
+    ],
+    title: 'Cat 5e UTP Lan Cable',
+    description: 'OEM SUPPLIERS - Compliant with the Ethernet standard achieving 1,000 Mbps (1 Gbps) transmission speed. Flat type enhanced Category 5 (1,000 BASE-T) cable.',
+    specifications: {
+      'Type': 'FLAT TYPE UTP',
+      'Standard': 'ENHANCED CATEGORY 5 (1,000 BASE-T)',
+      'Thickness': '1.4 MM',
+      'Width': '8 MM',
+      'Cable Structure': 'STRANDED WIRE TWISTED PAIR',
+      'Cable Type': 'STRAIGHT-THROUGH USING ALL 4 PAIRS',
+      'Cable Length': '100MTR/305MTR',
+      'Speed': '1000 MBPS',
+      'Customization': 'All Colors Available'
+    },
+    applications: [
+      'Ethernet Networks',
+      '1000 BASE-T Systems',
+      'Home Networks',
+      'Office Environments',
+      'Commercial Buildings',
+      'Residential Installations',
+      'Professional Network Infrastructure',
+      'High-Speed Data Transmission'
+    ],
+    features: [
+      'OEM Supplier Quality',
+      'Ethernet Standard Compliant',
+      '1,000 Mbps (1 Gbps) Speed',
+      'Flat Type Design',
+      'Enhanced Category 5',
+      '1.4mm Thickness, 8mm Width',
+      'Stranded Wire Twisted Pair',
+      'All 4 Pairs Wired',
+      'All Colors Available',
+      'Customization Available'
+    ]
+  },
+  'cat5e-outdoor-lan-cable': { // Cat 5e Outdoor LAN Cable
+    images: [
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
+    ],
+    title: 'Cat 5e Outdoor Cable',
+    description: 'OEM SUPPLIERS - Professional outdoor Cat 5e cable with aluminum foil shield and bandwidth tested up to 600 MHz. Supports POE++ (802.3bt) 4PPoE up to 90W.',
+    specifications: {
+      'Wire Gauge': '23/24/25/26 AWG 4-PAIR',
+      'Conductor': 'SOLID BARE COPPER/CCA WIRE',
+      'Shield': 'OVERALL ALUMINUM FOIL SHIELD – F/UTP',
+      'Bandwidth': 'TESTED UP TO 600 MHZ',
+      'POE Support': 'SUPPORTS POE++ (802.3BT) 4PPOE, UP TO 90W',
+      'Burial': 'NOT RATED FOR DIRECT BURIAL',
+      'Cable Length': '100MTR/305MTR',
+      'Speed': '1000 MBPS',
+      'Customization': 'All Colors Available'
+    },
+    applications: [
+      'Outdoor Installations',
+      'POE++ Applications',
+      '4PPoE Systems',
+      'Above-Ground Installations',
+      'Weather-Exposed Areas',
+      'Commercial Outdoor Networks',
+      'High-Power Applications',
+      'Professional Network Infrastructure'
+    ],
+    features: [
+      'OEM Supplier Quality',
+      '23/24/25/26 AWG 4-Pair',
+      'Solid Bare Copper/CCA',
+      'Aluminum Foil Shield F/UTP',
+      'Bandwidth Up to 600 MHz',
+      'Supports POE++ 4PPoE 90W',
+      'Not for Direct Burial',
+      '1000 MBPS Speed',
+      'All Colors Available',
+      'Customization Available'
+    ]
+  },
   lan2: { // Cat5e 2 pair
     images: [
       'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -307,38 +479,38 @@ export const productImageCollections: Record<string, ProductDetails> = {
       'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
     ],
-    title: 'Cat5e 2 Pair LAN Cable',
-    description: 'Economical 2-pair solution for voice and basic data applications. Ideal for telephone systems and cost-effective network solutions requiring reliable connectivity.',
+    title: 'Cat 5e 2 Pair LAN Cable',
+    description: 'Economical 2-pair Cat5e cable for basic networking applications. Perfect for voice and low-speed data transmission requirements.',
     specifications: {
-      'Configuration': '2 Pair (4 Conductors)',
+      'Pairs': '2 Pair Configuration',
       'Category': 'Cat 5e Enhanced',
-      'Jacket': 'PVC, LLDPE Options',
-      'Insulation': 'Special PE Polyolefin',
-      'Shielding': 'SF/UTP Available',
+      'Conductor': '23/24/25/26 AWG Copper/CCA',
+      'Grade': 'EC Grade Copper',
+      'Jacket': 'PVC Standard',
       'Length': '100m/305m Standard',
-      'Speed': '1000 Mbps',
+      'Speed': 'Up to 100 Mbps',
+      'Applications': 'Voice & Basic Data',
       'Colors': 'Multiple Options',
-      'Temperature': '-20°C to +75°C',
-      'Applications': 'Voice & Data'
+      'Customization': 'Available'
     },
     applications: [
-      'Voice Communication Systems',
-      'Basic Data Applications',
+      'Voice Communication',
+      'Basic Data Networks',
       'Telephone Systems',
-      'Economical Network Solutions',
-      'PoE Applications',
-      'Small Office Networks',
+      'Low-Speed Applications',
+      'Cost-Sensitive Projects',
       'Residential Wiring',
-      'Cost-Effective Installations'
+      'Small Office Networks',
+      'Basic Connectivity'
     ],
     features: [
-      'OEM Supplier Quality',
-      'Customization Available',
-      'All Colors Available',
       'Cost-Effective Solution',
+      'OEM Supplier Quality',
+      'All Colors Available',
+      'Customization Available',
       'Reliable Performance',
       'Easy Installation',
-      'Voice & Data Support',
+      'Standard Compliance',
       'Professional Grade'
     ]
   },
@@ -387,6 +559,176 @@ export const productImageCollections: Record<string, ProductDetails> = {
   },
 
   // Cat 6 LAN Cables
+  'cat6-stp-lan-cable': { // Cat 6 STP LAN Cable
+    images: [
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
+    ],
+    title: 'CAT 6 STP Outdoor Copper Cable',
+    description: 'NO.1 QUALITY FOR STP CAT 6 CABLES. Premium outdoor copper cable with 80 wire aloe shielded construction and weather-proof design for maximum performance and durability.',
+    specifications: {
+      'Cable Length': '100MTR/305MTR',
+      'Speed': '1000 MBPS',
+      'Wire Construction': '80 WIRE ALOE SHIELDED',
+      'Shielding': '42 MICRON ALUMINIUM FOIL',
+      'Outer Jacket': 'LD PVC (Weather and Temperature Proof)',
+      'Testing': 'DCM TESTED & FLUKE TESTED',
+      'PVC Quality': 'F.R FRESH HIGH QUALITY PVC',
+      'Customization': 'All Colors Available'
+    },
+    applications: [
+      '10 BASE T Networks',
+      '100 BASE T Networks',
+      '1000 BASE-TX Networks',
+      'Outdoor Applications',
+      'Weather-Exposed Installations',
+      'Commercial Buildings',
+      'Industrial Environments',
+      'Professional Network Infrastructure'
+    ],
+    features: [
+      'OEM Supplier Quality',
+      '80 Wire Aloe Shielded Construction',
+      '42 Micron Aluminium Foil Protection',
+      'Weather and Temperature Proof',
+      'DCM Tested Certification',
+      'Fluke Test Passed',
+      'Fresh High Quality PVC',
+      'All Colors Available',
+      'Customization Available'
+    ]
+  },
+  'cat6-ftp-lan-cable': { // Cat 6 FTP LAN Cable
+    images: [
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
+    ],
+    title: 'Cat 6 FTP Cable',
+    description: 'GET BEST QUALITY CAT 6 FTP CABLE FOR YOUR PURPOSE. Weather proof double jacket design with international standard twisting for superior performance.',
+    specifications: {
+      'Cable Length': '100MTR/305MTR',
+      'Speed': '1000 MBPS',
+      'Conductor': '23/24/25/26 EC GRADE COPPER/CCA',
+      'Shielding': '42 MICRON ALUMINIUM FOIL',
+      'Jacket': 'Weather Proof Double Jacket',
+      'Twisting': 'International Standard',
+      'Testing': 'DCM TESTED & FLUKE TESTED',
+      'PVC Quality': 'F.R FRESH HIGH QUALITY PVC',
+      'Customization': 'All Colors Available'
+    },
+    applications: [
+      'LAN Network Systems',
+      'Data Centers',
+      'Enterprise Networks',
+      'Weather-Exposed Areas',
+      'Commercial Applications',
+      'Professional Installations',
+      'High-Speed Data Transmission',
+      'Network Infrastructure'
+    ],
+    features: [
+      'OEM Supplier Quality',
+      'Weather Proof Double Jacket',
+      '23/24/25/26 EC Grade Copper/CCA',
+      '42 Micron Aluminium Foil',
+      'International Standard Twisting',
+      'DCM Tested',
+      'Fluke Test Passed',
+      'All Colors Available',
+      'Customization Available'
+    ]
+  },
+  'cat6-utp-lan-cable': { // Cat 6 UTP LAN Cable
+    images: [
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
+    ],
+    title: 'CAT 6 UTP LAN Cable',
+    description: 'CAT 6 UTP IS OUR LAN CABLES RANGE. Specifically designed to deliver maximum performance for video & data applications with twisted pairs for true signal transmission.',
+    specifications: {
+      'Cable Length': '100MTR/305MTR',
+      'Speed': '1000 MBPS',
+      'Wire Gauge': '23/24/25/26 AWG',
+      'Conductor': 'Copper/CCA Wire',
+      'Cable Type': 'UTP (Unshielded Twisted Pair)',
+      'Category': 'Cat 6',
+      'Design Purpose': 'Video & Data Applications',
+      'Signal Quality': 'Reduced Transmission Losses',
+      'Customization': 'All Colors Available'
+    },
+    applications: [
+      'Video Applications',
+      'Data Applications',
+      'Network Systems',
+      'Commercial Buildings',
+      'Enterprise Networks',
+      'Residential Installations',
+      'Office Environments',
+      'Professional Network Infrastructure'
+    ],
+    features: [
+      'OEM Supplier Quality',
+      'Maximum Performance Design',
+      '23/24/25/26 AWG Copper/CCA',
+      'True Signal Transmission',
+      'Reduced Transmission Losses',
+      'Twisted Pair Construction',
+      'All Colors Available',
+      'Customization Available'
+    ]
+  },
+  'cat6-outdoor-lan-cable': { // Cat 6 Outdoor LAN Cable
+    images: [
+      'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
+    ],
+    title: 'Cat 6 Outdoor Cable',
+    description: 'CHHAJER CABLE IS A LEADING MANUFACTURER AND SUPPLIER OF CAT6 OUTDOOR NETWORK CABLE. The cable is safe to use and provides the required utility to the network system.',
+    specifications: {
+      'Cable Length': '100MTR/305MTR',
+      'Speed': '1000 MBPS',
+      'Sheath': 'LDPE (Indoor/Outdoor)',
+      'Cable Type': 'Outdoor Network Cable',
+      'Category': 'Cat 6',
+      'Temperature Resistance': 'Weather Proof',
+      'Installation Type': 'Indoor/Outdoor',
+      'Application Standard': 'Multiple Base Standards',
+      'Customization': 'All Colors Available'
+    },
+    applications: [
+      '10 BASE T',
+      '100 BASE T',
+      '1000 BASE-TX',
+      'TP-PMD',
+      '100 MBPS CDDI',
+      'ATM 155',
+      '4/16 MBPS TOKEN RING',
+      'Outdoor Installations',
+      'Indoor/Outdoor Applications'
+    ],
+    features: [
+      'OEM Supplier Quality',
+      'Outdoor Application Suitable',
+      'LDPE Sheath Protection',
+      'Indoor/Outdoor Versatility',
+      'Multiple Standard Support',
+      'Weather Resistant',
+      'All Colors Available',
+      'Customization Available'
+    ]
+  },
   cat1: { // Cat 6 Flat
     images: [
       'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
