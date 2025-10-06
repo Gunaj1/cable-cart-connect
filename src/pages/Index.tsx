@@ -419,21 +419,6 @@ const Index = () => {
           </p>
         </div>
 
-        {/* Search Bar and Filter */}
-        <div className="flex flex-col md:flex-row gap-4 items-center justify-center mb-8">
-          <div className="relative max-w-md w-full">
-            <input
-              type="text"
-              placeholder="Search products..."
-              className="w-full px-4 py-3 pl-10 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
-            />
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-          </div>
-          <AmazonStyleFilter
-            products={products}
-            onFilterChange={handleFilterChange}
-          />
-        </div>
 
         {/* Category Filter Buttons */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
@@ -680,6 +665,14 @@ const Index = () => {
         stock: newStock
       } : p));
     }} />
+
+      {/* Amazon Style Filter Panel */}
+      <AmazonStyleFilter
+        products={products}
+        onFilterChange={handleFilterChange}
+        isOpen={isFilterOpen}
+        onClose={() => setIsFilterOpen(false)}
+      />
 
       {/* Quick View Modal */}
       <ProductQuickView product={quickViewProduct} isOpen={isQuickViewOpen} onClose={() => {

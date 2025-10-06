@@ -74,12 +74,14 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onCartClick, onNavigate, act
             ))}
           </div>
 
-          {/* Search Box */}
+          {/* Search Box with Filter */}
           <div className="hidden lg:block">
             <ProductSearch
               products={products}
               onProductSelect={onProductSelect}
               className="w-80"
+              showFilterButton={true}
+              onFilterClick={onFilterClick}
             />
           </div>
 

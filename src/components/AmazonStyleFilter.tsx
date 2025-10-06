@@ -16,14 +16,20 @@ interface AmazonStyleFilterProps {
   products: any[];
   onFilterChange: (filters: any) => void;
   className?: string;
+  isOpen?: boolean;
+  onClose?: () => void;
 }
 
 const AmazonStyleFilter: React.FC<AmazonStyleFilterProps> = ({ 
   products, 
   onFilterChange, 
-  className 
+  className,
+  isOpen: externalIsOpen,
+  onClose
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
+  const isOpen = externalIsOpen !== undefined ? externalIsOpen : internalIsOpen;
+  const setIsOpen = onClose ? (value: boolean) => !value && onClose() : setInternalIsOpen;
   const [filters, setFilters] = useState({
     categories: [],
     brands: [],
