@@ -62,60 +62,125 @@ const ComparePage = () => {
   const cols = Math.min(products.length, 3);
 
   return (
-    <main className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Product Comparison</h1>
-      <div className={`grid gap-6 ${cols === 2 ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1 md:grid-cols-3"}`}>
-        {products.map((p) => (
-          <article key={p.id} className="bg-white rounded-xl border shadow-sm overflow-hidden">
-            <div className="aspect-video bg-gray-50 flex items-center justify-center">
-              {p.image_url ? (
-                <img src={p.image_url} alt={`${p.name} product image`} className="w-full h-full object-contain" loading="lazy" />
-              ) : (
-                <div className="text-sm text-gray-500">No image</div>
-              )}
-            </div>
-            <div className="p-4 space-y-2">
-              <h2 className="text-xl font-semibold">{p.name}</h2>
-              <p className="text-gray-700">Price: {p.price != null ? `₹${Number(p.price).toFixed(2)}` : "N/A"}</p>
-              <p className="text-gray-700">Stock: {p.stock_quantity ?? 0}</p>
-              {p.applications && p.applications.length > 0 && (
-                <section>
-                  <h3 className="font-medium">Applications</h3>
-                  <ul className="list-disc pl-5 text-sm text-gray-700">
-                    {p.applications.map((a, i) => (
-                      <li key={i}>{a}</li>
-                    ))}
-                  </ul>
-                </section>
-              )}
-              {p.features && p.features.length > 0 && (
-                <section>
-                  <h3 className="font-medium">Features</h3>
-                  <ul className="list-disc pl-5 text-sm text-gray-700">
-                    {p.features.map((f, i) => (
-                      <li key={i}>{f}</li>
-                    ))}
-                  </ul>
-                </section>
-              )}
-              {p.specifications && Object.keys(p.specifications).length > 0 && (
-                <section>
-                  <h3 className="font-medium">Specifications</h3>
-                  <table className="w-full text-sm">
-                    <tbody>
-                      {Object.entries(p.specifications).map(([k, v]) => (
-                        <tr key={k} className="border-t">
-                          <td className="py-1 pr-3 font-medium text-gray-700 w-1/3">{k}</td>
-                          <td className="py-1 text-gray-700">{String(v)}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </section>
-              )}
-            </div>
-          </article>
-        ))}
+    <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50 py-8">
+      <div className="container mx-auto px-4">
+        <div className="mb-8">
+          <button 
+            onClick={() => navigate(-1)}
+            className="text-blue-600 hover:text-blue-700 font-medium mb-4 flex items-center gap-2"
+          >
+            ← Back
+          </button>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-700 via-gray-700 to-blue-600 bg-clip-text text-transparent mb-2">
+            Product Comparison
+          </h1>
+          <p className="text-gray-600">Compare specifications, features, and pricing side by side</p>
+        </div>
+
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="bg-gradient-to-r from-blue-600 to-blue-700">
+                  <th className="p-4 text-left text-white font-semibold sticky left-0 bg-blue-600 z-10 min-w-[150px]">
+                    Feature
+                  </th>
+                  {products.map((p) => (
+                    <th key={p.id} className="p-4 text-center text-white font-semibold min-w-[250px]">
+                      <div className="flex flex-col items-center gap-3">
+                        <div className="w-32 h-32 bg-white rounded-lg p-2 flex items-center justify-center">
+                          {p.image_url ? (
+                            <img src={p.image_url} alt={p.name} className="w-full h-full object-contain" />
+                          ) : (
+                            <div className="text-sm text-gray-500">No image</div>
+                          )}
+                        </div>
+                        <span className="text-lg">{p.name}</span>
+                      </div>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-gray-200 bg-gray-50">
+                  <td className="p-4 font-semibold text-gray-900 sticky left-0 bg-gray-50 z-10">Price</td>
+                  {products.map((p) => (
+                    <td key={p.id} className="p-4 text-center">
+                      <span className="text-2xl font-bold text-blue-600">
+                        {p.price != null ? `₹${Number(p.price).toFixed(2)}` : "N/A"}
+                      </span>
+                    </td>
+                  ))}
+                </tr>
+                <tr className="border-b border-gray-200">
+                  <td className="p-4 font-semibold text-gray-900 sticky left-0 bg-white z-10">Stock</td>
+                  {products.map((p) => (
+                    <td key={p.id} className="p-4 text-center">
+                      <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
+                        (p.stock_quantity ?? 0) > 10 ? 'bg-green-100 text-green-700' : 
+                        (p.stock_quantity ?? 0) > 0 ? 'bg-yellow-100 text-yellow-700' : 
+                        'bg-red-100 text-red-700'
+                      }`}>
+                        {p.stock_quantity ?? 0} units
+                      </span>
+                    </td>
+                  ))}
+                </tr>
+                <tr className="border-b border-gray-200 bg-gray-50">
+                  <td className="p-4 font-semibold text-gray-900 sticky left-0 bg-gray-50 z-10">Applications</td>
+                  {products.map((p) => (
+                    <td key={p.id} className="p-4">
+                      {p.applications && p.applications.length > 0 ? (
+                        <ul className="list-disc pl-5 text-sm text-gray-700 space-y-1 text-left">
+                          {p.applications.map((a, i) => (
+                            <li key={i}>{a}</li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <span className="text-gray-400">-</span>
+                      )}
+                    </td>
+                  ))}
+                </tr>
+                <tr className="border-b border-gray-200">
+                  <td className="p-4 font-semibold text-gray-900 sticky left-0 bg-white z-10">Features</td>
+                  {products.map((p) => (
+                    <td key={p.id} className="p-4">
+                      {p.features && p.features.length > 0 ? (
+                        <ul className="list-disc pl-5 text-sm text-gray-700 space-y-1 text-left">
+                          {p.features.map((f, i) => (
+                            <li key={i}>{f}</li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <span className="text-gray-400">-</span>
+                      )}
+                    </td>
+                  ))}
+                </tr>
+                <tr className="border-b border-gray-200 bg-gray-50">
+                  <td className="p-4 font-semibold text-gray-900 sticky left-0 bg-gray-50 z-10">Specifications</td>
+                  {products.map((p) => (
+                    <td key={p.id} className="p-4">
+                      {p.specifications && Object.keys(p.specifications).length > 0 ? (
+                        <div className="space-y-2 text-left">
+                          {Object.entries(p.specifications).map(([k, v]) => (
+                            <div key={k} className="text-sm">
+                              <span className="font-medium text-gray-900">{k}:</span>{' '}
+                              <span className="text-gray-700">{String(v)}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <span className="text-gray-400">-</span>
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </main>
   );

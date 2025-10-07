@@ -6,6 +6,7 @@ import { X, Eye, Trash2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useComparison } from '@/contexts/ComparisonContext';
 import { Product } from '@/types/Product';
+import { useNavigate } from 'react-router-dom';
 
 interface ProductCompareDrawerProps {
   isOpen: boolean;
@@ -21,6 +22,14 @@ const ProductCompareDrawer: React.FC<ProductCompareDrawerProps> = ({
   children
 }) => {
   const { comparisonProducts, removeFromComparison, clearComparison } = useComparison();
+  const navigate = useNavigate();
+
+  const handleCompare = () => {
+    if (comparisonProducts.length >= 2) {
+      const ids = comparisonProducts.map(p => p.id).join(',');
+      navigate(`/compare?ids=${ids}`);
+    }
+  };
 
   const handleImageError = (product: Product) => {
     console.log(`Image improvement needed: ${product.name} (${product.image})`);
@@ -47,9 +56,9 @@ const ProductCompareDrawer: React.FC<ProductCompareDrawerProps> = ({
               <Trash2 className="w-4 h-4 mr-1" />
               Clear All
             </Button>
-            <Button size="sm" onClick={onViewFullComparison}>
+            <Button size="sm" onClick={handleCompare} disabled={comparisonProducts.length < 2}>
               <Eye className="w-4 h-4 mr-1" />
-              View Full Comparison
+              Compare
             </Button>
           </div>
         </SheetHeader>
@@ -126,7 +135,7 @@ const ProductCompareDrawer: React.FC<ProductCompareDrawerProps> = ({
           <Button 
             className="w-full" 
             size="lg"
-            onClick={onViewFullComparison}
+            onClick={handleCompare}
             disabled={comparisonProducts.length < 2}
           >
             Compare {comparisonProducts.length} Products

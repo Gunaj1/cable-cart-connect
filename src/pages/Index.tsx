@@ -434,7 +434,15 @@ const Index = () => {
         {selectedCategory === null ?
       // All Categories View - Show by category
       <div className="space-y-16">
-            {categories.map(category => <div key={category.id}>
+            {categories.map(category => {
+              const categoryProducts = appliedFilters ? filteredProducts.filter(product => 
+                category.products.some(p => p.id === product.id)
+              ) : category.products.map(product => products.find(p => p.id === product.id)).filter(Boolean);
+              
+              // Hide category if no products match the filter
+              if (categoryProducts.length === 0) return null;
+              
+              return <div key={category.id}>
                 {/* Category Header */}
                 <div className="mb-8">
                   <h3 className="text-3xl font-bold text-gray-900 mb-2">{category.name}</h3>
@@ -443,10 +451,7 @@ const Index = () => {
                 
                  {/* Product Grid */}
                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                   {(appliedFilters ? filteredProducts.filter(product => 
-                     category.products.some(p => p.id === product.id)
-                   ) : category.products.map(product => products.find(p => p.id === product.id)).filter(Boolean)
-                   ).map(product => {
+                   {categoryProducts.map(product => {
                const currentProduct = products.find(p => p.id === product.id) || product;
                if (!currentProduct) return null;
                return <ProductCard key={product.id} product={currentProduct} onQuickView={product => {
@@ -455,7 +460,8 @@ const Index = () => {
                }} onAddToCart={addToCart} />;
              })}
                 </div>
-              </div>)}
+              </div>
+            })}
           </div> :
       // Single Category View - Show selected category products
       <div className="max-w-6xl mx-auto">

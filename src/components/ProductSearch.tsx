@@ -167,7 +167,7 @@ const ProductSearch: React.FC<ProductSearchProps> = ({ products, onProductSelect
               className="text-gray-600 hover:text-blue-600 transition-colors p-2 rounded-md hover:bg-blue-50 border-l border-gray-200 ml-1 pl-3"
               title="Toggle filters"
             >
-              <img src={filterIcon} alt="Filter" className="h-5 w-5" />
+              <img src={filterIcon} alt="Filter" className="h-6 w-6 object-contain" />
             </button>
           )}
         </div>
