@@ -32,7 +32,6 @@ const AmazonStyleFilter: React.FC<AmazonStyleFilterProps> = ({
   const setIsOpen = onClose ? (value: boolean) => !value && onClose() : setInternalIsOpen;
   const [filters, setFilters] = useState({
     categories: [],
-    brands: [],
     priceRange: [0, 1000],
     rating: [],
     specifications: [],
@@ -43,7 +42,6 @@ const AmazonStyleFilter: React.FC<AmazonStyleFilterProps> = ({
   const [sortOption, setSortOption] = useState('relevance');
   const [expandedSections, setExpandedSections] = useState({
     categories: true,
-    brands: true,
     price: true,
     rating: true,
     specifications: false,
@@ -60,17 +58,23 @@ const AmazonStyleFilter: React.FC<AmazonStyleFilterProps> = ({
       label: cat,
       count: products.filter(p => p.category === cat).length
     })),
-    brands: [
-      { id: 'chhajer', label: 'Chhajer Cables', count: products.length },
-      { id: 'premium', label: 'Premium Series', count: Math.floor(products.length * 0.6) },
-      { id: 'professional', label: 'Professional Grade', count: Math.floor(products.length * 0.8) }
-    ],
     specifications: Array.from(new Set(
-      products.flatMap(p => p.specifications ? Object.keys(p.specifications) : [])
+      products.flatMap(p => {
+        if (!p.specifications) return [];
+        return Object.entries(p.specifications)
+          .filter(([key]) => !key.startsWith('spec_'))
+          .map(([key, value]) => `${key}: ${value}`);
+      })
     )).map(spec => ({
       id: spec,
-      label: spec.charAt(0).toUpperCase() + spec.slice(1),
-      count: products.filter(p => p.specifications && p.specifications[spec]).length
+      label: spec,
+      count: products.filter(p => {
+        if (!p.specifications) return false;
+        return Object.entries(p.specifications)
+          .filter(([key]) => !key.startsWith('spec_'))
+          .map(([key, value]) => `${key}: ${value}`)
+          .includes(spec);
+      }).length
     })),
     applications: Array.from(new Set(
       products.flatMap(p => p.applications || [])
@@ -300,32 +304,8 @@ const AmazonStyleFilter: React.FC<AmazonStyleFilterProps> = ({
 
   return (
     <>
-      {/* Filter Toggle Button */}
-      <Button
-        variant="outline"
-        onClick={() => setIsOpen(!isOpen)}
-        className={cn(
-          "h-10 px-3 border-2 transition-all duration-300",
-          "hover:border-blue-300 hover:bg-blue-50",
-          isOpen && "border-blue-400 bg-blue-50",
-          activeFilterCount > 0 && "border-blue-500 bg-blue-100",
-          className
-        )}
-      >
-        <SlidersHorizontal className="h-4 w-4 mr-2" />
-        <span className="hidden sm:inline">Filters</span>
-        {activeFilterCount > 0 && (
-          <Badge 
-            variant="secondary" 
-            className="ml-2 h-5 min-w-[20px] px-1 text-xs bg-blue-600 text-white"
-          >
-            {activeFilterCount}
-          </Badge>
-        )}
-      </Button>
-
       {/* Sidebar Filter Panel */}
-      {isOpen && (
+      {isOpen !== undefined && isOpen && (
         <>
           {/* Backdrop */}
           <div 
@@ -392,13 +372,6 @@ const AmazonStyleFilter: React.FC<AmazonStyleFilterProps> = ({
                 showSearch={true}
               />
 
-              {/* Brands */}
-              <FilterSection
-                title="Brands"
-                options={filterOptions.brands}
-                filterType="brands"
-                sectionKey="brands"
-              />
 
               {/* Price Range */}
               <PriceSection />

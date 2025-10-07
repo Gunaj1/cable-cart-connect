@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, X, Cable, Filter } from 'lucide-react';
+import { Search, X, Cable } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getProductDetails } from '@/data/productImages';
+import filterIcon from '@/assets/filter-icon.png';
 
 interface Product {
   id: string;
@@ -164,9 +165,9 @@ const ProductSearch: React.FC<ProductSearchProps> = ({ products, onProductSelect
             <button
               onClick={onFilterClick}
               className="text-gray-600 hover:text-blue-600 transition-colors p-2 rounded-md hover:bg-blue-50 border-l border-gray-200 ml-1 pl-3"
-              title="Open filters"
+              title="Toggle filters"
             >
-              <Filter className="h-5 w-5" />
+              <img src={filterIcon} alt="Filter" className="h-5 w-5" />
             </button>
           )}
         </div>
