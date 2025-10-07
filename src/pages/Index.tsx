@@ -502,12 +502,12 @@ const Index = () => {
             >
               Get Technical Consultation
             </a>
-            <button 
-              onClick={() => setIsBulkQuoteOpen(true)}
+            <a
+              href="/bulk-quote"
               className="bg-blue-800 text-white px-8 py-4 rounded-xl font-semibold hover:bg-blue-900 transition-all duration-300 transform hover:scale-105 shadow-lg border border-blue-600"
             >
               Request Bulk Quote
-            </button>
+            </a>
           </div>
         </div>
       </div>
