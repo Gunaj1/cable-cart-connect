@@ -41,11 +41,11 @@ export const productImageCollections: Record<string, ProductDetails> = {
   // Patchcords
   pc1: { // Cat 6 STP
     images: [
-      'blob:https://gemini.google.com/5a2e97f8-81ae-435a-80f5-97bcb332e770',
-      'https://ibb.co/VYdm2Zxk',
-      'https://images.pexels.com/photos/159304/network-cable-ethernet-computer-159304.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800'
+      '/src/assets/cat6-stp-patchcord-1.png',
+      '/src/assets/cat6-stp-patchcord-2.png',
+      '/src/assets/cat6-stp-patchcord-3.png',
+      '/src/assets/cat6-stp-patchcord-4.png',
+      '/src/assets/cat6-stp-patchcord-5.png'
     ],
     title: 'Cat 6 STP Patchcord',
     description: 'Premium Shielded Twisted Pair Cat6 patchcord engineered for high-performance networking environments. Features enhanced EMI protection and supports speeds up to 10Gbps with superior signal integrity.',

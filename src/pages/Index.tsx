@@ -20,7 +20,7 @@ import AmazonStyleFilter from '@/components/AmazonStyleFilter';
 import BulkQuoteForm from '@/components/BulkQuoteForm';
 
 // Import product images
-import cat6StpPatchcord from '../assets/cat6-stp-patchcord.jpg';
+import cat6StpPatchcord from '../assets/cat6-stp-patchcord-3.png';
 import cat6FtpPatchcord from '../assets/cat6-ftp-patchcord.jpg';
 import cat6UtpPatchcord from '../assets/cat6-utp-patchcord.jpg';
 import cat5eStpPatchcord from '../assets/cat5e-stp-patchcord.jpg';
@@ -702,8 +702,7 @@ const Index = () => {
       setIsFullCompareOpen(false);
     }} />
 
-      {/* Floating Comparison Button */}
-      <ComparisonFloatingButton onOpenComparison={() => setIsCompareDrawerOpen(true)} />
+      {/* Floating Comparison Button - Removed as per user request */}
 
       {/* Bulk Quote Modal */}
       {isBulkQuoteOpen && (
