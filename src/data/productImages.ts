@@ -559,7 +559,7 @@ export const productImageCollections: Record<string, ProductDetails> = {
   },
 
   // Cat 6 LAN Cables
- cat4: { 'cat6-stp-lan-cable': { // Cat 6 STP LAN Cable
+  'cat6-stp-lan-cable': { // Cat 6 STP LAN Cable
     images: [
       'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -601,7 +601,7 @@ export const productImageCollections: Record<string, ProductDetails> = {
       'Customization Available'
     ]
   },
-  cat5: {'cat6-ftp-lan-cable': { // Cat 6 FTP LAN Cable
+  'cat6-ftp-lan-cable': { // Cat 6 FTP LAN Cable
     images: [
       'https://images.pexels.com/photos/163064/play-stone-network-networked-163064.jpeg?auto=compress&cs=tinysrgb&w=800',
       'https://images.pexels.com/photos/442150/pexels-photo-442150.jpeg?auto=compress&cs=tinysrgb&w=800',
