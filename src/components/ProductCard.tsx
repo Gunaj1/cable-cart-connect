@@ -11,7 +11,7 @@ import { getProductDetails } from '@/data/productImages';
 interface ProductCardProps {
   product: Product;
   onQuickView: (product: Product) => void;
-  onAddToCart: (product: Product) => void;
+  onAddToCart?: (product: Product) => void;
   className?: string;
 }
 
@@ -97,18 +97,20 @@ const ProductCard: React.FC<ProductCardProps> = ({
           "hidden md:flex",
           isHovered && "opacity-100"
         )}>
-          <Button
-            size="sm"
-            variant="secondary"
-            onClick={(e) => {
-              e.stopPropagation();
-              onAddToCart(product);
-            }}
-            className="bg-white/90 text-foreground hover:bg-white"
-          >
-            <ShoppingCart className="w-4 h-4 mr-1" />
-            Quick Add
-          </Button>
+          {onAddToCart && (
+            <Button
+              size="sm"
+              variant="secondary"
+              onClick={(e) => {
+                e.stopPropagation();
+                onAddToCart(product);
+              }}
+              className="bg-white/90 text-foreground hover:bg-white"
+            >
+              <ShoppingCart className="w-4 h-4 mr-1" />
+              Quick Add
+            </Button>
+          )}
           <Button
             size="sm"
             variant="secondary"
@@ -201,17 +203,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
         {/* Mobile Actions */}
         <div className="md:hidden flex gap-2">
-          <Button
-            size="sm"
-            className="flex-1"
-            onClick={(e) => {
-              e.stopPropagation();
-              onAddToCart(product);
-            }}
-          >
-            <ShoppingCart className="w-4 h-4 mr-1" />
-            Add to Cart
-          </Button>
+          {onAddToCart && (
+            <Button
+              size="sm"
+              className="flex-1"
+              onClick={(e) => {
+                e.stopPropagation();
+                onAddToCart(product);
+              }}
+            >
+              <ShoppingCart className="w-4 h-4 mr-1" />
+              Add to Cart
+            </Button>
+          )}
           <Button
             size="sm"
             variant="outline"

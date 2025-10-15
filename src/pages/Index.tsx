@@ -3,16 +3,10 @@ import { Cable, ShoppingCart, Phone, Mail, MapPin, Facebook, Twitter, Linkedin, 
 import ChatBot from '../components/ChatBot';
 import ClientLogoStrip from '../components/ClientLogoStrip';
 import Navbar from '../components/Navbar';
-import Cart from '../components/Cart';
 import Logo from '../components/Logo';
 import AboutTabs from '../components/AboutTabs';
-import Checkout from '../components/Checkout';
 import ServicesSection from '../components/ServicesSection';
 import BusinessCredentials from '../components/BusinessCredentials';
-import InventoryManager from '../components/InventoryManager';
-import ProductComparison from '../components/ProductComparison';
-import CompareButton from '../components/CompareButton';
-import ComparisonFloatingButton from '../components/ComparisonFloatingButton';
 import { useComparison } from '../contexts/ComparisonContext';
 import { getProductDetails } from '../data/productImages';
 import { Search } from 'lucide-react';
@@ -50,24 +44,14 @@ import { Product } from '@/types/Product';
 import ProductCard from '@/components/ProductCard';
 import ProductQuickView from '@/components/ProductQuickView';
 import ProductCompareDrawer from '@/components/ProductCompareDrawer';
-import CompareTable from '@/components/CompareTable';
-interface CartItem extends Product {
-  quantity: number;
-}
+
 const Index = () => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isInventoryOpen, setIsInventoryOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-  const [isComparisonOpen, setIsComparisonOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
   const [isCompareDrawerOpen, setIsCompareDrawerOpen] = useState(false);
-  const [isFullCompareOpen, setIsFullCompareOpen] = useState(false);
   const [isBulkQuoteOpen, setIsBulkQuoteOpen] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [appliedFilters, setAppliedFilters] = useState<any>(null);
@@ -187,71 +171,7 @@ const Index = () => {
 
     setFilteredProducts(filtered);
   };
-  const addToCart = (product: Product) => {
-    const currentProduct = products.find(p => p.id === product.id);
-    if (!currentProduct || currentProduct.stock <= 0) {
-      alert('Sorry, this product is out of stock!');
-      return;
-    }
-    setCartItems(prevItems => {
-      const existingItem = prevItems.find(item => item.id === product.id);
-      if (existingItem) {
-        if (existingItem.quantity >= currentProduct.stock) {
-          alert(`Sorry, only ${currentProduct.stock} items available in stock!`);
-          return prevItems;
-        }
-        return prevItems.map(item => item.id === product.id ? {
-          ...item,
-          quantity: item.quantity + 1
-        } : item);
-      }
-      return [...prevItems, {
-        ...currentProduct,
-        quantity: 1
-      }];
-    });
-
-    // Update stock
-    setProducts(prev => prev.map(p => p.id === product.id ? {
-      ...p,
-      stock: p.stock - 1
-    } : p));
-  };
-  const removeFromCart = (productId: string) => {
-    const removedItem = cartItems.find(item => item.id === productId);
-    if (removedItem) {
-      // Restore stock
-      setProducts(prev => prev.map(p => p.id === productId ? {
-        ...p,
-        stock: p.stock + removedItem.quantity
-      } : p));
-    }
-    setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
-  };
-  const updateQuantity = (productId: string, newQuantity: number) => {
-    if (newQuantity < 1) {
-      removeFromCart(productId);
-      return;
-    }
-    const currentItem = cartItems.find(item => item.id === productId);
-    const currentProduct = products.find(p => p.id === productId);
-    if (!currentItem || !currentProduct) return;
-    const quantityDiff = newQuantity - currentItem.quantity;
-    if (quantityDiff > 0 && quantityDiff > currentProduct.stock) {
-      alert(`Sorry, only ${currentProduct.stock} more items available in stock!`);
-      return;
-    }
-    setCartItems(prevItems => prevItems.map(item => item.id === productId ? {
-      ...item,
-      quantity: newQuantity
-    } : item));
-
-    // Update stock
-    setProducts(prev => prev.map(p => p.id === productId ? {
-      ...p,
-      stock: p.stock - quantityDiff
-    } : p));
-  };
+  
   const scrollToSection = (section: string) => {
     setActiveSection(section);
     const element = document.getElementById(section);
@@ -261,100 +181,12 @@ const Index = () => {
       });
     }
   };
-  const handleCheckout = () => {
-    setIsCartOpen(false);
-    setIsCheckoutOpen(true);
-  };
-  const ProductDetailModal = ({
-    product,
-    onClose
-  }: {
-    product: Product | null;
-    onClose: () => void;
-  }) => {
-    if (!product || !product.detailedDescription) return null;
-    
-    const productDetails = getProductDetails(product.id);
-    
-    return <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-        <div className="bg-white rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto shadow-2xl">
-          <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-gray-600 z-10 px-8 py-6 flex justify-between items-center rounded-t-2xl">
-            <h2 className="text-3xl font-bold text-white">{productDetails.title}</h2>
-            <button onClick={onClose} className="text-white hover:text-gray-200 transition-colors p-2 rounded-full hover:bg-white/20">
-              <X className="w-7 h-7" />
-            </button>
-          </div>
-          
-          <div className="p-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-              <div className="space-y-6">
-                <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl overflow-hidden shadow-lg border">
-                  <img src={productDetails.images[0]} alt={productDetails.title} className="w-full h-auto object-contain bg-white p-4" />
-                </div>
-                <div className="bg-gradient-to-r from-blue-50 to-gray-50 rounded-2xl p-6 border border-blue-200">
-                  <p className="text-2xl font-bold text-blue-900 mb-4">Price: ${product.price}</p>
-                  <p className="text-lg font-medium text-gray-700 mb-4">Stock: {product.stock || 0} units</p>
-                  <p className="text-gray-700 mb-4">{productDetails.description}</p>
-                  <button onClick={() => {
-                  addToCart(product);
-                  onClose();
-                }} className="w-full bg-gradient-to-r from-blue-600 to-gray-600 text-white py-3 px-6 rounded-xl hover:from-blue-700 hover:to-gray-700 transition-all duration-300 flex items-center justify-center space-x-3 font-semibold shadow-lg transform hover:scale-105" disabled={!product.stock}>
-                    <ShoppingCart className="w-6 h-6" />
-                    <span>{product.stock ? 'Add to Cart' : 'Out of Stock'}</span>
-                  </button>
-                </div>
-              </div>
-
-              <div className="space-y-8">
-                <div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-                    <span className="w-1 h-8 bg-gradient-to-b from-blue-500 to-gray-500 rounded-full mr-3"></span>
-                    Applications
-                  </h3>
-                  <ul className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-6 space-y-3 border border-gray-200">
-                    {productDetails.applications.map((app, index) => <li key={index} className="flex items-start">
-                        <Cable className="w-6 h-6 text-blue-600 mt-0.5 mr-3 flex-shrink-0" />
-                        <span className="text-gray-700 font-medium">{app}</span>
-                      </li>)}
-                  </ul>
-                </div>
-
-                <div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-                    <span className="w-1 h-8 bg-gradient-to-b from-gray-500 to-blue-500 rounded-full mr-3"></span>
-                    Specifications
-                  </h3>
-                  <ul className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-6 space-y-3 border border-gray-200">
-                    {Object.entries(productDetails.specifications).map(([key, value], index) => <li key={index} className="flex items-start">
-                        <span className="w-3 h-3 bg-gradient-to-r from-gray-500 to-blue-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                        <span className="text-gray-700 font-medium"><strong>{key}:</strong> {value}</span>
-                      </li>)}
-                  </ul>
-                </div>
-
-                <div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-                    <span className="w-1 h-8 bg-gradient-to-b from-blue-500 to-gray-500 rounded-full mr-3"></span>
-                    Features
-                  </h3>
-                  <ul className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-6 space-y-3 border border-gray-200">
-                    {productDetails.features.map((feature, index) => <li key={index} className="flex items-start">
-                        <span className="w-3 h-3 bg-gradient-to-r from-blue-500 to-gray-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                        <span className="text-gray-700 font-medium">{feature}</span>
-                      </li>)}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>;
-  };
-    return <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50">
+  
+  return <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50">
       <Navbar 
-        cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)} 
-        onCartClick={() => setIsCartOpen(true)} 
-        onNavigate={scrollToSection} 
+        cartCount={0} 
+        onCartClick={() => {}} 
+        onNavigate={scrollToSection}
         activeSection={activeSection} 
         products={products} 
         onProductSelect={product => {
@@ -452,12 +284,12 @@ const Index = () => {
                  {/* Product Grid */}
                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                    {categoryProducts.map(product => {
-               const currentProduct = products.find(p => p.id === product.id) || product;
-               if (!currentProduct) return null;
-               return <ProductCard key={product.id} product={currentProduct} onQuickView={product => {
-                 setQuickViewProduct(product);
-                 setIsQuickViewOpen(true);
-               }} onAddToCart={addToCart} />;
+                const currentProduct = products.find(p => p.id === product.id) || product;
+                if (!currentProduct) return null;
+                return <ProductCard key={product.id} product={currentProduct} onQuickView={product => {
+                  setQuickViewProduct(product);
+                  setIsQuickViewOpen(true);
+                }} />;
              })}
                 </div>
               </div>
@@ -480,12 +312,12 @@ const Index = () => {
                        category.products.some(p => p.id === product.id)
                      ) : category.products.map(product => products.find(p => p.id === product.id)).filter(Boolean)
                      ).map(product => {
-               const currentProduct = products.find(p => p.id === product.id) || product;
-               if (!currentProduct) return null;
-               return <ProductCard key={product.id} product={currentProduct} onQuickView={product => {
-                 setQuickViewProduct(product);
-                 setIsQuickViewOpen(true);
-               }} onAddToCart={addToCart} />;
+                const currentProduct = products.find(p => p.id === product.id) || product;
+                if (!currentProduct) return null;
+                return <ProductCard key={product.id} product={currentProduct} onQuickView={product => {
+                  setQuickViewProduct(product);
+                  setIsQuickViewOpen(true);
+                }} />;
              })}
                   </div>
                 </div>)}
@@ -659,19 +491,6 @@ const Index = () => {
         </div>
       </div>
 
-      <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} items={cartItems} onUpdateQuantity={updateQuantity} onRemove={removeFromCart} />
-
-      <ProductDetailModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />
-
-      <Checkout isOpen={isCheckoutOpen} onClose={() => setIsCheckoutOpen(false)} items={cartItems} total={cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)} />
-
-      <InventoryManager isOpen={isInventoryOpen} onClose={() => setIsInventoryOpen(false)} products={products} onUpdateStock={(productId, newStock) => {
-      setProducts(prev => prev.map(p => p.id === productId ? {
-        ...p,
-        stock: newStock
-      } : p));
-    }} />
-
       {/* Amazon Style Filter Panel */}
       <AmazonStyleFilter
         products={products}
@@ -684,25 +503,10 @@ const Index = () => {
       <ProductQuickView product={quickViewProduct} isOpen={isQuickViewOpen} onClose={() => {
       setIsQuickViewOpen(false);
       setQuickViewProduct(null);
-    }} onAddToCart={(product, quantity) => {
-      for (let i = 0; i < quantity; i++) {
-        addToCart(product);
-      }
-    }} onViewDetails={product => setSelectedProduct(product)} />
+    }} />
 
       {/* Compare Drawer */}
-      <ProductCompareDrawer isOpen={isCompareDrawerOpen} onOpenChange={setIsCompareDrawerOpen} onViewFullComparison={() => {
-      setIsCompareDrawerOpen(false);
-      setIsFullCompareOpen(true);
-    }} />
-
-      {/* Full Compare Table */}
-      <CompareTable products={comparisonProducts} isOpen={isFullCompareOpen} onClose={() => setIsFullCompareOpen(false)} onAddToCart={addToCart} onClearComparison={() => {
-      clearComparison();
-      setIsFullCompareOpen(false);
-    }} />
-
-      {/* Floating Comparison Button - Removed as per user request */}
+      <ProductCompareDrawer isOpen={isCompareDrawerOpen} onOpenChange={setIsCompareDrawerOpen} onViewFullComparison={() => {}} />
 
       {/* Bulk Quote Modal */}
       {isBulkQuoteOpen && (

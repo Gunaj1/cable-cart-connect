@@ -6,7 +6,6 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { getProductDetails } from '@/data/productImages';
 import { Product } from '@/types/Product';
-import { imageService } from '@/services/imageService';
 import { productContentMap } from '@/data/productContent';
 import { productDescriptions } from '@/data/productDescriptions';
 import { pdfService } from '@/services/pdfService';
@@ -31,38 +30,7 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
   const [quantity, setQuantity] = useState(1);
   const [isImageZoomed, setIsImageZoomed] = useState(false);
   const [activeTab, setActiveTab] = useState<'overview' | 'specs' | 'applications' | 'features'>('overview');
-  const [productImages, setProductImages] = useState<string[]>([]);
-  const [imagesStatus, setImagesStatus] = useState<('valid' | 'placeholder' | 'generating' | 'error')[]>([]);
-  const [imagesLoading, setImagesLoading] = useState(false);
   const [pdfGenerating, setPdfGenerating] = useState(false);
-
-  // Load AI-generated images when product changes
-  useEffect(() => {
-    const loadImages = async () => {
-      if (!product) {
-        setProductImages([]);
-        setImagesStatus([]);
-        return;
-      }
-
-      setImagesLoading(true);
-      try {
-        const imageSet = await imageService.getProductImageSet(product);
-        setProductImages(imageSet.images);
-        setImagesStatus(imageSet.images_status);
-      } catch (error) {
-        console.error('Failed to load product images:', error);
-        // Fallback to placeholder images
-        const placeholders = Array(5).fill("https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?auto=format&fit=crop&q=80&w=1024&h=1024");
-        setProductImages(placeholders);
-        setImagesStatus(Array(5).fill('placeholder'));
-      } finally {
-        setImagesLoading(false);
-      }
-    };
-
-    loadImages();
-  }, [product]);
 
   useEffect(() => {
     if (isOpen) {
@@ -91,7 +59,7 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
   if (!isOpen || !product) return null;
 
   const productDetails = getProductDetails(product.id);
-  const images = productImages.length > 0 ? productImages : productDetails.images;
+  const images = productDetails.images;
   
   // Get enhanced content from the mapping
   const enhancedContent = productContentMap[product.id] || {
@@ -111,7 +79,7 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
   const handleDownloadCatalog = async () => {
     setPdfGenerating(true);
     try {
-      await pdfService.downloadProductCatalog(product, productImages);
+      await pdfService.downloadProductCatalog(product, images);
     } catch (error) {
       console.error('Failed to generate PDF:', error);
     } finally {
@@ -168,34 +136,20 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
             <div className="grid grid-cols-1 lg:grid-cols-2 h-auto">
               {/* Left: Image Gallery */}
               <div className="p-6 bg-gradient-to-br from-gray-50 to-blue-50">
-                <div className="h-full flex flex-col">
+                 <div className="h-full flex flex-col">
                    {/* Main Image */}
                    <div className="relative aspect-[4/3] bg-white rounded-xl shadow-lg overflow-hidden mb-4">
-                      {imagesLoading ? (
-                        <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                          <div className="text-center">
-                            <Loader2 className="w-8 h-8 animate-spin text-blue-600 mx-auto mb-2" />
-                            <p className="text-sm text-gray-600">Generating product images...</p>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="relative w-full h-full">
-                          <img
-                            src={images[currentImageIndex]}
-                            alt={`${productDetails.title} - View ${currentImageIndex + 1}`}
-                            className="w-full h-full object-contain cursor-zoom-in transition-transform duration-300 hover:scale-105"
-                            onClick={() => setIsImageZoomed(true)}
-                          />
-                          {imagesStatus[currentImageIndex] === 'placeholder' && (
-                            <div className="absolute top-2 left-2 bg-black/70 text-white px-2 py-1 rounded text-xs">
-                              Loading...
-                            </div>
-                          )}
-                        </div>
-                      )}
+                     <div className="relative w-full h-full">
+                       <img
+                         src={images[currentImageIndex]}
+                         alt={`${productDetails.title} - View ${currentImageIndex + 1}`}
+                         className="w-full h-full object-contain cursor-zoom-in transition-transform duration-300 hover:scale-105"
+                         onClick={() => setIsImageZoomed(true)}
+                       />
+                     </div>
 
                      {/* Navigation Arrows */}
-                     {!imagesLoading && images.length > 1 && (
+                     {images.length > 1 && (
                       <>
                         <Button
                           variant="secondary"
@@ -214,22 +168,20 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
                           <ChevronRight className="w-5 h-5" />
                         </Button>
                       </>
-                    )}
-
-                     {/* Zoom Icon */}
-                     {!imagesLoading && (
-                       <Button
-                         variant="secondary"
-                         size="icon"
-                         className="absolute top-3 right-3 bg-white/90 hover:bg-white shadow-lg"
-                         onClick={() => setIsImageZoomed(true)}
-                       >
-                         <ZoomIn className="w-4 h-4" />
-                       </Button>
                      )}
 
+                     {/* Zoom Icon */}
+                     <Button
+                       variant="secondary"
+                       size="icon"
+                       className="absolute top-3 right-3 bg-white/90 hover:bg-white shadow-lg"
+                       onClick={() => setIsImageZoomed(true)}
+                     >
+                       <ZoomIn className="w-4 h-4" />
+                     </Button>
+
                      {/* Image Counter */}
-                     {!imagesLoading && images.length > 0 && (
+                     {images.length > 0 && (
                        <div className="absolute bottom-3 left-3 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
                          {currentImageIndex + 1} / {images.length}
                        </div>
@@ -237,7 +189,7 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
                   </div>
 
                    {/* Thumbnail Strip */}
-                   {!imagesLoading && images.length > 1 && (
+                   {images.length > 1 && (
                      <div className="flex gap-2 overflow-x-auto pb-2">
                        {images.map((image, index) => (
                          <button
@@ -256,17 +208,9 @@ const ProductQuickView: React.FC<ProductQuickViewProps> = ({
                              className="w-full h-full object-contain bg-white"
                            />
                          </button>
-                       ))}
-                     </div>
-                   )}
-
-                   {/* AI Generation Status */}
-                   {imagesLoading && (
-                     <div className="text-center text-sm text-gray-600 mt-2">
-                       <p>Generating 5 professional product images...</p>
-                       <p className="text-xs mt-1">Hero shot • Close-up • Alternate view • In-use • Packaging</p>
-                     </div>
-                   )}
+                        ))}
+                      </div>
+                    )}
                 </div>
               </div>
 
