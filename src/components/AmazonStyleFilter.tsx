@@ -450,20 +450,8 @@ const AmazonStyleFilter: React.FC<AmazonStyleFilterProps> = ({
       {activeFilterCount > 0 && (
         <div className="mt-4 flex flex-wrap gap-2">
           {Object.entries(filters).map(([filterType, values]) => {
+            // Skip price range display entirely
             if (filterType === 'priceRange') {
-              if (values[0] !== priceRange[0] || values[1] !== priceRange[1]) {
-                return (
-                  <Badge key={filterType} variant="secondary" className="bg-blue-100 text-blue-800">
-                    Price: ${values[0]} - ${values[1]}
-                    <button
-                      onClick={() => handlePriceRangeChange([priceRange[0], priceRange[1]])}
-                      className="ml-1 hover:bg-blue-200 rounded-full p-0.5"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
-                  </Badge>
-                );
-              }
               return null;
             }
             

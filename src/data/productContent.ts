@@ -172,89 +172,148 @@ export const productContentMap: Record<string, {
 
   // CAT 6 LAN Cables
   'cat3': {
-    overview: 'CAT 6 STP (Shielded Twisted Pair) LAN cable with 80 wire aloe shielding and 42 micron aluminum foil. Features weather and temperature proof outer LD PVC jacket with DCM and Fluke testing certification.',
+    overview: 'NO.1 QUALITY FOR STP CAT 6 CABLES. CAT 6 STP (Shielded Twisted Pair) LAN cable with 80 wire aloe shielding and 42 micron aluminum foil. Features weather and temperature proof outer LD PVC jacket with DCM and Fluke testing certification for superior electromagnetic interference protection.',
     applications: [
       'NETWORK INFRASTRUCTURE',
       'EMI-SENSITIVE ENVIRONMENTS',
       'PROFESSIONAL INSTALLATIONS',
-      'INDUSTRIAL NETWORKING'
+      'INDUSTRIAL NETWORKING',
+      'DATA CENTERS',
+      'HIGH-SPEED DATA TRANSMISSION',
+      'ENTERPRISE NETWORKING',
+      'TELECOMMUNICATIONS',
+      'BROADCAST FACILITIES',
+      'MEDICAL EQUIPMENT NETWORKS'
     ],
     specifications: {
+      'Type': 'CAT 6 STP (SHIELDED TWISTED PAIR)',
       'Shielding': '80 WIRE ALOE SHIELDED',
       'Foil': '42 MICRON ALUMINIUM FOIL',
       'Jacket': 'OUTER LD PVC (WEATHER AND TEMPERATURE PROOF)',
       'Testing': 'DCM TESTED, FLUKE TESTED',
       'Material': 'F.R FRESH HIGH QUALITY PVC',
+      'Conductor': '23/24/25/26 AWG COPPER/CCA',
+      'Frequency': 'UP TO 250 MHZ',
+      'Impedance': '100 ±15Ω',
       'Length': '100MTR/305MTR',
-      'Speed': '1000 MBPS'
+      'Speed': '1000 MBPS (1 GBPS)',
+      'Bandwidth': '250 MHZ',
+      'Pairs': '4 TWISTED PAIRS',
+      'Temperature Rating': '-20°C TO +60°C'
     },
     features: [
       'OEM SUPPLIERS',
-      '80 WIRE ALOE SHIELDED',
-      '42 MICRON ALUMINIUM FOIL',
-      'WEATHER AND TEMPERATURE PROOF',
-      'DCM TESTED',
-      'FLUKE TESTED',
+      '80 WIRE ALOE SHIELDED FOR MAXIMUM EMI PROTECTION',
+      '42 MICRON ALUMINIUM FOIL SHIELDING',
+      'WEATHER AND TEMPERATURE PROOF CONSTRUCTION',
+      'DCM TESTED FOR QUALITY ASSURANCE',
+      'FLUKE TESTED FOR PERFORMANCE VERIFICATION',
+      'SUPERIOR SIGNAL INTEGRITY',
+      'REDUCED CROSSTALK AND INTERFERENCE',
+      'ENHANCED DATA TRANSMISSION RELIABILITY',
       'ALL COLORS AVAILABLE',
-      'CUSTOMIZATION AVAILABLE'
+      'CUSTOMIZATION AVAILABLE',
+      'FIRE RETARDANT PVC',
+      'LONG-TERM DURABILITY',
+      'INDUSTRIAL GRADE CONSTRUCTION'
     ]
   },
   'cat4': {
-    overview: 'Best quality CAT 6 FTP (Foiled Twisted Pair) cable with weather proof double jacket and 42 micron aluminum foil shielding. Features international standard twisting with DCM and Fluke testing.',
+    overview: 'GET BEST QUALITY CAT 6 FTP CABLE FOR YOUR PURPOSE. Best quality CAT 6 FTP (Foiled Twisted Pair) cable with weather proof double jacket and 42 micron aluminum foil shielding. Features international standard twisting with DCM and Fluke testing for reliable high-speed networking.',
     applications: [
       'NETWORK INFRASTRUCTURE',
       'DATA CENTERS',
       'ENTERPRISE NETWORKING',
-      'PROFESSIONAL INSTALLATIONS'
+      'PROFESSIONAL INSTALLATIONS',
+      'COMMERCIAL BUILDINGS',
+      'OFFICE NETWORKS',
+      'INDUSTRIAL FACILITIES',
+      'EDUCATIONAL INSTITUTIONS',
+      'HEALTHCARE FACILITIES',
+      'GOVERNMENT BUILDINGS',
+      'FINANCIAL INSTITUTIONS'
     ],
     specifications: {
+      'Type': 'CAT 6 FTP (FOILED TWISTED PAIR)',
       'Jacket': 'WEATHER PROOF DOUBLE JACKET',
       'Conductor': '23/24/25/26 EC GRADE COPPER/CCA',
       'Foil': '42 MICRON ALUMINIUM FOIL',
       'Twisting': 'INTERNATIONAL STANDARD TWISTING',
       'Testing': 'DCM TESTED, FLUKE TESTED',
       'Material': 'F.R FRESH HIGH QUALITY PVC',
+      'Frequency': 'UP TO 250 MHZ',
+      'Impedance': '100 ±15Ω',
       'Length': '100MTR/305MTR',
-      'Speed': '1000 MBPS'
+      'Speed': '1000 MBPS (1 GBPS)',
+      'Bandwidth': '250 MHZ',
+      'Pairs': '4 TWISTED PAIRS',
+      'Temperature Rating': '-20°C TO +60°C'
     },
     features: [
       'OEM SUPPLIERS',
-      'WEATHER PROOF DOUBLE JACKET',
-      '23/24/25/26 EC GRADE COPPER/CCA',
-      '42 MICRON ALUMINIUM FOIL',
-      'INTERNATIONAL STANDARD TWISTING',
-      'DCM TESTED, FLUKE TESTED',
+      'WEATHER PROOF DOUBLE JACKET FOR ENHANCED PROTECTION',
+      '23/24/25/26 EC GRADE COPPER/CCA CONDUCTORS',
+      '42 MICRON ALUMINIUM FOIL SHIELDING',
+      'INTERNATIONAL STANDARD TWISTING FOR OPTIMAL PERFORMANCE',
+      'DCM TESTED FOR QUALITY STANDARDS',
+      'FLUKE TESTED FOR PERFORMANCE VERIFICATION',
+      'ENHANCED EMI PROTECTION',
+      'SUPERIOR DATA TRANSMISSION',
+      'REDUCED SIGNAL LOSS',
+      'HIGH-QUALITY FIRE RETARDANT PVC',
       'ALL COLORS AVAILABLE',
-      'CUSTOMIZATION AVAILABLE'
+      'CUSTOMIZATION AVAILABLE',
+      'LONG-LASTING DURABILITY'
     ]
   },
   'cat5': {
-    overview: 'CAT 6 UTP (Unshielded Twisted Pair) LAN cable specifically designed to deliver maximum performance for video and data applications. Features twisted pairs to reduce transmission losses and ensure true signal transmission.',
+    overview: 'CAT 6 UTP (Unshielded Twisted Pair) LAN cable from our premium range, specifically designed to deliver maximum performance for video and data applications. Features twisted pairs to reduce transmission losses and ensure true signal transmission with reliable connectivity.',
     applications: [
       'VIDEO APPLICATIONS',
       'DATA APPLICATIONS',
       'NETWORK INFRASTRUCTURE',
-      'OFFICE NETWORKING'
+      'OFFICE NETWORKING',
+      'RESIDENTIAL NETWORKS',
+      'SMALL BUSINESS NETWORKS',
+      'EDUCATIONAL FACILITIES',
+      'RETAIL ESTABLISHMENTS',
+      'IP SURVEILLANCE SYSTEMS',
+      'VOIP SYSTEMS',
+      'CLOUD COMPUTING NETWORKS'
     ],
     specifications: {
       'Type': 'CAT 6 UTP LAN CABLES RANGE',
       'Conductor': '23/24/25/26 AWG, COPPER/CCA WIRE',
       'Design': 'TWISTED PAIRS TO REDUCE TRANSMISSION LOSSES',
       'Performance': 'MAXIMUM PERFORMANCE FOR VIDEO & DATA APPLICATIONS',
+      'Frequency': 'UP TO 250 MHZ',
+      'Impedance': '100 ±15Ω',
       'Length': '100MTR/305MTR',
-      'Speed': '1000 MBPS'
+      'Speed': '1000 MBPS (1 GBPS)',
+      'Bandwidth': '250 MHZ',
+      'Pairs': '4 TWISTED PAIRS',
+      'Insulation': 'HIGH-QUALITY HDPE',
+      'Jacket': 'PVC/LSZH OPTIONS',
+      'Temperature Rating': '-20°C TO +60°C'
     },
     features: [
       'OEM SUPPLIERS',
       'DESIGNED TO DELIVER MAXIMUM PERFORMANCE',
       'TWISTED PAIRS HELP TRANSMIT TRUE SIGNALS',
       'HELP REDUCE TRANSMISSION LOSSES',
+      'COST-EFFECTIVE SOLUTION',
+      'EASY INSTALLATION',
+      'RELIABLE CONNECTIVITY',
+      'HIGH-SPEED DATA TRANSMISSION',
+      'EXCELLENT SIGNAL INTEGRITY',
       'ALL COLORS AVAILABLE',
-      'CUSTOMIZATION AVAILABLE'
+      'CUSTOMIZATION AVAILABLE',
+      'MEETS INDUSTRY STANDARDS',
+      'SUITABLE FOR POE APPLICATIONS'
     ]
   },
   'cat6': {
-    overview: 'Leading manufacturer and supplier of CAT6 Outdoor Network Cable. Safe to use and provides required utility to network systems with LDPE sheath facilitating indoor/outdoor applications.',
+    overview: 'CHHAJER CABLE IS A LEADING MANUFACTURER AND SUPPLIER OF CAT6 OUTDOOR NETWORK CABLE. Leading manufacturer and supplier of CAT6 Outdoor Network Cable. Safe to use and provides required utility to network systems with LDPE sheath facilitating indoor/outdoor applications. Weather-resistant and UV-protected for reliable outdoor installations.',
     applications: [
       '10 BASE T',
       '100 BASE T',
@@ -264,20 +323,40 @@ export const productContentMap: Record<string, {
       'ATM 155',
       '4/16 MBPS TOKEN RING',
       'SUITABLE FOR OUTDOOR APPLICATION',
-      'INDOOR/OUTDOOR APPLICATIONS'
+      'INDOOR/OUTDOOR APPLICATIONS',
+      'OUTDOOR SURVEILLANCE SYSTEMS',
+      'CAMPUS NETWORKS',
+      'BUILDING-TO-BUILDING CONNECTIONS',
+      'OUTDOOR WIRELESS ACCESS POINTS'
     ],
     specifications: {
+      'Type': 'CAT 6 OUTDOOR LAN CABLE',
       'Sheath': 'LDPE SHEATH FACILITATES INDOOR/OUTDOOR APPLICATIONS',
+      'Protection': 'UV-PROTECTED, WEATHER-RESISTANT',
+      'Conductor': '23/24/25/26 AWG COPPER/CCA',
+      'Frequency': 'UP TO 250 MHZ',
+      'Impedance': '100 ±15Ω',
       'Length': '100MTR/305MTR',
-      'Speed': '1000 MBPS'
+      'Speed': '1000 MBPS (1 GBPS)',
+      'Bandwidth': '250 MHZ',
+      'Pairs': '4 TWISTED PAIRS',
+      'Temperature Rating': '-40°C TO +75°C',
+      'Water Resistance': 'MOISTURE RESISTANT'
     },
     features: [
       'OEM SUPPLIERS',
       'SUITABLE FOR OUTDOOR APPLICATION',
-      'LDPE SHEATH FOR INDOOR/OUTDOOR',
+      'LDPE SHEATH FOR INDOOR/OUTDOOR USE',
       'MULTIPLE PROTOCOL SUPPORT',
+      'UV-PROTECTED FOR SUN EXPOSURE',
+      'WEATHER-RESISTANT CONSTRUCTION',
+      'MOISTURE RESISTANT DESIGN',
+      'EXTREME TEMPERATURE TOLERANCE',
+      'DURABLE OUTDOOR CONSTRUCTION',
       'ALL COLORS AVAILABLE',
-      'CUSTOMIZATION AVAILABLE'
+      'CUSTOMIZATION AVAILABLE',
+      'SAFE AND RELIABLE',
+      'LONG-TERM OUTDOOR PERFORMANCE'
     ]
   },
   'cat-6-flat': {
@@ -333,89 +412,148 @@ export const productContentMap: Record<string, {
     ]
   },
   'cat-6-stp-lan': {
-    overview: 'CAT 6 STP (Shielded Twisted Pair) LAN cable with 80 wire aloe shielding and 42 micron aluminum foil. Features weather and temperature proof outer LD PVC jacket with DCM and Fluke testing certification.',
+    overview: 'NO.1 QUALITY FOR STP CAT 6 CABLES. CAT 6 STP (Shielded Twisted Pair) LAN cable with 80 wire aloe shielding and 42 micron aluminum foil. Features weather and temperature proof outer LD PVC jacket with DCM and Fluke testing certification for superior electromagnetic interference protection.',
     applications: [
       'NETWORK INFRASTRUCTURE',
       'EMI-SENSITIVE ENVIRONMENTS',
       'PROFESSIONAL INSTALLATIONS',
-      'INDUSTRIAL NETWORKING'
+      'INDUSTRIAL NETWORKING',
+      'DATA CENTERS',
+      'HIGH-SPEED DATA TRANSMISSION',
+      'ENTERPRISE NETWORKING',
+      'TELECOMMUNICATIONS',
+      'BROADCAST FACILITIES',
+      'MEDICAL EQUIPMENT NETWORKS'
     ],
     specifications: {
+      'Type': 'CAT 6 STP (SHIELDED TWISTED PAIR)',
       'Shielding': '80 WIRE ALOE SHIELDED',
       'Foil': '42 MICRON ALUMINIUM FOIL',
       'Jacket': 'OUTER LD PVC (WEATHER AND TEMPERATURE PROOF)',
       'Testing': 'DCM TESTED, FLUKE TESTED',
       'Material': 'F.R FRESH HIGH QUALITY PVC',
+      'Conductor': '23/24/25/26 AWG COPPER/CCA',
+      'Frequency': 'UP TO 250 MHZ',
+      'Impedance': '100 ±15Ω',
       'Length': '100MTR/305MTR',
-      'Speed': '1000 MBPS'
+      'Speed': '1000 MBPS (1 GBPS)',
+      'Bandwidth': '250 MHZ',
+      'Pairs': '4 TWISTED PAIRS',
+      'Temperature Rating': '-20°C TO +60°C'
     },
     features: [
       'OEM SUPPLIERS',
-      '80 WIRE ALOE SHIELDED',
-      '42 MICRON ALUMINIUM FOIL',
-      'WEATHER AND TEMPERATURE PROOF',
-      'DCM TESTED',
-      'FLUKE TESTED',
+      '80 WIRE ALOE SHIELDED FOR MAXIMUM EMI PROTECTION',
+      '42 MICRON ALUMINIUM FOIL SHIELDING',
+      'WEATHER AND TEMPERATURE PROOF CONSTRUCTION',
+      'DCM TESTED FOR QUALITY ASSURANCE',
+      'FLUKE TESTED FOR PERFORMANCE VERIFICATION',
+      'SUPERIOR SIGNAL INTEGRITY',
+      'REDUCED CROSSTALK AND INTERFERENCE',
+      'ENHANCED DATA TRANSMISSION RELIABILITY',
       'ALL COLORS AVAILABLE',
-      'CUSTOMIZATION AVAILABLE'
+      'CUSTOMIZATION AVAILABLE',
+      'FIRE RETARDANT PVC',
+      'LONG-TERM DURABILITY',
+      'INDUSTRIAL GRADE CONSTRUCTION'
     ]
   },
   'cat-6-ftp-lan': {
-    overview: 'Best quality CAT 6 FTP (Foiled Twisted Pair) cable with weather proof double jacket and 42 micron aluminum foil shielding. Features international standard twisting with DCM and Fluke testing.',
+    overview: 'GET BEST QUALITY CAT 6 FTP CABLE FOR YOUR PURPOSE. Best quality CAT 6 FTP (Foiled Twisted Pair) cable with weather proof double jacket and 42 micron aluminum foil shielding. Features international standard twisting with DCM and Fluke testing for reliable high-speed networking.',
     applications: [
       'NETWORK INFRASTRUCTURE',
       'DATA CENTERS',
       'ENTERPRISE NETWORKING',
-      'PROFESSIONAL INSTALLATIONS'
+      'PROFESSIONAL INSTALLATIONS',
+      'COMMERCIAL BUILDINGS',
+      'OFFICE NETWORKS',
+      'INDUSTRIAL FACILITIES',
+      'EDUCATIONAL INSTITUTIONS',
+      'HEALTHCARE FACILITIES',
+      'GOVERNMENT BUILDINGS',
+      'FINANCIAL INSTITUTIONS'
     ],
     specifications: {
+      'Type': 'CAT 6 FTP (FOILED TWISTED PAIR)',
       'Jacket': 'WEATHER PROOF DOUBLE JACKET',
       'Conductor': '23/24/25/26 EC GRADE COPPER/CCA',
       'Foil': '42 MICRON ALUMINIUM FOIL',
       'Twisting': 'INTERNATIONAL STANDARD TWISTING',
       'Testing': 'DCM TESTED, FLUKE TESTED',
       'Material': 'F.R FRESH HIGH QUALITY PVC',
+      'Frequency': 'UP TO 250 MHZ',
+      'Impedance': '100 ±15Ω',
       'Length': '100MTR/305MTR',
-      'Speed': '1000 MBPS'
+      'Speed': '1000 MBPS (1 GBPS)',
+      'Bandwidth': '250 MHZ',
+      'Pairs': '4 TWISTED PAIRS',
+      'Temperature Rating': '-20°C TO +60°C'
     },
     features: [
       'OEM SUPPLIERS',
-      'WEATHER PROOF DOUBLE JACKET',
-      '23/24/25/26 EC GRADE COPPER/CCA',
-      '42 MICRON ALUMINIUM FOIL',
-      'INTERNATIONAL STANDARD TWISTING',
-      'DCM TESTED, FLUKE TESTED',
+      'WEATHER PROOF DOUBLE JACKET FOR ENHANCED PROTECTION',
+      '23/24/25/26 EC GRADE COPPER/CCA CONDUCTORS',
+      '42 MICRON ALUMINIUM FOIL SHIELDING',
+      'INTERNATIONAL STANDARD TWISTING FOR OPTIMAL PERFORMANCE',
+      'DCM TESTED FOR QUALITY STANDARDS',
+      'FLUKE TESTED FOR PERFORMANCE VERIFICATION',
+      'ENHANCED EMI PROTECTION',
+      'SUPERIOR DATA TRANSMISSION',
+      'REDUCED SIGNAL LOSS',
+      'HIGH-QUALITY FIRE RETARDANT PVC',
       'ALL COLORS AVAILABLE',
-      'CUSTOMIZATION AVAILABLE'
+      'CUSTOMIZATION AVAILABLE',
+      'LONG-LASTING DURABILITY'
     ]
   },
   'cat-6-utp-lan': {
-    overview: 'CAT 6 UTP (Unshielded Twisted Pair) LAN cable specifically designed to deliver maximum performance for video and data applications. Features twisted pairs to reduce transmission losses and ensure true signal transmission.',
+    overview: 'CAT 6 UTP (Unshielded Twisted Pair) LAN cable from our premium range, specifically designed to deliver maximum performance for video and data applications. Features twisted pairs to reduce transmission losses and ensure true signal transmission with reliable connectivity.',
     applications: [
       'VIDEO APPLICATIONS',
       'DATA APPLICATIONS',
       'NETWORK INFRASTRUCTURE',
-      'OFFICE NETWORKING'
+      'OFFICE NETWORKING',
+      'RESIDENTIAL NETWORKS',
+      'SMALL BUSINESS NETWORKS',
+      'EDUCATIONAL FACILITIES',
+      'RETAIL ESTABLISHMENTS',
+      'IP SURVEILLANCE SYSTEMS',
+      'VOIP SYSTEMS',
+      'CLOUD COMPUTING NETWORKS'
     ],
     specifications: {
       'Type': 'CAT 6 UTP LAN CABLES RANGE',
       'Conductor': '23/24/25/26 AWG, COPPER/CCA WIRE',
       'Design': 'TWISTED PAIRS TO REDUCE TRANSMISSION LOSSES',
       'Performance': 'MAXIMUM PERFORMANCE FOR VIDEO & DATA APPLICATIONS',
+      'Frequency': 'UP TO 250 MHZ',
+      'Impedance': '100 ±15Ω',
       'Length': '100MTR/305MTR',
-      'Speed': '1000 MBPS'
+      'Speed': '1000 MBPS (1 GBPS)',
+      'Bandwidth': '250 MHZ',
+      'Pairs': '4 TWISTED PAIRS',
+      'Insulation': 'HIGH-QUALITY HDPE',
+      'Jacket': 'PVC/LSZH OPTIONS',
+      'Temperature Rating': '-20°C TO +60°C'
     },
     features: [
       'OEM SUPPLIERS',
       'DESIGNED TO DELIVER MAXIMUM PERFORMANCE',
       'TWISTED PAIRS HELP TRANSMIT TRUE SIGNALS',
       'HELP REDUCE TRANSMISSION LOSSES',
+      'COST-EFFECTIVE SOLUTION',
+      'EASY INSTALLATION',
+      'RELIABLE CONNECTIVITY',
+      'HIGH-SPEED DATA TRANSMISSION',
+      'EXCELLENT SIGNAL INTEGRITY',
       'ALL COLORS AVAILABLE',
-      'CUSTOMIZATION AVAILABLE'
+      'CUSTOMIZATION AVAILABLE',
+      'MEETS INDUSTRY STANDARDS',
+      'SUITABLE FOR POE APPLICATIONS'
     ]
   },
   'cat-6-outdoor': {
-    overview: 'Leading manufacturer and supplier of CAT6 Outdoor Network Cable. Safe to use and provides required utility to network systems with LDPE sheath facilitating indoor/outdoor applications.',
+    overview: 'CHHAJER CABLE IS A LEADING MANUFACTURER AND SUPPLIER OF CAT6 OUTDOOR NETWORK CABLE. Leading manufacturer and supplier of CAT6 Outdoor Network Cable. Safe to use and provides required utility to network systems with LDPE sheath facilitating indoor/outdoor applications. Weather-resistant and UV-protected for reliable outdoor installations.',
     applications: [
       '10 BASE T',
       '100 BASE T',
@@ -425,88 +563,149 @@ export const productContentMap: Record<string, {
       'ATM 155',
       '4/16 MBPS TOKEN RING',
       'SUITABLE FOR OUTDOOR APPLICATION',
-      'INDOOR/OUTDOOR APPLICATIONS'
+      'INDOOR/OUTDOOR APPLICATIONS',
+      'OUTDOOR SURVEILLANCE SYSTEMS',
+      'CAMPUS NETWORKS',
+      'BUILDING-TO-BUILDING CONNECTIONS',
+      'OUTDOOR WIRELESS ACCESS POINTS'
     ],
     specifications: {
+      'Type': 'CAT 6 OUTDOOR LAN CABLE',
       'Sheath': 'LDPE SHEATH FACILITATES INDOOR/OUTDOOR APPLICATIONS',
+      'Protection': 'UV-PROTECTED, WEATHER-RESISTANT',
+      'Conductor': '23/24/25/26 AWG COPPER/CCA',
+      'Frequency': 'UP TO 250 MHZ',
+      'Impedance': '100 ±15Ω',
       'Length': '100MTR/305MTR',
-      'Speed': '1000 MBPS'
+      'Speed': '1000 MBPS (1 GBPS)',
+      'Bandwidth': '250 MHZ',
+      'Pairs': '4 TWISTED PAIRS',
+      'Temperature Rating': '-40°C TO +75°C',
+      'Water Resistance': 'MOISTURE RESISTANT'
     },
     features: [
       'OEM SUPPLIERS',
       'SUITABLE FOR OUTDOOR APPLICATION',
-      'LDPE SHEATH FOR INDOOR/OUTDOOR',
+      'LDPE SHEATH FOR INDOOR/OUTDOOR USE',
       'MULTIPLE PROTOCOL SUPPORT',
+      'UV-PROTECTED FOR SUN EXPOSURE',
+      'WEATHER-RESISTANT CONSTRUCTION',
+      'MOISTURE RESISTANT DESIGN',
+      'EXTREME TEMPERATURE TOLERANCE',
+      'DURABLE OUTDOOR CONSTRUCTION',
       'ALL COLORS AVAILABLE',
-      'CUSTOMIZATION AVAILABLE'
+      'CUSTOMIZATION AVAILABLE',
+      'SAFE AND RELIABLE',
+      'LONG-TERM OUTDOOR PERFORMANCE'
     ]
   },
 
   // CAT 5e LAN Cables
   'lan5': {
-    overview: 'Cat 5e STP (Shielded Twisted Pair) LAN cable designed for network adapters, hubs, switches, routers, DSL/cable modems, and patch panels. Features FTP shielded twist pair construction for reliable computer networking applications.',
+    overview: 'OEM SUPPLIERS. Cat 5e STP (Shielded Twisted Pair) LAN cable designed for network adapters, hubs, switches, routers, DSL/cable modems, and patch panels. Features FTP shielded twist pair construction with CM type PVC jacket for reliable computer networking applications.',
     applications: [
       'NETWORK ADAPTERS',
       'HUBS AND SWITCHES',
       'ROUTERS',
       'DSL/CABLE MODEMS',
       'PATCH PANELS',
-      'COMPUTER NETWORKING APPLICATIONS'
+      'COMPUTER NETWORKING APPLICATIONS',
+      'ETHERNET NETWORKS',
+      'TELECOMMUNICATIONS',
+      'STRUCTURED CABLING SYSTEMS',
+      'DATA TRANSMISSION',
+      'BUILDING AUTOMATION SYSTEMS'
     ],
     specifications: {
-      'Type': 'FTP SHIELDED TWIST PAIR',
+      'Type': 'CAT 5E STP (SHIELDED TWISTED PAIR)',
+      'Shielding': 'FTP SHIELDED TWIST PAIR',
       'Jacket': 'CM TYPE PVC JACKET',
       'Conductor': '23/24/25/26 AWG 4-PAIR STRANDED COPPER/CCA WIRE',
+      'Frequency': 'UP TO 100 MHZ',
+      'Impedance': '100 ±15Ω',
       'Length': '100MTR/305MTR',
-      'Speed': '1000 MBPS',
+      'Speed': '1000 MBPS (1 GBPS)',
+      'Bandwidth': '100 MHZ',
+      'Pairs': '4 TWISTED PAIRS',
+      'Temperature Rating': '-20°C TO +60°C',
       'Colors': 'ALL COLORS AVAILABLE'
     },
     features: [
       'OEM SUPPLIERS',
       'DESIGNED FOR NETWORK ADAPTERS, HUBS, SWITCHES, ROUTERS',
-      'FTP SHIELDED TWIST PAIR',
-      'CM TYPE PVC JACKET',
+      'FTP SHIELDED TWIST PAIR CONSTRUCTION',
+      'CM TYPE PVC JACKET FOR FIRE SAFETY',
+      'EMI/RFI INTERFERENCE PROTECTION',
+      'RELIABLE DATA TRANSMISSION',
+      'HIGH-SPEED PERFORMANCE',
+      'DURABLE CONSTRUCTION',
+      'PROFESSIONAL GRADE QUALITY',
       'ALL COLORS AVAILABLE',
-      'CUSTOMIZATION AVAILABLE'
+      'CUSTOMIZATION AVAILABLE',
+      'COST-EFFECTIVE SOLUTION'
     ]
   },
   'lan4': {
-    overview: 'CAT 5e FTP (Foiled Twisted Pair) LAN cable with aluminum foil shielding for enhanced EMI protection and reliable data transmission. Passed Fluke test with professional grade quality.',
+    overview: 'OEM SUPPLIERS. CAT 5e FTP (Foiled Twisted Pair) LAN cable with aluminum foil shielding for enhanced EMI protection and reliable data transmission. Features frequency range of 1 to 500MHz with professional grade quality. Passed Fluke test for performance verification.',
     applications: [
       'DATA TRANSMISSION',
       'NETWORK INFRASTRUCTURE',
       'EMI-SENSITIVE ENVIRONMENTS',
-      'PROFESSIONAL INSTALLATIONS'
+      'PROFESSIONAL INSTALLATIONS',
+      'COMMERCIAL BUILDINGS',
+      'INDUSTRIAL FACILITIES',
+      'TELECOMMUNICATIONS SYSTEMS',
+      'ENTERPRISE NETWORKS',
+      'STRUCTURED CABLING',
+      'HIGH-INTERFERENCE AREAS'
     ],
     specifications: {
+      'Type': 'CAT 5E FTP (FOILED TWISTED PAIR)',
       'Frequency': '1 TO 500MHZ',
       'Impedance': '100 ±15Ω',
       'Shield': 'ALUMINUM FOIL SUPPORTED',
       'Specification': '23/24/25/26 AWG STRANDED',
       'Conductor': 'CCA OR PURE COPPER',
       'Insulation': 'LLDPE',
-      'Jacket': 'PVC AND LSZH',
-      'Packing': 'PE BAG OR CUSTOMIZED'
+      'Jacket': 'PVC AND LSZH OPTIONS',
+      'Packing': 'PE BAG OR CUSTOMIZED',
+      'Bandwidth': '100 MHZ',
+      'Speed': '1000 MBPS (1 GBPS)',
+      'Pairs': '4 TWISTED PAIRS',
+      'Temperature Rating': '-20°C TO +60°C'
     },
     features: [
       'OEM SUPPLIERS',
-      'FREQUENCY: 1 TO 500MHZ',
-      'PASSED FLUKE TEST',
-      'CUSTOMIZED LENGTHS AND COLORS ARE ACCEPTED'
+      'FREQUENCY RANGE: 1 TO 500MHZ',
+      'PASSED FLUKE TEST FOR QUALITY ASSURANCE',
+      'ALUMINUM FOIL SHIELDING FOR EMI PROTECTION',
+      'CUSTOMIZED LENGTHS AND COLORS ARE ACCEPTED',
+      'HIGH-FREQUENCY PERFORMANCE',
+      'RELIABLE DATA TRANSMISSION',
+      'PROFESSIONAL GRADE CONSTRUCTION',
+      'EMI/RFI PROTECTION',
+      'LSZH JACKET OPTION AVAILABLE',
+      'FLEXIBLE INSTALLATION',
+      'DURABLE AND LONG-LASTING'
     ]
   },
   'lan6': {
-    overview: 'Cat 5e UTP LAN cable compliant with Enhanced Category 5 Ethernet standard, achieving transmission speeds of 1,000 Mbps (1 Gbps). Ultra-ribbon flat cable design with excellent performance and space-saving installation.',
+    overview: 'OEM SUPPLIERS. Cat 5e UTP LAN cable compliant with Enhanced Category 5 Ethernet standard, achieving transmission speeds of 1,000 Mbps (1 Gbps). Ultra-ribbon flat cable design with 1.4mm thickness and 8mm width offering excellent performance and space-saving installation.',
     applications: [
       'ETHERNET STANDARD (1000 BASE-T)',
       'GIGABIT NETWORKING',
       'DATA TRANSMISSION',
       'NETWORK INFRASTRUCTURE',
       'OFFICE NETWORKING',
-      'HOME NETWORKS'
+      'HOME NETWORKS',
+      'RESIDENTIAL INSTALLATIONS',
+      'COMMERCIAL BUILDINGS',
+      'SMALL BUSINESS NETWORKS',
+      'UNDER-CARPET INSTALLATIONS',
+      'FLAT SURFACE ROUTING'
     ],
     specifications: {
-      'Type': 'UTP (UNSHIELDED TWISTED PAIR)',
+      'Type': 'CAT 5E UTP (UNSHIELDED TWISTED PAIR)',
       'Speed': '1000 MBPS (1 GBPS)',
       'Standard': 'ENHANCED CATEGORY 5 (1000 BASE-T)',
       'Design': 'FLAT TYPE ULTRA-RIBBON',
@@ -516,36 +715,54 @@ export const productContentMap: Record<string, {
       'Pairs': 'ALL 4 PAIRS OF WIRES',
       'Frequency': 'UP TO 100 MHZ',
       'Impedance': '100 ±15Ω',
+      'Conductor': '23/24/25/26 AWG STRANDED COPPER/CCA',
       'Length': '100MTR/305MTR',
+      'Temperature Rating': '-20°C TO +60°C',
       'Colors': 'ALL COLORS AVAILABLE'
     },
     features: [
       'OEM SUPPLIERS',
       'COMPLIANT WITH ETHERNET STANDARD',
-      'FLAT TYPE ENHANCED CATEGORY 5',
+      'FLAT TYPE ENHANCED CATEGORY 5 DESIGN',
       'ULTRA-RIBBON CABLE 1.4MM THICKNESS',
+      'SPACE-SAVING INSTALLATION',
+      'UNDER-CARPET FRIENDLY',
+      'EASY TO ROUTE AND INSTALL',
+      'GIGABIT ETHERNET SUPPORT',
+      'HIGH-SPEED DATA TRANSMISSION',
+      'COST-EFFECTIVE SOLUTION',
       'CUSTOMIZATION AVAILABLE',
       'ALL COLORS AVAILABLE',
-      'SPACE-SAVING FLAT DESIGN'
+      'CABLE STRUCTURE USES ALL 4 PAIRS'
     ]
   },
   'lan7': {
-    overview: 'CAT 5e OUTDOOR LAN cable specifically designed for outdoor installations. Features overall aluminum foil shield (F/UTP) and supports PoE++ (802.3bt) 4PPoe up to 90W for outdoor networking needs.',
+    overview: 'OEM SUPPLIERS. CAT 5e OUTDOOR LAN cable specifically designed for outdoor installations. Features overall aluminum foil shield (F/UTP) and supports PoE++ (802.3bt) 4PPoe up to 90W for outdoor networking needs with bandwidth tested up to 600 MHz.',
     applications: [
       'OUTDOOR INSTALLATIONS',
       'POE++ APPLICATIONS',
       'NETWORK INFRASTRUCTURE',
-      'OUTDOOR SURVEILLANCE',
-      'INDUSTRIAL ENVIRONMENTS'
+      'OUTDOOR SURVEILLANCE SYSTEMS',
+      'INDUSTRIAL ENVIRONMENTS',
+      'CAMPUS NETWORKS',
+      'OUTDOOR WIRELESS ACCESS POINTS',
+      'IP SECURITY CAMERAS',
+      'BUILDING-TO-BUILDING CONNECTIONS',
+      'OUTDOOR NETWORKING EQUIPMENT'
     ],
     specifications: {
+      'Type': 'CAT 5E OUTDOOR LAN CABLE',
       'Conductor': '23/24/25/26 AWG 4-PAIR, SOLID BARE COPPER/CCA WIRE',
       'Shield': 'OVERALL ALUMINUM FOIL SHIELD – F/UTP',
       'Bandwidth': 'TESTED UP TO 600 MHZ',
       'PoE Support': 'SUPPORTS POE++ (802.3BT) 4PPOE, UP TO 90W',
       'Installation': 'NOT RATED FOR DIRECT BURIAL',
+      'Protection': 'UV-RESISTANT, WEATHER-PROOF',
+      'Frequency': 'UP TO 100 MHZ',
+      'Impedance': '100 ±15Ω',
       'Length': '100MTR/305MTR',
-      'Speed': '1000 MBPS'
+      'Speed': '1000 MBPS (1 GBPS)',
+      'Temperature Rating': '-40°C TO +75°C'
     },
     features: [
       'OEM SUPPLIERS',
@@ -553,6 +770,12 @@ export const productContentMap: Record<string, {
       'OVERALL ALUMINUM FOIL SHIELD – F/UTP',
       'BANDWIDTH TESTED UP TO 600 MHZ',
       'SUPPORTS POE++ (802.3BT) 4PPOE, UP TO 90W',
+      'HIGH-POWER POE DEVICES SUPPORT',
+      'UV-RESISTANT FOR SUN EXPOSURE',
+      'WEATHER-PROOF CONSTRUCTION',
+      'OUTDOOR RATED',
+      'EMI/RFI PROTECTION',
+      'RELIABLE OUTDOOR PERFORMANCE',
       'CUSTOMIZATION AVAILABLE',
       'ALL COLORS AVAILABLE'
     ]
@@ -634,69 +857,110 @@ export const productContentMap: Record<string, {
     ]
   },
   'cat-5e-stp-lan': {
-    overview: 'Cat 5e STP (Shielded Twisted Pair) LAN cable designed for network adapters, hubs, switches, routers, DSL/cable modems, and patch panels. Features FTP shielded twist pair construction for reliable computer networking applications.',
+    overview: 'OEM SUPPLIERS. Cat 5e STP (Shielded Twisted Pair) LAN cable designed for network adapters, hubs, switches, routers, DSL/cable modems, and patch panels. Features FTP shielded twist pair construction with CM type PVC jacket for reliable computer networking applications.',
     applications: [
       'NETWORK ADAPTERS',
       'HUBS AND SWITCHES',
       'ROUTERS',
       'DSL/CABLE MODEMS',
       'PATCH PANELS',
-      'COMPUTER NETWORKING APPLICATIONS'
+      'COMPUTER NETWORKING APPLICATIONS',
+      'ETHERNET NETWORKS',
+      'TELECOMMUNICATIONS',
+      'STRUCTURED CABLING SYSTEMS',
+      'DATA TRANSMISSION',
+      'BUILDING AUTOMATION SYSTEMS'
     ],
     specifications: {
-      'Type': 'FTP SHIELDED TWIST PAIR',
+      'Type': 'CAT 5E STP (SHIELDED TWISTED PAIR)',
+      'Shielding': 'FTP SHIELDED TWIST PAIR',
       'Jacket': 'CM TYPE PVC JACKET',
       'Conductor': '23/24/25/26 AWG 4-PAIR STRANDED COPPER/CCA WIRE',
+      'Frequency': 'UP TO 100 MHZ',
+      'Impedance': '100 ±15Ω',
       'Length': '100MTR/305MTR',
-      'Speed': '1000 MBPS',
+      'Speed': '1000 MBPS (1 GBPS)',
+      'Bandwidth': '100 MHZ',
+      'Pairs': '4 TWISTED PAIRS',
+      'Temperature Rating': '-20°C TO +60°C',
       'Colors': 'ALL COLORS AVAILABLE'
     },
     features: [
       'OEM SUPPLIERS',
       'DESIGNED FOR NETWORK ADAPTERS, HUBS, SWITCHES, ROUTERS',
-      'FTP SHIELDED TWIST PAIR',
-      'CM TYPE PVC JACKET',
+      'FTP SHIELDED TWIST PAIR CONSTRUCTION',
+      'CM TYPE PVC JACKET FOR FIRE SAFETY',
+      'EMI/RFI INTERFERENCE PROTECTION',
+      'RELIABLE DATA TRANSMISSION',
+      'HIGH-SPEED PERFORMANCE',
+      'DURABLE CONSTRUCTION',
+      'PROFESSIONAL GRADE QUALITY',
       'ALL COLORS AVAILABLE',
-      'CUSTOMIZATION AVAILABLE'
+      'CUSTOMIZATION AVAILABLE',
+      'COST-EFFECTIVE SOLUTION'
     ]
   },
   'cat-5e-ftp-lan': {
-    overview: 'CAT 5e FTP (Foiled Twisted Pair) LAN cable with aluminum foil shielding for enhanced EMI protection and reliable data transmission. Passed Fluke test with professional grade quality.',
+    overview: 'OEM SUPPLIERS. CAT 5e FTP (Foiled Twisted Pair) LAN cable with aluminum foil shielding for enhanced EMI protection and reliable data transmission. Features frequency range of 1 to 500MHz with professional grade quality. Passed Fluke test for performance verification.',
     applications: [
       'DATA TRANSMISSION',
       'NETWORK INFRASTRUCTURE',
       'EMI-SENSITIVE ENVIRONMENTS',
-      'PROFESSIONAL INSTALLATIONS'
+      'PROFESSIONAL INSTALLATIONS',
+      'COMMERCIAL BUILDINGS',
+      'INDUSTRIAL FACILITIES',
+      'TELECOMMUNICATIONS SYSTEMS',
+      'ENTERPRISE NETWORKS',
+      'STRUCTURED CABLING',
+      'HIGH-INTERFERENCE AREAS'
     ],
     specifications: {
+      'Type': 'CAT 5E FTP (FOILED TWISTED PAIR)',
       'Frequency': '1 TO 500MHZ',
       'Impedance': '100 ±15Ω',
       'Shield': 'ALUMINUM FOIL SUPPORTED',
       'Specification': '23/24/25/26 AWG STRANDED',
       'Conductor': 'CCA OR PURE COPPER',
       'Insulation': 'LLDPE',
-      'Jacket': 'PVC AND LSZH',
-      'Packing': 'PE BAG OR CUSTOMIZED'
+      'Jacket': 'PVC AND LSZH OPTIONS',
+      'Packing': 'PE BAG OR CUSTOMIZED',
+      'Bandwidth': '100 MHZ',
+      'Speed': '1000 MBPS (1 GBPS)',
+      'Pairs': '4 TWISTED PAIRS',
+      'Temperature Rating': '-20°C TO +60°C'
     },
     features: [
       'OEM SUPPLIERS',
-      'FREQUENCY: 1 TO 500MHZ',
-      'PASSED FLUKE TEST',
-      'CUSTOMIZED LENGTHS AND COLORS ARE ACCEPTED'
+      'FREQUENCY RANGE: 1 TO 500MHZ',
+      'PASSED FLUKE TEST FOR QUALITY ASSURANCE',
+      'ALUMINUM FOIL SHIELDING FOR EMI PROTECTION',
+      'CUSTOMIZED LENGTHS AND COLORS ARE ACCEPTED',
+      'HIGH-FREQUENCY PERFORMANCE',
+      'RELIABLE DATA TRANSMISSION',
+      'PROFESSIONAL GRADE CONSTRUCTION',
+      'EMI/RFI PROTECTION',
+      'LSZH JACKET OPTION AVAILABLE',
+      'FLEXIBLE INSTALLATION',
+      'DURABLE AND LONG-LASTING'
     ]
   },
   'cat-5e-utp-lan': {
-    overview: 'Cat 5e UTP LAN cable compliant with Enhanced Category 5 Ethernet standard, achieving transmission speeds of 1,000 Mbps (1 Gbps). Ultra-ribbon flat cable design with excellent performance and space-saving installation.',
+    overview: 'OEM SUPPLIERS. Cat 5e UTP LAN cable compliant with Enhanced Category 5 Ethernet standard, achieving transmission speeds of 1,000 Mbps (1 Gbps). Ultra-ribbon flat cable design with 1.4mm thickness and 8mm width offering excellent performance and space-saving installation.',
     applications: [
       'ETHERNET STANDARD (1000 BASE-T)',
       'GIGABIT NETWORKING',
       'DATA TRANSMISSION',
       'NETWORK INFRASTRUCTURE',
       'OFFICE NETWORKING',
-      'HOME NETWORKS'
+      'HOME NETWORKS',
+      'RESIDENTIAL INSTALLATIONS',
+      'COMMERCIAL BUILDINGS',
+      'SMALL BUSINESS NETWORKS',
+      'UNDER-CARPET INSTALLATIONS',
+      'FLAT SURFACE ROUTING'
     ],
     specifications: {
-      'Type': 'UTP (UNSHIELDED TWISTED PAIR)',
+      'Type': 'CAT 5E UTP (UNSHIELDED TWISTED PAIR)',
       'Speed': '1000 MBPS (1 GBPS)',
       'Standard': 'ENHANCED CATEGORY 5 (1000 BASE-T)',
       'Design': 'FLAT TYPE ULTRA-RIBBON',
@@ -706,44 +970,69 @@ export const productContentMap: Record<string, {
       'Pairs': 'ALL 4 PAIRS OF WIRES',
       'Frequency': 'UP TO 100 MHZ',
       'Impedance': '100 ±15Ω',
+      'Conductor': '23/24/25/26 AWG STRANDED COPPER/CCA',
       'Length': '100MTR/305MTR',
+      'Temperature Rating': '-20°C TO +60°C',
       'Colors': 'ALL COLORS AVAILABLE'
     },
     features: [
       'OEM SUPPLIERS',
       'COMPLIANT WITH ETHERNET STANDARD',
-      'FLAT TYPE ENHANCED CATEGORY 5',
+      'FLAT TYPE ENHANCED CATEGORY 5 DESIGN',
       'ULTRA-RIBBON CABLE 1.4MM THICKNESS',
+      'SPACE-SAVING INSTALLATION',
+      'UNDER-CARPET FRIENDLY',
+      'EASY TO ROUTE AND INSTALL',
+      'GIGABIT ETHERNET SUPPORT',
+      'HIGH-SPEED DATA TRANSMISSION',
+      'COST-EFFECTIVE SOLUTION',
       'CUSTOMIZATION AVAILABLE',
       'ALL COLORS AVAILABLE',
-      'SPACE-SAVING FLAT DESIGN'
+      'CABLE STRUCTURE USES ALL 4 PAIRS'
     ]
   },
   'cat-5e-outdoor-lan': {
-    overview: 'CAT 5e OUTDOOR LAN cable specifically designed for outdoor installations. Features overall aluminum foil shield (F/UTP) and supports PoE++ (802.3bt) 4PPoe up to 90W for outdoor networking needs.',
+    overview: 'OEM SUPPLIERS. CAT 5e OUTDOOR LAN cable specifically designed for outdoor installations. Features overall aluminum foil shield (F/UTP) and supports PoE++ (802.3bt) 4PPoe up to 90W for outdoor networking needs with bandwidth tested up to 600 MHz.',
     applications: [
-      'OUTDOOR NETWORKING',
+      'OUTDOOR INSTALLATIONS',
       'POE++ APPLICATIONS',
-      'SURVEILLANCE SYSTEMS',
-      'WEATHER-EXPOSED INSTALLATIONS'
+      'NETWORK INFRASTRUCTURE',
+      'OUTDOOR SURVEILLANCE SYSTEMS',
+      'INDUSTRIAL ENVIRONMENTS',
+      'CAMPUS NETWORKS',
+      'OUTDOOR WIRELESS ACCESS POINTS',
+      'IP SECURITY CAMERAS',
+      'BUILDING-TO-BUILDING CONNECTIONS',
+      'OUTDOOR NETWORKING EQUIPMENT'
     ],
     specifications: {
-      'Conductor': '23/24/25/26 AWG 4-PAIR SOLID BARE COPPER/CCA WIRE',
+      'Type': 'CAT 5E OUTDOOR LAN CABLE',
+      'Conductor': '23/24/25/26 AWG 4-PAIR, SOLID BARE COPPER/CCA WIRE',
       'Shield': 'OVERALL ALUMINUM FOIL SHIELD – F/UTP',
       'Bandwidth': 'TESTED UP TO 600 MHZ',
       'PoE Support': 'SUPPORTS POE++ (802.3BT) 4PPOE, UP TO 90W',
       'Installation': 'NOT RATED FOR DIRECT BURIAL',
+      'Protection': 'UV-RESISTANT, WEATHER-PROOF',
+      'Frequency': 'UP TO 100 MHZ',
+      'Impedance': '100 ±15Ω',
       'Length': '100MTR/305MTR',
-      'Speed': '1000 MBPS'
+      'Speed': '1000 MBPS (1 GBPS)',
+      'Temperature Rating': '-40°C TO +75°C'
     },
     features: [
       'OEM SUPPLIERS',
-      '23/24/25/26 AWG 4-PAIR SOLID BARE COPPER',
+      '23/24/25/26 AWG 4-PAIR, SOLID BARE COPPER/CCA WIRE',
       'OVERALL ALUMINUM FOIL SHIELD – F/UTP',
       'BANDWIDTH TESTED UP TO 600 MHZ',
-      'SUPPORTS POE++ UP TO 90W',
-      'ALL COLORS AVAILABLE',
-      'CUSTOMIZATION AVAILABLE'
+      'SUPPORTS POE++ (802.3BT) 4PPOE, UP TO 90W',
+      'HIGH-POWER POE DEVICES SUPPORT',
+      'UV-RESISTANT FOR SUN EXPOSURE',
+      'WEATHER-PROOF CONSTRUCTION',
+      'OUTDOOR RATED',
+      'EMI/RFI PROTECTION',
+      'RELIABLE OUTDOOR PERFORMANCE',
+      'CUSTOMIZATION AVAILABLE',
+      'ALL COLORS AVAILABLE'
     ]
   },
 
