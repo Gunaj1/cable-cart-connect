@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, X, Cable, SlidersHorizontal } from 'lucide-react';
+import { Search, X, Cable } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getProductDetails } from '@/data/productImages';
+import filterIcon from '@/assets/filter-icon.png';
 
 interface Product {
   id: string;
@@ -166,7 +167,7 @@ const ProductSearch: React.FC<ProductSearchProps> = ({ products, onProductSelect
               className="text-gray-600 hover:text-blue-600 transition-colors p-2 rounded-md hover:bg-blue-50 border-l border-gray-200 ml-1 pl-3"
               title="Toggle filters"
             >
-              <SlidersHorizontal className="h-5 w-5" />
+              <img src={filterIcon} alt="Filter" className="h-6 w-6 object-contain" />
             </button>
           )}
         </div>
@@ -203,9 +204,14 @@ const ProductSearch: React.FC<ProductSearchProps> = ({ products, onProductSelect
 
                   {/* Product Info */}
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-gray-900 truncate text-sm">
-                      {product.name}
-                    </h4>
+                    <div className="flex items-center justify-between">
+                      <h4 className="font-semibold text-gray-900 truncate text-sm">
+                        {product.name}
+                      </h4>
+                      <span className="font-bold text-blue-600 text-sm ml-2">
+                        ${product.price}
+                      </span>
+                    </div>
                     <p className="text-xs text-gray-500 truncate">
                       {product.category}
                     </p>
