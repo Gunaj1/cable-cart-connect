@@ -44,6 +44,7 @@ import { Product } from '@/types/Product';
 import ProductCard from '@/components/ProductCard';
 import ProductQuickView from '@/components/ProductQuickView';
 import ProductCompareDrawer from '@/components/ProductCompareDrawer';
+import ComparisonFloatingButton from '@/components/ComparisonFloatingButton';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -517,6 +518,9 @@ const Index = () => {
       
       {/* AI ChatBot */}
       <ChatBot />
+      
+      {/* Comparison Floating Button */}
+      <ComparisonFloatingButton onOpenComparison={() => setIsCompareDrawerOpen(true)} />
     </div>;
 };
 const categories = [{
