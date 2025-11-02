@@ -132,11 +132,11 @@ const ComparisonFloatingButton: React.FC<ComparisonFloatingButtonProps> = ({ onO
       </div>
       
       {/* Floating animation indicator */}
-      <div className="absolute inset-0 bg-blue-500 rounded-2xl animate-ping opacity-20" />
+      <div className="absolute inset-0 bg-blue-500 rounded-2xl animate-ping opacity-20 pointer-events-none" />
       
       {/* Cable connection effect */}
       {comparisonProducts.length >= 2 && (
-        <div className="absolute -top-2 -left-2 w-4 h-4 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50" />
+        <div className="absolute -top-2 -left-2 w-4 h-4 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50 pointer-events-none" />
       )}
     </div>
   );
