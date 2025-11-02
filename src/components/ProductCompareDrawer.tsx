@@ -56,7 +56,7 @@ const ProductCompareDrawer: React.FC<ProductCompareDrawerProps> = ({
               <Trash2 className="w-4 h-4 mr-1" />
               Clear All
             </Button>
-            <Button size="sm" onClick={handleCompare} disabled={comparisonProducts.length < 2}>
+            <Button size="sm" onClick={handleCompare} disabled={comparisonProducts.length < 2} className="pointer-events-auto cursor-pointer">
               <Eye className="w-4 h-4 mr-1" />
               Compare
             </Button>
@@ -133,7 +133,7 @@ const ProductCompareDrawer: React.FC<ProductCompareDrawerProps> = ({
         {/* Action Bar */}
         <div className="absolute bottom-6 left-6 right-6">
           <Button 
-            className="w-full" 
+            className="w-full pointer-events-auto cursor-pointer" 
             size="lg"
             onClick={handleCompare}
             disabled={comparisonProducts.length < 2}

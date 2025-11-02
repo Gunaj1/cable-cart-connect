@@ -44,10 +44,10 @@ const ComparisonFloatingButton: React.FC<ComparisonFloatingButtonProps> = ({ onO
   if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-8 right-24 z-[60]">
+    <div className="fixed bottom-8 right-24 z-[60] pointer-events-auto">
       <div className={cn(
         "bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl shadow-2xl shadow-blue-500/25 p-4 transform transition-all duration-500",
-        "hover:shadow-blue-500/40 hover:scale-105 animate-bounce-in",
+        "hover:shadow-blue-500/40 hover:scale-105 animate-bounce-in pointer-events-auto",
         shouldPulse && "animate-electric-pulse"
       )}>
         <div className="flex items-center space-x-4">
@@ -97,7 +97,7 @@ const ComparisonFloatingButton: React.FC<ComparisonFloatingButtonProps> = ({ onO
               tabIndex={0}
               aria-label={`Compare ${comparisonProducts.length} selected products`}
               className={cn(
-                "px-4 py-2 rounded-lg font-semibold transition-all duration-300 flex items-center space-x-2 focus:outline-none focus:ring-4 focus:ring-blue-300",
+                "px-4 py-2 rounded-lg font-semibold transition-all duration-300 flex items-center space-x-2 focus:outline-none focus:ring-4 focus:ring-blue-300 pointer-events-auto cursor-pointer",
                 comparisonProducts.length >= 2
                   ? "bg-white text-blue-600 hover:bg-blue-50 transform hover:scale-105 shadow-lg animate-bounce-in"
                   : "bg-white/50 text-blue-300 cursor-not-allowed opacity-50"
