@@ -44,7 +44,7 @@ const ComparisonFloatingButton: React.FC<ComparisonFloatingButtonProps> = ({ onO
   if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-8 right-8 z-40">
+    <div className="fixed bottom-8 right-24 z-[60]">
       <div className={cn(
         "bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl shadow-2xl shadow-blue-500/25 p-4 transform transition-all duration-500",
         "hover:shadow-blue-500/40 hover:scale-105 animate-bounce-in",
