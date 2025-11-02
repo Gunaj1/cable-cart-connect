@@ -1,6 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { getProductDetails } from "@/data/productImages";
+import { ChevronLeft, Check, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 interface DbProduct {
   id: string;
@@ -56,123 +60,232 @@ const ComparePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search]);
 
-  if (loading) return <div className="p-6">Loading comparison…</div>;
-  if (products.length < 2) return <div className="p-6">Select at least two products to compare.</div>;
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading comparison...</p>
+        </div>
+      </div>
+    );
+  }
 
-  const cols = Math.min(products.length, 3);
+  if (products.length < 2) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background flex items-center justify-center p-6">
+        <div className="text-center max-w-md">
+          <div className="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <X className="w-8 h-8 text-destructive" />
+          </div>
+          <h2 className="text-2xl font-bold mb-2">Not Enough Products</h2>
+          <p className="text-muted-foreground mb-6">Select at least two products to compare.</p>
+          <Button onClick={() => navigate('/')}>Browse Products</Button>
+        </div>
+      </div>
+    );
+  }
+
+  // Get detailed product information
+  const productsWithDetails = products.map(p => ({
+    ...p,
+    details: getProductDetails(p.id)
+  }));
+
+  // Generate recommendations based on products
+  const generateRecommendation = (product: typeof productsWithDetails[0]) => {
+    const details = product.details;
+    const isSTP = product.name.toLowerCase().includes('stp');
+    const isFTP = product.name.toLowerCase().includes('ftp');
+    const isUTP = product.name.toLowerCase().includes('utp');
+    const isOutdoor = product.name.toLowerCase().includes('outdoor');
+    const isCat6 = product.name.toLowerCase().includes('cat 6') || product.name.toLowerCase().includes('cat6');
+
+    let recommendation = '';
+    let idealFor: string[] = [];
+    let notIdealFor: string[] = [];
+
+    if (isSTP) {
+      recommendation = 'Best for environments with high electromagnetic interference. Provides maximum protection against EMI/RFI.';
+      idealFor = ['Industrial environments', 'Data centers', 'High-interference areas', 'Critical network infrastructure'];
+      notIdealFor = ['Standard home networks', 'Budget-conscious projects', 'Low-interference areas'];
+    } else if (isFTP) {
+      recommendation = 'Excellent balance of protection and cost. Suitable for most professional installations.';
+      idealFor = ['Enterprise networks', 'Commercial buildings', 'Professional installations', 'Office environments'];
+      notIdealFor = ['Extreme EMI environments', 'Very basic home networks'];
+    } else if (isUTP) {
+      recommendation = 'Cost-effective solution for standard networking needs. Perfect for everyday applications.';
+      idealFor = ['Home networks', 'Small offices', 'Educational institutions', 'Residential installations'];
+      notIdealFor = ['High-interference areas', 'Industrial environments', 'EMI-sensitive applications'];
+    }
+
+    if (isOutdoor) {
+      recommendation = 'Weather-resistant construction designed for outdoor installations. UV-protected and moisture-resistant.';
+      idealFor = ['Outdoor surveillance', 'Building-to-building connections', 'Campus networks', 'Outdoor wireless access points'];
+      notIdealFor = ['Indoor-only installations', 'Temperature-controlled environments'];
+    }
+
+    if (isCat6) {
+      recommendation += ' Cat6 provides superior bandwidth and faster speeds up to 1000 Mbps.';
+    }
+
+    return { recommendation, idealFor, notIdealFor };
+  };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50 py-8">
-      <div className="container mx-auto px-4">
+    <main className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background py-8">
+      <div className="container mx-auto px-4 max-w-7xl">
+        {/* Header */}
         <div className="mb-8">
-          <button 
+          <Button 
+            variant="ghost"
             onClick={() => navigate(-1)}
-            className="text-blue-600 hover:text-blue-700 font-medium mb-4 flex items-center gap-2"
+            className="mb-4"
           >
-            ← Back
-          </button>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-700 via-gray-700 to-blue-600 bg-clip-text text-transparent mb-2">
-            Product Comparison
-          </h1>
-          <p className="text-gray-600">Compare specifications, features, and pricing side by side</p>
+            <ChevronLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
+          <h1 className="text-4xl font-bold mb-2">Product Comparison</h1>
+          <p className="text-muted-foreground">Compare specifications, features, and find the perfect cable for your needs</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+        {/* Product Images Gallery */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          {productsWithDetails.map((product) => (
+            <div key={product.id} className="bg-card rounded-xl border border-border overflow-hidden shadow-lg">
+              <div className="p-6">
+                <h3 className="font-bold text-lg mb-4 text-center">{product.name}</h3>
+                <div className="grid grid-cols-2 gap-2 mb-4">
+                  {product.details.images.slice(0, 4).map((img, idx) => (
+                    <div key={idx} className="aspect-square bg-muted/30 rounded-lg overflow-hidden">
+                      <img 
+                        src={img} 
+                        alt={`${product.name} - Image ${idx + 1}`}
+                        className="w-full h-full object-contain hover:scale-105 transition-transform"
+                      />
+                    </div>
+                  ))}
+                </div>
+                <p className="text-sm text-muted-foreground line-clamp-3">
+                  {product.details.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Detailed Comparison Table */}
+        <div className="bg-card rounded-xl shadow-xl overflow-hidden border border-border mb-8">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="bg-gradient-to-r from-blue-600 to-blue-700">
-                  <th className="p-4 text-left text-white font-semibold sticky left-0 bg-blue-600 z-10 min-w-[150px]">
-                    Feature
+                <tr className="bg-primary text-primary-foreground">
+                  <th className="p-4 text-left font-semibold sticky left-0 bg-primary z-10 min-w-[180px]">
+                    Specification
                   </th>
-                  {products.map((p) => (
-                    <th key={p.id} className="p-4 text-center text-white font-semibold min-w-[250px]">
-                      <div className="flex flex-col items-center gap-3">
-                        <div className="w-32 h-32 bg-white rounded-lg p-2 flex items-center justify-center">
-                          {p.image_url ? (
-                            <img src={p.image_url} alt={p.name} className="w-full h-full object-contain" />
-                          ) : (
-                            <div className="text-sm text-gray-500">No image</div>
-                          )}
-                        </div>
-                        <span className="text-lg">{p.name}</span>
-                      </div>
+                  {productsWithDetails.map((p) => (
+                    <th key={p.id} className="p-4 text-center font-semibold min-w-[280px]">
+                      {p.name}
                     </th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-gray-200 bg-gray-50">
-                  <td className="p-4 font-semibold text-gray-900 sticky left-0 bg-gray-50 z-10">Price</td>
-                  {products.map((p) => (
+                {/* Price Row */}
+                <tr className="border-b border-border bg-muted/30">
+                  <td className="p-4 font-semibold sticky left-0 bg-muted/30 z-10">Price</td>
+                  {productsWithDetails.map((p) => (
                     <td key={p.id} className="p-4 text-center">
-                      <span className="text-2xl font-bold text-blue-600">
-                        {p.price != null ? `₹${Number(p.price).toFixed(2)}` : "N/A"}
+                      <span className="text-2xl font-bold text-primary">
+                        {p.price != null ? `₹${Number(p.price).toFixed(2)}` : "Contact for Price"}
                       </span>
                     </td>
                   ))}
                 </tr>
-                <tr className="border-b border-gray-200">
-                  <td className="p-4 font-semibold text-gray-900 sticky left-0 bg-white z-10">Stock</td>
-                  {products.map((p) => (
+
+                {/* Stock Status */}
+                <tr className="border-b border-border">
+                  <td className="p-4 font-semibold sticky left-0 bg-card z-10">Stock Status</td>
+                  {productsWithDetails.map((p) => (
                     <td key={p.id} className="p-4 text-center">
-                      <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
-                        (p.stock_quantity ?? 0) > 10 ? 'bg-green-100 text-green-700' : 
-                        (p.stock_quantity ?? 0) > 0 ? 'bg-yellow-100 text-yellow-700' : 
-                        'bg-red-100 text-red-700'
-                      }`}>
-                        {p.stock_quantity ?? 0} units
-                      </span>
+                      <Badge variant={(p.stock_quantity ?? 0) > 10 ? 'default' : (p.stock_quantity ?? 0) > 0 ? 'secondary' : 'destructive'}>
+                        {(p.stock_quantity ?? 0) > 10 ? 'In Stock' : (p.stock_quantity ?? 0) > 0 ? 'Limited Stock' : 'Out of Stock'}
+                      </Badge>
+                      <div className="text-sm text-muted-foreground mt-1">{p.stock_quantity ?? 0} units</div>
                     </td>
                   ))}
                 </tr>
-                <tr className="border-b border-gray-200 bg-gray-50">
-                  <td className="p-4 font-semibold text-gray-900 sticky left-0 bg-gray-50 z-10">Applications</td>
-                  {products.map((p) => (
+
+                {/* Detailed Specifications */}
+                {productsWithDetails[0].details.specifications && Object.keys(productsWithDetails[0].details.specifications).length > 0 && (
+                  <>
+                    <tr className="bg-muted/50">
+                      <td colSpan={productsWithDetails.length + 1} className="p-3 font-bold text-sm uppercase tracking-wide">
+                        Technical Specifications
+                      </td>
+                    </tr>
+                    {Object.keys(productsWithDetails[0].details.specifications).map((specKey) => (
+                      <tr key={specKey} className="border-b border-border">
+                        <td className="p-4 font-medium sticky left-0 bg-card z-10">{specKey}</td>
+                        {productsWithDetails.map((p) => (
+                          <td key={p.id} className="p-4 text-center">
+                            <span className="text-sm">
+                              {p.details.specifications[specKey] || '-'}
+                            </span>
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </>
+                )}
+
+                {/* Applications */}
+                <tr className="bg-muted/50">
+                  <td colSpan={productsWithDetails.length + 1} className="p-3 font-bold text-sm uppercase tracking-wide">
+                    Applications
+                  </td>
+                </tr>
+                <tr className="border-b border-border">
+                  <td className="p-4 font-semibold sticky left-0 bg-card z-10">Suitable For</td>
+                  {productsWithDetails.map((p) => (
                     <td key={p.id} className="p-4">
-                      {p.applications && p.applications.length > 0 ? (
-                        <ul className="list-disc pl-5 text-sm text-gray-700 space-y-1 text-left">
-                          {p.applications.map((a, i) => (
-                            <li key={i}>{a}</li>
+                      {p.details.applications && p.details.applications.length > 0 ? (
+                        <ul className="space-y-2 text-left text-sm">
+                          {p.details.applications.slice(0, 6).map((app, i) => (
+                            <li key={i} className="flex items-start gap-2">
+                              <Check className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />
+                              <span>{app}</span>
+                            </li>
                           ))}
                         </ul>
                       ) : (
-                        <span className="text-gray-400">-</span>
+                        <span className="text-muted-foreground">-</span>
                       )}
                     </td>
                   ))}
                 </tr>
-                <tr className="border-b border-gray-200">
-                  <td className="p-4 font-semibold text-gray-900 sticky left-0 bg-white z-10">Features</td>
-                  {products.map((p) => (
+
+                {/* Features */}
+                <tr className="bg-muted/50">
+                  <td colSpan={productsWithDetails.length + 1} className="p-3 font-bold text-sm uppercase tracking-wide">
+                    Key Features
+                  </td>
+                </tr>
+                <tr className="border-b border-border">
+                  <td className="p-4 font-semibold sticky left-0 bg-card z-10">Features</td>
+                  {productsWithDetails.map((p) => (
                     <td key={p.id} className="p-4">
-                      {p.features && p.features.length > 0 ? (
-                        <ul className="list-disc pl-5 text-sm text-gray-700 space-y-1 text-left">
-                          {p.features.map((f, i) => (
-                            <li key={i}>{f}</li>
+                      {p.details.features && p.details.features.length > 0 ? (
+                        <ul className="space-y-2 text-left text-sm">
+                          {p.details.features.slice(0, 6).map((feature, i) => (
+                            <li key={i} className="flex items-start gap-2">
+                              <Check className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+                              <span>{feature}</span>
+                            </li>
                           ))}
                         </ul>
                       ) : (
-                        <span className="text-gray-400">-</span>
-                      )}
-                    </td>
-                  ))}
-                </tr>
-                <tr className="border-b border-gray-200 bg-gray-50">
-                  <td className="p-4 font-semibold text-gray-900 sticky left-0 bg-gray-50 z-10">Specifications</td>
-                  {products.map((p) => (
-                    <td key={p.id} className="p-4">
-                      {p.specifications && Object.keys(p.specifications).length > 0 ? (
-                        <div className="space-y-2 text-left">
-                          {Object.entries(p.specifications).map(([k, v]) => (
-                            <div key={k} className="text-sm">
-                              <span className="font-medium text-gray-900">{k}:</span>{' '}
-                              <span className="text-gray-700">{String(v)}</span>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <span className="text-gray-400">-</span>
+                        <span className="text-muted-foreground">-</span>
                       )}
                     </td>
                   ))}
@@ -180,6 +293,53 @@ const ComparePage = () => {
               </tbody>
             </table>
           </div>
+        </div>
+
+        {/* Recommendations Section */}
+        <div className="bg-card rounded-xl shadow-xl overflow-hidden border border-border p-6 mb-8">
+          <h2 className="text-2xl font-bold mb-6">Our Recommendations</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {productsWithDetails.map((product) => {
+              const rec = generateRecommendation(product);
+              return (
+                <div key={product.id} className="border border-border rounded-lg p-5 bg-muted/20">
+                  <h3 className="font-bold text-lg mb-3 text-primary">{product.name}</h3>
+                  <p className="text-sm mb-4">{rec.recommendation}</p>
+                  
+                  <div className="mb-4">
+                    <h4 className="font-semibold text-sm mb-2 flex items-center gap-2 text-green-700">
+                      <Check className="w-4 h-4" />
+                      Ideal For:
+                    </h4>
+                    <ul className="space-y-1 text-sm ml-6">
+                      {rec.idealFor.map((item, idx) => (
+                        <li key={idx} className="text-muted-foreground">• {item}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h4 className="font-semibold text-sm mb-2 flex items-center gap-2 text-red-700">
+                      <X className="w-4 h-4" />
+                      Not Ideal For:
+                    </h4>
+                    <ul className="space-y-1 text-sm ml-6">
+                      {rec.notIdealFor.map((item, idx) => (
+                        <li key={idx} className="text-muted-foreground">• {item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Call to Action */}
+        <div className="text-center">
+          <Button size="lg" onClick={() => navigate('/')}>
+            Browse More Products
+          </Button>
         </div>
       </div>
     </main>
