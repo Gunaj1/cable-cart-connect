@@ -1,35 +1,17 @@
-import { useEffect, useMemo, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useComparison } from "@/contexts/ComparisonContext";
 import { getProductDetails } from "@/data/productImages";
 import { ChevronLeft, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-interface DbProduct {
-  id: string;
-  name: string;
-  price: number | null;
-  applications: string[] | null;
-  features: string[] | null;
-  specifications: Record<string, string> | null;
-  image_url: string | null;
-  stock_quantity: number | null;
-}
-
 const ComparePage = () => {
-  const location = useLocation();
   const navigate = useNavigate();
-  const ids = useMemo(() => {
-    const p = new URLSearchParams(location.search).get("ids") || "";
-    return p.split(",").map((s) => s.trim()).filter(Boolean).slice(0, 3);
-  }, [location.search]);
-
-  const [products, setProducts] = useState<DbProduct[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { comparisonProducts, clearComparison } = useComparison();
 
   useEffect(() => {
-    document.title = `Compare Products | ${ids.length} selected`;
+    document.title = `Compare Products | ${comparisonProducts.length} selected`;
     const link = document.createElement("link");
     link.rel = "canonical";
     link.href = `${window.location.origin}/compare`;
@@ -37,41 +19,15 @@ const ComparePage = () => {
     return () => {
       document.head.removeChild(link);
     };
-  }, [ids.length]);
+  }, [comparisonProducts.length]);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      if (ids.length < 2) {
-        navigate("/", { replace: true });
-        return;
-      }
-      setLoading(true);
-      const { data, error } = await supabase
-        .from("products")
-        .select("id,name,price,applications,features,specifications,image_url,stock_quantity")
-        .in("id", ids);
-      if (error) {
-        console.error("Failed to load products:", error);
-      }
-      setProducts((data as DbProduct[]) || []);
-      setLoading(false);
-    };
-    fetchProducts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.search]);
+    if (comparisonProducts.length < 2) {
+      navigate("/", { replace: true });
+    }
+  }, [comparisonProducts.length, navigate]);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading comparison...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (products.length < 2) {
+  if (comparisonProducts.length < 2) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background flex items-center justify-center p-6">
         <div className="text-center max-w-md">
@@ -87,7 +43,7 @@ const ComparePage = () => {
   }
 
   // Get detailed product information
-  const productsWithDetails = products.map(p => ({
+  const productsWithDetails = comparisonProducts.map(p => ({
     ...p,
     details: getProductDetails(p.id)
   }));
@@ -208,10 +164,10 @@ const ComparePage = () => {
                   <td className="p-4 font-semibold sticky left-0 bg-card z-10">Stock Status</td>
                   {productsWithDetails.map((p) => (
                     <td key={p.id} className="p-4 text-center">
-                      <Badge variant={(p.stock_quantity ?? 0) > 10 ? 'default' : (p.stock_quantity ?? 0) > 0 ? 'secondary' : 'destructive'}>
-                        {(p.stock_quantity ?? 0) > 10 ? 'In Stock' : (p.stock_quantity ?? 0) > 0 ? 'Limited Stock' : 'Out of Stock'}
+                      <Badge variant={(p.stock ?? 0) > 10 ? 'default' : (p.stock ?? 0) > 0 ? 'secondary' : 'destructive'}>
+                        {(p.stock ?? 0) > 10 ? 'In Stock' : (p.stock ?? 0) > 0 ? 'Limited Stock' : 'Out of Stock'}
                       </Badge>
-                      <div className="text-sm text-muted-foreground mt-1">{p.stock_quantity ?? 0} units</div>
+                      <div className="text-sm text-muted-foreground mt-1">{p.stock ?? 0} units</div>
                     </td>
                   ))}
                 </tr>
@@ -336,7 +292,13 @@ const ComparePage = () => {
         </div>
 
         {/* Call to Action */}
-        <div className="text-center">
+        <div className="text-center flex gap-4 justify-center">
+          <Button size="lg" variant="outline" onClick={() => {
+            clearComparison();
+            navigate('/');
+          }}>
+            Clear & Browse Products
+          </Button>
           <Button size="lg" onClick={() => navigate('/')}>
             Browse More Products
           </Button>
