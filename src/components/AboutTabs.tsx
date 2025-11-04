@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { BadgeCheck, Target, Compass, Users, ExternalLink } from 'lucide-react';
+import { BadgeCheck, Target, Compass, Users, ExternalLink, Award, UserCircle } from 'lucide-react';
 import aboutUsBg from '../assets/about-us-bg.jpg';
+import whyChooseUsBg from '../assets/why-choose-us-bg.jpg';
 import missionBg from '../assets/mission-bg.jpg';
 import visionBg from '../assets/vision-bg.jpg';
 import valuesBg from '../assets/values-bg.jpg';
 import journeyBg from '../assets/journey-bg.jpg';
+import teamBg from '../assets/team-bg.jpg';
 interface AboutTabProps {
   activeTab: string;
 }
@@ -25,6 +27,62 @@ const AboutTabs: React.FC = () => {
           </p>
         </div>,
       image: aboutUsBg
+    },
+    whyChooseUs: {
+      title: "Why Choose Us?",
+      icon: <Award className="w-12 h-12 text-blue-600 mb-6" />,
+      content: <div className="space-y-4">
+          <div className="bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-blue-200">
+            <h4 className="font-bold text-blue-700 mb-2">✓ Uncompromised Quality Assurance</h4>
+            <p className="text-gray-700">Every cable and patchcord undergoes strict multi-level quality checks to ensure durability, performance, and safety under all conditions.</p>
+          </div>
+          
+          <div className="bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-blue-200">
+            <h4 className="font-bold text-blue-700 mb-2">✓ Premium-Grade Raw Materials</h4>
+            <p className="text-gray-700">We use only certified copper, PVC, and insulation materials that meet international standards for conductivity and longevity.</p>
+          </div>
+          
+          <div className="bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-blue-200">
+            <h4 className="font-bold text-blue-700 mb-2">✓ Wide Product Range</h4>
+            <p className="text-gray-700">From Patchcords, Powercords and LAN Cables to CCTV, Telephone, Lift, and Speaker Cables, we offer complete connectivity solutions for both industrial and domestic needs.</p>
+          </div>
+          
+          <div className="bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-blue-200">
+            <h4 className="font-bold text-blue-700 mb-2">✓ Customization as per Requirement</h4>
+            <p className="text-gray-700">We design and manufacture cables in custom lengths, colors, and specifications to perfectly match client needs and project standards.</p>
+          </div>
+          
+          <div className="bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-blue-200">
+            <h4 className="font-bold text-blue-700 mb-2">✓ Advanced Manufacturing Technology</h4>
+            <p className="text-gray-700">Our state-of-the-art machinery and modern testing facilities ensure consistent precision, minimal loss, and high signal efficiency.</p>
+          </div>
+          
+          <div className="bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-blue-200">
+            <h4 className="font-bold text-blue-700 mb-2">✓ Strong B2B & B2C Network</h4>
+            <p className="text-gray-700">CCI proudly serves both bulk industrial clients and individual customers, ensuring reliable delivery and consistent quality across all orders.</p>
+          </div>
+          
+          <div className="bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-blue-200">
+            <h4 className="font-bold text-blue-700 mb-2">✓ Timely Delivery, Every Time</h4>
+            <p className="text-gray-700">With a streamlined supply chain and robust logistics, we guarantee on-time delivery without compromising on product quality.</p>
+          </div>
+          
+          <div className="bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-blue-200">
+            <h4 className="font-bold text-blue-700 mb-2">✓ Competitive Pricing</h4>
+            <p className="text-gray-700">We combine top-tier performance with cost-effective pricing, giving you the best value for your investment.</p>
+          </div>
+          
+          <div className="bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-blue-200">
+            <h4 className="font-bold text-blue-700 mb-2">✓ Trusted by Leading Brands & Installers</h4>
+            <p className="text-gray-700">Our products are trusted by top installers, system integrators, and businesses across India for their reliability and performance.</p>
+          </div>
+          
+          <div className="bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-blue-200">
+            <h4 className="font-bold text-blue-700 mb-2">✓ Customer-Centric Support</h4>
+            <p className="text-gray-700">We believe in long-term relationships — offering responsive service, transparent communication, and prompt after-sales support.</p>
+          </div>
+        </div>,
+      image: whyChooseUsBg
     },
     mission: {
       title: "Our Mission",
@@ -150,6 +208,42 @@ const AboutTabs: React.FC = () => {
           </div>
         </div>,
       image: journeyBg
+    },
+    team: {
+      title: "Meet Our Team",
+      icon: <UserCircle className="w-12 h-12 text-blue-600 mb-6" />,
+      content: <div className="space-y-8">
+          <div className="bg-gradient-to-br from-blue-50 to-white backdrop-blur-sm rounded-2xl p-6 border-2 border-blue-300 shadow-xl">
+            <div className="flex items-center mb-4">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center text-white font-bold text-2xl mr-4">
+                JC
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-blue-700">Jyoti Chhajer</h3>
+                <p className="text-blue-600 font-semibold">Proprietor</p>
+              </div>
+            </div>
+            <p className="text-gray-700 leading-relaxed">
+              As the Proprietor of Chhajer Cable Industries, Jyoti Chhajer brings visionary leadership and a commitment to excellence. With a deep understanding of the cable manufacturing industry and a passion for quality, she has been instrumental in establishing CCI as a trusted name in the market. Her strategic vision and dedication to customer satisfaction have been the driving force behind the company's growth and reputation for delivering premium connectivity solutions.
+            </p>
+          </div>
+          
+          <div className="bg-gradient-to-br from-blue-50 to-white backdrop-blur-sm rounded-2xl p-6 border-2 border-blue-300 shadow-xl">
+            <div className="flex items-center mb-4">
+              <div className="w-16 h-16 bg-gradient-to-r from-gray-600 to-gray-700 rounded-full flex items-center justify-center text-white font-bold text-2xl mr-4">
+                AC
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-blue-700">Amit Chhajer</h3>
+                <p className="text-blue-600 font-semibold">CEO & Director</p>
+              </div>
+            </div>
+            <p className="text-gray-700 leading-relaxed">
+              Amit Chhajer serves as the CEO and Director, leading the operational and strategic initiatives at Chhajer Cable Industries. With extensive expertise in manufacturing processes, quality control, and business development, he has played a pivotal role in modernizing the company's infrastructure and expanding its product portfolio. His innovative approach and commitment to technological advancement ensure that CCI remains at the forefront of the cable industry, delivering cutting-edge solutions to meet evolving market demands.
+            </p>
+          </div>
+        </div>,
+      image: teamBg
     }
   };
   const TabContent: React.FC<AboutTabProps> = ({
