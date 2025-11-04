@@ -50,18 +50,54 @@ const ComparePage = () => {
 
   // Generate recommendations based on products
   const generateRecommendation = (product: typeof productsWithDetails[0]) => {
-    const details = product.details;
-    const isSTP = product.name.toLowerCase().includes('stp');
-    const isFTP = product.name.toLowerCase().includes('ftp');
-    const isUTP = product.name.toLowerCase().includes('utp');
-    const isOutdoor = product.name.toLowerCase().includes('outdoor');
-    const isCat6 = product.name.toLowerCase().includes('cat 6') || product.name.toLowerCase().includes('cat6');
+    const name = product.name.toLowerCase();
+    const isSTP = name.includes('stp');
+    const isFTP = name.includes('ftp');
+    const isUTP = name.includes('utp');
+    const isOutdoor = name.includes('outdoor');
+    const isCat6 = name.includes('cat 6') || name.includes('cat6');
+    const isCCTV = name.includes('cctv');
+    const isTelephone = name.includes('telephone');
+    const isComputerCord = name.includes('power cord') || name.includes('adaptor') || name.includes('laptop') || name.includes('desktop');
+    const isLift = name.includes('lift') || name.includes('elevator');
+    const isSpeaker = name.includes('speaker');
 
     let recommendation = '';
     let idealFor: string[] = [];
     let notIdealFor: string[] = [];
 
-    if (isSTP) {
+    // CCTV Cables
+    if (isCCTV) {
+      recommendation = 'Specialized cable for surveillance systems with integrated power and video transmission. Ideal for security installations.';
+      idealFor = ['CCTV surveillance systems', 'Security camera installations', 'DVR/NVR connections', 'PTZ camera systems', 'Long-distance camera runs'];
+      notIdealFor = ['Network data transmission', 'Audio applications', 'High-speed internet connections'];
+    }
+    // Telephone Cables
+    else if (isTelephone) {
+      recommendation = 'Professional-grade telephone cable for voice communication systems. Designed for reliable signal transmission in telecommunication networks.';
+      idealFor = ['Telephone exchanges', 'Voice communication systems', 'PBX systems', 'Telecommunication networks', 'Multi-line phone systems'];
+      notIdealFor = ['High-speed data networks', 'Video transmission', 'Power distribution'];
+    }
+    // Computer Power Cords
+    else if (isComputerCord) {
+      recommendation = 'Universal power cord with safety features and wide compatibility. Essential for reliable power delivery to electronic devices.';
+      idealFor = ['Laptop and desktop computers', 'Monitors and displays', 'Printers and scanners', 'Gaming consoles', 'Audio equipment'];
+      notIdealFor = ['High-power industrial equipment', 'Outdoor installations', 'Specialized voltage requirements'];
+    }
+    // Lift Cables
+    else if (isLift) {
+      recommendation = 'Heavy-duty cable designed for elevator systems with enhanced flexibility and durability. Built for continuous vertical movement.';
+      idealFor = ['Elevator systems', 'Lift installations', 'Vertical transportation', 'Industrial lifting equipment', 'Building infrastructure'];
+      notIdealFor = ['Stationary installations', 'Network data transmission', 'Low-flex applications'];
+    }
+    // Speaker Cables
+    else if (isSpeaker) {
+      recommendation = 'High-quality audio cable for optimal sound transmission. Features multi-stranded conductors for clear audio signal delivery.';
+      idealFor = ['Home theater systems', 'Professional audio setups', 'PA systems', 'Studio equipment', 'Broadcasting systems'];
+      notIdealFor = ['Data network transmission', 'Power distribution', 'Video signal transmission'];
+    }
+    // Network Cables (STP/FTP/UTP)
+    else if (isSTP) {
       recommendation = 'Best for environments with high electromagnetic interference. Provides maximum protection against EMI/RFI.';
       idealFor = ['Industrial environments', 'Data centers', 'High-interference areas', 'Critical network infrastructure'];
       notIdealFor = ['Standard home networks', 'Budget-conscious projects', 'Low-interference areas'];
@@ -75,7 +111,7 @@ const ComparePage = () => {
       notIdealFor = ['High-interference areas', 'Industrial environments', 'EMI-sensitive applications'];
     }
 
-    if (isOutdoor) {
+    if (isOutdoor && !isCCTV) {
       recommendation = 'Weather-resistant construction designed for outdoor installations. UV-protected and moisture-resistant.';
       idealFor = ['Outdoor surveillance', 'Building-to-building connections', 'Campus networks', 'Outdoor wireless access points'];
       notIdealFor = ['Indoor-only installations', 'Temperature-controlled environments'];

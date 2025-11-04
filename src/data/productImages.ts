@@ -95,14 +95,14 @@ export const productImageCollections: Record<string, ProductDetails> = {
     specifications: {
       'Cable Type': 'FTP (Foiled Twisted Pair)',
       'Category': 'Cat 6',
-      'Frequency': 'Up to 600MHz',
-      'Impedance': '100 ±15Ω',
-      'Shield': 'Aluminum Foil Overall',
       'Conductor': '23/24/25/26 AWG Stranded',
-      'Insulation': 'LLDPE',
+      'Impedance': '100 ±15Ω',
+      'Frequency': 'Up to 600MHz',
+      'Connector': 'RJ45 8P8C Nickel/Gold Plated',
       'Jacket': 'PVC and LSZH Options',
-      'Connectors': 'RJ45 8P8C Nickel/Gold Plated',
-      'Length Options': 'Custom Lengths Available'
+      'Shield': 'Aluminum Foil Overall',
+      'Length Options': 'Custom Lengths Available',
+      'Insulation': 'LLDPE'
     },
     applications: [
       'Data Centers',
@@ -138,13 +138,13 @@ export const productImageCollections: Record<string, ProductDetails> = {
     specifications: {
       'Cable Type': 'UTP (Unshielded Twisted Pair)',
       'Category': 'Cat 6',
-      'Frequency': 'Up to 600MHz',
-      'Impedance': '100 ±15Ω',
       'Conductor': '23/24/25/26 AWG Stranded',
-      'Insulation': 'LLDPE',
+      'Impedance': '100 ±15Ω',
+      'Frequency': 'Up to 600MHz',
+      'Connector': 'RJ45 8P8C Nickel/Gold Plated',
       'Jacket': 'PVC and LSZH Options',
-      'Connectors': 'RJ45 8P8C Nickel/Gold Plated',
       'Length Options': 'Standard and Custom Lengths',
+      'Insulation': 'LLDPE',
       'Compliance': 'TIA/EIA-568-B Standards'
     },
     applications: [
@@ -181,13 +181,15 @@ export const productImageCollections: Record<string, ProductDetails> = {
     specifications: {
       'Cable Type': 'STP (Shielded Twisted Pair)',
       'Category': 'Cat 5e Enhanced',
+      'Conductor': '23/24/25/26 AWG Stranded',
+      'Impedance': '100 ±15Ω',
       'Frequency': 'Up to 600MHz',
-      'Length Range': '0.1m to 100m',
       'Connector': 'RJ45 8P8C Gold Plated (50µ")',
-      'Shield': 'Overall Aluminum Foil + Drain Wire',
       'Jacket': 'PVC/LSZH Available',
+      'Shield': 'Overall Aluminum Foil + Drain Wire',
+      'Length Options': '0.1m to 100m',
+      'Operating Temperature': '-20°C to +75°C',
       'Colors': '5 Different Options',
-      'Temperature': '-20°C to +75°C',
       'Compliance': 'TIA/EIA Standards'
     },
     applications: [
@@ -224,14 +226,14 @@ export const productImageCollections: Record<string, ProductDetails> = {
     specifications: {
       'Cable Type': 'FTP (Foiled Twisted Pair)',
       'Category': 'Cat 5e Enhanced',
-      'Frequency': 'Up to 600MHz',
-      'Impedance': '100 ±15Ω',
-      'Shield': 'Aluminum Foil Overall',
       'Conductor': '23/24/25/26 AWG Stranded',
-      'Insulation': 'LLDPE',
+      'Impedance': '100 ±15Ω',
+      'Frequency': 'Up to 600MHz',
+      'Connector': 'RJ45 8P8C Nickel/Gold Plated',
       'Jacket': 'PVC and LSZH Options',
-      'Connectors': 'RJ45 8P8C Nickel/Gold Plated',
-      'Length': 'Custom Available'
+      'Shield': 'Aluminum Foil Overall',
+      'Length Options': 'Custom Available',
+      'Insulation': 'LLDPE'
     },
     applications: [
       'Small Business Networks',
@@ -267,13 +269,15 @@ export const productImageCollections: Record<string, ProductDetails> = {
     specifications: {
       'Cable Type': 'UTP (Unshielded Twisted Pair)',
       'Category': 'Cat 5e Enhanced',
+      'Conductor': '23/24/25/26 AWG Stranded',
+      'Impedance': '100 ±15Ω',
       'Frequency': 'Up to 600MHz',
-      'Length Range': '0.1m to 100m',
       'Connector': 'RJ45 8P8C Gold Plated (50µ")',
       'Jacket': 'PVC/LSZH Available',
-      'Colors': '5 Different Options',
+      'Length Options': '0.1m to 100m',
+      'Operating Temperature': '-20°C to +75°C',
       'Speed': '1000 Mbps (1 Gbps)',
-      'Temperature': '-20°C to +75°C',
+      'Colors': '5 Different Options',
       'Compliance': 'Enhanced Category 5'
     },
     applications: [
@@ -311,15 +315,19 @@ export const productImageCollections: Record<string, ProductDetails> = {
     title: 'Cat 5e FTP Cable',
     description: 'OEM SUPPLIERS - Premium Cat 5e FTP cable with aluminum foil shielding and customized lengths. Passed Fluke test for guaranteed performance.',
     specifications: {
-      'Frequency': '1 TO 500MHZ',
-      'Impedance': '100 ±15Ω',
-      'Shield': 'ALUMINUM FOIL SUPPORTED',
-      'Specification': '23/24/25/26 AWG STRANDED',
+      'Cable Length': '100MTR/305MTR',
+      'Speed': '1000 MBPS',
+      'Category': 'Cat 5e Enhanced',
+      'Cable Type': 'FTP (Foiled Twisted Pair)',
+      'Wire Gauge': '23/24/25/26 AWG',
       'Conductor': 'CCA OR PURE COPPER',
-      'Insulation': 'LLDPE',
+      'Shield': 'ALUMINUM FOIL SUPPORTED',
       'Jacket': 'PVC AND LSZH',
+      'Impedance': '100 ±15Ω',
+      'Frequency': '1 TO 500MHZ',
+      'Insulation': 'LLDPE',
       'Testing': 'PASSED FLUKE TEST',
-      'Packing': 'PE BAG OR CUSTOMIZED'
+      'Customization': 'PE BAG OR CUSTOMIZED'
     },
     applications: [
       'LAN Network Systems',
@@ -355,12 +363,14 @@ export const productImageCollections: Record<string, ProductDetails> = {
     title: 'Cat 5e STP Cable',
     description: 'OEM SUPPLIERS - Designed for network adapters, hubs, switches, routers, DSL/cable modems, patch panels and other computer networking applications with FTP shielded twist pair construction.',
     specifications: {
-      'Cable Type': 'FTP SHIELDED TWIST PAIR',
-      'Jacket': 'CM TYPE PVC JACKET',
-      'Wire Gauge': '23/24/25/26 AWG 4PAIR',
-      'Conductor': 'STRANDED COPPER WIRE/CCA WIRE',
       'Cable Length': '100MTR/305MTR',
       'Speed': '1000 MBPS',
+      'Category': 'Cat 5e Enhanced',
+      'Cable Type': 'STP (Shielded Twisted Pair)',
+      'Wire Gauge': '23/24/25/26 AWG 4-PAIR',
+      'Conductor': 'STRANDED COPPER WIRE/CCA WIRE',
+      'Shield': 'FTP SHIELDED TWIST PAIR',
+      'Jacket': 'CM TYPE PVC JACKET',
       'Customization': 'All Colors Available'
     },
     applications: [
@@ -395,14 +405,15 @@ export const productImageCollections: Record<string, ProductDetails> = {
     title: 'Cat 5e UTP Lan Cable',
     description: 'OEM SUPPLIERS - Compliant with the Ethernet standard achieving 1,000 Mbps (1 Gbps) transmission speed. Flat type enhanced Category 5 (1,000 BASE-T) cable.',
     specifications: {
-      'Type': 'FLAT TYPE UTP',
-      'Standard': 'ENHANCED CATEGORY 5 (1,000 BASE-T)',
-      'Thickness': '1.4 MM',
-      'Width': '8 MM',
-      'Cable Structure': 'STRANDED WIRE TWISTED PAIR',
-      'Cable Type': 'STRAIGHT-THROUGH USING ALL 4 PAIRS',
       'Cable Length': '100MTR/305MTR',
       'Speed': '1000 MBPS',
+      'Category': 'Cat 5e Enhanced',
+      'Cable Type': 'UTP (Unshielded Twisted Pair)',
+      'Standard': 'ENHANCED CATEGORY 5 (1,000 BASE-T)',
+      'Wire Gauge': '23/24/25/26 AWG 4-PAIR',
+      'Conductor': 'STRANDED WIRE TWISTED PAIR',
+      'Design': 'FLAT TYPE - 1.4 MM THICKNESS, 8 MM WIDTH',
+      'Configuration': 'STRAIGHT-THROUGH USING ALL 4 PAIRS',
       'Customization': 'All Colors Available'
     },
     applications: [
@@ -439,14 +450,16 @@ export const productImageCollections: Record<string, ProductDetails> = {
     title: 'Cat 5e Outdoor Cable',
     description: 'OEM SUPPLIERS - Professional outdoor Cat 5e cable with aluminum foil shield and bandwidth tested up to 600 MHz. Supports POE++ (802.3bt) 4PPoE up to 90W.',
     specifications: {
+      'Cable Length': '100MTR/305MTR',
+      'Speed': '1000 MBPS',
+      'Category': 'Cat 5e Enhanced',
+      'Cable Type': 'F/UTP (Outdoor)',
       'Wire Gauge': '23/24/25/26 AWG 4-PAIR',
       'Conductor': 'SOLID BARE COPPER/CCA WIRE',
       'Shield': 'OVERALL ALUMINUM FOIL SHIELD – F/UTP',
       'Bandwidth': 'TESTED UP TO 600 MHZ',
       'POE Support': 'SUPPORTS POE++ (802.3BT) 4PPOE, UP TO 90W',
-      'Burial': 'NOT RATED FOR DIRECT BURIAL',
-      'Cable Length': '100MTR/305MTR',
-      'Speed': '1000 MBPS',
+      'Burial Rating': 'NOT RATED FOR DIRECT BURIAL',
       'Customization': 'All Colors Available'
     },
     applications: [
@@ -483,12 +496,14 @@ export const productImageCollections: Record<string, ProductDetails> = {
     title: 'Cat 5e STP Cable',
     description: 'OEM SUPPLIERS - Designed for network adapters, hubs, switches, routers, DSL/cable modems, patch panels and other computer networking applications with FTP shielded twist pair construction.',
     specifications: {
-      'Cable Type': 'FTP SHIELDED TWIST PAIR',
-      'Jacket': 'CM TYPE PVC JACKET',
-      'Wire Gauge': '23/24/25/26 AWG 4PAIR',
-      'Conductor': 'STRANDED COPPER WIRE/CCA WIRE',
       'Cable Length': '100MTR/305MTR',
       'Speed': '1000 MBPS',
+      'Category': 'Cat 5e Enhanced',
+      'Cable Type': 'STP (Shielded Twisted Pair)',
+      'Wire Gauge': '23/24/25/26 AWG 4-PAIR',
+      'Conductor': 'STRANDED COPPER WIRE/CCA WIRE',
+      'Shield': 'FTP SHIELDED TWIST PAIR',
+      'Jacket': 'CM TYPE PVC JACKET',
       'Customization': 'All Colors Available'
     },
     applications: [
@@ -523,15 +538,19 @@ export const productImageCollections: Record<string, ProductDetails> = {
     title: 'Cat 5e FTP Cable',
     description: 'OEM SUPPLIERS - Premium Cat 5e FTP cable with aluminum foil shielding and customized lengths. Passed Fluke test for guaranteed performance.',
     specifications: {
-      'Frequency': '1 TO 500MHZ',
-      'Impedance': '100 ±15Ω',
-      'Shield': 'ALUMINUM FOIL SUPPORTED',
-      'Specification': '23/24/25/26 AWG STRANDED',
+      'Cable Length': '100MTR/305MTR',
+      'Speed': '1000 MBPS',
+      'Category': 'Cat 5e Enhanced',
+      'Cable Type': 'FTP (Foiled Twisted Pair)',
+      'Wire Gauge': '23/24/25/26 AWG',
       'Conductor': 'CCA OR PURE COPPER',
-      'Insulation': 'LLDPE',
+      'Shield': 'ALUMINUM FOIL SUPPORTED',
       'Jacket': 'PVC AND LSZH',
+      'Impedance': '100 ±15Ω',
+      'Frequency': '1 TO 500MHZ',
+      'Insulation': 'LLDPE',
       'Testing': 'PASSED FLUKE TEST',
-      'Packing': 'PE BAG OR CUSTOMIZED'
+      'Customization': 'PE BAG OR CUSTOMIZED'
     },
     applications: [
       'LAN Network Systems',
@@ -567,14 +586,15 @@ export const productImageCollections: Record<string, ProductDetails> = {
     title: 'Cat 5e UTP Lan Cable',
     description: 'OEM SUPPLIERS - Compliant with the Ethernet standard achieving 1,000 Mbps (1 Gbps) transmission speed. Flat type enhanced Category 5 (1,000 BASE-T) cable.',
     specifications: {
-      'Type': 'FLAT TYPE UTP',
-      'Standard': 'ENHANCED CATEGORY 5 (1,000 BASE-T)',
-      'Thickness': '1.4 MM',
-      'Width': '8 MM',
-      'Cable Structure': 'STRANDED WIRE TWISTED PAIR',
-      'Cable Type': 'STRAIGHT-THROUGH USING ALL 4 PAIRS',
       'Cable Length': '100MTR/305MTR',
       'Speed': '1000 MBPS',
+      'Category': 'Cat 5e Enhanced',
+      'Cable Type': 'UTP (Unshielded Twisted Pair)',
+      'Standard': 'ENHANCED CATEGORY 5 (1,000 BASE-T)',
+      'Wire Gauge': '23/24/25/26 AWG 4-PAIR',
+      'Conductor': 'STRANDED WIRE TWISTED PAIR',
+      'Design': 'FLAT TYPE - 1.4 MM THICKNESS, 8 MM WIDTH',
+      'Configuration': 'STRAIGHT-THROUGH USING ALL 4 PAIRS',
       'Customization': 'All Colors Available'
     },
     applications: [
