@@ -12,6 +12,7 @@ import { getProductDetails } from '../data/productImages';
 import { Search } from 'lucide-react';
 import AmazonStyleFilter from '@/components/AmazonStyleFilter';
 import BulkQuoteForm from '@/components/BulkQuoteForm';
+import CableManufacturing3D from '@/components/CableManufacturing3D';
 
 // Import product images
 import cat6StpPatchcord from '../assets/cat6-stp-patchcord-3.png';
@@ -197,48 +198,9 @@ const Index = () => {
         onFilterClick={() => setIsFilterOpen(true)}
       />
       
-      {/* Hero Section */}
-      <div id="home" className="relative min-h-[600px] bg-cover bg-center bg-no-repeat overflow-hidden" style={{
-      backgroundImage: 'url("/lovable-uploads/4fe743c1-7814-4030-b751-98c886511e2c.png")',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center center'
-    }}>
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-gray-900/70 to-blue-800/60" />
-        <div className="relative container mx-auto px-4 py-16 min-h-[600px] flex items-center justify-center">
-          <div className="text-white max-w-4xl text-center">
-            <div className="mb-8 animate-fade-in flex justify-center">
-              <Logo className="h-20 md:h-28" />
-            </div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-white via-blue-100 to-gray-100 bg-clip-text text-transparent leading-tight">
-              Chhajer Cable Industries
-            </h1>
-            
-            {/* CCI Acronym - Centered */}
-            <div className="mb-6 flex justify-center">
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-4 md:px-6 py-3 md:py-4 border border-white/20">
-                <div className="flex items-center space-x-4 md:space-x-6">
-                  <div className="text-center">
-                    <div className="text-xl md:text-2xl font-bold text-blue-300">C</div>
-                    <div className="text-xs md:text-sm text-gray-200">Committed</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-xl md:text-2xl font-bold text-blue-300">C</div>
-                    <div className="text-xs md:text-sm text-gray-200">Credible</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-xl md:text-2xl font-bold text-blue-300">I</div>
-                    <div className="text-xs md:text-sm text-gray-200">Innovators</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <p className="text-sm text-blue-200 font-medium mb-4">Quality Cables Since 1997</p>
-            <p className="text-lg md:text-xl lg:text-2xl leading-relaxed animate-slide-up mx-auto font-light px-4">
-              With over two decades of excellence, we stand as a premier manufacturer of high-quality cables and networking solutions. Based in Delhi, we specialize in producing a comprehensive range of cables including LAN, CCTV, telephone, and specialized industrial cables. Our commitment to quality, innovation, and customer satisfaction has made us a trusted name in the industry.
-            </p>
-          </div>
-        </div>
+      {/* Hero Section - 3D Animation */}
+      <div id="home">
+        <CableManufacturing3D />
       </div>
 
       {/* Products Section */}
