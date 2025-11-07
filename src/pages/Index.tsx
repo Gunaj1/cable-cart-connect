@@ -12,7 +12,7 @@ import { getProductDetails } from '../data/productImages';
 import { Search } from 'lucide-react';
 import AmazonStyleFilter from '@/components/AmazonStyleFilter';
 import BulkQuoteForm from '@/components/BulkQuoteForm';
-import CableManufacturing3D from '@/components/CableManufacturing3D';
+import ManufacturingAnimation from '@/components/ManufacturingAnimation';
 
 // Import product images
 import cat6StpPatchcord from '../assets/cat6-stp-patchcord-3.png';
@@ -198,9 +198,9 @@ const Index = () => {
         onFilterClick={() => setIsFilterOpen(true)}
       />
       
-      {/* Hero Section - 3D Animation */}
+      {/* Hero Section - Manufacturing Animation */}
       <div id="home">
-        <CableManufacturing3D />
+        <ManufacturingAnimation />
       </div>
 
       {/* Products Section */}
