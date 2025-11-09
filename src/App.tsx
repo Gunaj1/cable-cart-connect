@@ -18,6 +18,9 @@ import AdminRoute from "./components/AdminRoute";
 import Admin from "./pages/admin";
 import ComparePage from "./pages/compare";
 import BulkQuote from "./pages/BulkQuote";
+import Workspace from "./pages/Workspace";
+import Blogs from "./pages/Blogs";
+import Advertisements from "./pages/Advertisements";
 
 const queryClient = new QueryClient();
 
@@ -88,6 +91,36 @@ const App = () => (
               element={
                 <PrivateRoute>
                   <BulkQuote />
+                </PrivateRoute>
+              }
+            />
+
+            {/* Workspace Page */}
+            <Route
+              path="/workspace"
+              element={
+                <PrivateRoute>
+                  <Workspace />
+                </PrivateRoute>
+              }
+            />
+
+            {/* Blogs Page */}
+            <Route
+              path="/blogs"
+              element={
+                <PrivateRoute>
+                  <Blogs />
+                </PrivateRoute>
+              }
+            />
+
+            {/* Advertisements Page */}
+            <Route
+              path="/advertisements"
+              element={
+                <PrivateRoute>
+                  <Advertisements />
                 </PrivateRoute>
               }
             />

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Cable, ShoppingCart, Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram, Eye, X, Award, Shield, Users, TrendingUp, Map, Star } from 'lucide-react';
 import ChatBot from '../components/ChatBot';
 import ClientLogoStrip from '../components/ClientLogoStrip';
-import Navbar from '../components/Navbar';
+import MegaMenuNavbar from '../components/MegaMenuNavbar';
 import Logo from '../components/Logo';
 import AboutTabs from '../components/AboutTabs';
 import ServicesSection from '../components/ServicesSection';
@@ -48,6 +48,7 @@ import ProductCompareDrawer from '@/components/ProductCompareDrawer';
 import ComparisonFloatingButton from '@/components/ComparisonFloatingButton';
 
 const Index = () => {
+  const location = window.location;
   const [activeSection, setActiveSection] = useState('home');
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
@@ -62,6 +63,19 @@ const Index = () => {
     comparisonProducts,
     clearComparison
   } = useComparison();
+  
+  // Handle scroll-to on page load from navigation state
+  useEffect(() => {
+    const hash = location.hash?.replace('#', '');
+    if (hash) {
+      setTimeout(() => {
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, [location.hash]);
   const [products, setProducts] = useState<Product[]>(() => {
     // Initialize products with stock levels
     return categories.flatMap(category => category.products.map(product => ({
@@ -185,11 +199,7 @@ const Index = () => {
   };
   
   return <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50">
-      <Navbar 
-        cartCount={0} 
-        onCartClick={() => {}} 
-        onNavigate={scrollToSection}
-        activeSection={activeSection} 
+      <MegaMenuNavbar 
         products={products} 
         onProductSelect={product => {
           setQuickViewProduct(product);
@@ -830,4 +840,6 @@ const categories = [{
     }
   }]
 }];
+
+export { categories };
 export default Index;

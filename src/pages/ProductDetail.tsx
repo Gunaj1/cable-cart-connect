@@ -26,15 +26,16 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useComparison } from '@/contexts/ComparisonContext';
 import { Product } from '@/types/Product';
 import ProductCard from '@/components/ProductCard';
-import Navbar from '@/components/Navbar';
+import MegaMenuNavbar from '@/components/MegaMenuNavbar';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import { categories } from './Index';
 
 interface ProductDetailProps {
   products?: Product[];
   onAddToCart?: (product: Product) => void;
 }
 
-const ProductDetail: React.FC<ProductDetailProps> = ({ products = [], onAddToCart }) => {
+const ProductDetail: React.FC<ProductDetailProps> = ({ products: propProducts, onAddToCart }) => {
   const { productId } = useParams();
   const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -44,8 +45,24 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ products = [], onAddToCar
   const [imageError, setImageError] = useState(false);
   const { addToComparison, isInComparison } = useComparison();
 
+  // Use provided products or flatten from categories
+  const allProducts = propProducts && propProducts.length > 0 
+    ? propProducts 
+    : categories.flatMap(category => 
+        category.products.map(product => ({
+          ...product,
+          stock: Math.floor(Math.random() * 100) + 10,
+          applications: product.detailedDescription?.applications || [],
+          features: product.detailedDescription?.features || [],
+          specifications: product.detailedDescription?.specifications.reduce((acc: Record<string, string>, spec: string, index: number) => {
+            acc[`spec_${index}`] = spec;
+            return acc;
+          }, {}) || {}
+        } as Product))
+      );
+
   // Find product from products array
-  const product = products.find(p => 
+  const product = allProducts.find(p => 
     String(p.id) === String(productId) ||
     p.name.toLowerCase().replace(/\s+/g, '-') === productId
   );
@@ -55,20 +72,16 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ products = [], onAddToCar
     console.log('ProductDetail Debug:', {
       productId,
       foundProduct: product,
-      productsCount: products.length,
+      productsCount: allProducts.length,
       routeParams: { productId }
     });
-  }, [productId, product, products]);
+  }, [productId, product, allProducts]);
 
   if (!product) {
     return (
       <div className="min-h-screen bg-background">
-        <Navbar 
-          cartCount={0} 
-          onCartClick={() => {}}
-          onNavigate={() => {}}
-          activeSection=""
-          products={[]}
+        <MegaMenuNavbar 
+          products={allProducts}
           onProductSelect={() => {}}
         />
         <div className="container mx-auto px-4 py-20">
@@ -164,19 +177,15 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ products = [], onAddToCar
     }
   };
 
-  const relatedProducts = products
+  const relatedProducts = allProducts
     .filter(p => p.category === product.category && p.id !== product.id)
     .slice(0, 4);
 
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-background">
-        <Navbar 
-          cartCount={0} 
-          onCartClick={() => {}}
-          onNavigate={() => navigate('/')}
-          activeSection=""
-          products={products}
+        <MegaMenuNavbar 
+          products={allProducts}
           onProductSelect={() => {}}
         />
         
