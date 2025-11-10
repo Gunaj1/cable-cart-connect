@@ -213,91 +213,7 @@ const Index = () => {
         <ManufacturingAnimation />
       </div>
 
-      {/* Products Section */}
-      <div id="products" className="container mx-auto px-4 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-700 via-gray-700 to-blue-600 bg-clip-text text-transparent mb-4">
-            Our Products
-          </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Discover our comprehensive range of high-quality cables and networking solutions
-          </p>
-        </div>
-
-
-        {/* Category Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          <button onClick={() => setSelectedCategory(null)} className={`px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 ${selectedCategory === null ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-xl' : 'bg-white text-gray-700 border-2 border-blue-200 hover:border-blue-400 hover:text-blue-700 shadow-lg'}`}>
-            All Categories
-          </button>
-          {categories.map(category => <button key={category.id} onClick={() => setSelectedCategory(category.id)} className={`px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 ${selectedCategory === category.id ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-xl' : 'bg-white text-gray-700 border-2 border-blue-200 hover:border-blue-400 hover:text-blue-700 shadow-lg'}`}>
-              {category.name}
-            </button>)}
-        </div>
-
-        {/* Premium Product Grid */}
-        {selectedCategory === null ?
-      // All Categories View - Show by category
-      <div className="space-y-16">
-            {categories.map(category => {
-              const categoryProducts = appliedFilters ? filteredProducts.filter(product => 
-                category.products.some(p => p.id === product.id)
-              ) : category.products.map(product => products.find(p => p.id === product.id)).filter(Boolean);
-              
-              // Hide category if no products match the filter
-              if (categoryProducts.length === 0) return null;
-              
-              return <div key={category.id}>
-                {/* Category Header */}
-                <div className="mb-8">
-                  <h3 className="text-3xl font-bold text-gray-900 mb-2">{category.name}</h3>
-                  <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full"></div>
-                </div>
-                
-                 {/* Product Grid */}
-                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                   {categoryProducts.map(product => {
-                const currentProduct = products.find(p => p.id === product.id) || product;
-                if (!currentProduct) return null;
-                return <ProductCard key={product.id} product={currentProduct} onQuickView={product => {
-                  setQuickViewProduct(product);
-                  setIsQuickViewOpen(true);
-                }} />;
-             })}
-                </div>
-              </div>
-            })}
-          </div> :
-      // Single Category View - Show selected category products
-      <div className="max-w-6xl mx-auto">
-            {categories.filter(category => category.id === selectedCategory).map(category => <div key={category.id}>
-                  {/* Category Hero */}
-                  <div className="mb-12 text-center">
-                    <h3 className="text-4xl font-bold text-gray-900 mb-4">{category.name}</h3>
-                    <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                      Premium quality {category.name.toLowerCase()} designed for professional networking applications
-                    </p>
-                  </div>
-                  
-                   {/* Product Grid */}
-                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                     {(appliedFilters ? filteredProducts.filter(product => 
-                       category.products.some(p => p.id === product.id)
-                     ) : category.products.map(product => products.find(p => p.id === product.id)).filter(Boolean)
-                     ).map(product => {
-                const currentProduct = products.find(p => p.id === product.id) || product;
-                if (!currentProduct) return null;
-                return <ProductCard key={product.id} product={currentProduct} onQuickView={product => {
-                  setQuickViewProduct(product);
-                  setIsQuickViewOpen(true);
-                }} />;
-             })}
-                  </div>
-                </div>)}
-          </div>}
-      </div>
-
-      {/* Need Help Section - Moved above About */}
+      {/* Need Help Section */}
       <div className="py-16 bg-gradient-to-r from-blue-600 to-blue-700">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
@@ -323,6 +239,9 @@ const Index = () => {
         </div>
       </div>
 
+      {/* Client Logo Strip */}
+      <ClientLogoStrip />
+
       {/* About Section */}
       <div id="about" className="bg-gradient-to-br from-white to-blue-50 py-20">
         <div className="container mx-auto px-4">
@@ -340,20 +259,93 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Client Logo Strip */}
-      <ClientLogoStrip />
-
       {/* Services Section */}
       <div id="services" className="bg-gradient-to-br from-gray-50 to-white py-20">
         <ServicesSection />
       </div>
 
-      {/* Credentials Section - New placement */}
+      {/* Credentials Section */}
       <div id="credentials">
         <BusinessCredentials />
       </div>
 
-      {/* Contact Section - Moved to bottom */}
+      {/* Products Section - Available through Consumer menu */}
+      <div id="products" className="container mx-auto px-4 py-20">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-700 via-gray-700 to-blue-600 bg-clip-text text-transparent mb-4">
+            Our Products
+          </h2>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Discover our comprehensive range of high-quality cables and networking solutions
+          </p>
+        </div>
+
+        {/* Category Filter Buttons */}
+        <div className="flex flex-wrap justify-center gap-4 mb-12">
+          <button onClick={() => setSelectedCategory(null)} className={`px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 ${selectedCategory === null ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-xl' : 'bg-white text-gray-700 border-2 border-blue-200 hover:border-blue-400 hover:text-blue-700 shadow-lg'}`}>
+            All Categories
+          </button>
+          {categories.map(category => <button key={category.id} onClick={() => setSelectedCategory(category.id)} className={`px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 ${selectedCategory === category.id ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-xl' : 'bg-white text-gray-700 border-2 border-blue-200 hover:border-blue-400 hover:text-blue-700 shadow-lg'}`}>
+              {category.name}
+            </button>)}
+        </div>
+
+        {/* Product Grid */}
+        {selectedCategory === null ?
+          <div className="space-y-16">
+            {categories.map(category => {
+              const categoryProducts = appliedFilters ? filteredProducts.filter(product => 
+                category.products.some(p => p.id === product.id)
+              ) : category.products.map(product => products.find(p => p.id === product.id)).filter(Boolean);
+              
+              if (categoryProducts.length === 0) return null;
+              
+              return <div key={category.id}>
+                <div className="mb-8">
+                  <h3 className="text-3xl font-bold text-gray-900 mb-2">{category.name}</h3>
+                  <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full"></div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {categoryProducts.map(product => {
+                    const currentProduct = products.find(p => p.id === product.id) || product;
+                    if (!currentProduct) return null;
+                    return <ProductCard key={product.id} product={currentProduct} onQuickView={product => {
+                      setQuickViewProduct(product);
+                      setIsQuickViewOpen(true);
+                    }} />;
+                  })}
+                </div>
+              </div>
+            })}
+          </div> :
+          <div className="max-w-6xl mx-auto">
+            {categories.filter(category => category.id === selectedCategory).map(category => <div key={category.id}>
+              <div className="mb-12 text-center">
+                <h3 className="text-4xl font-bold text-gray-900 mb-4">{category.name}</h3>
+                <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                  Premium quality {category.name.toLowerCase()} designed for professional networking applications
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {(appliedFilters ? filteredProducts.filter(product => 
+                  category.products.some(p => p.id === product.id)
+                ) : category.products.map(product => products.find(p => p.id === product.id)).filter(Boolean)
+                ).map(product => {
+                  const currentProduct = products.find(p => p.id === product.id) || product;
+                  if (!currentProduct) return null;
+                  return <ProductCard key={product.id} product={currentProduct} onQuickView={product => {
+                    setQuickViewProduct(product);
+                    setIsQuickViewOpen(true);
+                  }} />;
+                })}
+              </div>
+            </div>)}
+          </div>}
+      </div>
+
+      {/* Contact Section */}
       <div id="contact" className="bg-gradient-to-br from-blue-900 via-gray-900 to-blue-800 text-white py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">

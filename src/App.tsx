@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { HelmetProvider } from "react-helmet-async";
 
 import { Toaster as AppToaster } from "@/components/ui/toaster";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
@@ -11,7 +12,7 @@ import { ComparisonProvider } from "./contexts/ComparisonContext";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
-import ProductDetail from "./pages/ProductDetail";
+import ProductDetailEnhanced from "./pages/ProductDetailEnhanced";
 import TechnicalConsultation from "./pages/TechnicalConsultation";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminRoute from "./components/AdminRoute";
@@ -25,12 +26,13 @@ import Advertisements from "./pages/Advertisements";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <ComparisonProvider>
-      <TooltipProvider>
-        <AppToaster />
-        <SonnerToaster />
-        <BrowserRouter>
+  <HelmetProvider>
+    <QueryClientProvider client={queryClient}>
+      <ComparisonProvider>
+        <TooltipProvider>
+          <AppToaster />
+          <SonnerToaster />
+          <BrowserRouter>
           <Routes>
             {/* Public Login Route */}
             <Route path="/login" element={<Login />} />
@@ -60,7 +62,7 @@ const App = () => (
               path="/product/:productId"
               element={
                 <PrivateRoute>
-                  <ProductDetail />
+                  <ProductDetailEnhanced />
                 </PrivateRoute>
               }
             />
@@ -132,6 +134,7 @@ const App = () => (
       </TooltipProvider>
     </ComparisonProvider>
   </QueryClientProvider>
+  </HelmetProvider>
 );
 
 export default App;
