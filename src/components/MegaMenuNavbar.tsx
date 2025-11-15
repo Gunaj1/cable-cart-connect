@@ -127,7 +127,7 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                   Consumers
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <div className="w-[1200px] p-8 bg-background shadow-2xl">
+                  <div className="w-[1600px] p-8 bg-background shadow-2xl">
                     <div className="grid grid-cols-4 gap-8">
                       {categories.map((category) => {
                         const Icon = category.icon;
@@ -171,7 +171,7 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                   Company
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <div className="w-[900px] p-8 bg-background shadow-2xl">
+                  <div className="w-[1400px] p-8 bg-background shadow-2xl">
                     <div className="grid grid-cols-4 gap-8">
                       {/* About Section */}
                       <div className="space-y-4">
