@@ -126,9 +126,9 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                   <Building2 className="w-4 h-4 mr-2" />
                   Consumers
                 </NavigationMenuTrigger>
-                <NavigationMenuContent className="left-0">
-                  <div className="w-[95vw] h-[360px] p-6 bg-background shadow-2xl overflow-hidden">
-                    <div className="grid grid-cols-8 gap-4 h-full">
+                <NavigationMenuContent>
+                  <div className="w-full h-[360px] p-6 bg-background shadow-2xl overflow-hidden">
+                    <div className="grid grid-cols-4 gap-6 h-full">
                       {categories.map((category) => {
                         const Icon = category.icon;
                         return (
@@ -170,8 +170,8 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                   <Briefcase className="w-4 h-4 mr-2" />
                   Company
                 </NavigationMenuTrigger>
-                <NavigationMenuContent className="left-0">
-                  <div className="w-[95vw] h-[360px] p-6 bg-background shadow-2xl overflow-hidden">
+                <NavigationMenuContent>
+                  <div className="w-full h-[360px] p-6 bg-background shadow-2xl overflow-hidden">
                     <div className="grid grid-cols-4 gap-6 h-full">
                       {/* About Section */}
                       <div className="space-y-4">
