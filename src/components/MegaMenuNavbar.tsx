@@ -127,30 +127,30 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                   Consumers
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <div className="w-[1200px] p-8 bg-background shadow-2xl">
-                    <div className="grid grid-cols-4 gap-8">
+                  <div className="max-w-7xl w-screen p-6 bg-background shadow-2xl left-1/2 -translate-x-1/2">
+                    <div className="grid grid-cols-4 gap-6">
                       {categories.map((category) => {
                         const Icon = category.icon;
                         return (
-                          <div key={category.name} className="space-y-4">
-                            <div className="flex items-center space-x-2 text-primary font-bold mb-4 text-base">
-                              <Icon className="w-6 h-6" />
+                          <div key={category.name} className="space-y-3">
+                            <div className="flex items-center space-x-2 text-primary font-bold mb-3 text-sm">
+                              <Icon className="w-5 h-5" />
                               <span>{category.name}</span>
                             </div>
-                            <div className="space-y-2">
-                              {category.products.slice(0, 6).map((product) => (
+                            <div className="space-y-1.5">
+                              {category.products.slice(0, 8).map((product) => (
                                 <button
                                   key={product.id}
                                   onClick={() => handleProductClick(product)}
-                                  className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5"
+                                  className="block w-full text-left text-xs text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1"
                                 >
                                   {product.name}
                                 </button>
                               ))}
-                              {category.products.length > 6 && (
+                              {category.products.length > 8 && (
                                 <button
                                   onClick={() => scrollToSection('products')}
-                                  className="text-sm text-primary hover:underline font-medium"
+                                  className="text-xs text-primary hover:underline font-medium mt-1"
                                 >
                                   View all {category.products.length} →
                                 </button>
@@ -171,55 +171,55 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                   Company
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <div className="w-[900px] p-8 bg-background shadow-2xl">
-                    <div className="grid grid-cols-4 gap-8">
+                  <div className="max-w-6xl w-screen p-6 bg-background shadow-2xl left-1/2 -translate-x-1/2">
+                    <div className="grid grid-cols-4 gap-6">
                       {/* About Section */}
-                      <div className="space-y-4">
-                        <div className="flex items-center space-x-2 text-primary font-bold mb-4 text-base">
-                          <Building2 className="w-6 h-6" />
+                      <div className="space-y-3">
+                        <div className="flex items-center space-x-2 text-primary font-bold mb-3 text-sm">
+                          <Building2 className="w-5 h-5" />
                           <span>About</span>
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-1.5">
                           <button
                             onClick={() => scrollToSection('about')}
-                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5"
+                            className="block w-full text-left text-xs text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1"
                           >
                             About Us
                           </button>
                           <button
                             onClick={() => scrollToSection('about')}
-                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5"
+                            className="block w-full text-left text-xs text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1"
                           >
                             Our Mission
                           </button>
                           <button
                             onClick={() => scrollToSection('about')}
-                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5"
+                            className="block w-full text-left text-xs text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1"
                           >
                             Our Vision
                           </button>
                           <button
                             onClick={() => scrollToSection('about')}
-                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5"
+                            className="block w-full text-left text-xs text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1"
                           >
                             Meet Our Team
                           </button>
                         </div>
 
-                        <div className="flex items-center space-x-2 text-primary font-bold mb-4 text-base mt-6">
-                          <Award className="w-6 h-6" />
+                        <div className="flex items-center space-x-2 text-primary font-bold mb-3 text-sm mt-4">
+                          <Award className="w-5 h-5" />
                           <span>Services</span>
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-1.5">
                           <button
                             onClick={() => scrollToSection('services')}
-                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5"
+                            className="block w-full text-left text-xs text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1"
                           >
                             Our Services
                           </button>
                           <button
                             onClick={() => scrollToSection('credentials')}
-                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5"
+                            className="block w-full text-left text-xs text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1"
                           >
                             Credentials
                           </button>
@@ -227,35 +227,35 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                       </div>
 
                       {/* Life at CCI & News */}
-                      <div className="space-y-4">
-                        <div className="flex items-center space-x-2 text-primary font-bold mb-4 text-base">
-                          <Users className="w-6 h-6" />
+                      <div className="space-y-3">
+                        <div className="flex items-center space-x-2 text-primary font-bold mb-3 text-sm">
+                          <Users className="w-5 h-5" />
                           <span>Life at CCI</span>
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-1.5">
                           <button
                             onClick={() => navigate('/workspace')}
-                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5"
+                            className="block w-full text-left text-xs text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1"
                           >
                             <Image className="w-3 h-3 inline mr-1" />
                             Workspace Gallery
                           </button>
                         </div>
 
-                        <div className="flex items-center space-x-2 text-primary font-bold mb-4 text-base mt-6">
-                          <FileText className="w-6 h-6" />
+                        <div className="flex items-center space-x-2 text-primary font-bold mb-3 text-sm mt-4">
+                          <FileText className="w-5 h-5" />
                           <span>News & Media</span>
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-1.5">
                           <button
                             onClick={() => navigate('/blogs')}
-                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5"
+                            className="block w-full text-left text-xs text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1"
                           >
                             Blogs
                           </button>
                           <button
                             onClick={() => navigate('/advertisements')}
-                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5"
+                            className="block w-full text-left text-xs text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1"
                           >
                             Advertisements
                           </button>
@@ -263,15 +263,15 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                       </div>
 
                       {/* Contact & Reviews */}
-                      <div className="space-y-4">
-                        <div className="flex items-center space-x-2 text-primary font-bold mb-4 text-base">
-                          <MapPin className="w-6 h-6" />
+                      <div className="space-y-3">
+                        <div className="flex items-center space-x-2 text-primary font-bold mb-3 text-sm">
+                          <MapPin className="w-5 h-5" />
                           <span>Contact Us</span>
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-1.5">
                           <button
                             onClick={() => scrollToSection('contact')}
-                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5"
+                            className="block w-full text-left text-xs text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1"
                           >
                             Get in Touch
                           </button>
@@ -279,23 +279,23 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                             href="https://www.google.com/maps/dir//A6+Jhilmil+Industrial+Area,+New+Delhi+110095,+India/@28.6851,77.2426,17z"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5"
+                            className="block w-full text-left text-xs text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1"
                           >
                             <Map className="w-3 h-3 inline mr-1" />
                             View on Google Maps
                           </a>
                         </div>
 
-                        <div className="flex items-center space-x-2 text-primary font-bold mb-4 text-base mt-6">
-                          <Star className="w-6 h-6" />
+                        <div className="flex items-center space-x-2 text-primary font-bold mb-3 text-sm mt-4">
+                          <Star className="w-5 h-5" />
                           <span>Reviews</span>
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-1.5">
                           <a
                             href="https://www.google.com/search?q=chhajer+cable+industries"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5"
+                            className="block w-full text-left text-xs text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1"
                           >
                             Client Reviews
                           </a>
@@ -303,27 +303,27 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                       </div>
 
                       {/* Get Associated With Us */}
-                      <div className="space-y-4">
-                        <div className="flex items-center space-x-2 text-primary font-bold mb-4 text-base">
-                          <Users className="w-6 h-6" />
+                      <div className="space-y-3">
+                        <div className="flex items-center space-x-2 text-primary font-bold mb-3 text-sm">
+                          <Users className="w-5 h-5" />
                           <span>Join Us</span>
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-1.5">
                           <button
                             onClick={() => navigate('/partnerships')}
-                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5"
+                            className="block w-full text-left text-xs text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1"
                           >
                             Become Our Partner
                           </button>
                           <button
                             onClick={() => navigate('/distributors')}
-                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5"
+                            className="block w-full text-left text-xs text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1"
                           >
                             Become a Distributor
                           </button>
                           <button
                             onClick={() => scrollToSection('contact')}
-                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5"
+                            className="block w-full text-left text-xs text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1"
                           >
                             Supplier Inquiries
                           </button>
