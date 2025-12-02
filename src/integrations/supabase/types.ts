@@ -257,7 +257,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      is_admin: { Args: { _uid?: string }; Returns: boolean }
+      is_admin: {
+        Args: { _uid?: string }
+        Returns: boolean
+      }
     }
     Enums: {
       app_role: "admin" | "customer"
