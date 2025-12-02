@@ -120,6 +120,20 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                 </NavigationMenuLink>
               </NavigationMenuItem>
 
+              {/* Product Comparisons */}
+              <NavigationMenuItem>
+                <NavigationMenuLink
+                  onClick={() => navigate('/compare')}
+                  className={cn(
+                    "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 cursor-pointer",
+                    location.pathname === '/compare' && "text-primary"
+                  )}
+                >
+                  <Award className="w-4 h-4 mr-2" />
+                  Product Comparisons
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+
               {/* Consumers Mega Menu */}
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="text-sm font-medium">
@@ -127,7 +141,7 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                   Consumers
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <div className="w-[1200px] p-8 bg-background shadow-2xl">
+                  <div className="w-[1200px] max-h-[85vh] overflow-y-auto p-8 bg-background shadow-2xl">
                     <div className="grid grid-cols-4 gap-8">
                       {categories.map((category) => {
                         const Icon = category.icon;
@@ -171,7 +185,7 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                   Company
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <div className="w-[900px] p-8 bg-background shadow-2xl">
+                  <div className="w-[900px] max-h-[85vh] overflow-y-auto p-8 bg-background shadow-2xl">
                     <div className="grid grid-cols-4 gap-8">
                       {/* About Section */}
                       <div className="space-y-4">
