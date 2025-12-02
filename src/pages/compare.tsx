@@ -1,14 +1,35 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useComparison } from "@/contexts/ComparisonContext";
 import { getProductDetails } from "@/data/productImages";
-import { ChevronLeft, Check, X } from "lucide-react";
+import { ChevronLeft, Check, X, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { categories } from "@/pages/Index";
+import { Product } from "@/types/Product";
+import MegaMenuNavbar from "@/components/MegaMenuNavbar";
+import { cn } from "@/lib/utils";
 
 const ComparePage = () => {
   const navigate = useNavigate();
-  const { comparisonProducts, clearComparison } = useComparison();
+  const { comparisonProducts, clearComparison, addToComparison, removeFromComparison, isInComparison, canAddMore } = useComparison();
+  const [showProductSelection, setShowProductSelection] = useState(false);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    // Flatten all products from categories and add stock property
+    const products: Product[] = [];
+    categories.forEach(category => {
+      category.products.forEach(product => {
+        products.push({
+          ...product,
+          stock: 50, // Default stock value
+          detailedDescription: product.detailedDescription ?? { specifications: [], features: [], applications: [] }
+        });
+      });
+    });
+    setAllProducts(products);
+  }, []);
 
   useEffect(() => {
     document.title = `Compare Products | ${comparisonProducts.length} selected`;
@@ -21,24 +42,126 @@ const ComparePage = () => {
     };
   }, [comparisonProducts.length]);
 
-  useEffect(() => {
-    if (comparisonProducts.length < 2) {
-      navigate("/", { replace: true });
-    }
-  }, [comparisonProducts.length, navigate]);
-
-  if (comparisonProducts.length < 2) {
+  // Show product selection if less than 2 products selected or if user wants to add more
+  if (comparisonProducts.length < 2 || showProductSelection) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background flex items-center justify-center p-6">
-        <div className="text-center max-w-md">
-          <div className="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-4">
-            <X className="w-8 h-8 text-destructive" />
+      <>
+        <MegaMenuNavbar />
+        <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background py-8">
+          <div className="container mx-auto px-4 max-w-7xl">
+            {/* Header */}
+            <div className="mb-8">
+              <Button 
+                variant="ghost"
+                onClick={() => navigate('/')}
+                className="mb-4"
+              >
+                <ChevronLeft className="w-4 h-4 mr-2" />
+                Back to Home
+              </Button>
+              <h1 className="text-4xl font-bold mb-2">Product Comparison</h1>
+              <p className="text-muted-foreground mb-4">
+                Select 2-3 products to compare their specifications and features
+              </p>
+              
+              {/* Selected Products Counter */}
+              <div className="flex items-center gap-4">
+                <Badge variant="secondary" className="text-lg px-4 py-2">
+                  {comparisonProducts.length}/3 Selected
+                </Badge>
+                {comparisonProducts.length >= 2 && (
+                  <Button onClick={() => setShowProductSelection(false)}>
+                    View Comparison
+                  </Button>
+                )}
+                {comparisonProducts.length > 0 && (
+                  <Button variant="outline" onClick={clearComparison}>
+                    Clear All
+                  </Button>
+                )}
+              </div>
+            </div>
+
+            {/* Product Selection Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {allProducts.map((product) => {
+                const isSelected = isInComparison(product.id);
+                return (
+                  <div
+                    key={product.id}
+                    className={cn(
+                      "bg-card rounded-lg border overflow-hidden transition-all hover:shadow-lg cursor-pointer",
+                      isSelected && "border-primary border-2 shadow-lg"
+                    )}
+                    onClick={() => {
+                      if (isSelected) {
+                        removeFromComparison(product.id);
+                      } else if (canAddMore) {
+                        addToComparison(product);
+                      }
+                    }}
+                  >
+                    {/* Product Image */}
+                    <div className="aspect-square bg-muted/30 relative">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-full object-contain p-4"
+                      />
+                      {isSelected && (
+                        <div className="absolute top-2 right-2 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                          <Check className="w-5 h-5 text-primary-foreground" />
+                        </div>
+                      )}
+                      {!isSelected && !canAddMore && (
+                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                          <p className="text-white text-sm font-medium">Max 3 products</p>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Product Info */}
+                    <div className="p-4">
+                      <h3 className="font-semibold text-sm line-clamp-2 mb-2">
+                        {product.name}
+                      </h3>
+                      <p className="text-lg font-bold text-primary">
+                        {product.price != null ? `₹${Number(product.price).toFixed(2)}` : "Contact for Price"}
+                      </p>
+                      <Button
+                        size="sm"
+                        variant={isSelected ? "default" : "outline"}
+                        className="w-full mt-3"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (isSelected) {
+                            removeFromComparison(product.id);
+                          } else if (canAddMore) {
+                            addToComparison(product);
+                          }
+                        }}
+                        disabled={!isSelected && !canAddMore}
+                      >
+                        {isSelected ? (
+                          <>
+                            <Check className="w-4 h-4 mr-2" />
+                            Selected
+                          </>
+                        ) : (
+                          <>
+                            <Plus className="w-4 h-4 mr-2" />
+                            Select to Compare
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-          <h2 className="text-2xl font-bold mb-2">Not Enough Products</h2>
-          <p className="text-muted-foreground mb-6">Select at least two products to compare.</p>
-          <Button onClick={() => navigate('/')}>Browse Products</Button>
         </div>
-      </div>
+      </>
     );
   }
 
@@ -125,46 +248,61 @@ const ComparePage = () => {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background py-8">
-      <div className="container mx-auto px-4 max-w-7xl">
-        {/* Header */}
-        <div className="mb-8">
-          <Button 
-            variant="ghost"
-            onClick={() => navigate(-1)}
-            className="mb-4"
-          >
-            <ChevronLeft className="w-4 h-4 mr-2" />
-            Back
-          </Button>
-          <h1 className="text-4xl font-bold mb-2">Product Comparison</h1>
-          <p className="text-muted-foreground">Compare specifications, features, and find the perfect cable for your needs</p>
-        </div>
-
-        {/* Product Images Gallery */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {productsWithDetails.map((product) => (
-            <div key={product.id} className="bg-card rounded-xl border border-border overflow-hidden shadow-lg">
-              <div className="p-6">
-                <h3 className="font-bold text-lg mb-4 text-center">{product.name}</h3>
-                <div className="grid grid-cols-2 gap-2 mb-4">
-                  {product.details.images.slice(0, 4).map((img, idx) => (
-                    <div key={idx} className="aspect-square bg-muted/30 rounded-lg overflow-hidden">
-                      <img 
-                        src={img} 
-                        alt={`${product.name} - Image ${idx + 1}`}
-                        className="w-full h-full object-contain hover:scale-105 transition-transform"
-                      />
-                    </div>
-                  ))}
-                </div>
-                <p className="text-sm text-muted-foreground line-clamp-3">
-                  {product.details.description}
-                </p>
+    <>
+      <MegaMenuNavbar />
+      <main className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background py-8">
+        <div className="container mx-auto px-4 max-w-7xl">
+          {/* Header */}
+          <div className="mb-8">
+            <Button 
+              variant="ghost"
+              onClick={() => navigate('/')}
+              className="mb-4"
+            >
+              <ChevronLeft className="w-4 h-4 mr-2" />
+              Back to Home
+            </Button>
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-4xl font-bold mb-2">Product Comparison</h1>
+                <p className="text-muted-foreground">Compare specifications, features, and find the perfect cable for your needs</p>
               </div>
+              <Button variant="outline" onClick={() => setShowProductSelection(true)}>
+                <Plus className="w-4 h-4 mr-2" />
+                Add More Products
+              </Button>
             </div>
-          ))}
-        </div>
+          </div>
+
+          {/* Product Images at Top of Comparison */}
+          <div className="bg-card rounded-xl border border-border overflow-hidden shadow-lg mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 divide-x divide-border">
+              {productsWithDetails.map((product) => (
+                <div key={product.id} className="p-6 text-center">
+                  <div className="aspect-square bg-muted/30 rounded-lg overflow-hidden mb-4">
+                    <img 
+                      src={product.details.images[0] || product.image} 
+                      alt={product.name}
+                      className="w-full h-full object-contain p-4"
+                    />
+                  </div>
+                  <h3 className="font-bold text-lg mb-2">{product.name}</h3>
+                  <p className="text-2xl font-bold text-primary mb-2">
+                    {product.price != null ? `₹${Number(product.price).toFixed(2)}` : "Contact for Price"}
+                  </p>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => removeFromComparison(product.id)}
+                    className="text-destructive hover:text-destructive"
+                  >
+                    <X className="w-4 h-4 mr-1" />
+                    Remove
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
 
         {/* Detailed Comparison Table */}
         <div className="bg-card rounded-xl shadow-xl overflow-hidden border border-border mb-8">
@@ -327,20 +465,25 @@ const ComparePage = () => {
           </div>
         </div>
 
-        {/* Call to Action */}
-        <div className="text-center flex gap-4 justify-center">
-          <Button size="lg" variant="outline" onClick={() => {
-            clearComparison();
-            navigate('/');
-          }}>
-            Clear & Browse Products
-          </Button>
-          <Button size="lg" onClick={() => navigate('/')}>
-            Browse More Products
-          </Button>
+          {/* Call to Action */}
+          <div className="text-center flex gap-4 justify-center">
+            <Button size="lg" variant="outline" onClick={() => setShowProductSelection(true)}>
+              <Plus className="w-4 h-4 mr-2" />
+              Add More Products
+            </Button>
+            <Button size="lg" variant="outline" onClick={() => {
+              clearComparison();
+              navigate('/');
+            }}>
+              Clear & Browse Products
+            </Button>
+            <Button size="lg" onClick={() => navigate('/')}>
+              Browse More Products
+            </Button>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 };
 
