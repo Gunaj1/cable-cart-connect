@@ -28,14 +28,14 @@ interface Product {
 }
 
 interface MegaMenuNavbarProps {
-  products: Product[];
-  onProductSelect: (product: Product) => void;
+  products?: Product[];
+  onProductSelect?: (product: Product) => void;
   onFilterClick?: () => void;
 }
 
 const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({ 
-  products, 
-  onProductSelect,
+  products = [], 
+  onProductSelect = () => {},
   onFilterClick 
 }) => {
   const navigate = useNavigate();
