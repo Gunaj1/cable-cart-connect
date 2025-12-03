@@ -126,16 +126,16 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                   <Building2 className="w-4 h-4 mr-2" />
                   Consumers
                 </NavigationMenuTrigger>
-                <NavigationMenuContent className="left-1/2 -translate-x-1/2">
-                  <div className="p-6 bg-background shadow-2xl border rounded-lg">
-                    <div className="grid grid-cols-4 gap-6">
+                <NavigationMenuContent className="!fixed !left-0 !right-0 !top-[72px] !translate-x-0 !w-auto data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95">
+                  <div className="mx-6 my-2 p-6 bg-background shadow-2xl border rounded-lg max-h-[70vh]">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6">
                       {categories.map((category) => {
                         const Icon = category.icon;
                         return (
-                          <div key={category.name} className="space-y-3 min-w-[200px]">
+                          <div key={category.name} className="space-y-3">
                             <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-2">
-                              <Icon className="w-5 h-5" />
-                              <span>{category.name}</span>
+                              <Icon className="w-5 h-5 flex-shrink-0" />
+                              <span className="whitespace-nowrap">{category.name}</span>
                             </div>
                             <div className="space-y-1">
                               {category.products.map((product) => (
@@ -162,13 +162,13 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                   <Briefcase className="w-4 h-4 mr-2" />
                   Company
                 </NavigationMenuTrigger>
-                <NavigationMenuContent className="left-1/2 -translate-x-1/2">
-                  <div className="p-6 bg-background shadow-2xl border rounded-lg">
-                    <div className="grid grid-cols-4 gap-6">
+                <NavigationMenuContent className="!fixed !left-0 !right-0 !top-[72px] !translate-x-0 !w-auto data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95">
+                  <div className="mx-6 my-2 p-6 bg-background shadow-2xl border rounded-lg max-h-[70vh]">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-6">
                       {/* About Section */}
-                      <div className="space-y-3 min-w-[180px]">
+                      <div className="space-y-3">
                         <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-2">
-                          <Building2 className="w-5 h-5" />
+                          <Building2 className="w-5 h-5 flex-shrink-0" />
                           <span>About</span>
                         </div>
                         <div className="space-y-1">
@@ -197,9 +197,12 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                             Meet Our Team
                           </button>
                         </div>
+                      </div>
 
-                        <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-2 mt-4">
-                          <Award className="w-5 h-5" />
+                      {/* Services Section */}
+                      <div className="space-y-3">
+                        <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-2">
+                          <Award className="w-5 h-5 flex-shrink-0" />
                           <span>Services</span>
                         </div>
                         <div className="space-y-1">
@@ -218,10 +221,10 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                         </div>
                       </div>
 
-                      {/* Life at CCI & News */}
-                      <div className="space-y-3 min-w-[180px]">
+                      {/* Life at CCI */}
+                      <div className="space-y-3">
                         <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-2">
-                          <Users className="w-5 h-5" />
+                          <Users className="w-5 h-5 flex-shrink-0" />
                           <span>Life at CCI</span>
                         </div>
                         <div className="space-y-1">
@@ -233,9 +236,12 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                             Workspace Gallery
                           </button>
                         </div>
+                      </div>
 
-                        <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-2 mt-4">
-                          <FileText className="w-5 h-5" />
+                      {/* News & Media */}
+                      <div className="space-y-3">
+                        <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-2">
+                          <FileText className="w-5 h-5 flex-shrink-0" />
                           <span>News & Media</span>
                         </div>
                         <div className="space-y-1">
@@ -254,10 +260,10 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                         </div>
                       </div>
 
-                      {/* Contact & Reviews */}
-                      <div className="space-y-3 min-w-[180px]">
+                      {/* Contact Us */}
+                      <div className="space-y-3">
                         <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-2">
-                          <MapPin className="w-5 h-5" />
+                          <MapPin className="w-5 h-5 flex-shrink-0" />
                           <span>Contact Us</span>
                         </div>
                         <div className="space-y-1">
@@ -274,12 +280,15 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                             className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1"
                           >
                             <Map className="w-3 h-3 inline mr-1" />
-                            View on Google Maps
+                            Google Maps
                           </a>
                         </div>
+                      </div>
 
-                        <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-2 mt-4">
-                          <Star className="w-5 h-5" />
+                      {/* Reviews */}
+                      <div className="space-y-3">
+                        <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-2">
+                          <Star className="w-5 h-5 flex-shrink-0" />
                           <span>Reviews</span>
                         </div>
                         <div className="space-y-1">
@@ -294,10 +303,10 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                         </div>
                       </div>
 
-                      {/* Get Associated With Us */}
-                      <div className="space-y-3 min-w-[180px]">
+                      {/* Join Us */}
+                      <div className="space-y-3">
                         <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-2">
-                          <Users className="w-5 h-5" />
+                          <Users className="w-5 h-5 flex-shrink-0" />
                           <span>Join Us</span>
                         </div>
                         <div className="space-y-1">
