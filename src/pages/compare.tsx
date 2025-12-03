@@ -122,6 +122,9 @@ const ComparePage = () => {
 
                     {/* Product Info */}
                     <div className="p-4">
+                      <Badge variant="outline" className="mb-2 text-xs">
+                        {product.category}
+                      </Badge>
                       <h3 className="font-semibold text-sm line-clamp-2 mb-2">
                         {product.name}
                       </h3>
@@ -286,6 +289,9 @@ const ComparePage = () => {
                       className="w-full h-full object-contain p-4"
                     />
                   </div>
+                  <Badge variant="secondary" className="mb-2">
+                    {product.category}
+                  </Badge>
                   <h3 className="font-bold text-lg mb-2">{product.name}</h3>
                   <p className="text-2xl font-bold text-primary mb-2">
                     {product.price != null ? `₹${Number(product.price).toFixed(2)}` : "Contact for Price"}
