@@ -122,10 +122,10 @@ const ComparePage = () => {
 
                     {/* Product Info */}
                     <div className="p-4">
-                      <Badge variant="outline" className="mb-2 text-xs">
+                      <Badge variant="outline" className="mb-2 text-xs font-medium">
                         {product.category}
                       </Badge>
-                      <h3 className="font-semibold text-sm line-clamp-2 mb-2">
+                      <h3 className="font-semibold text-sm mb-2">
                         {product.name}
                       </h3>
                       <p className="text-lg font-bold text-primary">
@@ -289,10 +289,10 @@ const ComparePage = () => {
                       className="w-full h-full object-contain p-4"
                     />
                   </div>
-                  <Badge variant="secondary" className="mb-2">
+                  <Badge variant="secondary" className="mb-2 font-medium">
                     {product.category}
                   </Badge>
-                  <h3 className="font-bold text-lg mb-2">{product.name}</h3>
+                  <h3 className="font-bold text-lg mb-2 leading-tight">{product.name}</h3>
                   <p className="text-2xl font-bold text-primary mb-2">
                     {product.price != null ? `₹${Number(product.price).toFixed(2)}` : "Contact for Price"}
                   </p>
@@ -321,7 +321,8 @@ const ComparePage = () => {
                   </th>
                   {productsWithDetails.map((p) => (
                     <th key={p.id} className="p-4 text-center font-semibold min-w-[280px]">
-                      {p.name}
+                      <div className="text-xs font-normal text-primary-foreground/70 mb-1">{p.category}</div>
+                      <div>{p.name}</div>
                     </th>
                   ))}
                 </tr>

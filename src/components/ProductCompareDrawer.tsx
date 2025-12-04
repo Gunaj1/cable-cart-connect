@@ -90,7 +90,10 @@ const ProductCompareDrawer: React.FC<ProductCompareDrawerProps> = ({
               </div>
 
               {/* Product Info */}
-              <h4 className="font-medium text-sm line-clamp-2 mb-2">
+              <Badge variant="outline" className="mb-2 text-xs font-medium">
+                {product.category}
+              </Badge>
+              <h4 className="font-medium text-sm mb-2">
                 {product.name}
               </h4>
               
