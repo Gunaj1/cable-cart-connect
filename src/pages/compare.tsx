@@ -82,85 +82,99 @@ const ComparePage = () => {
               </div>
             </div>
 
-            {/* Product Selection Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {allProducts.map((product) => {
-                const isSelected = isInComparison(product.id);
-                return (
-                  <div
-                    key={product.id}
-                    className={cn(
-                      "bg-card rounded-lg border overflow-hidden transition-all hover:shadow-lg cursor-pointer",
-                      isSelected && "border-primary border-2 shadow-lg"
-                    )}
-                    onClick={() => {
-                      if (isSelected) {
-                        removeFromComparison(product.id);
-                      } else if (canAddMore) {
-                        addToComparison(product);
-                      }
-                    }}
-                  >
-                    {/* Product Image */}
-                    <div className="aspect-square bg-muted/30 relative">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-full h-full object-contain p-4"
-                      />
-                      {isSelected && (
-                        <div className="absolute top-2 right-2 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                          <Check className="w-5 h-5 text-primary-foreground" />
-                        </div>
-                      )}
-                      {!isSelected && !canAddMore && (
-                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                          <p className="text-white text-sm font-medium">Max 3 products</p>
-                        </div>
-                      )}
-                    </div>
+            {/* Product Selection Grid - Grouped by Category */}
+            <div className="space-y-10">
+              {categories.map((category) => (
+                <div key={category.name}>
+                  {/* Category Heading */}
+                  <h2 className="text-2xl font-bold mb-4 pb-2 border-b border-border">
+                    {category.name}
+                  </h2>
+                  
+                  {/* Products in this Category */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {category.products.map((product) => {
+                      const fullProduct: Product = {
+                        ...product,
+                        stock: 50,
+                        detailedDescription: product.detailedDescription ?? { specifications: [], features: [], applications: [] }
+                      };
+                      const isSelected = isInComparison(product.id);
+                      return (
+                        <div
+                          key={product.id}
+                          className={cn(
+                            "bg-card rounded-lg border overflow-hidden transition-all hover:shadow-lg cursor-pointer",
+                            isSelected && "border-primary border-2 shadow-lg"
+                          )}
+                          onClick={() => {
+                            if (isSelected) {
+                              removeFromComparison(product.id);
+                            } else if (canAddMore) {
+                              addToComparison(fullProduct);
+                            }
+                          }}
+                        >
+                          {/* Product Image */}
+                          <div className="aspect-square bg-muted/30 relative">
+                            <img
+                              src={product.image}
+                              alt={product.name}
+                              className="w-full h-full object-contain p-4"
+                            />
+                            {isSelected && (
+                              <div className="absolute top-2 right-2 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                                <Check className="w-5 h-5 text-primary-foreground" />
+                              </div>
+                            )}
+                            {!isSelected && !canAddMore && (
+                              <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                                <p className="text-white text-sm font-medium">Max 3 products</p>
+                              </div>
+                            )}
+                          </div>
 
-                    {/* Product Info */}
-                    <div className="p-4">
-                      <Badge variant="outline" className="mb-2 text-xs font-medium">
-                        {product.category}
-                      </Badge>
-                      <h3 className="font-semibold text-sm mb-2">
-                        {product.name}
-                      </h3>
-                      <p className="text-lg font-bold text-primary">
-                        {product.price != null ? `₹${Number(product.price).toFixed(2)}` : "Contact for Price"}
-                      </p>
-                      <Button
-                        size="sm"
-                        variant={isSelected ? "default" : "outline"}
-                        className="w-full mt-3"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          if (isSelected) {
-                            removeFromComparison(product.id);
-                          } else if (canAddMore) {
-                            addToComparison(product);
-                          }
-                        }}
-                        disabled={!isSelected && !canAddMore}
-                      >
-                        {isSelected ? (
-                          <>
-                            <Check className="w-4 h-4 mr-2" />
-                            Selected
-                          </>
-                        ) : (
-                          <>
-                            <Plus className="w-4 h-4 mr-2" />
-                            Select to Compare
-                          </>
-                        )}
-                      </Button>
-                    </div>
+                          {/* Product Info */}
+                          <div className="p-4">
+                            <h3 className="font-semibold text-sm mb-2">
+                              {product.name}
+                            </h3>
+                            <p className="text-lg font-bold text-primary">
+                              {product.price != null ? `₹${Number(product.price).toFixed(2)}` : "Contact for Price"}
+                            </p>
+                            <Button
+                              size="sm"
+                              variant={isSelected ? "default" : "outline"}
+                              className="w-full mt-3"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (isSelected) {
+                                  removeFromComparison(product.id);
+                                } else if (canAddMore) {
+                                  addToComparison(fullProduct);
+                                }
+                              }}
+                              disabled={!isSelected && !canAddMore}
+                            >
+                              {isSelected ? (
+                                <>
+                                  <Check className="w-4 h-4 mr-2" />
+                                  Selected
+                                </>
+                              ) : (
+                                <>
+                                  <Plus className="w-4 h-4 mr-2" />
+                                  Select to Compare
+                                </>
+                              )}
+                            </Button>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
           </div>
         </div>
