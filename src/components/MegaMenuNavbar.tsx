@@ -126,7 +126,7 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                   <Building2 className="w-4 h-4 mr-2" />
                   Consumers
                 </NavigationMenuTrigger>
-              <NavigationMenuContent className="!fixed !left-0 !right-0 !top-[72px] !translate-x-0 !w-[100vw] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95">
+              <NavigationMenuContent className="!fixed !left-0 !right-0 !top-[72px] !translate-x-0 !w-[100vw] origin-top transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] data-[state=open]:opacity-100 data-[state=open]:translate-y-0 data-[state=closed]:opacity-0 data-[state=closed]:-translate-y-2.5 data-[state=closed]:pointer-events-none">
                   <div className="w-full h-[85vh] max-h-[85vh] overflow-hidden bg-background shadow-2xl border-b">
                     <div className="px-8 py-10 h-full">
                       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-x-6 gap-y-8 auto-rows-min">
@@ -164,7 +164,7 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                   <Briefcase className="w-4 h-4 mr-2" />
                   Company
                 </NavigationMenuTrigger>
-                <NavigationMenuContent className="!fixed !left-0 !right-0 !top-[72px] !translate-x-0 !w-[100vw] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95">
+                <NavigationMenuContent className="!fixed !left-0 !right-0 !top-[72px] !translate-x-0 !w-[100vw] origin-top transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] data-[state=open]:opacity-100 data-[state=open]:translate-y-0 data-[state=closed]:opacity-0 data-[state=closed]:-translate-y-2.5 data-[state=closed]:pointer-events-none">
                   <div className="w-full h-[85vh] max-h-[85vh] overflow-hidden bg-background shadow-2xl border-b">
                     <div className="px-8 py-10 h-full">
                       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-x-8 gap-y-8 auto-rows-min">
