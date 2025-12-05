@@ -126,33 +126,31 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                   <Building2 className="w-4 h-4 mr-2" />
                   Consumers
                 </NavigationMenuTrigger>
-                <NavigationMenuContent className="!fixed !left-0 !right-0 !top-[72px] !w-[100vw] origin-top transition-[opacity,transform] duration-[180ms] ease-[cubic-bezier(0.22,1,0.36,1)] data-[state=open]:opacity-100 data-[state=open]:translate-y-0 data-[state=closed]:opacity-0 data-[state=closed]:-translate-y-1.5">
-                  <div className="w-full bg-background shadow-2xl border-b">
-                    <div className="px-8 py-10 h-full">
-                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-x-6 gap-y-8 auto-rows-min">
-                        {categories.map((category) => {
-                          const Icon = category.icon;
-                          return (
-                            <div key={category.name} className="space-y-4">
-                              <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-3">
-                                <Icon className="w-5 h-5 flex-shrink-0" />
-                                <span className="whitespace-nowrap">{category.name}</span>
-                              </div>
-                              <div className="space-y-2">
-                                {category.products.map((product) => (
-                                  <button
-                                    key={product.id}
-                                    onClick={() => handleProductClick(product)}
-                                    className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
-                                  >
-                                    {product.name}
-                                  </button>
-                                ))}
-                              </div>
+                <NavigationMenuContent>
+                  <div className="w-screen bg-background border-b px-8 py-10">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-x-6 gap-y-8 auto-rows-min">
+                      {categories.map((category) => {
+                        const Icon = category.icon;
+                        return (
+                          <div key={category.name} className="space-y-4">
+                            <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-3">
+                              <Icon className="w-5 h-5 flex-shrink-0" />
+                              <span className="whitespace-nowrap">{category.name}</span>
                             </div>
-                          );
-                        })}
-                      </div>
+                            <div className="space-y-2">
+                              {category.products.map((product) => (
+                                <button
+                                  key={product.id}
+                                  onClick={() => handleProductClick(product)}
+                                  className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
+                                >
+                                  {product.name}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </NavigationMenuContent>
@@ -164,174 +162,172 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                   <Briefcase className="w-4 h-4 mr-2" />
                   Company
                 </NavigationMenuTrigger>
-                <NavigationMenuContent className="!fixed !left-0 !right-0 !top-[72px] !w-[100vw] origin-top transition-[opacity,transform] duration-[180ms] ease-[cubic-bezier(0.22,1,0.36,1)] data-[state=open]:opacity-100 data-[state=open]:translate-y-0 data-[state=closed]:opacity-0 data-[state=closed]:-translate-y-1.5">
-                  <div className="w-full bg-background shadow-2xl border-b">
-                    <div className="px-8 py-10 h-full">
-                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-x-8 gap-y-8 auto-rows-min">
-                        {/* About Section */}
-                        <div className="space-y-4">
-                          <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-3">
-                            <Building2 className="w-5 h-5 flex-shrink-0" />
-                            <span>About</span>
-                          </div>
-                          <div className="space-y-2">
-                            <button
-                              onClick={() => scrollToSection('about')}
-                              className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
-                            >
-                              About Us
-                            </button>
-                            <button
-                              onClick={() => scrollToSection('about')}
-                              className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
-                            >
-                              Our Mission
-                            </button>
-                            <button
-                              onClick={() => scrollToSection('about')}
-                              className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
-                            >
-                              Our Vision
-                            </button>
-                            <button
-                              onClick={() => scrollToSection('about')}
-                              className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
-                            >
-                              Meet Our Team
-                            </button>
-                          </div>
+                <NavigationMenuContent>
+                  <div className="w-screen bg-background border-b px-8 py-10">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-x-8 gap-y-8 auto-rows-min">
+                      {/* About Section */}
+                      <div className="space-y-4">
+                        <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-3">
+                          <Building2 className="w-5 h-5 flex-shrink-0" />
+                          <span>About</span>
                         </div>
-
-                        {/* Services Section */}
-                        <div className="space-y-4">
-                          <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-3">
-                            <Award className="w-5 h-5 flex-shrink-0" />
-                            <span>Services</span>
-                          </div>
-                          <div className="space-y-2">
-                            <button
-                              onClick={() => scrollToSection('services')}
-                              className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
-                            >
-                              Our Services
-                            </button>
-                            <button
-                              onClick={() => scrollToSection('credentials')}
-                              className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
-                            >
-                              Credentials
-                            </button>
-                          </div>
+                        <div className="space-y-2">
+                          <button
+                            onClick={() => scrollToSection('about')}
+                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
+                          >
+                            About Us
+                          </button>
+                          <button
+                            onClick={() => scrollToSection('about')}
+                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
+                          >
+                            Our Mission
+                          </button>
+                          <button
+                            onClick={() => scrollToSection('about')}
+                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
+                          >
+                            Our Vision
+                          </button>
+                          <button
+                            onClick={() => scrollToSection('about')}
+                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
+                          >
+                            Meet Our Team
+                          </button>
                         </div>
+                      </div>
 
-                        {/* Life at CCI */}
-                        <div className="space-y-4">
-                          <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-3">
-                            <Users className="w-5 h-5 flex-shrink-0" />
-                            <span>Life at CCI</span>
-                          </div>
-                          <div className="space-y-2">
-                            <button
-                              onClick={() => navigate('/workspace')}
-                              className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
-                            >
-                              <Image className="w-3 h-3 inline mr-1" />
-                              Workspace Gallery
-                            </button>
-                          </div>
+                      {/* Services Section */}
+                      <div className="space-y-4">
+                        <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-3">
+                          <Award className="w-5 h-5 flex-shrink-0" />
+                          <span>Services</span>
                         </div>
-
-                        {/* News & Media */}
-                        <div className="space-y-4">
-                          <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-3">
-                            <FileText className="w-5 h-5 flex-shrink-0" />
-                            <span>News & Media</span>
-                          </div>
-                          <div className="space-y-2">
-                            <button
-                              onClick={() => navigate('/blogs')}
-                              className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
-                            >
-                              Blogs
-                            </button>
-                            <button
-                              onClick={() => navigate('/advertisements')}
-                              className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
-                            >
-                              Advertisements
-                            </button>
-                          </div>
+                        <div className="space-y-2">
+                          <button
+                            onClick={() => scrollToSection('services')}
+                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
+                          >
+                            Our Services
+                          </button>
+                          <button
+                            onClick={() => scrollToSection('credentials')}
+                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
+                          >
+                            Credentials
+                          </button>
                         </div>
+                      </div>
 
-                        {/* Contact Us */}
-                        <div className="space-y-4">
-                          <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-3">
-                            <MapPin className="w-5 h-5 flex-shrink-0" />
-                            <span>Contact Us</span>
-                          </div>
-                          <div className="space-y-2">
-                            <button
-                              onClick={() => scrollToSection('contact')}
-                              className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
-                            >
-                              Get in Touch
-                            </button>
-                            <a
-                              href="https://www.google.com/maps/dir//A6+Jhilmil+Industrial+Area,+New+Delhi+110095,+India/@28.6851,77.2426,17z"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
-                            >
-                              <Map className="w-3 h-3 inline mr-1" />
-                              Google Maps
-                            </a>
-                          </div>
+                      {/* Life at CCI */}
+                      <div className="space-y-4">
+                        <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-3">
+                          <Users className="w-5 h-5 flex-shrink-0" />
+                          <span>Life at CCI</span>
                         </div>
-
-                        {/* Reviews */}
-                        <div className="space-y-4">
-                          <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-3">
-                            <Star className="w-5 h-5 flex-shrink-0" />
-                            <span>Reviews</span>
-                          </div>
-                          <div className="space-y-2">
-                            <a
-                              href="https://www.google.com/search?q=chhajer+cable+industries"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
-                            >
-                              Client Reviews
-                            </a>
-                          </div>
+                        <div className="space-y-2">
+                          <button
+                            onClick={() => navigate('/workspace')}
+                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
+                          >
+                            <Image className="w-3 h-3 inline mr-1" />
+                            Workspace Gallery
+                          </button>
                         </div>
+                      </div>
 
-                        {/* Join Us */}
-                        <div className="space-y-4">
-                          <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-3">
-                            <Users className="w-5 h-5 flex-shrink-0" />
-                            <span>Join Us</span>
-                          </div>
-                          <div className="space-y-2">
-                            <button
-                              onClick={() => navigate('/partnerships')}
-                              className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
-                            >
-                              Become Our Partner
-                            </button>
-                            <button
-                              onClick={() => navigate('/distributors')}
-                              className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
-                            >
-                              Become a Distributor
-                            </button>
-                            <button
-                              onClick={() => scrollToSection('contact')}
-                              className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
-                            >
-                              Supplier Inquiries
-                            </button>
-                          </div>
+                      {/* News & Media */}
+                      <div className="space-y-4">
+                        <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-3">
+                          <FileText className="w-5 h-5 flex-shrink-0" />
+                          <span>News & Media</span>
+                        </div>
+                        <div className="space-y-2">
+                          <button
+                            onClick={() => navigate('/blogs')}
+                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
+                          >
+                            Blogs
+                          </button>
+                          <button
+                            onClick={() => navigate('/advertisements')}
+                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
+                          >
+                            Advertisements
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Contact Us */}
+                      <div className="space-y-4">
+                        <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-3">
+                          <MapPin className="w-5 h-5 flex-shrink-0" />
+                          <span>Contact Us</span>
+                        </div>
+                        <div className="space-y-2">
+                          <button
+                            onClick={() => scrollToSection('contact')}
+                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
+                          >
+                            Get in Touch
+                          </button>
+                          <a
+                            href="https://www.google.com/maps/dir//A6+Jhilmil+Industrial+Area,+New+Delhi+110095,+India/@28.6851,77.2426,17z"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
+                          >
+                            <Map className="w-3 h-3 inline mr-1" />
+                            Google Maps
+                          </a>
+                        </div>
+                      </div>
+
+                      {/* Reviews */}
+                      <div className="space-y-4">
+                        <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-3">
+                          <Star className="w-5 h-5 flex-shrink-0" />
+                          <span>Reviews</span>
+                        </div>
+                        <div className="space-y-2">
+                          <a
+                            href="https://www.google.com/search?q=chhajer+cable+industries"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
+                          >
+                            Client Reviews
+                          </a>
+                        </div>
+                      </div>
+
+                      {/* Join Us */}
+                      <div className="space-y-4">
+                        <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-3">
+                          <Users className="w-5 h-5 flex-shrink-0" />
+                          <span>Join Us</span>
+                        </div>
+                        <div className="space-y-2">
+                          <button
+                            onClick={() => navigate('/partnerships')}
+                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
+                          >
+                            Become Our Partner
+                          </button>
+                          <button
+                            onClick={() => navigate('/distributors')}
+                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
+                          >
+                            Become a Distributor
+                          </button>
+                          <button
+                            onClick={() => scrollToSection('contact')}
+                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
+                          >
+                            Supplier Inquiries
+                          </button>
                         </div>
                       </div>
                     </div>

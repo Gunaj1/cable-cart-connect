@@ -69,7 +69,7 @@ const NavigationMenuContent = React.forwardRef<
   <NavigationMenuPrimitive.Content
     ref={ref}
     className={cn(
-      "left-0 top-0 w-full md:absolute md:w-auto",
+      "left-0 top-0 w-full data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out data-[motion=from-end]:slide-in-from-right-0 data-[motion=from-start]:slide-in-from-left-0 data-[motion=to-end]:slide-out-to-right-0 data-[motion=to-start]:slide-out-to-left-0 md:absolute md:w-auto",
       className
     )}
     {...props}
@@ -83,14 +83,13 @@ const NavigationMenuViewport = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Viewport>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Viewport>
 >(({ className, ...props }, ref) => (
-  <div className="absolute left-0 top-full w-full flex justify-center">
+  <div className="fixed left-0 right-0 top-[72px] w-screen flex justify-start z-[9999]">
     <NavigationMenuPrimitive.Viewport
       className={cn(
-        "origin-top relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-lg",
+        "origin-top w-screen h-[var(--radix-navigation-menu-viewport-height)] overflow-hidden border-b bg-background text-foreground shadow-2xl",
         "transition-[opacity,transform] duration-[180ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
-        "data-[state=open]:opacity-100 data-[state=open]:translate-y-0",
-        "data-[state=closed]:opacity-0 data-[state=closed]:-translate-y-1.5",
-        "md:w-[var(--radix-navigation-menu-viewport-width)]",
+        "data-[state=open]:opacity-100 data-[state=open]:translate-y-0 data-[state=open]:pointer-events-auto",
+        "data-[state=closed]:opacity-0 data-[state=closed]:-translate-y-1.5 data-[state=closed]:pointer-events-none",
         className
       )}
       ref={ref}
