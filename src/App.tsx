@@ -22,6 +22,12 @@ import BulkQuote from "./pages/BulkQuote";
 import Workspace from "./pages/Workspace";
 import Blogs from "./pages/Blogs";
 import Advertisements from "./pages/Advertisements";
+import AboutUs from "./pages/AboutUs";
+import OurTeam from "./pages/OurTeam";
+import OurJourney from "./pages/OurJourney";
+import OurMission from "./pages/OurMission";
+import OurVision from "./pages/OurVision";
+import OurValues from "./pages/OurValues";
 
 const queryClient = new QueryClient();
 
@@ -123,6 +129,56 @@ const App = () => (
               element={
                 <PrivateRoute>
                   <Advertisements />
+                </PrivateRoute>
+              }
+            />
+
+            {/* About Pages */}
+            <Route
+              path="/about-us"
+              element={
+                <PrivateRoute>
+                  <AboutUs />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/team"
+              element={
+                <PrivateRoute>
+                  <OurTeam />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/journey"
+              element={
+                <PrivateRoute>
+                  <OurJourney />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/mission"
+              element={
+                <PrivateRoute>
+                  <OurMission />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/vision"
+              element={
+                <PrivateRoute>
+                  <OurVision />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/values"
+              element={
+                <PrivateRoute>
+                  <OurValues />
                 </PrivateRoute>
               }
             />

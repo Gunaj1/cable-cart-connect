@@ -173,28 +173,40 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                         </div>
                         <div className="space-y-2">
                           <button
-                            onClick={() => scrollToSection('about')}
+                            onClick={() => navigate('/about-us')}
                             className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
                           >
                             About Us
                           </button>
                           <button
-                            onClick={() => scrollToSection('about')}
+                            onClick={() => navigate('/team')}
+                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
+                          >
+                            Meet Our Team
+                          </button>
+                          <button
+                            onClick={() => navigate('/journey')}
+                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
+                          >
+                            Our Journey
+                          </button>
+                          <button
+                            onClick={() => navigate('/mission')}
                             className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
                           >
                             Our Mission
                           </button>
                           <button
-                            onClick={() => scrollToSection('about')}
+                            onClick={() => navigate('/vision')}
                             className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
                           >
                             Our Vision
                           </button>
                           <button
-                            onClick={() => scrollToSection('about')}
+                            onClick={() => navigate('/values')}
                             className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
                           >
-                            Meet Our Team
+                            Our Core Values
                           </button>
                         </div>
                       </div>
