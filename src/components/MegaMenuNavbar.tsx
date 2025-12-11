@@ -1,12 +1,12 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
-  Cable, Wifi, Network, Video, Phone, Monitor, Layers, Volume2,
   Home, Building2, Award, Briefcase, MapPin, Users, 
-  FileText, Image, Star, ChevronDown, Map
+  FileText, Image, Star, Map, ShoppingBag
 } from 'lucide-react';
 import Logo from './Logo';
 import ProductSearch from './ProductSearch';
+import ConsumerMegaMenu from './ConsumerMegaMenu';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -40,37 +40,6 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
-
-  // Category icons mapping
-  const categoryIcons: Record<string, any> = {
-    'Patchcords': Cable,
-    'Cat5e LAN Cables': Network,
-    'Cat 6 LAN Cable': Wifi,
-    'CCTV Cable': Video,
-    'Telephone Cable': Phone,
-    'Computer Cords': Monitor,
-    'Lift Cables': Layers,
-    'Speaker Cable': Volume2
-  };
-
-  // Group products by category
-  const productsByCategory = products.reduce((acc, product) => {
-    if (!acc[product.category]) {
-      acc[product.category] = [];
-    }
-    acc[product.category].push(product);
-    return acc;
-  }, {} as Record<string, Product[]>);
-
-  const categories = Object.keys(productsByCategory).map(categoryName => ({
-    name: categoryName,
-    icon: categoryIcons[categoryName] || Cable,
-    products: productsByCategory[categoryName]
-  }));
-
-  const handleProductClick = (product: Product) => {
-    navigate(`/product/${product.id}`);
-  };
 
   const handleHomeClick = () => {
     navigate('/');
@@ -123,36 +92,11 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
               {/* Consumers Mega Menu */}
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="text-sm font-medium">
-                  <Building2 className="w-4 h-4 mr-2" />
+                  <ShoppingBag className="w-4 h-4 mr-2" />
                   Consumers
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <div className="w-screen bg-background border-b px-8 py-10">
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-x-6 gap-y-8 auto-rows-min">
-                      {categories.map((category) => {
-                        const Icon = category.icon;
-                        return (
-                          <div key={category.name} className="space-y-4">
-                            <div className="flex items-center space-x-2 text-primary font-bold text-base border-b border-border pb-3">
-                              <Icon className="w-5 h-5 flex-shrink-0" />
-                              <span className="whitespace-nowrap">{category.name}</span>
-                            </div>
-                            <div className="space-y-2">
-                              {category.products.map((product) => (
-                                <button
-                                  key={product.id}
-                                  onClick={() => handleProductClick(product)}
-                                  className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
-                                >
-                                  {product.name}
-                                </button>
-                              ))}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
+                  <ConsumerMegaMenu isVisible={true} />
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
