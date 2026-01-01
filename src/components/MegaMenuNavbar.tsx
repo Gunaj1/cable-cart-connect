@@ -188,8 +188,19 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                             onClick={() => navigate('/workspace')}
                             className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
                           >
-                            <Image className="w-3 h-3 inline mr-1" />
                             Workspace Gallery
+                          </button>
+                          <button
+                            onClick={() => navigate('/culture')}
+                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
+                          >
+                            Our Culture
+                          </button>
+                          <button
+                            onClick={() => navigate('/careers')}
+                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
+                          >
+                            Careers
                           </button>
                         </div>
                       </div>
@@ -205,13 +216,19 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                             onClick={() => navigate('/blogs')}
                             className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
                           >
-                            Blogs
+                            Blogs & Articles
                           </button>
                           <button
                             onClick={() => navigate('/advertisements')}
                             className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
                           >
-                            Advertisements
+                            Offers & Promotions
+                          </button>
+                          <button
+                            onClick={() => navigate('/press-releases')}
+                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
+                          >
+                            Press Releases
                           </button>
                         </div>
                       </div>
@@ -279,10 +296,16 @@ const MegaMenuNavbar: React.FC<MegaMenuNavbarProps> = ({
                             Become a Distributor
                           </button>
                           <button
-                            onClick={() => scrollToSection('contact')}
+                            onClick={() => navigate('/supplier-inquiries')}
                             className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
                           >
                             Supplier Inquiries
+                          </button>
+                          <button
+                            onClick={() => navigate('/careers')}
+                            className="block w-full text-left text-sm text-muted-foreground hover:text-primary hover:translate-x-1 transition-all py-1.5 leading-relaxed"
+                          >
+                            Careers
                           </button>
                         </div>
                       </div>
