@@ -37,12 +37,15 @@ const ConsumerMegaMenu: React.FC<ConsumerMegaMenuProps> = ({ isVisible }) => {
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
+  const [animationKey, setAnimationKey] = useState(0);
 
   const handleProductClick = (productId: string) => {
     navigate(`/product/${productId}`);
   };
 
   const handleCategoryClick = (categoryName: string) => {
+    // Always trigger animation by incrementing key
+    setAnimationKey(prev => prev + 1);
     setActiveCategory(activeCategory === categoryName ? null : categoryName);
   };
 
@@ -121,11 +124,11 @@ const ConsumerMegaMenu: React.FC<ConsumerMegaMenuProps> = ({ isVisible }) => {
         <AnimatePresence mode="wait">
           {activeCategory && (
             <motion.div
-              key={activeCategory}
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              key={`${activeCategory}-${animationKey}`}
+              initial={{ opacity: 0, height: 0, y: -10 }}
+              animate={{ opacity: 1, height: 'auto', y: 0 }}
+              exit={{ opacity: 0, height: 0, y: -10 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
               className="overflow-hidden"
             >
               <div className="py-4 border-t border-border">

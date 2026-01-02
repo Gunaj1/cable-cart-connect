@@ -49,23 +49,28 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ products: propProducts, o
   const allProducts = propProducts && propProducts.length > 0 
     ? propProducts 
     : categories.flatMap(category => 
-        category.products.map(product => ({
-          ...product,
-          stock: Math.floor(Math.random() * 100) + 10,
-          applications: product.detailedDescription?.applications || [],
-          features: product.detailedDescription?.features || [],
-          specifications: product.detailedDescription?.specifications.reduce((acc: Record<string, string>, spec: string, index: number) => {
-            acc[`spec_${index}`] = spec;
-            return acc;
-          }, {}) || {}
-        } as Product))
+        category.products.map(product => {
+          const prod = product as any;
+          return {
+            ...product,
+            stock: product.stock || Math.floor(Math.random() * 100) + 10,
+            applications: prod.detailedDescription?.applications || [],
+            features: prod.detailedDescription?.features || [],
+            specifications: prod.detailedDescription?.specifications?.reduce((acc: Record<string, string>, spec: string, index: number) => {
+              acc[`spec_${index}`] = spec;
+              return acc;
+            }, {}) || {}
+          } as Product;
+        })
       );
 
-  // Find product from products array
-  const product = allProducts.find(p => 
-    String(p.id) === String(productId) ||
-    p.name.toLowerCase().replace(/\s+/g, '-') === productId
-  );
+  // Find product from products array by slug ID or name-based slug
+  const product = allProducts.find(p => {
+    const productIdLower = productId?.toLowerCase() || '';
+    const pIdLower = String(p.id).toLowerCase();
+    const nameSlug = p.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    return pIdLower === productIdLower || nameSlug === productIdLower;
+  });
 
   // Debug logging
   useEffect(() => {

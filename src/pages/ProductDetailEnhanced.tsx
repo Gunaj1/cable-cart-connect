@@ -42,7 +42,7 @@ import { useComparison } from '@/contexts/ComparisonContext';
 import { Product } from '@/types/Product';
 import MegaMenuNavbar from '@/components/MegaMenuNavbar';
 import ErrorBoundary from '@/components/ErrorBoundary';
-import { categories } from './Index';
+import { categories } from '@/data/products';
 import { productDescriptions } from '@/data/productDescriptions';
 
 interface ProductDetailEnhancedProps {
@@ -65,20 +65,23 @@ const ProductDetailEnhanced: React.FC<ProductDetailEnhancedProps> = ({ products:
     : categories.flatMap(category => 
         category.products.map(product => ({
           ...product,
-          stock: Math.floor(Math.random() * 100) + 10,
-          applications: product.detailedDescription?.applications || [],
-          features: product.detailedDescription?.features || [],
-          specifications: product.detailedDescription?.specifications.reduce((acc: Record<string, string>, spec: string, index: number) => {
+          stock: product.stock || Math.floor(Math.random() * 100) + 10,
+          applications: (product as any).detailedDescription?.applications || [],
+          features: (product as any).detailedDescription?.features || [],
+          specifications: (product as any).detailedDescription?.specifications?.reduce((acc: Record<string, string>, spec: string, index: number) => {
             acc[`spec_${index}`] = spec;
             return acc;
           }, {}) || {}
         } as Product))
       );
 
-  const product = allProducts.find(p => 
-    String(p.id) === String(productId) ||
-    p.name.toLowerCase().replace(/\s+/g, '-') === productId
-  );
+  // Match product by ID (which is now a slug) or by name-based slug
+  const product = allProducts.find(p => {
+    const productIdLower = productId?.toLowerCase() || '';
+    const pIdLower = String(p.id).toLowerCase();
+    const nameSlug = p.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    return pIdLower === productIdLower || nameSlug === productIdLower;
+  });
 
   if (!product) {
     return (

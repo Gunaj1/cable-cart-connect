@@ -21,10 +21,11 @@ const ComparePage = () => {
     const products: Product[] = [];
     categories.forEach(category => {
       category.products.forEach(product => {
+        const prod = product as any;
         products.push({
           ...product,
-          stock: 50, // Default stock value
-          detailedDescription: product.detailedDescription ?? { specifications: [], features: [], applications: [] }
+          stock: product.stock || 50,
+          detailedDescription: prod.detailedDescription ?? { specifications: [], features: [], applications: [] }
         });
       });
     });
@@ -94,10 +95,11 @@ const ComparePage = () => {
                   {/* Products in this Category */}
                   <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {category.products.map((product) => {
+                      const prod = product as any;
                       const fullProduct: Product = {
                         ...product,
-                        stock: 50,
-                        detailedDescription: product.detailedDescription ?? { specifications: [], features: [], applications: [] }
+                        stock: product.stock || 50,
+                        detailedDescription: prod.detailedDescription ?? { specifications: [], features: [], applications: [] }
                       };
                       const isSelected = isInComparison(product.id);
                       return (
