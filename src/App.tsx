@@ -34,6 +34,7 @@ import OurValues from "./pages/OurValues";
 import Partnerships from "./pages/Partnerships";
 import Distributors from "./pages/Distributors";
 import SupplierInquiries from "./pages/SupplierInquiries";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +46,7 @@ const App = () => (
           <AppToaster />
           <SonnerToaster />
           <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<PrivateRoute><Index /></PrivateRoute>} />

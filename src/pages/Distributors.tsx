@@ -55,17 +55,22 @@ const Distributors = () => {
       <MegaMenuNavbar />
       
       <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5">
-        {/* Hero Section */}
+        {/* Hero Section with Background */}
         <motion.section 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="relative py-20 overflow-hidden"
+          className="relative py-24 overflow-hidden"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10" />
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: `url('/lovable-uploads/4fe743c1-7814-4030-b751-98c886511e2c.png')` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/80 to-secondary/70" />
+          
           <div className="container mx-auto px-4 relative z-10">
             <button
               onClick={() => navigate('/')}
-              className="flex items-center text-primary hover:text-primary/80 mb-8 transition-colors"
+              className="flex items-center text-white/90 hover:text-white mb-8 transition-colors"
             >
               <ArrowLeft className="w-5 h-5 mr-2" />
               Back to Home
@@ -77,14 +82,14 @@ const Distributors = () => {
               transition={{ delay: 0.2 }}
               className="text-center max-w-4xl mx-auto"
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 text-white mb-6">
                 <Store className="w-5 h-5" />
                 <span className="font-medium">Join Us</span>
               </div>
-              <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary via-primary/80 to-secondary bg-clip-text text-transparent mb-6">
+              <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
                 Become a Distributor
               </h1>
-              <p className="text-xl text-muted-foreground">
+              <p className="text-xl text-white/90">
                 Expand your business by distributing India's trusted cable brand in your region
               </p>
             </motion.div>
