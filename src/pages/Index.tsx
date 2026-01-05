@@ -12,7 +12,7 @@ import { getProductDetails } from '../data/productImages';
 import { Search } from 'lucide-react';
 import AmazonStyleFilter from '@/components/AmazonStyleFilter';
 import BulkQuoteForm from '@/components/BulkQuoteForm';
-import ManufacturingAnimation from '@/components/ManufacturingAnimation';
+import IndustrialScene3D from '@/components/IndustrialScene3D';
 import { categories as sharedCategories } from '@/data/products';
 
 import { Product } from '@/types/Product';
@@ -187,9 +187,9 @@ const Index = () => {
         onFilterClick={() => setIsFilterOpen(true)}
       />
       
-      {/* Hero Section - Manufacturing Animation */}
+      {/* Hero Section - 3D Industrial Scene */}
       <div id="home">
-        <ManufacturingAnimation />
+        <IndustrialScene3D />
       </div>
 
       {/* Need Help Section */}
