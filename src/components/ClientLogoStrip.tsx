@@ -1,111 +1,144 @@
 import React from 'react';
-import { Building2, Star, Award } from 'lucide-react';
+import { Building2, Star, Sparkles, Award, Users, Globe } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const ClientLogoStrip = () => {
-  // Generate placeholder logos with enhanced design
-  const logoPlaceholders = Array.from({ length: 15 }, (_, index) => ({
+  const logoPlaceholders = Array.from({ length: 12 }, (_, index) => ({
     id: index + 1,
-    name: `Add Logo ${index + 1}`,
+    name: `Partner ${index + 1}`,
     category: index % 3 === 0 ? 'enterprise' : index % 3 === 1 ? 'partner' : 'client'
   }));
 
+  const trustIndicators = [
+    { icon: Users, label: '500+ Active Clients', color: 'text-emerald-400' },
+    { icon: Award, label: '27+ Years Excellence', color: 'text-amber-400' },
+    { icon: Globe, label: 'Pan-India Presence', color: 'text-blue-400' }
+  ];
+
   return (
-    <div className="w-full bg-gradient-to-br from-blue-600/95 via-blue-700/95 to-indigo-700/95 backdrop-blur-md py-8 border-t border-blue-400/30 shadow-2xl relative overflow-hidden">
-      {/* Animated background pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,_white_1px,_transparent_0)] bg-[size:40px_40px] animate-pulse"></div>
-      </div>
+    <section className="relative py-20 overflow-hidden">
+      {/* Premium dark background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
       
+      {/* Ambient gradient */}
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-950/30 via-transparent to-purple-950/30" />
+
+      {/* Subtle pattern */}
+      <div className="absolute inset-0 opacity-[0.02]" style={{
+        backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
+        backgroundSize: '50px 50px'
+      }} />
+
       <div className="container mx-auto px-4 relative z-10">
-        {/* Enhanced Header */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-3 mb-3">
-            <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
-              <Building2 className="w-6 h-6 text-white" />
-            </div>
-            <h3 className="text-2xl font-bold text-white tracking-wide">Our Trusted Clients</h3>
-            <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
-              <Star className="w-6 h-6 text-yellow-300 fill-current" />
-            </div>
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <div className="inline-flex items-center gap-3 mb-4">
+            <div className="h-px w-12 bg-gradient-to-r from-transparent to-blue-500/50" />
+            <Sparkles className="w-5 h-5 text-blue-400" />
+            <span className="text-sm font-semibold text-blue-400 tracking-[0.2em] uppercase">Trusted Partners</span>
+            <Sparkles className="w-5 h-5 text-blue-400" />
+            <div className="h-px w-12 bg-gradient-to-l from-transparent to-blue-500/50" />
           </div>
-          <p className="text-blue-100 text-sm max-w-md mx-auto">
-            Proudly serving industry leaders and growing businesses worldwide
+          <h3 className="text-3xl md:text-4xl font-bold text-white mb-3">
+            Our Valued Clients
+          </h3>
+          <p className="text-slate-400 max-w-lg mx-auto">
+            Trusted by industry leaders and growing businesses across India
           </p>
-        </div>
-        
-        {/* Enhanced Logo Strip Container */}
-        <div className="relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 p-6">
-          {/* Enhanced gradient overlays */}
-          <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-blue-600/95 via-blue-600/70 to-transparent z-20 pointer-events-none"></div>
-          <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-blue-600/95 via-blue-600/70 to-transparent z-20 pointer-events-none"></div>
-          
-          {/* Scrolling Logo Container with enhanced styling */}
-          <div className="flex animate-scroll-infinite hover:animation-pause">
-            {/* First set of logos */}
-            <div className="flex space-x-6 min-w-max">
-              {logoPlaceholders.map((logo) => (
-                <div
-                  key={`first-${logo.id}`}
-                  className="group flex-shrink-0 w-28 h-20 bg-white/15 border-2 border-dashed border-white/40 rounded-xl flex flex-col items-center justify-center backdrop-blur-md hover:bg-white/25 hover:border-white/60 hover:scale-105 transition-all duration-300 cursor-pointer shadow-lg"
-                >
-                  <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mb-1 group-hover:bg-white/30 transition-colors">
-                    {logo.category === 'enterprise' ? (
-                      <Building2 className="w-4 h-4 text-white" />
-                    ) : logo.category === 'partner' ? (
-                      <Award className="w-4 h-4 text-white" />
-                    ) : (
-                      <Star className="w-4 h-4 text-white" />
-                    )}
+        </motion.div>
+
+        {/* Logo Strip Container */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="relative"
+        >
+          {/* Gradient masks */}
+          <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-slate-950 to-transparent z-20 pointer-events-none" />
+          <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-slate-950 to-transparent z-20 pointer-events-none" />
+
+          {/* Scrolling container */}
+          <div className="overflow-hidden py-6">
+            <div className="flex animate-scroll-infinite hover:[animation-play-state:paused]">
+              {/* First set */}
+              <div className="flex space-x-6 min-w-max">
+                {logoPlaceholders.map((logo) => (
+                  <div
+                    key={`first-${logo.id}`}
+                    className="group flex-shrink-0 w-40 h-24 rounded-2xl bg-slate-800/30 border border-slate-700/30 backdrop-blur-sm flex flex-col items-center justify-center hover:bg-slate-800/50 hover:border-slate-600/50 hover:scale-105 transition-all duration-300 cursor-pointer"
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-slate-700/50 to-slate-800/50 border border-slate-600/30 flex items-center justify-center mb-2 group-hover:border-blue-500/30 transition-colors">
+                      {logo.category === 'enterprise' ? (
+                        <Building2 className="w-6 h-6 text-slate-400 group-hover:text-blue-400 transition-colors" />
+                      ) : logo.category === 'partner' ? (
+                        <Award className="w-6 h-6 text-slate-400 group-hover:text-amber-400 transition-colors" />
+                      ) : (
+                        <Star className="w-6 h-6 text-slate-400 group-hover:text-purple-400 transition-colors" />
+                      )}
+                    </div>
+                    <span className="text-slate-500 text-xs font-medium group-hover:text-slate-300 transition-colors">
+                      {logo.name}
+                    </span>
                   </div>
-                  <span className="text-white text-xs font-medium text-center px-2 group-hover:text-blue-100 transition-colors">
-                    {logo.name}
-                  </span>
-                </div>
-              ))}
-            </div>
-            
-            {/* Duplicate set for seamless loop */}
-            <div className="flex space-x-6 min-w-max ml-6">
-              {logoPlaceholders.map((logo) => (
-                <div
-                  key={`second-${logo.id}`}
-                  className="group flex-shrink-0 w-28 h-20 bg-white/15 border-2 border-dashed border-white/40 rounded-xl flex flex-col items-center justify-center backdrop-blur-md hover:bg-white/25 hover:border-white/60 hover:scale-105 transition-all duration-300 cursor-pointer shadow-lg"
-                >
-                  <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mb-1 group-hover:bg-white/30 transition-colors">
-                    {logo.category === 'enterprise' ? (
-                      <Building2 className="w-4 h-4 text-white" />
-                    ) : logo.category === 'partner' ? (
-                      <Award className="w-4 h-4 text-white" />
-                    ) : (
-                      <Star className="w-4 h-4 text-white" />
-                    )}
+                ))}
+              </div>
+
+              {/* Duplicate set */}
+              <div className="flex space-x-6 min-w-max ml-6">
+                {logoPlaceholders.map((logo) => (
+                  <div
+                    key={`second-${logo.id}`}
+                    className="group flex-shrink-0 w-40 h-24 rounded-2xl bg-slate-800/30 border border-slate-700/30 backdrop-blur-sm flex flex-col items-center justify-center hover:bg-slate-800/50 hover:border-slate-600/50 hover:scale-105 transition-all duration-300 cursor-pointer"
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-slate-700/50 to-slate-800/50 border border-slate-600/30 flex items-center justify-center mb-2 group-hover:border-blue-500/30 transition-colors">
+                      {logo.category === 'enterprise' ? (
+                        <Building2 className="w-6 h-6 text-slate-400 group-hover:text-blue-400 transition-colors" />
+                      ) : logo.category === 'partner' ? (
+                        <Award className="w-6 h-6 text-slate-400 group-hover:text-amber-400 transition-colors" />
+                      ) : (
+                        <Star className="w-6 h-6 text-slate-400 group-hover:text-purple-400 transition-colors" />
+                      )}
+                    </div>
+                    <span className="text-slate-500 text-xs font-medium group-hover:text-slate-300 transition-colors">
+                      {logo.name}
+                    </span>
                   </div>
-                  <span className="text-white text-xs font-medium text-center px-2 group-hover:text-blue-100 transition-colors">
-                    {logo.name}
-                  </span>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-        
-        {/* Trust indicators */}
-        <div className="flex items-center justify-center gap-8 mt-6 text-blue-100 text-sm">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-            <span>500+ Active Clients</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
-            <span>25+ Years Experience</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-            <span>Global Reach</span>
-          </div>
-        </div>
+        </motion.div>
+
+        {/* Trust Indicators */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="flex flex-wrap items-center justify-center gap-8 mt-12"
+        >
+          {trustIndicators.map((indicator, idx) => (
+            <div key={idx} className="flex items-center gap-3 group">
+              <div className="relative">
+                <div className={`absolute inset-0 ${indicator.color.replace('text-', 'bg-')}/20 rounded-full blur-md group-hover:blur-lg transition-all`} />
+                <div className="relative w-3 h-3 rounded-full bg-current animate-pulse" style={{ color: `var(--tw-${indicator.color.split('-')[1]}-${indicator.color.split('-')[2]})` }}>
+                  <div className={`w-3 h-3 rounded-full ${indicator.color.replace('text-', 'bg-')} animate-pulse`} />
+                </div>
+              </div>
+              <span className="text-slate-300 font-medium">{indicator.label}</span>
+            </div>
+          ))}
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -565,3 +565,21 @@ textarea:focus {
   background-size: 200px 100%;
   animation: skeleton-loading 1.5s infinite;
 }
+
+/* Infinite scroll animation for client logos */
+@keyframes scroll-infinite {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll-infinite {
+  animation: scroll-infinite 30s linear infinite;
+}
+
+.animate-scroll-infinite:hover {
+  animation-play-state: paused;
+}
