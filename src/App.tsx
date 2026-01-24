@@ -10,11 +10,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ComparisonProvider } from "./contexts/ComparisonContext";
 
 import Index from "./pages/Index";
-import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import ProductDetailEnhanced from "./pages/ProductDetailEnhanced";
 import TechnicalConsultation from "./pages/TechnicalConsultation";
-import PrivateRoute from "./components/PrivateRoute";
 import AdminRoute from "./components/AdminRoute";
 import Admin from "./pages/admin";
 import ComparePage from "./pages/compare";
@@ -48,28 +46,27 @@ const App = () => (
           <BrowserRouter>
           <ScrollToTop />
           <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={<PrivateRoute><Index /></PrivateRoute>} />
+            <Route path="/" element={<Index />} />
             <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />
-            <Route path="/product/:productId" element={<PrivateRoute><ProductDetailEnhanced /></PrivateRoute>} />
-            <Route path="/compare" element={<PrivateRoute><ComparePage /></PrivateRoute>} />
-            <Route path="/technical-consultation" element={<PrivateRoute><TechnicalConsultation /></PrivateRoute>} />
-            <Route path="/bulk-quote" element={<PrivateRoute><BulkQuote /></PrivateRoute>} />
-            <Route path="/workspace" element={<PrivateRoute><Workspace /></PrivateRoute>} />
-            <Route path="/culture" element={<PrivateRoute><Culture /></PrivateRoute>} />
-            <Route path="/careers" element={<PrivateRoute><Careers /></PrivateRoute>} />
-            <Route path="/blogs" element={<PrivateRoute><Blogs /></PrivateRoute>} />
-            <Route path="/advertisements" element={<PrivateRoute><Advertisements /></PrivateRoute>} />
-            <Route path="/press-releases" element={<PrivateRoute><PressReleases /></PrivateRoute>} />
-            <Route path="/about-us" element={<PrivateRoute><AboutUs /></PrivateRoute>} />
-            <Route path="/team" element={<PrivateRoute><OurTeam /></PrivateRoute>} />
-            <Route path="/journey" element={<PrivateRoute><OurJourney /></PrivateRoute>} />
-            <Route path="/mission" element={<PrivateRoute><OurMission /></PrivateRoute>} />
-            <Route path="/vision" element={<PrivateRoute><OurVision /></PrivateRoute>} />
-            <Route path="/values" element={<PrivateRoute><OurValues /></PrivateRoute>} />
-            <Route path="/partnerships" element={<PrivateRoute><Partnerships /></PrivateRoute>} />
-            <Route path="/distributors" element={<PrivateRoute><Distributors /></PrivateRoute>} />
-            <Route path="/supplier-inquiries" element={<PrivateRoute><SupplierInquiries /></PrivateRoute>} />
+            <Route path="/product/:productId" element={<ProductDetailEnhanced />} />
+            <Route path="/compare" element={<ComparePage />} />
+            <Route path="/technical-consultation" element={<TechnicalConsultation />} />
+            <Route path="/bulk-quote" element={<BulkQuote />} />
+            <Route path="/workspace" element={<Workspace />} />
+            <Route path="/culture" element={<Culture />} />
+            <Route path="/careers" element={<Careers />} />
+            <Route path="/blogs" element={<Blogs />} />
+            <Route path="/advertisements" element={<Advertisements />} />
+            <Route path="/press-releases" element={<PressReleases />} />
+            <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/team" element={<OurTeam />} />
+            <Route path="/journey" element={<OurJourney />} />
+            <Route path="/mission" element={<OurMission />} />
+            <Route path="/vision" element={<OurVision />} />
+            <Route path="/values" element={<OurValues />} />
+            <Route path="/partnerships" element={<Partnerships />} />
+            <Route path="/distributors" element={<Distributors />} />
+            <Route path="/supplier-inquiries" element={<SupplierInquiries />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
